@@ -4,6 +4,11 @@ subdir('vendor')
 
 src = [
   'src/main.cpp',
+  'src/application.cpp',
+  'src/game.cpp',
+  'src/graphics/sprite.cpp',
+  'src/map/map.cpp',
+  'src/map/tile_layer.cpp',
 ]
 
 deps = [

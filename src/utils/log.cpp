@@ -6,13 +6,13 @@ const char* log_level_str(Log_Level level)
 {
 	switch (level) {
 		case Log_Level::debug:
-			return "DEBUG";
+			return "\033[96mDEBUG\033[39m";
 		case Log_Level::error:
-			return "ERROR";
+			return "\033[91mERROR\033[39m";
 		case Log_Level::info:
-			return "INFO";
+			return "\033[92mINFO\033[39m";
 		case Log_Level::warning:
-			return "WARNING";
+			return "\033[93mWARNING\033[39m";
 	}
 }
 

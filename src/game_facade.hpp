@@ -2,5 +2,4 @@
 
 class Game_Facade
 {
-public:
 };

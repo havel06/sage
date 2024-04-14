@@ -7,7 +7,7 @@ void Sequence::add_event(Event_Ptr&& event)
 
 void Sequence::update(Game_Facade& game_facade, float time_delta)
 {
-	if (!m_active || m_finished)
+	if (!m_active || m_finished || m_events.empty())
 		return;
 
 	// Run current event

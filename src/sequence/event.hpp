@@ -5,6 +5,7 @@ class Game_Facade;
 class Event
 {
 public:
-	virtual void update(Game_Facade&, float time_delta);
-	virtual bool is_finished() const;
+	virtual ~Event() = default;
+	virtual void update(Game_Facade&, float time_delta) = 0;
+	virtual bool is_finished() const = 0;
 };

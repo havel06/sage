@@ -1,7 +1,7 @@
-#include <stdio.h>
+#include "application.hpp"
 
 int main()
 {
-	puts("hello world");
-	return 0;
+	Application application;
+	application.run();
 }

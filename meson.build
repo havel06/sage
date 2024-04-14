@@ -3,10 +3,11 @@ project('sage', ['cpp', 'c'], default_options : ['cpp_std=c++2a', 'buildtype=deb
 subdir('vendor')
 
 src = [
-  'src/main.cpp',
   'src/application.cpp',
   'src/game.cpp',
+  'src/graphics/map_renderer.cpp',
   'src/graphics/sprite.cpp',
+  'src/main.cpp',
   'src/map/map.cpp',
   'src/map/tile_layer.cpp',
 ]

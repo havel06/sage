@@ -14,7 +14,7 @@ void Tile_Layer::set_tile(Vec2i position, const Tile& tile)
 	m_tiles[position.y * m_width + position.x] = tile;
 }
 
-const Tile& Tile_Layer::get_tile(Vec2i position, const Tile&) const
+const Tile& Tile_Layer::get_tile(Vec2i position) const
 {
 	assert(is_position_valid(position));
 	return m_tiles[position.y * m_width + position.x];

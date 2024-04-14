@@ -1,9 +1,15 @@
 {
 	"events": [
 		{
-			"name": "echo",
+			"type": "echo",
 			"parameters": {
 				"message": "Hello world!!!"
+			}
+		},
+		{
+			"type": "echo",
+			"parameters": {
+				"message": "Hello again!"
 			}
 		}
 	]

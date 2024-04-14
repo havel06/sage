@@ -2,6 +2,7 @@
 #include "utils/string.hpp"
 #include "utils/table.hpp"
 #include "sequence/sequence.hpp"
+#include "map/map.hpp"
 #include <raylib/raylib.h>
 
 class Resource_Manager
@@ -11,6 +12,7 @@ public:
 
 	Texture get_texture(const char*);
 	Sequence& get_sequence(const char*);
+	Map get_map(const char*);
 private:
 	String get_full_filename(const String& filename);
 

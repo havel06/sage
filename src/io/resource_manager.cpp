@@ -2,6 +2,7 @@
 #include "raylib/raylib.h"
 #include "sequence/sequence.hpp"
 #include "io/sequence_loader.hpp"
+#include "io/tmj.hpp"
 #include "utils/log.hpp"
 #include <cstdlib>
 
@@ -37,15 +38,24 @@ Sequence& Resource_Manager::get_sequence(const char* filename)
 	return m_sequences.insert(String{filename}, (Sequence&&)sequence);
 }
 
+Map Resource_Manager::get_map(const char* filename)
+{
+	// TODO - caching?
+	
+	String full_filename = get_full_filename(filename);
+	TMJ::Map_Loader loader(*this, full_filename);
+	SG_INFO("Loaded map \"%s\"", filename);
+	return loader.retrieve_map();
+}
+
 String Resource_Manager::get_full_filename(const String& filename)
 {
 	String full_filename = m_asset_path;
 	full_filename.append("/");
 	full_filename.append(filename);
 
-	String real_path;
-	real_path.reserve(512);
-	realpath(full_filename.data(), real_path.data());
+	char real_path[512];
+	realpath(full_filename.data(), real_path);
 
 	return real_path;
 }

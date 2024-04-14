@@ -14,7 +14,7 @@ String String::from_int(int value)
 String::String(const char* init)
 {
 	int len = strlen(init);
-	reserve(strlen(init));
+	reserve(len);
 	strcpy(m_data, init);
 	m_length = len;
 }

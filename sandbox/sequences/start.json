@@ -11,6 +11,12 @@
 			"parameters": {
 				"message": "Hello again!"
 			}
+		},
+		{
+			"type": "change_map",
+			"parameters": {
+				"map": "maps/testmap0.tmj"
+			}
 		}
 	]
 }

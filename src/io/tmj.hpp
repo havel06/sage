@@ -4,7 +4,7 @@
 #include "utils/string.hpp"
 #include "raylib/raylib.h"
 
-class cJSON;
+struct cJSON;
 class Resource_Manager;
 
 namespace TMJ
@@ -13,12 +13,17 @@ namespace TMJ
 class Tileset
 {
 public:
-	Tileset(int first_id, Vec2i tile_size, int columns, const Texture&);
+	Tileset(Vec2i tile_size, int columns, const Texture&);
 private:
-	int m_first_id;
 	Vec2i m_tile_size;
 	int m_columns;
 	Texture m_texture;
+};
+
+struct Tileset_In_Map
+{
+	int first_id;
+	Tileset tileset;
 };
 
 class Map_Loader
@@ -31,12 +36,15 @@ private:
 	void parse_layer(const cJSON* layer);
 	void parse_tile_layer(const cJSON* layer);
 	void parse_object_layer(const cJSON* layer);
-	void parse_tileset(const cJSON* layer);
+	void parse_tilesets(const cJSON* tilesets);
+	Tileset parse_tileset(const char* tileset_filename);
+
+	String relative_to_real_path(const char* relative_path);
 
 	String m_path;
 	Resource_Manager& m_resource_manager;
 	Map m_map;
-	Array<Tileset> m_tilesets;
+	Array<Tileset_In_Map> m_tilesets;
 };
 
 }

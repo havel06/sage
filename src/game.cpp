@@ -19,7 +19,7 @@ Game::Game(const char* project_path) :
 void Game::draw_frame(float time_delta)
 {
 	assert(m_start_sequence);
-	Game_Facade facade;
+	Game_Facade facade{m_res_manager, m_map};
 	m_start_sequence->update(facade, time_delta);
 
 	m_map_renderer.draw(m_map);

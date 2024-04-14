@@ -2,6 +2,7 @@
 #include "cJSON.h"
 #include "sequence/events/dummy.hpp"
 #include "sequence/events/echo.hpp"
+#include "sequence/events/change_map.hpp"
 #include "utils/file.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
@@ -31,6 +32,9 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 	if (type == "echo") {
 		String message = cJSON_GetObjectItem(params, "message")->valuestring;
 		return make_own_ptr<Events::Echo>((String&&)message);
+	} else if (type == "change_map") {
+		String map = cJSON_GetObjectItem(params, "map")->valuestring;
+		return make_own_ptr<Events::Change_Map>((String&&)map);
 	} else {
 		SG_ERROR("Invalid event type \"%s\"", type.data());
 		return make_own_ptr<Events::Dummy>();

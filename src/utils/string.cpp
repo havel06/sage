@@ -69,6 +69,11 @@ String::~String()
 	}
 }
 
+bool String::operator==(const char* other) const
+{
+	return strcmp(data(), other) == 0;
+}
+
 bool String::operator==(const String& other) const
 {
 	return strcmp(data(), other.data()) == 0;

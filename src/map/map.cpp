@@ -6,6 +6,14 @@ Map::Map(int width, int height)
 	m_height = height;
 }
 
+void Map::resize(int width, int height)
+{
+	assert(m_layers.empty());
+
+	m_width = width;
+	m_height = height;
+}
+
 Map::Map() : Map(0, 0)
 {
 }

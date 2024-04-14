@@ -1,8 +1,7 @@
 #pragma once
 
 #include "utils/rect.hpp"
-
-struct Texture; // raylib
+#include "raylib/raylib.h"
 
 class Sprite
 {
@@ -12,5 +11,5 @@ public:
 	Sprite(const Texture&);
 	void draw(Rectf transform);
 private:
-	const Texture* m_texture = nullptr;
+	Texture m_texture;
 };

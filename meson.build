@@ -10,10 +10,11 @@ src = [
   'src/main.cpp',
   'src/map/map.cpp',
   'src/map/tile_layer.cpp',
+  'src/utils/log.cpp',
 ]
 
 deps = [
   raylib_lib,
 ]
 
-executable('out', src, dependencies : deps, include_directories : [vendor_inc, 'src'])
+executable('out', [src, vendor_src], dependencies : deps, include_directories : [vendor_inc, 'src'])

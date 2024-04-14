@@ -23,6 +23,7 @@ public:
 	void clear();
 
 	bool operator==(const String& other) const;
+	bool operator==(const char* other) const;
 	bool empty() const { return m_length == 0; }
 	int length() const { return m_length; }
 	bool has_prefix(const String& other) const;

@@ -1,4 +1,5 @@
 #include "application.hpp"
+#include "utils/log.hpp"
 #include <raylib/raylib.h>
 
 Application::Application()
@@ -9,12 +10,20 @@ Application::Application()
 	SetExitKey(0);
 }
 
-void Application::run()
+void Application::run(int argc, const char* argv[])
 {
+	if (argc < 2) {
+		SG_ERROR("Command line argument missing.");
+		return;
+	}
+
+	const char* project_path = argv[1];
+	Game game(project_path);
+
 	while (!WindowShouldClose()) {
 		BeginDrawing();
 		ClearBackground(BLACK);
-		m_game.draw_frame(GetFrameTime());
+		game.draw_frame(GetFrameTime());
 		EndDrawing();
 	}
 }

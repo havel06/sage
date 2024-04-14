@@ -6,7 +6,6 @@ class Application
 {
 public:
 	Application();
-	void run();
+	void run(int argc, const char* argv[]);
 private:
-	Game m_game;
 };

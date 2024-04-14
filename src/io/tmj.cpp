@@ -50,7 +50,7 @@ void Map_Loader::parse_layer_array(const cJSON* layer_array)
 
 void Map_Loader::parse_layer(const cJSON* layer_json)
 {
-	LOG_DEBUG("Parsing TMJ layer...");
+	SG_DEBUG("Parsing TMJ layer...");
 
 	const cJSON* type = cJSON_GetObjectItem(layer_json, "type");
 
@@ -62,7 +62,7 @@ void Map_Loader::parse_layer(const cJSON* layer_json)
 		cJSON* layers = cJSON_GetObjectItem(layer_json, "layers");
 		parse_layer_array(layers);
 	} else {
-		LOG_WARNING("Image layers are not supported.");
+		SG_WARNING("Image layers are not supported.");
 	}
 }
 
@@ -80,7 +80,7 @@ void Map_Loader::parse_object_layer(const cJSON* layer_json)
 
 void Map_Loader::parse_tileset(const cJSON* tileset_json)
 {
-	LOG_DEBUG("Parsing TMJ tileset...");
+	SG_DEBUG("Parsing TMJ tileset...");
 
 	const int first_id = cJSON_GetObjectItem(tileset_json, "firstgid")->valueint;
 	const int columns = cJSON_GetObjectItem(tileset_json, "columns")->valueint;

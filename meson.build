@@ -7,10 +7,13 @@ src = [
   'src/game.cpp',
   'src/graphics/map_renderer.cpp',
   'src/graphics/sprite.cpp',
+  'src/io/project_loader.cpp',
   'src/main.cpp',
   'src/map/map.cpp',
   'src/map/tile_layer.cpp',
+  'src/utils/file.cpp',
   'src/utils/log.cpp',
+  'src/utils/string.cpp',
 ]
 
 deps = [

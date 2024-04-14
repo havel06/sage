@@ -1,7 +1,8 @@
 #include "game.hpp"
 #include <raylib/raylib.h>
 
-Game::Game()
+Game::Game(const char* project_path) :
+	m_res_manager(project_path)
 {
 }
 

@@ -1,0 +1,10 @@
+{
+	"events": [
+		{
+			"name": "echo",
+			"parameters": {
+				"message": "Hello world!!!"
+			}
+		}
+	]
+}

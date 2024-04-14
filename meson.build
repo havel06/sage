@@ -11,6 +11,8 @@ src = [
   'src/main.cpp',
   'src/map/map.cpp',
   'src/map/tile_layer.cpp',
+  'src/sequence/events/echo.cpp',
+  'src/sequence/sequence.cpp',
   'src/utils/file.cpp',
   'src/utils/log.cpp',
   'src/utils/string.cpp',

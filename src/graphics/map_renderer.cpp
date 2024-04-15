@@ -10,8 +10,8 @@ void Map_Renderer::draw(const Map& map, const Game_Camera& camera)
 {
 	BeginMode2D(camera.to_ray_cam());
 
-	for (int i = 0; i < map.get_layer_count(); i++) {
-		draw_layer(map.get_layer(i));
+	for (int i = 0; i < map.layers.get_layer_count(); i++) {
+		draw_layer(map.layers.get_layer(i));
 	}
 
 	for (int i = 0; i < map.get_entity_count(); i++) {

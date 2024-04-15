@@ -13,12 +13,11 @@ namespace TMJ
 class Tileset
 {
 public:
-	Tileset(Vec2i tile_size, int columns, const Texture&);
+	Tileset(Vec2i tile_size, int columns, int count, const Texture&);
 	Tile get_tile(int index) const;
+	void set_passable(int index, bool value);
 private:
-	Vec2i m_tile_size;
-	int m_columns;
-	Texture m_texture;
+	Array<Tile> m_tiles;
 };
 
 struct Tileset_In_Map

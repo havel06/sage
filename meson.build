@@ -16,6 +16,7 @@ src = [
   'src/map/entity.cpp',
   'src/map/map.cpp',
   'src/map/tile_layer.cpp',
+  'src/map/tile_layers.cpp',
   'src/io/resource_manager.cpp',
   'src/io/sequence_loader.cpp',
   'src/sequence/events/change_map.cpp',

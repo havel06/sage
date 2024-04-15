@@ -10,25 +10,27 @@
 namespace TMJ
 {
 
-Tileset::Tileset(Vec2i tile_size, int columns, const Texture& texture)
+Tileset::Tileset(Vec2i tile_size, int columns, int count, const Texture& texture)
 {
-	m_tile_size = tile_size;
-	m_columns = columns;
-	m_texture = texture;
+	m_tiles.resize(count);
+	for (int i = 0; i < count; i++) {
+		m_tiles[i].sprite = Sprite {texture};
+		m_tiles[i].sprite.texture_clip.position.x = (i % columns) * tile_size.x;
+		m_tiles[i].sprite.texture_clip.position.y = (i / columns) * tile_size.y;
+		m_tiles[i].sprite.texture_clip.size = tile_size;
+	}
 }
 
 Tile Tileset::get_tile(int index) const
 {
-	Sprite sprite{m_texture};
-	//SG_DEBUG("%d", m_texture.id);
+	return m_tiles[index];
+}
 
-	sprite.texture_clip.position.x = (index % m_columns) * m_tile_size.x;
-	sprite.texture_clip.position.y = (index / m_columns) * m_tile_size.y;
-	sprite.texture_clip.size = m_tile_size;
-
-	return Tile {
-		.sprite = sprite
-	};
+void Tileset::set_passable(int index, bool value)
+{
+	assert(index >= 0);
+	assert(index < m_tiles.size());
+	m_tiles[index].passable = value;
 }
 
 Map_Loader::Map_Loader(Resource_Manager& res_mgr, const String& path) :
@@ -101,7 +103,7 @@ void Map_Loader::parse_tile_layer(const cJSON* layer_json)
 		position_index++;
 	}
 
-	m_map.add_layer((Tile_Layer&&)layer);
+	m_map.layers.add_layer((Tile_Layer&&)layer);
 }
 
 void Map_Loader::parse_object_layer(const cJSON* layer_json)
@@ -131,22 +133,41 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 	cJSON* tileset_json = cJSON_Parse(read_file_to_str(tileset_path.data()).data());
 
 	const int columns = cJSON_GetObjectItem(tileset_json, "columns")->valueint;
+	const int tilecount = cJSON_GetObjectItem(tileset_json, "tilecount")->valueint;
 	const int tile_width = cJSON_GetObjectItem(tileset_json, "tilewidth")->valueint;
 	const int tile_height = cJSON_GetObjectItem(tileset_json, "tileheight")->valueint;
 	const char* image_relative = cJSON_GetObjectItem(tileset_json, "image")->valuestring;
+	const cJSON* special_tiles = cJSON_GetObjectItem(tileset_json, "tiles");
 
 	String image_path = relative_to_real_path(image_relative);
 	Texture texture = m_resource_manager.get_texture(image_path.data(), true);
 
-	cJSON_Delete(tileset_json);
-
-	SG_DEBUG("Loaded tileset \"%s\"", tileset_path.data());
-
-	return Tileset{
+	Tileset tileset{
 		Vec2i{tile_width, tile_height},
 		columns,
+		tilecount,
 		texture
 	};
+
+	const cJSON* special_tile;
+	cJSON_ArrayForEach(special_tile, special_tiles) {
+		const int id = cJSON_GetObjectItem(special_tile, "id")->valueint;
+		const cJSON* properties = cJSON_GetObjectItem(special_tile, "properties");
+		const cJSON* property;
+		cJSON_ArrayForEach(property, properties) {
+			String name = cJSON_GetObjectItem(property, "name")->valuestring;
+			if (name == "passable") {
+				const bool value = cJSON_GetObjectItem(property, "value")->valueint;
+				tileset.set_passable(id, value);
+			} else {
+				SG_WARNING("Tile property %s is not supported.", name.data());
+			}
+		}
+	}
+	
+	cJSON_Delete(tileset_json);
+	SG_DEBUG("Loaded tileset \"%s\"", tileset_path.data());
+	return tileset;
 }
 
 String Map_Loader::relative_to_real_path(const char* relative_path)

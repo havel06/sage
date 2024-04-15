@@ -24,5 +24,6 @@ void Game_Facade::spawn_player()
 	player.name = "Player";
 	player.sprite = Sprite{m_res_manager.get_texture("textures/sprites.png")};
 	player.sprite.texture_clip.size = {16, 16};
+	player.position = {10, 10};
 	m_logic.map.add_entity((Entity&&)player);
 }

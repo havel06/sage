@@ -4,5 +4,5 @@
 struct Tile
 {
 	Sprite sprite;
-	bool solid = false;
+	bool passable = true;
 };

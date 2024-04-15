@@ -10,6 +10,8 @@ public:
 	Map();
 
 	void resize(int width, int height);
+	int get_width() const { return m_width; }
+	int get_height() const { return m_height; }
 	void add_layer(Tile_Layer&&);
 	int get_layer_count() const { return m_layers.size(); }
 	const Tile_Layer& get_layer(int index) const;

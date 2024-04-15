@@ -10,7 +10,7 @@ class Resource_Manager
 public:
 	Resource_Manager(const String& asset_path);
 
-	Texture get_texture(const char*);
+	Texture get_texture(const char* filename, bool absolute_path = false);
 	Sequence& get_sequence(const char*);
 	Map get_map(const char*);
 private:

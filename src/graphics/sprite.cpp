@@ -1,4 +1,5 @@
 #include "sprite.hpp"
+#include "utils/log.hpp"
 #include <raylib/raylib.h>
 #include <assert.h>
 
@@ -12,13 +13,21 @@ Sprite::Sprite(const Texture& texture)
 	texture_clip.size.y = texture.height;
 }
 
-void Sprite::draw(Rectf transform)
+Sprite::Sprite()
 {
+	m_texture.id = 0;
+}
+
+void Sprite::draw(Rectf transform) const
+{
+	//SG_DEBUG("Sprite texture id: %d", m_texture.id);
+	//SG_DEBUG("%d %d", m_texture.width, m_texture.height);
+
 	Rectangle source = {
-		(float)texture_clip.position.x / m_texture.width,
-		(float)texture_clip.position.y / m_texture.height,
-		(float)texture_clip.size.x / m_texture.width,
-		(float)texture_clip.size.y / m_texture.height,
+		(float)texture_clip.position.x,
+		(float)texture_clip.position.y,
+		(float)texture_clip.size.x,
+		(float)texture_clip.size.y,
 	};
 
 	Rectangle dest = {

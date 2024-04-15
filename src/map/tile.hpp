@@ -1,10 +1,8 @@
 #pragma once
-
-// fwd
-class Sprite;
+#include "graphics/sprite.hpp"
 
 struct Tile
 {
-	Sprite* sprite = nullptr;
+	Sprite sprite;
 	bool solid = false;
 };

@@ -11,15 +11,16 @@ Resource_Manager::Resource_Manager(const String& asset_path)
 	m_asset_path = asset_path;
 }
 
-Texture Resource_Manager::get_texture(const char* filename)
+Texture Resource_Manager::get_texture(const char* filename, bool absolute_path)
 {
 	const Texture* found = m_textures.get(filename);
 	if (found)
 		return *found;
 
-	String full_filename = get_full_filename(filename);
+	String full_filename = absolute_path ? filename : get_full_filename(filename);
 	Texture texture = LoadTexture(full_filename.data());
 	SG_INFO("Loaded texture \"%s\"", filename);
+	//SG_DEBUG("%d", texture.id);
 	m_textures.insert(String{filename}, Texture{texture});
 	return texture;
 }

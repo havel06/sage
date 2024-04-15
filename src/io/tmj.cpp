@@ -1,6 +1,7 @@
 #include "tmj.hpp"
 #include "cJSON.h"
 #include "io/resource_manager.hpp"
+#include "map/tile_layer.hpp"
 #include "utils/string.hpp"
 #include "utils/log.hpp"
 #include "utils/file.hpp"
@@ -14,6 +15,20 @@ Tileset::Tileset(Vec2i tile_size, int columns, const Texture& texture)
 	m_tile_size = tile_size;
 	m_columns = columns;
 	m_texture = texture;
+}
+
+Tile Tileset::get_tile(int index) const
+{
+	Sprite sprite{m_texture};
+	//SG_DEBUG("%d", m_texture.id);
+
+	sprite.texture_clip.position.x = (index % m_columns) * m_tile_size.x;
+	sprite.texture_clip.position.y = (index / m_columns) * m_tile_size.y;
+	sprite.texture_clip.size = m_tile_size;
+
+	return Tile {
+		.sprite = sprite
+	};
 }
 
 Map_Loader::Map_Loader(Resource_Manager& res_mgr, const String& path) :
@@ -31,8 +46,8 @@ Map_Loader::Map_Loader(Resource_Manager& res_mgr, const String& path) :
 	cJSON* tilesets = cJSON_GetObjectItem(json, "tilesets");
 
 	m_map.resize(width, height);
-	parse_layer_array(layers);
 	parse_tilesets(tilesets);
+	parse_layer_array(layers);
 
 	cJSON_Delete(json);
 }
@@ -70,8 +85,23 @@ void Map_Loader::parse_layer(const cJSON* layer_json)
 
 void Map_Loader::parse_tile_layer(const cJSON* layer_json)
 {
-	// TODO
-	(void)layer_json;
+	const cJSON* indices = cJSON_GetObjectItem(layer_json, "data");
+
+	int position_index = 0;
+	const cJSON* tile_index;
+	Tile_Layer layer(m_map.get_width(), m_map.get_height());
+
+	cJSON_ArrayForEach(tile_index, indices) {
+		if (tile_index->valueint != 0) {
+			int y = position_index / m_map.get_width();
+			int x = position_index % m_map.get_width();
+			Tile tile = resolve_tile(tile_index->valueint);
+			layer.set_tile({x, y}, tile);
+		}
+		position_index++;
+	}
+
+	m_map.add_layer((Tile_Layer&&)layer);
 }
 
 void Map_Loader::parse_object_layer(const cJSON* layer_json)
@@ -106,7 +136,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 	const char* image_relative = cJSON_GetObjectItem(tileset_json, "image")->valuestring;
 
 	String image_path = relative_to_real_path(image_relative);
-	Texture texture = m_resource_manager.get_texture(image_path.data());
+	Texture texture = m_resource_manager.get_texture(image_path.data(), true);
 
 	cJSON_Delete(tileset_json);
 
@@ -125,6 +155,24 @@ String Map_Loader::relative_to_real_path(const char* relative_path)
 	result.append('/');
 	result.append(relative_path);
 	return result;
+}
+
+Tile Map_Loader::resolve_tile(int index)
+{
+	// Find corresponding tileset
+	int tileset_index = 0;
+	if (m_tilesets.size() > 1) {
+		for (; tileset_index < m_tilesets.size(); tileset_index++) {
+			if (m_tilesets[tileset_index].first_id > index) {
+				break;
+			}
+		}
+		tileset_index--;
+	}
+	//SG_DEBUG("Tileset index: %d", tileset_index);
+
+	const int index_within_tileset = index - m_tilesets[tileset_index].first_id;
+	return m_tilesets[tileset_index].tileset.get_tile(index_within_tileset);
 }
 
 }

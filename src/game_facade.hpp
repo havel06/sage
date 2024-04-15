@@ -11,6 +11,8 @@ public:
 	Game_Facade(Resource_Manager&, Map&);
 	void set_current_map(const String& filename);
 private:
+	void spawn_player();
+
 	Resource_Manager& m_res_manager;
 	Map& m_map;
 };

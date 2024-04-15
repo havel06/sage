@@ -14,6 +14,9 @@ Game::Game(const char* project_path) :
 
 	m_start_sequence = &m_res_manager.get_sequence(description.start_sequence.data());
 	m_start_sequence->activate();
+
+	// FIXME - remove
+	m_camera.position = {10, 10};
 }
 
 void Game::draw_frame(float time_delta)
@@ -22,5 +25,5 @@ void Game::draw_frame(float time_delta)
 	Game_Facade facade{m_res_manager, m_map};
 	m_start_sequence->update(facade, time_delta);
 
-	m_map_renderer.draw(m_map);
+	m_map_renderer.draw(m_map, m_camera);
 }

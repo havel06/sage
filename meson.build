@@ -6,6 +6,7 @@ src = [
   'src/application.cpp',
   'src/game.cpp',
   'src/game_facade.cpp',
+  'src/graphics/camera.cpp',
   'src/graphics/map_renderer.cpp',
   'src/graphics/sprite.cpp',
   'src/io/project_loader.cpp',

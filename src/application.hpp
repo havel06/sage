@@ -7,5 +7,4 @@ class Application
 public:
 	Application();
 	void run(int argc, const char* argv[]);
-private:
 };

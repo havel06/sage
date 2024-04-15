@@ -2,17 +2,17 @@
 
 #include "utils/string.hpp"
 
-class Map;
 class Resource_Manager;
+class Game_Logic;
 
 class Game_Facade
 {
 public:
-	Game_Facade(Resource_Manager&, Map&);
+	Game_Facade(Resource_Manager&, Game_Logic&);
 	void set_current_map(const String& filename);
 private:
 	void spawn_player();
 
 	Resource_Manager& m_res_manager;
-	Map& m_map;
+	Game_Logic& m_logic;
 };

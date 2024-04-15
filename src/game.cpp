@@ -12,18 +12,28 @@ Game::Game(const char* project_path) :
 	SG_INFO("Loaded project \"%s\"", description.name.data());
 	SetWindowTitle(description.name.data());
 
-	m_start_sequence = &m_res_manager.get_sequence(description.start_sequence.data());
-	m_start_sequence->activate();
-
-	// FIXME - remove
-	m_camera.position = {10, 10};
+	// FIXME - refactor?
+	m_logic.start_sequence = &m_res_manager.get_sequence(description.start_sequence.data());
+	m_logic.start_sequence->activate();
 }
 
 void Game::draw_frame(float time_delta)
 {
-	assert(m_start_sequence);
-	Game_Facade facade{m_res_manager, m_map};
-	m_start_sequence->update(facade, time_delta);
+	process_input();
+	m_logic.update(m_res_manager, time_delta);
+	m_camera.position = m_logic.get_player().get_subgrid_position() + Vec2f{0.5, 0.5};
+	m_map_renderer.draw(m_logic.map, m_camera);
+}
 
-	m_map_renderer.draw(m_map, m_camera);
+void Game::process_input()
+{
+	if (IsKeyDown(KEY_UP)) {
+		m_logic.move_player_up();
+	} else if (IsKeyDown(KEY_DOWN)) {
+		m_logic.move_player_down();
+	} else if (IsKeyDown(KEY_RIGHT)) {
+		m_logic.move_player_right();
+	} else if (IsKeyDown(KEY_LEFT)) {
+		m_logic.move_player_left();
+	}
 }

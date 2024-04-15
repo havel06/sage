@@ -16,5 +16,5 @@ private:
 	bool m_active = false;
 	bool m_finished = false;
 	int m_current_event = 0;
-	Array<Own_Ptr<Event>> m_events;
+	Array<Event_Ptr> m_events;
 };

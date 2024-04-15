@@ -20,6 +20,11 @@ struct Vec2
 		return {::abs(x), ::abs(y)};
 	}
 
+	Vec2<T> round() const
+	{
+		return {::round(x), ::round(y)};
+	}
+
 	T manhattan() const
 	{
 		return ::abs(x) + ::abs(y);

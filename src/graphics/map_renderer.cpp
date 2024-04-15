@@ -43,7 +43,7 @@ void Map_Renderer::draw_tile(const Tile& tile, Vec2i position)
 void Map_Renderer::draw_entity(const Entity& entity)
 {
 	Rectf transform = Rectf{
-		.position = entity.position,
+		.position = entity.get_subgrid_position(),
 		.size = {1, 1}
 	};
 

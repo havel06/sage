@@ -8,6 +8,15 @@ class Entity
 {
 public:
 	String name;
-	Vec2i position = {0, 0};
 	Sprite sprite;
+	Vec2i position = {0, 0};
+	float move_speed = 4;
+
+	Vec2f get_subgrid_position() const;
+	void update(float time_delta);
+	void move_to(Vec2i);
+private:
+	bool m_moving = false;
+	Vec2f m_subgrid_offset = {0, 0};
+	Vec2i m_target_position = {0, 0};
 };

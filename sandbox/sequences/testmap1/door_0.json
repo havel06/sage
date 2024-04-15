@@ -1,0 +1,10 @@
+{
+	"events": [
+		{
+			"type": "change_map",
+			"parameters": {
+				"map": "maps/testmap0.tmj"
+			}
+		}
+	]
+}

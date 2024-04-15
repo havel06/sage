@@ -1,0 +1,10 @@
+{
+	"events": [
+		{
+			"type": "echo",
+			"parameters": {
+				"message": "TODO - message box"
+			}
+		}
+	]
+}

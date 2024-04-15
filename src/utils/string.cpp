@@ -71,12 +71,18 @@ String::~String()
 
 bool String::operator==(const char* other) const
 {
+	if (m_data == other)
+		return true;
+
+	if (m_data == nullptr || other == nullptr)
+		return false;
+
 	return strcmp(data(), other) == 0;
 }
 
 bool String::operator==(const String& other) const
 {
-	return strcmp(data(), other.data()) == 0;
+	return *this == other.data();
 }
 
 void String::clear()

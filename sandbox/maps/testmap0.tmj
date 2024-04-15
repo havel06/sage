@@ -30,7 +30,41 @@
          "draworder":"topdown",
          "id":3,
          "name":"objects",
-         "objects":[],
+         "objects":[
+                {
+                 "height":17.3913043478261,
+                 "id":12,
+                 "name":"Cave door",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/testmap0\/cave_door.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16.9565217391304,
+                 "x":287.228260869565,
+                 "y":15.0014822134387
+                }, 
+                {
+                 "height":17.3913,
+                 "id":17,
+                 "name":"Sign",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/testmap0\/sign.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16.9565,
+                 "x":303.27175,
+                 "y":31.17935
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -38,7 +72,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":2,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.2",

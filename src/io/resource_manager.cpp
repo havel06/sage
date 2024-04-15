@@ -13,30 +13,31 @@ Resource_Manager::Resource_Manager(const String& asset_path)
 
 Texture Resource_Manager::get_texture(const char* filename, bool absolute_path)
 {
-	const Texture* found = m_textures.get(filename);
+	String full_filename = absolute_path ? get_canonical_path(filename) : get_full_filename(filename);
+	const Texture* found = m_textures.get(full_filename);
 	if (found)
 		return *found;
 
-	String full_filename = absolute_path ? filename : get_full_filename(filename);
 	Texture texture = LoadTexture(full_filename.data());
-	SG_INFO("Loaded texture \"%s\"", filename);
+	SG_INFO("Loaded texture \"%s\"", full_filename.data());
 	//SG_DEBUG("%d", texture.id);
-	m_textures.insert(String{filename}, Texture{texture});
+	m_textures.insert(String{full_filename}, Texture{texture});
 	return texture;
 }
 
-Sequence& Resource_Manager::get_sequence(const char* filename)
+Sequence& Resource_Manager::get_sequence(const char* filename, bool absolute_path)
 {
-	Sequence* found = m_sequences.get(filename);
+	String full_filename = absolute_path ? get_canonical_path(filename) : get_full_filename(filename);
+	Sequence* found = m_sequences.get(full_filename);
 	if (found)
 		return *found;
 
-	String full_filename = get_full_filename(filename);
+	//SG_DEBUG("Loading sequence \"%s\"", full_filename.data());
 	Sequence_Loader loader;
 	Sequence sequence = loader.load(full_filename);
-	SG_INFO("Loaded sequence \"%s\"", filename);
+	SG_INFO("Loaded sequence \"%s\"", full_filename.data());
 
-	return m_sequences.insert(String{filename}, (Sequence&&)sequence);
+	return m_sequences.insert(String{full_filename}, (Sequence&&)sequence);
 }
 
 Map Resource_Manager::get_map(const char* filename)
@@ -45,7 +46,7 @@ Map Resource_Manager::get_map(const char* filename)
 	
 	String full_filename = get_full_filename(filename);
 	TMJ::Map_Loader loader(*this, full_filename);
-	SG_INFO("Loaded map \"%s\"", filename);
+	SG_INFO("Loaded map \"%s\"", full_filename.data());
 	return loader.retrieve_map();
 }
 
@@ -55,8 +56,13 @@ String Resource_Manager::get_full_filename(const String& filename)
 	full_filename.append("/");
 	full_filename.append(filename);
 
+	return get_canonical_path(full_filename);
+}
+
+String Resource_Manager::get_canonical_path(const String& path)
+{
 	char real_path[512];
-	realpath(full_filename.data(), real_path);
+	realpath(path.data(), real_path);
 
 	return real_path;
 }

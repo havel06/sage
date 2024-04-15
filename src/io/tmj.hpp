@@ -36,6 +36,7 @@ private:
 	void parse_layer(const cJSON* layer);
 	void parse_tile_layer(const cJSON* layer);
 	void parse_object_layer(const cJSON* layer);
+	void parse_object(const cJSON* object);
 	void parse_tilesets(const cJSON* tilesets);
 	Tileset parse_tileset(const char* tileset_filename);
 	Tile resolve_tile(int tile_index);

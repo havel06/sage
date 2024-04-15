@@ -4,9 +4,13 @@
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
 
+class Sequence;
+
 class Entity
 {
 public:
+	const Sequence* assigned_sequence = nullptr;
+
 	String name;
 	Sprite sprite;
 	Vec2i position = {0, 0};

@@ -1,4 +1,5 @@
 #include "sequence.hpp"
+#include "utils/log.hpp"
 
 void Sequence::add_event(Event_Ptr&& event)
 {

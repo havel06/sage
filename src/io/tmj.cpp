@@ -108,8 +108,34 @@ void Map_Loader::parse_tile_layer(const cJSON* layer_json)
 
 void Map_Loader::parse_object_layer(const cJSON* layer_json)
 {
-	// TODO
-	(void)layer_json;
+	const cJSON* objects = cJSON_GetObjectItem(layer_json, "objects");
+	const cJSON* object;
+	cJSON_ArrayForEach(object, objects) {
+		parse_object(object);
+	}
+}
+
+void Map_Loader::parse_object(const cJSON* object)
+{
+	Entity entity;
+
+	entity.position.x = round(cJSON_GetObjectItem(object, "x")->valuedouble);
+	entity.position.y = round(cJSON_GetObjectItem(object, "y")->valuedouble);
+
+	const cJSON* properties = cJSON_GetObjectItem(object, "properties");
+	const cJSON* property;
+	cJSON_ArrayForEach(property, properties) {
+		const String name = cJSON_GetObjectItem(property, "name")->valuestring;
+		if (name == "sequence") {
+			const char* sequence_name = cJSON_GetObjectItem(property, "value")->valuestring;
+			String sequence_path = relative_to_real_path(sequence_name);
+			entity.assigned_sequence = &m_resource_manager.get_sequence(sequence_path.data(), true);
+		} else {
+			SG_WARNING("Object property \"%s\" is not supported.", name.data());
+		}
+	}
+
+	m_map.add_entity((Entity&&)entity);
 }
 
 void Map_Loader::parse_tilesets(const cJSON* tilesets)
@@ -160,7 +186,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 				const bool value = cJSON_GetObjectItem(property, "value")->valueint;
 				tileset.set_passable(id, value);
 			} else {
-				SG_WARNING("Tile property %s is not supported.", name.data());
+				SG_WARNING("Tile property \"%s\" is not supported.", name.data());
 			}
 		}
 	}

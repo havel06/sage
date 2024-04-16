@@ -19,8 +19,13 @@ void Sequence::update(Game_Facade& game_facade, float time_delta)
 			m_active = false;
 			m_current_event = 0;
 
-			if (!repeatable)
+			if (!repeatable) {
 				m_finished = true;
+			} else {
+				// Reset events
+				for (int i = 0; i < m_events.size(); i++)
+					m_events[i]->reset();
+			}
 
 			break;
 		}
@@ -28,7 +33,7 @@ void Sequence::update(Game_Facade& game_facade, float time_delta)
 		// Update event
 		m_events[m_current_event]->update(game_facade, time_delta);
 
-		if (m_events[m_current_event]->is_finished()) {
+		if (m_events[m_current_event]->is_finished(game_facade)) {
 			m_current_event++;
 			continue;
 		} else {

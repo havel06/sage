@@ -1,9 +1,10 @@
 {
+	"repeatable": true,
 	"events": [
 		{
-			"type": "echo",
+			"type": "display_text",
 			"parameters": {
-				"message": "TODO - message box"
+				"message": "This cave leads to a dungeon!"
 			}
 		}
 	]

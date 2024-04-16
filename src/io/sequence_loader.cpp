@@ -1,5 +1,6 @@
 #include "sequence_loader.hpp"
 #include "cJSON.h"
+#include "sequence/events/display_text.hpp"
 #include "sequence/events/dummy.hpp"
 #include "sequence/events/echo.hpp"
 #include "sequence/events/change_map.hpp"
@@ -39,6 +40,9 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 	if (type == "echo") {
 		const String message = cJSON_GetObjectItem(params, "message")->valuestring;
 		return make_own_ptr<Events::Echo>((String&&)message);
+	} else if (type == "display_text") {
+		const String message = cJSON_GetObjectItem(params, "message")->valuestring;
+		return make_own_ptr<Events::Display_Text>((String&&)message);
 	} else if (type == "change_map") {
 		const String map = cJSON_GetObjectItem(params, "map")->valuestring;
 		return make_own_ptr<Events::Change_Map>((String&&)map);

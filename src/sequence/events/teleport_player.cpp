@@ -15,9 +15,14 @@ void Teleport_Player::update(Game_Facade& facade, float)
 	m_activated = true;
 }
 
-bool Teleport_Player::is_finished() const
+bool Teleport_Player::is_finished(Game_Facade&) const
 {
 	return m_activated;
+}
+
+void Teleport_Player::reset()
+{
+	m_activated = false;
 }
 
 }

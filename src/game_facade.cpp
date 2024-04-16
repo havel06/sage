@@ -32,3 +32,13 @@ void Game_Facade::teleport_player(Vec2i position)
 {
 	m_logic.get_player().position = position;
 }
+
+void Game_Facade::display_text(String&& message)
+{
+	m_logic.text_box.push_message((String&&)message);
+}
+
+bool Game_Facade::is_text_box_shown() const
+{
+	return m_logic.text_box.contains_message();	
+}

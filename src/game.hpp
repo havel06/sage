@@ -1,11 +1,12 @@
 #pragma once
 
+#include "game_logic.hpp"
+#include "graphics/camera.hpp"
 #include "graphics/map_renderer.hpp"
+#include "graphics/text_box_renderer.hpp"
 #include "io/resource_manager.hpp"
 #include "map/map.hpp"
 #include "sequence/sequence.hpp"
-#include "graphics/camera.hpp"
-#include "game_logic.hpp"
 
 class Game
 {
@@ -18,5 +19,6 @@ private:
 	Resource_Manager m_res_manager;
 	Game_Logic m_logic;
 	Map_Renderer m_map_renderer;
+	Text_Box_Renderer m_text_box_renderer;
 	Game_Camera m_camera;
 };

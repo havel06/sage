@@ -6,15 +6,15 @@
 namespace Events
 {
 
-class Change_Map : public Event
+class Display_Text : public Event
 {
 public:
-	Change_Map(String&& new_map);
+	Display_Text(String&& message);
 	void update(Game_Facade&, float time_delta) override;
 	bool is_finished(Game_Facade&) const override;
 	void reset() override;
 private:
-	String m_new_map;
+	String m_message;
 	bool m_activated = false;
 };
 

@@ -20,5 +20,6 @@ private:
 
 	String m_asset_path;
 	Table<String, Texture> m_textures;
+	// NOTE - this might not be future-proof
 	Pool_Table<String, Sequence, 256> m_sequences;
 };

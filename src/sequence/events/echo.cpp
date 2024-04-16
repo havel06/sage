@@ -15,9 +15,14 @@ void Echo::update(Game_Facade&, float)
 	m_activated = true;	
 }
 
-bool Echo::is_finished() const
+bool Echo::is_finished(Game_Facade&) const
 {
 	return m_activated;
+}
+
+void Echo::reset()
+{
+	m_activated = false;
 }
 
 }

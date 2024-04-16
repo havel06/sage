@@ -14,6 +14,8 @@ public:
 	Game_Facade(Resource_Manager&, Game_Logic&);
 	void set_current_map(const String& filename);
 	void teleport_player(Vec2i position);
+	void display_text(String&& message);
+	bool is_text_box_shown() const;
 private:
 	void spawn_player();
 

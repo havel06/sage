@@ -11,7 +11,10 @@ void Game_Logic::update(Resource_Manager& res_mgr, float time_delta)
 	start_sequence->update(facade, time_delta);
 
 	for (int i = 0; i < map.get_entity_count(); i++) {
-		map.get_entity(i).update(time_delta);
+		Entity& entity = map.get_entity(i);
+		entity.update(time_delta);
+		if (entity.assigned_sequence)
+			entity.assigned_sequence->update(facade, time_delta);
 	}
 }
 
@@ -20,6 +23,21 @@ Entity& Game_Logic::get_player()
 	Entity* player_ptr = map.get_entity("Player");
 	assert(player_ptr);
 	return *player_ptr;
+}
+
+void Game_Logic::player_interact()
+{
+	Entity& player = get_player();
+	Vec2i target = player.position + player.get_look_direction();
+	Entity* target_entity = map.get_entity(target);
+
+	if (!target_entity)
+		return;
+
+	if (!target_entity->assigned_sequence)
+		return;
+
+	target_entity->assigned_sequence->activate();
 }
 
 void Game_Logic::move_player_right()

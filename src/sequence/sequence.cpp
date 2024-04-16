@@ -16,7 +16,12 @@ void Sequence::update(Game_Facade& game_facade, float time_delta)
 		// Check if sequence has ended
 		if (m_current_event >= m_events.size()) {
 			// Sequence has ended
-			m_finished = true;
+			m_active = false;
+			m_current_event = 0;
+
+			if (!repeatable)
+				m_finished = true;
+
 			break;
 		}
 

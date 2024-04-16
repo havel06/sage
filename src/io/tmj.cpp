@@ -44,6 +44,8 @@ Map_Loader::Map_Loader(Resource_Manager& res_mgr, const String& path) :
 	cJSON* json = cJSON_Parse(file_content.data());
 	const int width = cJSON_GetObjectItem(json, "width")->valueint;
 	const int height = cJSON_GetObjectItem(json, "height")->valueint;
+	m_tile_width = cJSON_GetObjectItem(json, "tilewidth")->valueint;
+	m_tile_height = cJSON_GetObjectItem(json, "tileheight")->valueint;
 	cJSON* layers = cJSON_GetObjectItem(json, "layers");
 	cJSON* tilesets = cJSON_GetObjectItem(json, "tilesets");
 
@@ -94,12 +96,18 @@ void Map_Loader::parse_tile_layer(const cJSON* layer_json)
 	Tile_Layer layer(m_map.get_width(), m_map.get_height());
 
 	cJSON_ArrayForEach(tile_index, indices) {
-		if (tile_index->valueint != 0) {
-			int y = position_index / m_map.get_width();
-			int x = position_index % m_map.get_width();
+		int y = position_index / m_map.get_width();
+		int x = position_index % m_map.get_width();
+
+		if (tile_index->valueint == 0) {
+			Tile empty_tile;
+			empty_tile.passable = true;
+			layer.set_tile({x, y}, empty_tile);
+		} else {
 			Tile tile = resolve_tile(tile_index->valueint);
 			layer.set_tile({x, y}, tile);
 		}
+
 		position_index++;
 	}
 
@@ -119,8 +127,8 @@ void Map_Loader::parse_object(const cJSON* object)
 {
 	Entity entity;
 
-	entity.position.x = round(cJSON_GetObjectItem(object, "x")->valuedouble);
-	entity.position.y = round(cJSON_GetObjectItem(object, "y")->valuedouble);
+	entity.position.x = round(cJSON_GetObjectItem(object, "x")->valuedouble / m_tile_width);
+	entity.position.y = round(cJSON_GetObjectItem(object, "y")->valuedouble / m_tile_height);
 
 	const cJSON* properties = cJSON_GetObjectItem(object, "properties");
 	const cJSON* property;

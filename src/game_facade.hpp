@@ -5,6 +5,8 @@
 class Resource_Manager;
 class Game_Logic;
 
+// FIXME - is this class really needed?
+// Facade for sequence events to interface with the rest of the game.
 class Game_Facade
 {
 public:

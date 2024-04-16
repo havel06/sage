@@ -27,6 +27,10 @@ void Game::draw_frame(float time_delta)
 
 void Game::process_input()
 {
+	if (IsKeyPressed(KEY_ENTER)) {
+		m_logic.player_interact();
+	}
+
 	if (IsKeyDown(KEY_UP)) {
 		m_logic.move_player_up();
 	} else if (IsKeyDown(KEY_DOWN)) {

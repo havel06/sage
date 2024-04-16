@@ -46,6 +46,8 @@ private:
 	String m_path;
 	Resource_Manager& m_resource_manager;
 	Map m_map;
+	int m_tile_width;
+	int m_tile_height;
 	Array<Tileset_In_Map> m_tilesets;
 };
 

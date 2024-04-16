@@ -52,3 +52,14 @@ Entity* Map::get_entity(const String& name)
 
 	return nullptr;
 }
+
+Entity* Map::get_entity(Vec2i position)
+{
+	for (int i = 0; i < m_entities.size(); i++) {
+		if (m_entities[i].position == position) {
+			return &m_entities[i];
+		}
+	}
+
+	return nullptr;
+}

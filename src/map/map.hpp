@@ -24,6 +24,7 @@ public:
 	Entity& get_entity(int index);
 	const Entity& get_entity(int index) const;
 	Entity* get_entity(const String& name);
+	Entity* get_entity(Vec2i position);
 private:
 	int m_width;
 	int m_height;

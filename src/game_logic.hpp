@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game_facade.hpp"
 #include "map/map.hpp"
 
 // fwd
@@ -14,6 +15,7 @@ public:
 
 	void update(Resource_Manager&, float time_delta);
 	Entity& get_player();
+	void player_interact();
 	void move_player_right();
 	void move_player_left();
 	void move_player_up();

@@ -9,6 +9,8 @@ using Event_Ptr = Own_Ptr<Event>;
 class Sequence
 {
 public:
+	bool repeatable = false;
+
 	void add_event(Event_Ptr&&);
 	void update(Game_Facade&, float time_delta);
 	void activate();

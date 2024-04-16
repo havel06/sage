@@ -9,7 +9,7 @@ class Sequence;
 class Entity
 {
 public:
-	const Sequence* assigned_sequence = nullptr;
+	Sequence* assigned_sequence = nullptr;
 
 	String name;
 	Sprite sprite;
@@ -19,8 +19,10 @@ public:
 	Vec2f get_subgrid_position() const;
 	void update(float time_delta);
 	void move_to(Vec2i);
+	Vec2i get_look_direction() const { return m_look_direction; };
 private:
 	bool m_moving = false;
 	Vec2f m_subgrid_offset = {0, 0};
 	Vec2i m_target_position = {0, 0};
+	Vec2i m_look_direction = {0, 1}; // FIXME - handle invariant in a better way
 };

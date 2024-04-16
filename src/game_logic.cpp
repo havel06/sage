@@ -60,11 +60,13 @@ void Game_Logic::move_player_down()
 	move_player({0, 1});
 }
 
-void Game_Logic::move_player(Vec2i offset)
+void Game_Logic::move_player(Vec2i direction)
 {
 	Entity& player = get_player();
-	auto new_pos = player.position + offset;
+	player.look(direction);
+	auto new_pos = player.position + direction;
+
 	if (map.is_position_valid(new_pos) && map.layers.is_passable(new_pos)) {
-		player.move_to(new_pos);
+		player.move(direction);
 	}
 }

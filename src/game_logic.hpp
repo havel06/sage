@@ -21,5 +21,5 @@ public:
 	void move_player_up();
 	void move_player_down();
 private:
-	void move_player(Vec2i offset);
+	void move_player(Vec2i direction);
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "utils/string.hpp"
+#include "utils/vec2.hpp"
 
 class Resource_Manager;
 class Game_Logic;
@@ -12,6 +13,7 @@ class Game_Facade
 public:
 	Game_Facade(Resource_Manager&, Game_Logic&);
 	void set_current_map(const String& filename);
+	void teleport_player(Vec2i position);
 private:
 	void spawn_player();
 

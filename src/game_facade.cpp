@@ -18,6 +18,7 @@ void Game_Facade::set_current_map(const String& filename)
 
 void Game_Facade::spawn_player()
 {
+	// TODO - maybe this should happen in game_logic
 	Entity player;
 
 	// FIXME - get from config
@@ -26,4 +27,9 @@ void Game_Facade::spawn_player()
 	player.sprite.texture_clip.size = {16, 16};
 	player.position = {10, 10}; // FIXME - delete this
 	m_logic.map.add_entity((Entity&&)player);
+}
+
+void Game_Facade::teleport_player(Vec2i position)
+{
+	m_logic.get_player().position = position;
 }

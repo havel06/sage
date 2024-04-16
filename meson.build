@@ -21,6 +21,7 @@ src = [
   'src/io/sequence_loader.cpp',
   'src/sequence/events/change_map.cpp',
   'src/sequence/events/echo.cpp',
+  'src/sequence/events/teleport_player.cpp',
   'src/sequence/sequence.cpp',
   'src/utils/file.cpp',
   'src/utils/log.cpp',

@@ -6,6 +6,13 @@
 			"parameters": {
 				"map": "maps/testmap1.tmj"
 			}
+		},
+		{
+			"type": "teleport_player",
+			"parameters": {
+				"x": 6,
+				"y": 3
+			}
 		}
 	]
 }

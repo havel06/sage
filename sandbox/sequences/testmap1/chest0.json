@@ -1,0 +1,11 @@
+{
+	"events": [
+		{
+			"type": "give_item",
+			"parameters": {
+				"item": "rupee_green",
+				"count": 5
+			}
+		}
+	]
+}

@@ -42,3 +42,8 @@ bool Game_Facade::is_text_box_shown() const
 {
 	return m_logic.text_box.contains_message();	
 }
+
+void Game_Facade::give_item(const String& id, int count)
+{
+	SG_DEBUG("Give item \"%s\" * %d", id.data(), count);
+}

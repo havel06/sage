@@ -16,6 +16,7 @@ public:
 	void teleport_player(Vec2i position);
 	void display_text(String&& message);
 	bool is_text_box_shown() const;
+	void give_item(const String& id, int count);
 private:
 	void spawn_player();
 

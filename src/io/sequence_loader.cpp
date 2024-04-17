@@ -4,6 +4,7 @@
 #include "sequence/events/dummy.hpp"
 #include "sequence/events/echo.hpp"
 #include "sequence/events/change_map.hpp"
+#include "sequence/events/give_item.hpp"
 #include "sequence/events/teleport_player.hpp"
 #include "utils/file.hpp"
 #include "utils/log.hpp"
@@ -38,13 +39,22 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 	const cJSON* params = cJSON_GetObjectItem(json, "parameters");
 
 	if (type == "echo") {
-		const String message = cJSON_GetObjectItem(params, "message")->valuestring;
+		const String message =
+			cJSON_GetObjectItem(params, "message")->valuestring;
 		return make_own_ptr<Events::Echo>((String&&)message);
 	} else if (type == "display_text") {
-		const String message = cJSON_GetObjectItem(params, "message")->valuestring;
+		const String message =
+			cJSON_GetObjectItem(params, "message")->valuestring;
 		return make_own_ptr<Events::Display_Text>((String&&)message);
+	} else if (type == "give_item") {
+		const String id =
+			cJSON_GetObjectItem(params, "item")->valuestring;
+		const int count =
+			cJSON_GetObjectItem(params, "count")->valueint;
+		return make_own_ptr<Events::Give_Item>((String&&)id, count);
 	} else if (type == "change_map") {
-		const String map = cJSON_GetObjectItem(params, "map")->valuestring;
+		const String map =
+			cJSON_GetObjectItem(params, "map")->valuestring;
 		return make_own_ptr<Events::Change_Map>((String&&)map);
 	} else if (type == "teleport_player") {
 		const int x = cJSON_GetObjectItem(params, "x")->valueint;

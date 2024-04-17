@@ -7,7 +7,8 @@
 
 Game::Game(const char* project_path) :
 	m_res_manager(project_path),
-	m_text_box_renderer(m_logic.text_box)
+	m_text_box_renderer(m_logic.text_box),
+	m_inventory_renderer(m_logic.inventory)
 {
 	Project_Description description = load_project_description(String{project_path});
 	SG_INFO("Loaded project \"%s\"", description.name.data());
@@ -25,6 +26,10 @@ void Game::draw_frame(float time_delta)
 	m_camera.position = m_logic.get_player().get_subgrid_position() + Vec2f{0.5, 0.5};
 	m_map_renderer.draw(m_logic.map, m_camera);
 	m_text_box_renderer.draw();
+
+	if (m_show_inventory) {
+		m_inventory_renderer.draw();
+	}
 }
 
 void Game::process_input()
@@ -32,6 +37,8 @@ void Game::process_input()
 	if (IsKeyPressed(KEY_ENTER)) {
 		m_logic.text_box.advance();
 		m_logic.player_interact();
+	} else if (IsKeyPressed(KEY_I)) {
+		m_show_inventory = !m_show_inventory;
 	}
 
 	if (IsKeyDown(KEY_UP)) {

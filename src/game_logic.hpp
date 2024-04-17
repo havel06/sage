@@ -2,6 +2,7 @@
 
 #include "game_facade.hpp"
 #include "map/map.hpp"
+#include "item/inventory.hpp"
 #include "text_box.hpp"
 
 // fwd
@@ -13,6 +14,7 @@ class Game_Logic
 public:
 	Map map; // TODO - shouldn't map be private?
 	Text_Box text_box; // TODO - shouldn't this be private?
+	Inventory inventory;
 	Sequence* start_sequence = nullptr;
 
 	void update(Resource_Manager&, float time_delta);

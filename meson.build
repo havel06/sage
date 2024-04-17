@@ -8,6 +8,7 @@ src = [
   'src/game_facade.cpp',
   'src/game_logic.cpp',
   'src/graphics/camera.cpp',
+  'src/graphics/inventory_renderer.cpp',
   'src/graphics/map_renderer.cpp',
   'src/graphics/sprite.cpp',
   'src/graphics/text_box_renderer.cpp',

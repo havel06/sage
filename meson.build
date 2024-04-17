@@ -15,6 +15,7 @@ src = [
   'src/io/project_loader.cpp',
   'src/io/tmj.cpp',
   'src/main.cpp',
+  'src/io/item_registry_loader.cpp',
   'src/io/resource_manager.cpp',
   'src/io/sequence_loader.cpp',
   'src/item/inventory.cpp',

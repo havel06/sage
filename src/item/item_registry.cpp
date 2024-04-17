@@ -1,8 +1,8 @@
 #include "item_registry.hpp"
 #include "utils/log.hpp"
-#include <cassert>
+#include <assert.h>
 
-const Item& Item_Registry::get_item(const String& id)
+const Item& Item_Registry::get_item(const String& id) const
 {
 	for (int i = 0; i < m_items.size(); i++) {
 		if (m_items[i].id == id) {
@@ -10,7 +10,7 @@ const Item& Item_Registry::get_item(const String& id)
 		}
 	}
 
-	SG_ERROR("Invalid item id %s", id.data());
+	SG_ERROR("Invalid item id \"%s\"", id.data());
 	assert(false);
 }
 

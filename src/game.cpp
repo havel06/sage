@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include "game_facade.hpp"
+#include "io/item_registry_loader.hpp"
 #include "io/project_loader.hpp"
 #include "sequence/event.hpp"
 #include "utils/log.hpp"
@@ -8,11 +9,16 @@
 Game::Game(const char* project_path) :
 	m_res_manager(project_path),
 	m_text_box_renderer(m_logic.text_box),
-	m_inventory_renderer(m_logic.inventory)
+	m_inventory_renderer(m_logic.item_registry, m_logic.inventory)
 {
+	// Project description
 	Project_Description description = load_project_description(String{project_path});
 	SG_INFO("Loaded project \"%s\"", description.name.data());
 	SetWindowTitle(description.name.data());
+
+	// Item registry
+	Item_Registry_Loader item_registry_loader(m_res_manager);
+	item_registry_loader.load(m_logic.item_registry, project_path);
 
 	// FIXME - refactor?
 	m_logic.start_sequence = &m_res_manager.get_sequence(description.start_sequence.data());

@@ -45,5 +45,6 @@ bool Game_Facade::is_text_box_shown() const
 
 void Game_Facade::give_item(const String& id, int count)
 {
-	SG_DEBUG("Give item \"%s\" * %d", id.data(), count);
+	//SG_DEBUG("Give item \"%s\" * %d", id.data(), count);
+	m_logic.inventory.add_item(id, count);
 }

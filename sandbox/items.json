@@ -1,0 +1,45 @@
+{
+	"items" : [
+		{
+			"id": "rupee_green",
+			"name": "Green Rupee",
+			"sprite": {
+				"texture": "textures/sprites.png",
+				"position_x": 176,
+				"position_y": 0,
+				"size_x": 16,
+				"size_y": 16
+			}
+		}, {
+			"id": "rupee_blue",
+			"name": "Blue Rupee",
+			"sprite": {
+				"texture": "textures/sprites.png",
+				"position_x": 192,
+				"position_y": 0,
+				"size_x": 16,
+				"size_y": 16
+			}
+		}, {
+			"id": "rupee_red",
+			"name": "Red Rupee",
+			"sprite": {
+				"texture": "textures/sprites.png",
+				"position_x": 208,
+				"position_y": 0,
+				"size_x": 16,
+				"size_y": 16
+			}
+		}, {
+			"id": "rupee_purple",
+			"name": "Purple Rupee",
+			"sprite": {
+				"texture": "textures/sprites.png",
+				"position_x": 224,
+				"position_y": 0,
+				"size_x": 16,
+				"size_y": 16
+			}
+		}
+	]
+}

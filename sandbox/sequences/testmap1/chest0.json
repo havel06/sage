@@ -6,6 +6,19 @@
 				"item": "rupee_green",
 				"count": 5
 			}
+		},
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "Chest",
+				"sprite": {
+					"texture": "textures/overworld.png",
+					"position_x": 272,
+					"position_y": 80,
+					"size_x": 16,
+					"size_y": 16
+				}
+			}
 		}
 	]
 }

@@ -48,3 +48,15 @@ void Game_Facade::give_item(const String& id, int count)
 	//SG_DEBUG("Give item \"%s\" * %d", id.data(), count);
 	m_logic.inventory.add_item(id, count);
 }
+
+void Game_Facade::set_entity_sprite(const String& entity_name, const Sprite& sprite)
+{
+	Entity* entity = m_logic.map.get_entity(entity_name);
+
+	if (!entity) {
+		SG_ERROR("Entity \"%s\" not found", entity_name.data());
+		return;
+	}
+
+	entity->sprite = sprite;
+}

@@ -1,5 +1,7 @@
 #include "sequence_loader.hpp"
 #include "cJSON.h"
+#include "io/resource_manager.hpp"
+#include "sequence/events/change_sprite.hpp"
 #include "sequence/events/display_text.hpp"
 #include "sequence/events/dummy.hpp"
 #include "sequence/events/echo.hpp"
@@ -9,6 +11,13 @@
 #include "utils/file.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
+#include "cjson_types.hpp"
+
+Sequence_Loader::Sequence_Loader(Resource_Manager& res_mgr) :
+	m_resource_manager{res_mgr}
+{
+
+}
 
 Sequence Sequence_Loader::load(const String& filename)
 {
@@ -60,6 +69,11 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 		const int x = cJSON_GetObjectItem(params, "x")->valueint;
 		const int y = cJSON_GetObjectItem(params, "y")->valueint;
 		return make_own_ptr<Events::Teleport_Player>(Vec2i{x, y});
+	} else if (type == "change_sprite") {
+		const String entity = cJSON_GetObjectItem(params, "entity")->valuestring;
+		const cJSON* sprite_json = cJSON_GetObjectItem(params, "sprite");
+		const Sprite sprite = cJSON_Types::parse_sprite(sprite_json, m_resource_manager);
+		return make_own_ptr<Events::Change_Sprite>((String&&)entity, sprite);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		return make_own_ptr<Events::Dummy>();

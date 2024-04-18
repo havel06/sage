@@ -26,6 +26,7 @@ src = [
   'src/map/tile_layer.cpp',
   'src/map/tile_layers.cpp',
   'src/sequence/events/change_map.cpp',
+  'src/sequence/events/change_sprite.cpp',
   'src/sequence/events/display_text.cpp',
   'src/sequence/events/echo.cpp',
   'src/sequence/events/give_item.cpp',

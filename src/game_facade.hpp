@@ -5,6 +5,7 @@
 
 class Resource_Manager;
 class Game_Logic;
+class Sprite;
 
 // FIXME - is this class really needed?
 // Facade for sequence events to interface with the rest of the game.
@@ -17,6 +18,7 @@ public:
 	void display_text(String&& message);
 	bool is_text_box_shown() const;
 	void give_item(const String& id, int count);
+	void set_entity_sprite(const String& entity_name, const Sprite& sprite);
 private:
 	void spawn_player();
 

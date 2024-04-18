@@ -127,6 +127,7 @@ void Map_Loader::parse_object(const cJSON* object)
 {
 	Entity entity;
 
+	entity.name = cJSON_GetObjectItem(object, "name")->valuestring;
 	entity.position.x = round(cJSON_GetObjectItem(object, "x")->valuedouble / m_tile_width);
 	entity.position.y = round(cJSON_GetObjectItem(object, "y")->valuedouble / m_tile_height);
 

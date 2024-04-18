@@ -33,7 +33,7 @@ Sequence& Resource_Manager::get_sequence(const char* filename, bool absolute_pat
 		return *found;
 
 	//SG_DEBUG("Loading sequence \"%s\"", full_filename.data());
-	Sequence_Loader loader;
+	Sequence_Loader loader(*this);
 	Sequence sequence = loader.load(full_filename);
 	SG_INFO("Loaded sequence \"%s\"", full_filename.data());
 

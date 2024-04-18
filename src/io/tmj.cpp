@@ -130,6 +130,12 @@ void Map_Loader::parse_object(const cJSON* object)
 	entity.position.x = round(cJSON_GetObjectItem(object, "x")->valuedouble / m_tile_width);
 	entity.position.y = round(cJSON_GetObjectItem(object, "y")->valuedouble / m_tile_height);
 
+	const cJSON* tile_id = cJSON_GetObjectItem(object, "gid");
+	if (tile_id) {
+		Tile tile = resolve_tile(tile_id->valueint);
+		entity.sprite = tile.sprite;
+	}
+
 	const cJSON* properties = cJSON_GetObjectItem(object, "properties");
 	const cJSON* property;
 	cJSON_ArrayForEach(property, properties) {
@@ -138,6 +144,8 @@ void Map_Loader::parse_object(const cJSON* object)
 			const char* sequence_name = cJSON_GetObjectItem(property, "value")->valuestring;
 			String sequence_path = relative_to_real_path(sequence_name);
 			entity.assigned_sequence = &m_resource_manager.get_sequence(sequence_path.data(), true);
+		} else if (name == "passable") {
+			entity.passable = cJSON_GetObjectItem(property, "value")->valueint;
 		} else {
 			SG_WARNING("Object property \"%s\" is not supported.", name.data());
 		}

@@ -66,7 +66,16 @@ void Game_Logic::move_player(Vec2i direction)
 	player.look(direction);
 	auto new_pos = player.position + direction;
 
-	if (map.is_position_valid(new_pos) && map.layers.is_passable(new_pos)) {
-		player.move(direction);
+	// Check for tile collision
+	if (!map.is_position_valid(new_pos) || !map.layers.is_passable(new_pos))
+		return;
+
+	// Check for entity collision
+	for (int i = 0; i < map.get_entity_count(); i++) {
+		const Entity& entity = map.get_entity(i);
+		if (entity.position == new_pos && !entity.passable)
+			return;
 	}
+
+	player.move(direction);
 }

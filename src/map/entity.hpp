@@ -15,6 +15,7 @@ public:
 	Sprite sprite;
 	Vec2i position = {0, 0};
 	float move_speed = 4;
+	bool passable = false;
 
 	Vec2f get_subgrid_position() const;
 	void update(float time_delta);

@@ -6,8 +6,7 @@
 				"item": "rupee_green",
 				"count": 5
 			}
-		},
-		{
+		}, {
 			"type": "change_sprite",
 			"parameters": {
 				"entity": "Chest",
@@ -19,8 +18,7 @@
 					"size_y": 16
 				}
 			}
-		},
-		{
+		}, {
 			"type": "play_sound",
 			"parameters": {
 				"sound": "audio/creak.wav"

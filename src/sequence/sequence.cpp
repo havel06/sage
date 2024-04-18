@@ -11,34 +11,38 @@ void Sequence::update(Game_Facade& game_facade, float time_delta)
 	if (!m_active || m_finished || m_events.empty())
 		return;
 
-	// Run current event
-	while (true) {
-		// Check if sequence has ended
-		if (m_current_event >= m_events.size()) {
-			// Sequence has ended
-			m_active = false;
-			m_current_event = 0;
-
-			if (!repeatable) {
-				m_finished = true;
-			} else {
-				// Reset events
-				for (int i = 0; i < m_events.size(); i++)
-					m_events[i]->reset();
-			}
-
-			break;
-		}
-
+	for (int i = 0; i < m_events.size(); i++) {
 		// Update event
-		m_events[m_current_event]->update(game_facade, time_delta);
+		m_events[i]->update(game_facade, time_delta);
 
-		if (m_events[m_current_event]->is_finished(game_facade)) {
-			m_current_event++;
+		if (m_events[i]->is_finished(game_facade))
 			continue;
-		} else {
+
+		if (!m_events[i]->asynchronous)
 			break;
-		}
+	}
+
+	// Check if all events are finished
+	bool all_finished = true;
+	for (int i = 0; i < m_events[i]; i++) {
+		if (!m_events[i]->is_finished(game_facade))
+			all_finished = false;
+	}
+
+	if (all_finished)
+		end_or_reset();
+}
+
+void Sequence::end_or_reset()
+{
+	m_active = false;
+
+	if (!repeatable) {
+		m_finished = true;
+	} else {
+		// Reset events
+		for (int i = 0; i < m_events.size(); i++)
+			m_events[i]->reset();
 	}
 }
 

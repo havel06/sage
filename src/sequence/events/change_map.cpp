@@ -1,5 +1,6 @@
 #include "change_map.hpp"
 #include "game_facade.hpp"
+#include "utils/log.hpp"
 
 namespace Events
 {

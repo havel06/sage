@@ -15,8 +15,9 @@ public:
 	void update(Game_Facade&, float time_delta);
 	void activate();
 private:
+	void end_or_reset();
+
 	bool m_active = false;
 	bool m_finished = false;
-	int m_current_event = 0;
 	Array<Event_Ptr> m_events;
 };

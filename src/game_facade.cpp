@@ -35,6 +35,18 @@ void Game_Facade::teleport_player(Vec2i position)
 	m_logic.get_player().position = position;
 }
 
+void Game_Facade::teleport_entity(const String& entity_name, Vec2i position)
+{
+	Entity* entity = m_logic.map.get_entity(entity_name);
+
+	if (!entity) {
+		SG_ERROR("Entity \"%s\" not found", entity_name.data());
+		return;
+	}
+
+	entity->position = position;
+}
+
 void Game_Facade::display_text(String&& message)
 {
 	m_logic.text_box.push_message((String&&)message);

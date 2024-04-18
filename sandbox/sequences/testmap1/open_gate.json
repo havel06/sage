@@ -1,0 +1,19 @@
+{
+	"events": [
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Gate 0",
+				"x": 500,
+				"y": 500
+			}
+		}, {
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Gate 1",
+				"x": 500,
+				"y": 500
+			}
+		}
+	]
+}

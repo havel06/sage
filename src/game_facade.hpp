@@ -17,6 +17,7 @@ public:
 	Game_Facade(Resource_Manager&, Music_Player&, Game_Logic&);
 	void set_current_map(const String& filename);
 	void teleport_player(Vec2i position);
+	void teleport_entity(const String& entity_name, Vec2i position);
 	void display_text(String&& message);
 	bool is_text_box_shown() const;
 	void give_item(const String& id, int count);

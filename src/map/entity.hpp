@@ -14,6 +14,7 @@ public:
 	String name;
 	Sprite sprite;
 	Vec2i position = {0, 0};
+	Vec2i size = {1, 1};
 	float move_speed = 4;
 	bool passable = false;
 
@@ -21,6 +22,7 @@ public:
 	void update(float time_delta);
 	void move(Vec2i direction);
 	void look(Vec2i direction);
+	Recti get_bounding_box() const;
 	Vec2i get_look_direction() const { return m_look_direction; };
 private:
 	bool m_moving = false;

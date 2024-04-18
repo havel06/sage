@@ -41,3 +41,11 @@ void Entity::look(Vec2i direction)
 
 	m_look_direction = direction;
 }
+
+Recti Entity::get_bounding_box() const
+{
+	return {
+		.position = position,
+		.size = size
+	};
+}

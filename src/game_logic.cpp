@@ -73,7 +73,7 @@ void Game_Logic::move_player(Vec2i direction)
 	// Check for entity collision
 	for (int i = 0; i < map.get_entity_count(); i++) {
 		const Entity& entity = map.get_entity(i);
-		if (entity.position == new_pos && !entity.passable)
+		if (!entity.passable && entity.get_bounding_box().contains(new_pos))
 			return;
 	}
 

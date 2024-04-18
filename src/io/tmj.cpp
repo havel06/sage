@@ -19,6 +19,18 @@ Tileset::Tileset(Vec2i tile_size, int columns, int count, const Texture& texture
 		m_tiles[i].sprite.texture_clip.position.y = (i / columns) * tile_size.y;
 		m_tiles[i].sprite.texture_clip.size = tile_size;
 	}
+
+	m_is_image_collection = false;
+}
+
+Tileset::Tileset()
+{
+	m_is_image_collection = true;
+}
+
+void Tileset::add_tile(Tile tile)
+{
+	m_tiles.push_back(tile);
 }
 
 Tile Tileset::get_tile(int index) const
@@ -130,11 +142,16 @@ void Map_Loader::parse_object(const cJSON* object)
 	entity.name = cJSON_GetObjectItem(object, "name")->valuestring;
 	entity.position.x = round(cJSON_GetObjectItem(object, "x")->valuedouble / m_tile_width);
 	entity.position.y = round(cJSON_GetObjectItem(object, "y")->valuedouble / m_tile_height);
+	entity.size.x = cJSON_GetObjectItem(object, "width")->valueint / m_tile_width;
+	entity.size.y = cJSON_GetObjectItem(object, "height")->valueint / m_tile_height;
 
 	const cJSON* tile_id = cJSON_GetObjectItem(object, "gid");
 	if (tile_id) {
+		// Tile object
 		Tile tile = resolve_tile(tile_id->valueint);
 		entity.sprite = tile.sprite;
+		// NOTE - For some reason, tile objects have origin in the bottom left corner.
+		entity.position.y -= entity.size.y;
 	}
 
 	const cJSON* properties = cJSON_GetObjectItem(object, "properties");
@@ -171,6 +188,8 @@ void Map_Loader::parse_tilesets(const cJSON* tilesets)
 
 Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 {
+	// FIXME - refactor this function a bit
+
 	//SG_DEBUG("Parsing TMJ tileset...");
 	String tileset_path = relative_to_real_path(tileset_filename_relative);
 	cJSON* tileset_json = cJSON_Parse(read_file_to_str(tileset_path.data()).data());
@@ -179,38 +198,60 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 	const int tilecount = cJSON_GetObjectItem(tileset_json, "tilecount")->valueint;
 	const int tile_width = cJSON_GetObjectItem(tileset_json, "tilewidth")->valueint;
 	const int tile_height = cJSON_GetObjectItem(tileset_json, "tileheight")->valueint;
-	const char* image_relative = cJSON_GetObjectItem(tileset_json, "image")->valuestring;
 	const cJSON* special_tiles = cJSON_GetObjectItem(tileset_json, "tiles");
 
-	String image_path = relative_to_real_path(image_relative);
-	Texture texture = m_resource_manager.get_texture(image_path.data(), true);
+	const cJSON* image_json = cJSON_GetObjectItem(tileset_json, "image");
 
-	Tileset tileset{
-		Vec2i{tile_width, tile_height},
-		columns,
-		tilecount,
-		texture
-	};
+	Tileset tileset = [&](){
+		if (image_json) {
+			// Tileset from one image
+			const char* image_relative = image_json->valuestring;
+			String image_path = relative_to_real_path(image_relative);
+			Texture texture = m_resource_manager.get_texture(image_path.data(), true);
+			return Tileset{
+				Vec2i{tile_width, tile_height},
+				columns,
+				tilecount,
+				texture
+			};
+		} else {
+			// Image collection tileset
+			return Tileset{};
+		}
+	}();
 
 	const cJSON* special_tile;
 	cJSON_ArrayForEach(special_tile, special_tiles) {
+		if (tileset.is_image_collection()) {
+			const char* image_relative = cJSON_GetObjectItem(special_tile, "image")->valuestring;
+			String image_path = relative_to_real_path(image_relative);
+			Texture texture = m_resource_manager.get_texture(image_path.data(), true);
+			Sprite sprite{texture};
+			tileset.add_tile(Tile{sprite});
+		}
+
 		const int id = cJSON_GetObjectItem(special_tile, "id")->valueint;
 		const cJSON* properties = cJSON_GetObjectItem(special_tile, "properties");
-		const cJSON* property;
-		cJSON_ArrayForEach(property, properties) {
-			String name = cJSON_GetObjectItem(property, "name")->valuestring;
-			if (name == "passable") {
-				const bool value = cJSON_GetObjectItem(property, "value")->valueint;
-				tileset.set_passable(id, value);
-			} else {
-				SG_WARNING("Tile property \"%s\" is not supported.", name.data());
-			}
-		}
+		parse_tile_properties(properties, id, tileset);
 	}
 	
 	cJSON_Delete(tileset_json);
 	SG_DEBUG("Loaded tileset \"%s\"", tileset_path.data());
 	return tileset;
+}
+
+void Map_Loader::parse_tile_properties(const cJSON* properties, int id, Tileset& tileset)
+{
+	const cJSON* property;
+	cJSON_ArrayForEach(property, properties) {
+		String name = cJSON_GetObjectItem(property, "name")->valuestring;
+		if (name == "passable") {
+			const bool value = cJSON_GetObjectItem(property, "value")->valueint;
+			tileset.set_passable(id, value);
+		} else {
+			SG_WARNING("Tile property \"%s\" is not supported.", name.data());
+		}
+	}
 }
 
 String Map_Loader::relative_to_real_path(const char* relative_path)

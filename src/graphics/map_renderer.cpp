@@ -44,7 +44,7 @@ void Map_Renderer::draw_entity(const Entity& entity)
 {
 	Rectf transform = Rectf{
 		.position = entity.get_subgrid_position(),
-		.size = {1, 1}
+		.size = entity.size
 	};
 
 	entity.sprite.draw(transform);

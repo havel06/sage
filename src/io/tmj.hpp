@@ -14,9 +14,13 @@ class Tileset
 {
 public:
 	Tileset(Vec2i tile_size, int columns, int count, const Texture&);
+	Tileset();
+	bool is_image_collection() const { return m_is_image_collection; }
+	void add_tile(Tile);
 	Tile get_tile(int index) const;
 	void set_passable(int index, bool value);
 private:
+	bool m_is_image_collection;
 	Array<Tile> m_tiles;
 };
 
@@ -39,6 +43,7 @@ private:
 	void parse_object(const cJSON* object);
 	void parse_tilesets(const cJSON* tilesets);
 	Tileset parse_tileset(const char* tileset_filename);
+	void parse_tile_properties(const cJSON* properties, int id, Tileset& tileset);
 	Tile resolve_tile(int tile_index);
 
 	String relative_to_real_path(const char* relative_path);

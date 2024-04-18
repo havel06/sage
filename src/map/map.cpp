@@ -56,7 +56,7 @@ Entity* Map::get_entity(const String& name)
 Entity* Map::get_entity(Vec2i position)
 {
 	for (int i = 0; i < m_entities.size(); i++) {
-		if (m_entities[i].position == position) {
+		if (m_entities[i].get_bounding_box().contains(position)) {
 			return &m_entities[i];
 		}
 	}

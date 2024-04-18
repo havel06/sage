@@ -13,7 +13,6 @@ public:
 	Item_Registry_Loader(Resource_Manager&);
 	void load(Item_Registry&, String project_root);
 private:
-	Sprite load_sprite(const cJSON*);
 
 	Resource_Manager& m_resource_manager;
 };

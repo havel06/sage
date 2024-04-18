@@ -5,6 +5,7 @@
 #include "resource_manager.hpp"
 #include "item/item_registry.hpp"
 #include "utils/log.hpp"
+#include "cjson_types.hpp"
 
 Item_Registry_Loader::Item_Registry_Loader(Resource_Manager& res_mgr) :
 	m_resource_manager{res_mgr}
@@ -26,7 +27,7 @@ void Item_Registry_Loader::load(Item_Registry& registry, String project_root)
 		const String id = cJSON_GetObjectItem(item_json, "id")->valuestring;
 		const String name = cJSON_GetObjectItem(item_json, "name")->valuestring;
 		const cJSON* sprite_json = cJSON_GetObjectItem(item_json, "sprite");
-		Sprite sprite = load_sprite(sprite_json);
+		Sprite sprite = cJSON_Types::parse_sprite(sprite_json, m_resource_manager);
 		registry.add_item(Item{
 			.id = id,
 			.name = name,
@@ -35,16 +36,4 @@ void Item_Registry_Loader::load(Item_Registry& registry, String project_root)
 	}
 
 	SG_INFO("Loaded item registry");
-}
-
-Sprite Item_Registry_Loader::load_sprite(const cJSON* json) {
-	const char* texture_name = cJSON_GetObjectItem(json, "texture")->valuestring;
-	const Texture texture = m_resource_manager.get_texture(texture_name);
-	Sprite sprite(texture);
-	sprite.texture_clip.position.x = cJSON_GetObjectItem(json, "position_x")->valueint;
-	sprite.texture_clip.position.y = cJSON_GetObjectItem(json, "position_y")->valueint;
-	sprite.texture_clip.size.x = cJSON_GetObjectItem(json, "size_x")->valueint;
-	sprite.texture_clip.size.y = cJSON_GetObjectItem(json, "size_y")->valueint;
-
-	return sprite;
 }

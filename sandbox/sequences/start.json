@@ -24,6 +24,12 @@
 				"x": 18,
 				"y": 4
 			}
+		},
+		{
+			"type": "play_music",
+			"parameters": {
+				"music": "audio/sinnesloschen-beam.mp3"
+			}
 		}
 	]
 }

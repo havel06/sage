@@ -9,6 +9,7 @@
 // fwd
 class Sequence;
 class Resource_Manager;
+class Music_Player;
 
 class Game_Logic
 {
@@ -19,7 +20,7 @@ public:
 	Inventory inventory;
 	Sequence* start_sequence = nullptr;
 
-	void update(Resource_Manager&, float time_delta);
+	void update(Resource_Manager&, Music_Player&, float time_delta);
 	Entity& get_player();
 	void player_interact();
 	// TODO - a single function in the API?

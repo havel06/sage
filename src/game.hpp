@@ -7,6 +7,7 @@
 #include "graphics/text_box_renderer.hpp"
 #include "io/resource_manager.hpp"
 #include "map/map.hpp"
+#include "music_player.hpp"
 #include "sequence/sequence.hpp"
 
 class Game
@@ -22,6 +23,7 @@ private:
 	Map_Renderer m_map_renderer;
 	Text_Box_Renderer m_text_box_renderer;
 	Inventory_Renderer m_inventory_renderer;
+	Music_Player m_music_player;
 	Game_Camera m_camera;
 
 	bool m_show_inventory = false;

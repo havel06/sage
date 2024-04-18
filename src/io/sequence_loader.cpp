@@ -7,6 +7,7 @@
 #include "sequence/events/echo.hpp"
 #include "sequence/events/change_map.hpp"
 #include "sequence/events/give_item.hpp"
+#include "sequence/events/play_music.hpp"
 #include "sequence/events/play_sound.hpp"
 #include "sequence/events/teleport_player.hpp"
 #include "utils/file.hpp"
@@ -74,6 +75,10 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 		const char* filename = cJSON_GetObjectItem(params, "sound")->valuestring;
 		Sound sound = m_resource_manager.get_sound(filename);
 		return make_own_ptr<Events::Play_Sound>(sound);
+	} else if (type == "play_music") {
+		const char* filename = cJSON_GetObjectItem(params, "music")->valuestring;
+		Sound music = m_resource_manager.get_sound(filename);
+		return make_own_ptr<Events::Play_Music>(music);
 	} else if (type == "change_sprite") {
 		const String entity = cJSON_GetObjectItem(params, "entity")->valuestring;
 		const cJSON* sprite_json = cJSON_GetObjectItem(params, "sprite");

@@ -2,9 +2,11 @@
 
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
+#include <raylib/raylib.h>
 
 class Resource_Manager;
 class Game_Logic;
+class Music_Player;
 class Sprite;
 
 // FIXME - is this class really needed?
@@ -12,16 +14,18 @@ class Sprite;
 class Game_Facade
 {
 public:
-	Game_Facade(Resource_Manager&, Game_Logic&);
+	Game_Facade(Resource_Manager&, Music_Player&, Game_Logic&);
 	void set_current_map(const String& filename);
 	void teleport_player(Vec2i position);
 	void display_text(String&& message);
 	bool is_text_box_shown() const;
 	void give_item(const String& id, int count);
 	void set_entity_sprite(const String& entity_name, const Sprite& sprite);
+	void play_music(Sound);
 private:
 	void spawn_player();
 
 	Resource_Manager& m_res_manager;
+	Music_Player& m_music_player;
 	Game_Logic& m_logic;
 };

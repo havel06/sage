@@ -2,9 +2,11 @@
 #include "io/resource_manager.hpp"
 #include "utils/log.hpp"
 #include "game_logic.hpp"
+#include "music_player.hpp"
 
-Game_Facade::Game_Facade(Resource_Manager& res_mgr, Game_Logic& logic) :
+Game_Facade::Game_Facade(Resource_Manager& res_mgr, Music_Player& music_player, Game_Logic& logic) :
 	m_res_manager{res_mgr},
+	m_music_player{music_player},
 	m_logic{logic}
 {
 }
@@ -59,4 +61,9 @@ void Game_Facade::set_entity_sprite(const String& entity_name, const Sprite& spr
 	}
 
 	entity->sprite = sprite;
+}
+
+void Game_Facade::play_music(Sound music)
+{
+	m_music_player.play(music);
 }

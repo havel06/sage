@@ -4,9 +4,9 @@
 #include "game_facade.hpp"
 #include "utils/log.hpp"
 
-void Game_Logic::update(Resource_Manager& res_mgr, float time_delta)
+void Game_Logic::update(Resource_Manager& res_mgr, Music_Player& music_player, float time_delta)
 {
-	Game_Facade facade{res_mgr, *this};
+	Game_Facade facade{res_mgr, music_player, *this};
 	assert(start_sequence);
 	start_sequence->update(facade, time_delta);
 

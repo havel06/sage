@@ -25,6 +25,20 @@ Texture Resource_Manager::get_texture(const char* filename, bool absolute_path)
 	return texture;
 }
 
+Sound Resource_Manager::get_sound(const char* filename)
+{
+	String full_filename = get_full_filename(filename);
+
+	const Sound* found = m_sounds.get(full_filename);
+	if (found)
+		return *found;
+
+	Sound sound = LoadSound(full_filename.data());
+	SG_INFO("Loaded sound \"%s\"", full_filename.data());
+	m_sounds.insert(String{full_filename}, Sound{sound});
+	return sound;
+}
+
 Sequence& Resource_Manager::get_sequence(const char* filename, bool absolute_path)
 {
 	String full_filename = absolute_path ? get_canonical_path(filename) : get_full_filename(filename);

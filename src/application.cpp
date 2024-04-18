@@ -8,6 +8,7 @@ Application::Application()
 	InitWindow(1280, 720, "Sage");
 	SetTargetFPS(60);
 	SetExitKey(0);
+	InitAudioDevice();
 }
 
 void Application::run(int argc, const char* argv[])

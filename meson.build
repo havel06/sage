@@ -30,6 +30,7 @@ src = [
   'src/sequence/events/display_text.cpp',
   'src/sequence/events/echo.cpp',
   'src/sequence/events/give_item.cpp',
+  'src/sequence/events/play_sound.cpp',
   'src/sequence/events/teleport_player.cpp',
   'src/sequence/sequence.cpp',
   'src/text_box.cpp',

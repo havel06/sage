@@ -19,6 +19,12 @@
 					"size_y": 16
 				}
 			}
+		},
+		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/creak.wav"
+			}
 		}
 	]
 }

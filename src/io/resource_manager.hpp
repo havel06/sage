@@ -12,6 +12,7 @@ public:
 	Resource_Manager(const String& asset_path);
 
 	Texture get_texture(const char* filename, bool absolute_path = false);
+	Sound get_sound(const char* filename);
 	Sequence& get_sequence(const char*, bool absolute_path = false);
 	Map get_map(const char*);
 private:
@@ -20,6 +21,7 @@ private:
 
 	String m_asset_path;
 	Table<String, Texture> m_textures;
+	Table<String, Sound> m_sounds;
 	// NOTE - this might not be future-proof
 	Pool_Table<String, Sequence, 256> m_sequences;
 };

@@ -6,7 +6,8 @@
 #include "utils/log.hpp"
 #include <cstdlib>
 
-Resource_Manager::Resource_Manager(const String& asset_path)
+Resource_Manager::Resource_Manager(Sequence_Loader& seq_loader, const String& asset_path) :
+	m_sequence_loader{seq_loader}
 {
 	m_asset_path = asset_path;
 }
@@ -47,8 +48,7 @@ Sequence& Resource_Manager::get_sequence(const char* filename, bool absolute_pat
 		return *found;
 
 	//SG_DEBUG("Loading sequence \"%s\"", full_filename.data());
-	Sequence_Loader loader(*this);
-	Sequence sequence = loader.load(full_filename);
+	Sequence sequence = m_sequence_loader.load(full_filename);
 	SG_INFO("Loaded sequence \"%s\"", full_filename.data());
 
 	return m_sequences.insert(String{full_filename}, (Sequence&&)sequence);

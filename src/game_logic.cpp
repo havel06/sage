@@ -4,17 +4,16 @@
 #include "game_facade.hpp"
 #include "utils/log.hpp"
 
-void Game_Logic::update(Resource_Manager& res_mgr, Music_Player& music_player, float time_delta)
+void Game_Logic::update(float time_delta)
 {
-	Game_Facade facade{res_mgr, music_player, *this};
 	assert(start_sequence);
-	start_sequence->update(facade, time_delta);
+	start_sequence->update(time_delta);
 
 	for (int i = 0; i < map.get_entity_count(); i++) {
 		Entity& entity = map.get_entity(i);
 		entity.update(time_delta);
 		if (entity.assigned_sequence)
-			entity.assigned_sequence->update(facade, time_delta);
+			entity.assigned_sequence->update(time_delta);
 	}
 }
 
@@ -37,7 +36,7 @@ void Game_Logic::player_interact()
 	if (!target_entity->assigned_sequence)
 		return;
 
-	target_entity->assigned_sequence->activate();
+	target_entity->assigned_sequence->try_activate();
 }
 
 void Game_Logic::move_player_right()

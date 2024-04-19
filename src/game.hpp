@@ -6,6 +6,7 @@
 #include "graphics/map_renderer.hpp"
 #include "graphics/text_box_renderer.hpp"
 #include "io/resource_manager.hpp"
+#include "io/sequence_loader.hpp"
 #include "map/map.hpp"
 #include "music_player.hpp"
 #include "sequence/sequence.hpp"
@@ -18,6 +19,8 @@ public:
 private:
 	void process_input();
 
+	Game_Facade m_game_facade;
+	Sequence_Loader m_sequence_loader;
 	Resource_Manager m_res_manager;
 	Game_Logic m_logic;
 	Map_Renderer m_map_renderer;

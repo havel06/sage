@@ -10,9 +10,9 @@ namespace Events
 class Change_Sprite : public Event
 {
 public:
-	Change_Sprite(String&& entity_name, const Sprite&);
-	void update(Game_Facade&, float time_delta) override;
-	bool is_finished(Game_Facade&) const override;
+	Change_Sprite(Game_Facade&, String&& entity_name, const Sprite&);
+	void update(float time_delta) override;
+	bool is_finished() const override;
 	void reset() override;
 private:
 	String m_entity_name;

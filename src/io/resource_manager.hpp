@@ -6,10 +6,12 @@
 #include "map/map.hpp"
 #include <raylib/raylib.h>
 
+class Sequence_Loader;
+
 class Resource_Manager
 {
 public:
-	Resource_Manager(const String& asset_path);
+	Resource_Manager(Sequence_Loader&, const String& asset_path);
 
 	Texture get_texture(const char* filename, bool absolute_path = false);
 	Sound get_sound(const char* filename);
@@ -24,4 +26,6 @@ private:
 	Table<String, Sound> m_sounds;
 	// NOTE - this might not be future-proof
 	Pool_Table<String, Sequence, 256> m_sequences;
+
+	Sequence_Loader& m_sequence_loader;
 };

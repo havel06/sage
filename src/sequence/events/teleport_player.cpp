@@ -4,18 +4,19 @@
 namespace Events
 {
 
-Teleport_Player::Teleport_Player(Vec2i position)
+Teleport_Player::Teleport_Player(Game_Facade& facade, Vec2i position) :
+	Event{facade}
 {
 	m_position = position;
 }
 
-void Teleport_Player::update(Game_Facade& facade, float)
+void Teleport_Player::update(float)
 {
-	facade.teleport_player(m_position);
+	m_game_facade.teleport_player(m_position);
 	m_activated = true;
 }
 
-bool Teleport_Player::is_finished(Game_Facade&) const
+bool Teleport_Player::is_finished() const
 {
 	return m_activated;
 }

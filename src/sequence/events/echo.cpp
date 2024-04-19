@@ -4,18 +4,19 @@
 namespace Events
 {
 
-Echo::Echo(String&& message)
+Echo::Echo(Game_Facade& game_facade, String&& message) :
+	Event{game_facade}
 {
 	m_message = message;
 }
 
-void Echo::update(Game_Facade&, float)
+void Echo::update(float)
 {
 	SG_INFO("Echo: %s", m_message.data());
 	m_activated = true;	
 }
 
-bool Echo::is_finished(Game_Facade&) const
+bool Echo::is_finished() const
 {
 	return m_activated;
 }

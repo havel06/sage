@@ -5,22 +5,23 @@
 namespace Events
 {
 
-Display_Text::Display_Text(String&& message)
+Display_Text::Display_Text(Game_Facade& facade, String&& message) :
+	Event(facade)
 {
 	m_message = (String&&)message;
 }
 
-void Display_Text::update(Game_Facade& facade, float)
+void Display_Text::update(float)
 {
 	if (!m_activated) {
-		facade.display_text(String{m_message});
+		m_game_facade.display_text(String{m_message});
 		m_activated = true;
 	}
 }
 
-bool Display_Text::is_finished(Game_Facade& facade) const
+bool Display_Text::is_finished() const
 {
-	return !facade.is_text_box_shown();
+	return !m_game_facade.is_text_box_shown();
 }
 
 void Display_Text::reset()

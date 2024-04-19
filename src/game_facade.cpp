@@ -84,3 +84,8 @@ void Game_Facade::play_music(Sound music)
 {
 	m_music_player.play(music);
 }
+
+int Game_Facade::get_owned_item_count(const String& id)
+{
+	return m_logic.inventory.get_item_count(id);
+}

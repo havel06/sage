@@ -26,3 +26,12 @@ void Inventory::remove_item(const String& id, int count)
 		current_count -= count;
 	}
 }
+
+int Inventory::get_item_count(const String& id) const
+{
+	if (m_items.contains(id)) {
+		return *m_items.get(id);
+	} else {
+		return 0;
+	}
+}

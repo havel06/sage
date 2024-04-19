@@ -9,9 +9,9 @@ namespace Events
 class Remove_Item : public Event
 {
 public:
-	Remove_Item(String&& id, int count);
-	void update(Game_Facade&, float time_delta) override;
-	bool is_finished(Game_Facade&) const override;
+	Remove_Item(Game_Facade&, String&& id, int count);
+	void update(float time_delta) override;
+	bool is_finished() const override;
 	void reset() override;
 private:
 	String m_id;

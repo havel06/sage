@@ -4,19 +4,20 @@
 namespace Events
 {
 
-Give_Item::Give_Item(String&& id, int count)
+Give_Item::Give_Item(Game_Facade& facade, String&& id, int count) :
+	Event{facade}
 {
 	m_id = (String&&)id;
 	m_count = count;
 }
 
-void Give_Item::update(Game_Facade& facade, float)
+void Give_Item::update(float)
 {
 	m_activated = true;
-	facade.give_item(m_id, m_count);
+	m_game_facade.give_item(m_id, m_count);
 }
 
-bool Give_Item::is_finished(Game_Facade&) const
+bool Give_Item::is_finished() const
 {
 	return m_activated;
 }

@@ -4,19 +4,20 @@
 namespace Events
 {
 
-Remove_Item::Remove_Item(String&& id, int count)
+Remove_Item::Remove_Item(Game_Facade& facade, String&& id, int count) :
+	Event{facade}
 {
 	m_id = (String&&)id;
 	m_count = count;
 }
 
-void Remove_Item::update(Game_Facade& facade, float)
+void Remove_Item::update(float)
 {
 	m_activated = true;
-	facade.remove_item(m_id, m_count);
+	m_game_facade.remove_item(m_id, m_count);
 }
 
-bool Remove_Item::is_finished(Game_Facade&) const
+bool Remove_Item::is_finished() const
 {
 	return m_activated;
 }

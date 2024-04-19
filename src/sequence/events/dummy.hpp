@@ -8,11 +8,15 @@ namespace Events
 class Dummy : public Event
 {
 public:
-	void update(Game_Facade&, float) override
+	Dummy(Game_Facade& facade) : Event{facade}
 	{
 	}
 
-	bool is_finished(Game_Facade&) const override
+	void update(float) override
+	{
+	}
+
+	bool is_finished() const override
 	{
 		return true;
 	}

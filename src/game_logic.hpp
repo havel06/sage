@@ -20,7 +20,7 @@ public:
 	Inventory inventory;
 	Sequence* start_sequence = nullptr;
 
-	void update(Resource_Manager&, Music_Player&, float time_delta);
+	void update(float time_delta);
 	Entity& get_player();
 	void player_interact();
 	// TODO - a single function in the API?

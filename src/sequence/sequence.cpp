@@ -1,4 +1,5 @@
 #include "sequence.hpp"
+#include "game_facade.hpp"
 #include "utils/log.hpp"
 
 void Sequence::add_event(Event_Ptr&& event)
@@ -6,16 +7,21 @@ void Sequence::add_event(Event_Ptr&& event)
 	m_events.push_back((Event_Ptr&&)event);
 }
 
-void Sequence::update(Game_Facade& game_facade, float time_delta)
+void Sequence::set_condition(Condition_Ptr&& condition)
+{
+	m_condition = (Condition_Ptr&&)condition;
+}
+
+void Sequence::update(float time_delta)
 {
 	if (!m_active || m_finished || m_events.empty())
 		return;
 
 	for (int i = 0; i < m_events.size(); i++) {
 		// Update event
-		m_events[i]->update(game_facade, time_delta);
+		m_events[i]->update(time_delta);
 
-		if (m_events[i]->is_finished(game_facade))
+		if (m_events[i]->is_finished())
 			continue;
 
 		if (!m_events[i]->asynchronous)
@@ -25,7 +31,7 @@ void Sequence::update(Game_Facade& game_facade, float time_delta)
 	// Check if all events are finished
 	bool all_finished = true;
 	for (int i = 0; i < m_events[i]; i++) {
-		if (!m_events[i]->is_finished(game_facade))
+		if (!m_events[i]->is_finished())
 			all_finished = false;
 	}
 
@@ -46,7 +52,10 @@ void Sequence::end_or_reset()
 	}
 }
 
-void Sequence::activate()
+void Sequence::try_activate()
 {
+	if (m_condition && !m_condition->is_satisfied())
+		return;
+
 	m_active = true;
 }

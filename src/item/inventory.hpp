@@ -7,6 +7,7 @@ class Inventory
 public:
 	void add_item(const String& id, int count);
 	void remove_item(const String& id, int count);
+	int get_item_count(const String& id) const;
 
 	// Callable takes two parameters:
 	// - const String& id

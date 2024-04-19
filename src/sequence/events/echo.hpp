@@ -9,9 +9,9 @@ namespace Events
 class Echo : public Event
 {
 public:
-	Echo(String&& message);
-	void update(Game_Facade&, float time_delta) override;
-	bool is_finished(Game_Facade&) const override;
+	Echo(Game_Facade&, String&& message);
+	void update(float time_delta) override;
+	bool is_finished() const override;
 	void reset() override;
 private:
 	String m_message;

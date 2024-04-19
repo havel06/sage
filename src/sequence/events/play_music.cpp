@@ -4,20 +4,21 @@
 namespace Events
 {
 
-Play_Music::Play_Music(Sound music)
+Play_Music::Play_Music(Game_Facade& facade, Sound music) :
+	Event{facade}
 {
 	m_music = music;
 }
 
-void Play_Music::update(Game_Facade& facade, float)
+void Play_Music::update(float)
 {
 	if (!m_activated) {
-		facade.play_music(m_music);
+		m_game_facade.play_music(m_music);
 		m_activated = true;
 	}
 }
 
-bool Play_Music::is_finished(Game_Facade&) const
+bool Play_Music::is_finished() const
 {
 	return m_activated;
 }

@@ -9,7 +9,6 @@ class Game_Logic;
 class Music_Player;
 class Sprite;
 
-// FIXME - is this class really needed?
 // Facade for sequence events to interface with the rest of the game.
 class Game_Facade
 {
@@ -22,6 +21,7 @@ public:
 	bool is_text_box_shown() const;
 	void give_item(const String& id, int count);
 	void remove_item(const String& id, int count);
+	int get_owned_item_count(const String& id);
 	void set_entity_sprite(const String& entity_name, const Sprite& sprite);
 	void play_music(Sound);
 private:

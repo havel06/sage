@@ -9,9 +9,9 @@ namespace Events
 class Display_Text : public Event
 {
 public:
-	Display_Text(String&& message);
-	void update(Game_Facade&, float time_delta) override;
-	bool is_finished(Game_Facade&) const override;
+	Display_Text(Game_Facade&, String&& message);
+	void update(float time_delta) override;
+	bool is_finished() const override;
 	void reset() override;
 private:
 	String m_message;

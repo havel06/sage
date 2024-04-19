@@ -7,7 +7,9 @@
 #include <raylib/raylib.h>
 
 Game::Game(const char* project_path) :
-	m_res_manager(project_path),
+	m_game_facade(m_res_manager, m_music_player, m_logic),
+	m_sequence_loader(m_res_manager, m_game_facade),
+	m_res_manager(m_sequence_loader, project_path),
 	m_text_box_renderer(m_logic.text_box),
 	m_inventory_renderer(m_logic.item_registry, m_logic.inventory)
 {
@@ -22,13 +24,13 @@ Game::Game(const char* project_path) :
 
 	// FIXME - refactor?
 	m_logic.start_sequence = &m_res_manager.get_sequence(description.start_sequence.data());
-	m_logic.start_sequence->activate();
+	m_logic.start_sequence->try_activate();
 }
 
 void Game::draw_frame(float time_delta)
 {
 	process_input();
-	m_logic.update(m_res_manager, m_music_player, time_delta);
+	m_logic.update(time_delta);
 	m_camera.position = m_logic.get_player().get_subgrid_position() + Vec2f{0.5, 0.5};
 	m_map_renderer.draw(m_logic.map, m_camera);
 	m_text_box_renderer.draw();

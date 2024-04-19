@@ -28,6 +28,7 @@ src = [
   'src/music_player.cpp',
   'src/sequence/conditions/has_item.cpp',
   'src/sequence/conditions/not.cpp',
+  'src/sequence/events/activate_sequence.cpp',
   'src/sequence/events/change_map.cpp',
   'src/sequence/events/change_sprite.cpp',
   'src/sequence/events/display_text.cpp',

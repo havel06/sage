@@ -1,0 +1,17 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/testmap1/gate_message.json"
+			}
+		},
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/testmap1/open_gate.json"
+			}
+		}
+	]
+}

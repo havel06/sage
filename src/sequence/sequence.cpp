@@ -54,6 +54,9 @@ void Sequence::end_or_reset()
 
 void Sequence::try_activate()
 {
+	if (m_active || m_finished)
+		return;
+
 	if (m_condition && !m_condition->is_satisfied())
 		return;
 

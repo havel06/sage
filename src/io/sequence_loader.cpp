@@ -3,6 +3,7 @@
 #include "io/resource_manager.hpp"
 #include "sequence/conditions/has_item.hpp"
 #include "sequence/conditions/not.hpp"
+#include "sequence/events/activate_sequence.hpp"
 #include "sequence/events/change_sprite.hpp"
 #include "sequence/events/display_text.hpp"
 #include "sequence/events/dummy.hpp"
@@ -108,6 +109,10 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 		const cJSON* sprite_json = cJSON_GetObjectItem(params, "sprite");
 		const Sprite sprite = cJSON_Types::parse_sprite(sprite_json, m_resource_manager);
 		loaded_event = make_own_ptr<Events::Change_Sprite>(m_facade, (String&&)entity, sprite);
+	} else if (type == "activate_sequence") {
+		const char* sequence_src = cJSON_GetObjectItem(params, "sequence")->valuestring;
+		Sequence& sequence = m_resource_manager.get_sequence(sequence_src);
+		loaded_event = make_own_ptr<Events::Activate_Sequence>(m_facade, sequence);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		loaded_event = make_own_ptr<Events::Dummy>(m_facade);

@@ -98,7 +98,7 @@
                         {
                          "name":"sequence",
                          "type":"file",
-                         "value":"..\/sequences\/testmap1\/open_gate.json"
+                         "value":"..\/sequences\/testmap1\/gate.json"
                         }],
                  "rotation":0,
                  "type":"",
@@ -116,7 +116,7 @@
                         {
                          "name":"sequence",
                          "type":"file",
-                         "value":"..\/sequences\/testmap1\/open_gate.json"
+                         "value":"..\/sequences\/testmap1\/gate.json"
                         }],
                  "rotation":0,
                  "type":"",

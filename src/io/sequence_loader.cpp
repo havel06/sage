@@ -1,6 +1,7 @@
 #include "sequence_loader.hpp"
 #include "cJSON.h"
 #include "io/resource_manager.hpp"
+#include "sequence/conditions/has_item.hpp"
 #include "sequence/events/change_sprite.hpp"
 #include "sequence/events/display_text.hpp"
 #include "sequence/events/dummy.hpp"
@@ -36,11 +37,17 @@ Sequence Sequence_Loader::load(const String& filename)
 		sequence.repeatable = repeatable->valueint;
 	}
 
+	// Events
 	const cJSON* events = cJSON_GetObjectItem(json, "events");
-
 	const cJSON* event_json;
 	cJSON_ArrayForEach(event_json, events) {
 		sequence.add_event(parse_event(event_json));
+	}
+
+	// Condition
+	const cJSON* condition_json = cJSON_GetObjectItem(json, "condition");
+	if (condition_json) {
+		sequence.set_condition(parse_condition(condition_json));
 	}
 
 	cJSON_Delete(json);
@@ -111,4 +118,19 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 	}
 
 	return loaded_event;
+}
+
+Condition_Ptr Sequence_Loader::parse_condition(const cJSON* json)
+{
+	const String type = cJSON_GetObjectItem(json, "type")->valuestring;
+	const cJSON* params = cJSON_GetObjectItem(json, "parameters");
+
+	if (type == "has_item") {
+		String item = cJSON_GetObjectItem(params, "item")->valuestring;
+		const int count = cJSON_GetObjectItem(params, "count")->valueint;
+		return make_own_ptr<Conditions::Has_Item>(m_facade, (String&&)item, count);
+	} else {
+		SG_WARNING("Invalid event type \"%s\"", type.data());
+		return nullptr;
+	}
 }

@@ -15,6 +15,7 @@ public:
 	Sequence load(const String& filename);
 private:
 	Event_Ptr parse_event(const cJSON*);
+	Condition_Ptr parse_condition(const cJSON*);
 
 	Game_Facade& m_facade;
 	Resource_Manager& m_resource_manager;

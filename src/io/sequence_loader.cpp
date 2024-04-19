@@ -2,6 +2,7 @@
 #include "cJSON.h"
 #include "io/resource_manager.hpp"
 #include "sequence/conditions/has_item.hpp"
+#include "sequence/conditions/not.hpp"
 #include "sequence/events/change_sprite.hpp"
 #include "sequence/events/display_text.hpp"
 #include "sequence/events/dummy.hpp"
@@ -129,6 +130,9 @@ Condition_Ptr Sequence_Loader::parse_condition(const cJSON* json)
 		String item = cJSON_GetObjectItem(params, "item")->valuestring;
 		const int count = cJSON_GetObjectItem(params, "count")->valueint;
 		return make_own_ptr<Conditions::Has_Item>(m_facade, (String&&)item, count);
+	} else if (type == "not") {
+		Condition_Ptr sub_condition = parse_condition(cJSON_GetObjectItem(params, "condition"));
+		return make_own_ptr<Conditions::Not>(m_facade, (Condition_Ptr&&)sub_condition);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		return nullptr;

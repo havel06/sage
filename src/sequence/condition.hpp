@@ -1,4 +1,5 @@
 #pragma once
+#include "utils/own_ptr.hpp"
 
 class Game_Facade;
 
@@ -15,3 +16,5 @@ protected:
 
 	Game_Facade& m_game_facade;
 };
+
+using Condition_Ptr = Own_Ptr<Condition>;

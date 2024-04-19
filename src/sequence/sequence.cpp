@@ -30,7 +30,7 @@ void Sequence::update(float time_delta)
 
 	// Check if all events are finished
 	bool all_finished = true;
-	for (int i = 0; i < m_events[i]; i++) {
+	for (int i = 0; i < m_events.size(); i++) {
 		if (!m_events[i]->is_finished())
 			all_finished = false;
 	}

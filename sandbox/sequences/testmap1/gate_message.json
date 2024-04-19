@@ -1,0 +1,23 @@
+{
+	"repeatable": true,
+	"condition": {
+		"type": "not",
+		"parameters": {
+			"condition": {
+				"type": "has_item",
+				"parameters": {
+					"item": "rupee_green",
+					"count": 5
+				}
+			}
+		}
+	},
+	"events": [
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "You need 5 rupees to open this gate."
+			}
+		}
+	]
+}

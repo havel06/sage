@@ -15,7 +15,7 @@ public:
 	Sprite sprite;
 	Vec2i position = {0, 0};
 	Vec2i size = {1, 1};
-	float move_speed = 4;
+	float move_speed = 4.5;
 	bool passable = false;
 
 	Vec2f get_subgrid_position() const;

@@ -6,7 +6,6 @@
 #include "condition.hpp"
 
 using Event_Ptr = Own_Ptr<Event>;
-using Condition_Ptr = Own_Ptr<Condition>;
 
 class Sequence
 {

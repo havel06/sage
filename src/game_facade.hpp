@@ -21,6 +21,7 @@ public:
 	void display_text(String&& message);
 	bool is_text_box_shown() const;
 	void give_item(const String& id, int count);
+	void remove_item(const String& id, int count);
 	void set_entity_sprite(const String& entity_name, const Sprite& sprite);
 	void play_music(Sound);
 private:

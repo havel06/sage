@@ -7,6 +7,7 @@
 #include "sequence/events/echo.hpp"
 #include "sequence/events/change_map.hpp"
 #include "sequence/events/give_item.hpp"
+#include "sequence/events/remove_item.hpp"
 #include "sequence/events/play_music.hpp"
 #include "sequence/events/play_sound.hpp"
 #include "sequence/events/teleport_player.hpp"
@@ -66,6 +67,12 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 		const int count =
 			cJSON_GetObjectItem(params, "count")->valueint;
 		loaded_event = make_own_ptr<Events::Give_Item>((String&&)id, count);
+	} else if (type == "remove_item") {
+		const String id =
+			cJSON_GetObjectItem(params, "item")->valuestring;
+		const int count =
+			cJSON_GetObjectItem(params, "count")->valueint;
+		loaded_event = make_own_ptr<Events::Remove_Item>((String&&)id, count);
 	} else if (type == "change_map") {
 		const String map =
 			cJSON_GetObjectItem(params, "map")->valuestring;

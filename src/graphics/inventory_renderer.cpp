@@ -25,6 +25,9 @@ void Inventory_Renderer::draw()
 	// Foreground
 	int index = 0;
 	m_inventory.for_each_entry([&](const String& id, int count){
+		if (count == 0)
+			return;
+
 		const Item& item = m_item_registry.get_item(id);
 		draw_slot_item(index, item, count);
 		index++;

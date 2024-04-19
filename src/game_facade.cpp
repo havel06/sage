@@ -63,6 +63,11 @@ void Game_Facade::give_item(const String& id, int count)
 	m_logic.inventory.add_item(id, count);
 }
 
+void Game_Facade::remove_item(const String& id, int count)
+{
+	m_logic.inventory.remove_item(id, count);
+}
+
 void Game_Facade::set_entity_sprite(const String& entity_name, const Sprite& sprite)
 {
 	Entity* entity = m_logic.map.get_entity(entity_name);

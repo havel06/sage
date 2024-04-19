@@ -1,6 +1,19 @@
 {
+	"condition": {
+		"type": "has_item",
+		"parameters": {
+			"item": "rupee_green",
+			"count": 5
+		}
+	},
 	"events": [
 		{
+			"type": "remove_item",
+			"parameters": {
+				"item": "rupee_green",
+				"count": 5
+			}
+		}, {
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Gate 0",

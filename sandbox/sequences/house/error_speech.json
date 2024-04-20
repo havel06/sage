@@ -1,0 +1,44 @@
+{
+	"events": [
+		{
+			"type": "move_entity",
+			"parameters": {
+				"entity": "Error",
+				"x": 9,
+				"y": 14 
+			}
+		}, {
+			"type": "move_entity",
+			"parameters": {
+				"entity": "Error",
+				"x": 9,
+				"y": 6
+			}
+		}, {
+			"type": "display_text",
+			"parameters": {
+				"message": "Hello, traveller!"
+			}
+		}, {
+			"type": "display_text",
+			"parameters": {
+				"message": "I've heard there is a dungeon you might be interested in..."
+			}
+		}, {
+			"type": "display_text",
+			"parameters": {
+				"message": "But to enter, you will need a key."
+			}
+		}, {
+			"type": "display_text",
+			"parameters": {
+				"message": "I will gladly give you the key, for the small fee of 5 rupees."
+			}
+		}, {
+			"type": "display_text",
+			"parameters": {
+				"message": "Come back when you're ready to trade!"
+			}
+		}
+	]
+}

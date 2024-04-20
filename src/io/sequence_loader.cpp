@@ -10,6 +10,7 @@
 #include "sequence/events/echo.hpp"
 #include "sequence/events/change_map.hpp"
 #include "sequence/events/give_item.hpp"
+#include "sequence/events/move_entity.hpp"
 #include "sequence/events/remove_item.hpp"
 #include "sequence/events/play_music.hpp"
 #include "sequence/events/play_sound.hpp"
@@ -96,6 +97,11 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 		const int x = cJSON_GetObjectItem(params, "x")->valueint;
 		const int y = cJSON_GetObjectItem(params, "y")->valueint;
 		loaded_event = make_own_ptr<Events::Teleport_Entity>(m_facade, (String&&)name, Vec2i{x, y});
+	} else if (type == "move_entity") {
+		const String name = cJSON_GetObjectItem(params, "entity")->valuestring;
+		const int x = cJSON_GetObjectItem(params, "x")->valueint;
+		const int y = cJSON_GetObjectItem(params, "y")->valueint;
+		loaded_event = make_own_ptr<Events::Move_Entity>(m_facade, (String&&)name, Vec2i{x, y});
 	} else if (type == "play_sound") {
 		const char* filename = cJSON_GetObjectItem(params, "sound")->valuestring;
 		Sound sound = m_resource_manager.get_sound(filename);

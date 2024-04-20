@@ -80,3 +80,10 @@ String Resource_Manager::get_canonical_path(const String& path)
 
 	return real_path;
 }
+
+void Resource_Manager::update_sequences(float time_delta)
+{
+	m_sequences.for_each([&](Sequence& seq){
+		seq.update(time_delta);
+	});
+}

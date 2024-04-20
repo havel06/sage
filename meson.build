@@ -34,6 +34,7 @@ src = [
   'src/sequence/events/display_text.cpp',
   'src/sequence/events/echo.cpp',
   'src/sequence/events/give_item.cpp',
+  'src/sequence/events/move_entity.cpp',
   'src/sequence/events/play_music.cpp',
   'src/sequence/events/play_sound.cpp',
   'src/sequence/events/remove_item.cpp',

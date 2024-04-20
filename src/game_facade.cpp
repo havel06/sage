@@ -1,5 +1,7 @@
 #include "game_facade.hpp"
 #include "io/resource_manager.hpp"
+#include "map/entity.hpp"
+#include "utils/direction.hpp"
 #include "utils/log.hpp"
 #include "game_logic.hpp"
 #include "music_player.hpp"
@@ -15,6 +17,10 @@ void Game_Facade::set_current_map(const String& filename)
 {
 	m_logic.map = m_res_manager.get_map(filename.data());
 	spawn_player();
+
+	if (m_logic.map.assigned_sequence)
+		m_logic.map.assigned_sequence->try_activate();
+
 	SG_INFO("Set current map to \"%s\"", filename.data());
 }
 
@@ -88,4 +94,32 @@ void Game_Facade::play_music(Sound music)
 int Game_Facade::get_owned_item_count(const String& id)
 {
 	return m_logic.inventory.get_item_count(id);
+}
+
+Vec2i Game_Facade::get_entity_position(const String& entity_name)
+{
+	Entity* entity = m_logic.map.get_entity(entity_name);
+
+	if (!entity) {
+		SG_ERROR("Entity \"%s\" not found", entity_name.data());
+		return {};
+	}
+
+	return entity->position;
+}
+
+void Game_Facade::move_entity(const String& entity_name, Vec2i position)
+{
+	Entity* entity = m_logic.map.get_entity(entity_name);
+
+	if (!entity) {
+		SG_ERROR("Entity \"%s\" not found", entity_name.data());
+		return;
+	}
+
+	if (entity->position == position)
+		return;
+
+	Direction direction = vec2i_to_direction(position - entity->position);
+	entity->move(direction);
 }

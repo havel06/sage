@@ -59,6 +59,24 @@
                  "width":16.9565,
                  "x":144,
                  "y":48
+                }, 
+                {
+                 "gid":488,
+                 "height":16,
+                 "id":4,
+                 "name":"Error",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/house\/trade.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":224,
+                 "y":240
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -67,8 +85,14 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":4,
+ "nextobjectid":5,
  "orientation":"orthogonal",
+ "properties":[
+        {
+         "name":"sequence",
+         "type":"file",
+         "value":"..\/sequences\/house\/error_speech.json"
+        }],
  "renderorder":"right-down",
  "tiledversion":"1.8.2",
  "tileheight":16,
@@ -76,6 +100,10 @@
         {
          "firstgid":1,
          "source":"..\/tilesets\/Overworld.tsj"
+        }, 
+        {
+         "firstgid":481,
+         "source":"..\/tilesets\/Sprites_2.tsj"
         }],
  "tilewidth":16,
  "type":"map",

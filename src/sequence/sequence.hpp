@@ -23,6 +23,7 @@ private:
 
 	bool m_active = false;
 	bool m_finished = false;
+	int m_current_event = 0;
 	Condition_Ptr m_condition;
 	Array<Event_Ptr> m_events;
 };

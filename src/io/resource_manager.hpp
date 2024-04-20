@@ -17,6 +17,7 @@ public:
 	Sound get_sound(const char* filename);
 	Sequence& get_sequence(const char*, bool absolute_path = false);
 	Map get_map(const char*);
+	void update_sequences(float time_delta);
 private:
 	String get_full_filename(const String& filename);
 	String get_canonical_path(const String& path);

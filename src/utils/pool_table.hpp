@@ -80,9 +80,8 @@ template<typename Key, typename T, int Size>
 template<typename Callable>
 void Pool_Table<Key, T, Size>::for_each(Callable c)
 {
-	for (int i = 0; i < m_data.size(); i++)
-	{
-		c(m_data[i].value);
-	}
+	m_data.for_each_active([&](int, Item& item){
+		c(item.value);
+	});
 }
 

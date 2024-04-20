@@ -61,6 +61,8 @@ Map_Loader::Map_Loader(Resource_Manager& res_mgr, const String& path) :
 	cJSON* layers = cJSON_GetObjectItem(json, "layers");
 	cJSON* tilesets = cJSON_GetObjectItem(json, "tilesets");
 
+	parse_properties(cJSON_GetObjectItem(json, "properties"));
+
 	m_map.resize(width, height);
 	parse_tilesets(tilesets);
 	parse_layer_array(layers);
@@ -71,6 +73,21 @@ Map_Loader::Map_Loader(Resource_Manager& res_mgr, const String& path) :
 Map Map_Loader::retrieve_map()
 {
 	return m_map;
+}
+
+void Map_Loader::parse_properties(const cJSON* properties)
+{
+	const cJSON* property;
+	cJSON_ArrayForEach(property, properties) {
+		const String name = cJSON_GetObjectItem(property, "name")->valuestring;
+		if (name == "sequence") {
+			const char* sequence_name = cJSON_GetObjectItem(property, "value")->valuestring;
+			String sequence_path = relative_to_real_path(sequence_name);
+			m_map.assigned_sequence = &m_resource_manager.get_sequence(sequence_path.data(), true);
+		} else {
+			SG_WARNING("Map property \"%s\" is not supported.", name.data());
+		}
+	}
 }
 
 void Map_Loader::parse_layer_array(const cJSON* layer_array)

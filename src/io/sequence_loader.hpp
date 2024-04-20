@@ -6,6 +6,7 @@
 // fwd
 struct cJSON;
 class Resource_Manager;
+class Sequence_Manager;
 class Game_Facade;
 
 class Sequence_Loader

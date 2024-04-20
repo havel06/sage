@@ -17,25 +17,23 @@ void Sequence::update(float time_delta)
 	if (!m_active || m_finished || m_events.empty())
 		return;
 
-	for (int i = 0; i < m_events.size(); i++) {
+	for (int i = m_current_event; i < m_events.size(); i++) {
 		// Update event
 		m_events[i]->update(time_delta);
 
-		if (m_events[i]->is_finished())
+		if (m_events[i]->is_finished()) {
+			if (i == m_current_event)
+				m_current_event++;
+
 			continue;
+		}
 
 		if (!m_events[i]->asynchronous)
 			break;
 	}
 
 	// Check if all events are finished
-	bool all_finished = true;
-	for (int i = 0; i < m_events.size(); i++) {
-		if (!m_events[i]->is_finished())
-			all_finished = false;
-	}
-
-	if (all_finished)
+	if (m_current_event == m_events.size())
 		end_or_reset();
 }
 
@@ -49,6 +47,8 @@ void Sequence::end_or_reset()
 		// Reset events
 		for (int i = 0; i < m_events.size(); i++)
 			m_events[i]->reset();
+
+		m_current_event = 0;
 	}
 }
 

@@ -1,0 +1,23 @@
+{
+	"condition": {
+		"type": "has_item",
+		"parameters": {
+			"item": "rupee_green",
+			"count": 5
+		}
+	},
+
+	"events": [
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Okay, here is the key..."
+			}
+		}, {
+			"type": "display_text",
+			"parameters": {
+				"message": "TODO"
+			}
+		}
+	]
+}

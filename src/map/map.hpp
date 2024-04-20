@@ -8,6 +8,7 @@
 class Map
 {
 public:
+	Sequence* assigned_sequence = nullptr;
 	Tile_Layers layers;
 
 	Map(int width, int height);

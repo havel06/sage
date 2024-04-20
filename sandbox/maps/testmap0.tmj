@@ -64,6 +64,23 @@
                  "width":16.9565,
                  "x":303.27175,
                  "y":31.17935
+                }, 
+                {
+                 "height":17.3913,
+                 "id":18,
+                 "name":"House door",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/testmap0\/house_door.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16.9565,
+                 "x":432,
+                 "y":176
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -72,7 +89,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":18,
+ "nextobjectid":19,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.2",

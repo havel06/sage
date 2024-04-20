@@ -1,0 +1,17 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "change_map",
+			"parameters": {
+				"map": "maps/testmap0.tmj"
+			}
+		}, {
+			"type": "teleport_player",
+			"parameters": {
+				"x": 27,
+				"y": 13
+			}
+		}
+	]
+}

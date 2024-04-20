@@ -1797,7 +1797,7 @@
                 {
                  "name":"passable",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -1824,7 +1824,7 @@
                 {
                  "name":"passable",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -1833,7 +1833,7 @@
                 {
                  "name":"passable",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -1842,7 +1842,7 @@
                 {
                  "name":"passable",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {

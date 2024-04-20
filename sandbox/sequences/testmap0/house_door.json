@@ -1,0 +1,17 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "change_map",
+			"parameters": {
+				"map": "maps/house.tmj"
+			}
+		}, {
+			"type": "teleport_player",
+			"parameters": {
+				"x": 9,
+				"y": 4
+			}
+		}
+	]
+}

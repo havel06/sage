@@ -11,14 +11,12 @@ Activate_Sequence::Activate_Sequence(Game_Facade& facade, Sequence& sequence) :
 {
 }
 
-void Activate_Sequence::update(float time_delta)
+void Activate_Sequence::update(float)
 {
 	if (!m_activated) {
 		m_sequence.try_activate();
 		m_activated = true;
 	}
-
-	m_sequence.update(time_delta);
 }
 
 bool Activate_Sequence::is_finished() const

@@ -61,9 +61,8 @@ Map_Loader::Map_Loader(Resource_Manager& res_mgr, const String& path) :
 	cJSON* layers = cJSON_GetObjectItem(json, "layers");
 	cJSON* tilesets = cJSON_GetObjectItem(json, "tilesets");
 
-	parse_properties(cJSON_GetObjectItem(json, "properties"));
-
 	m_map.resize(width, height);
+	//parse_properties(cJSON_GetObjectItem(json, "properties"));
 	parse_tilesets(tilesets);
 	parse_layer_array(layers);
 
@@ -75,6 +74,7 @@ Map Map_Loader::retrieve_map()
 	return m_map;
 }
 
+/*
 void Map_Loader::parse_properties(const cJSON* properties)
 {
 	const cJSON* property;
@@ -89,6 +89,7 @@ void Map_Loader::parse_properties(const cJSON* properties)
 		}
 	}
 }
+*/
 
 void Map_Loader::parse_layer_array(const cJSON* layer_array)
 {

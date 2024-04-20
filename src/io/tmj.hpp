@@ -36,7 +36,7 @@ public:
 	Map_Loader(Resource_Manager&, const String& path);
 	Map retrieve_map();
 private:
-	void parse_properties(const cJSON*);
+	//void parse_properties(const cJSON*);
 	void parse_layer_array(const cJSON* layer);
 	void parse_layer(const cJSON* layer);
 	void parse_tile_layer(const cJSON* layer);

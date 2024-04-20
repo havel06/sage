@@ -87,12 +87,6 @@
  "nextlayerid":6,
  "nextobjectid":5,
  "orientation":"orthogonal",
- "properties":[
-        {
-         "name":"sequence",
-         "type":"file",
-         "value":"..\/sequences\/house\/error_speech.json"
-        }],
  "renderorder":"right-down",
  "tiledversion":"1.8.2",
  "tileheight":16,

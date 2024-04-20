@@ -12,6 +12,11 @@
 				"x": 9,
 				"y": 4
 			}
+		}, {
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/house/error_speech.json"
+			}
 		}
 	]
 }

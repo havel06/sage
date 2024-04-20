@@ -2,6 +2,7 @@
 #include "map/entity.hpp"
 #include "sequence/sequence.hpp"
 #include "game_facade.hpp"
+#include "utils/direction.hpp"
 #include "utils/log.hpp"
 
 void Game_Logic::update(float time_delta)
@@ -27,7 +28,7 @@ Entity& Game_Logic::get_player()
 void Game_Logic::player_interact()
 {
 	Entity& player = get_player();
-	Vec2i target = player.position + player.get_look_direction();
+	Vec2i target = player.position + direction_to_vec2i(player.get_look_direction());
 	Entity* target_entity = map.get_entity(target);
 
 	if (!target_entity)
@@ -39,31 +40,11 @@ void Game_Logic::player_interact()
 	target_entity->assigned_sequence->try_activate();
 }
 
-void Game_Logic::move_player_right()
-{
-	move_player({1, 0});
-}
-
-void Game_Logic::move_player_left()
-{
-	move_player({-1, 0});
-}
-
-void Game_Logic::move_player_up()
-{
-	move_player({0, -1});
-}
-
-void Game_Logic::move_player_down()
-{
-	move_player({0, 1});
-}
-
-void Game_Logic::move_player(Vec2i direction)
+void Game_Logic::move_player(Direction direction)
 {
 	Entity& player = get_player();
 	player.look(direction);
-	auto new_pos = player.position + direction;
+	auto new_pos = player.position + direction_to_vec2i(direction);
 
 	// Check for tile collision
 	if (!map.is_position_valid(new_pos) || !map.layers.is_passable(new_pos))

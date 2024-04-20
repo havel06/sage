@@ -3,6 +3,7 @@
 #include "io/item_registry_loader.hpp"
 #include "io/project_loader.hpp"
 #include "sequence/event.hpp"
+#include "utils/direction.hpp"
 #include "utils/log.hpp"
 #include <raylib/raylib.h>
 
@@ -50,12 +51,12 @@ void Game::process_input()
 	}
 
 	if (IsKeyDown(KEY_UP)) {
-		m_logic.move_player_up();
+		m_logic.move_player(Direction::up);
 	} else if (IsKeyDown(KEY_DOWN)) {
-		m_logic.move_player_down();
+		m_logic.move_player(Direction::down);
 	} else if (IsKeyDown(KEY_RIGHT)) {
-		m_logic.move_player_right();
+		m_logic.move_player(Direction::right);
 	} else if (IsKeyDown(KEY_LEFT)) {
-		m_logic.move_player_left();
+		m_logic.move_player(Direction::left);
 	}
 }

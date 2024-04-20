@@ -23,11 +23,6 @@ public:
 	void update(float time_delta);
 	Entity& get_player();
 	void player_interact();
-	// TODO - a single function in the API?
-	void move_player_right();
-	void move_player_left();
-	void move_player_up();
-	void move_player_down();
+	void move_player(Direction direction);
 private:
-	void move_player(Vec2i direction);
 };

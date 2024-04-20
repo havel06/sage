@@ -1,6 +1,7 @@
 #pragma once
 
 #include "graphics/sprite.hpp"
+#include "utils/direction.hpp"
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
 
@@ -20,12 +21,12 @@ public:
 
 	Vec2f get_subgrid_position() const;
 	void update(float time_delta);
-	void move(Vec2i direction);
-	void look(Vec2i direction);
+	void move(Direction);
+	void look(Direction);
 	Recti get_bounding_box() const;
-	Vec2i get_look_direction() const { return m_look_direction; };
+	Direction get_look_direction() const { return m_look_direction; };
 private:
 	bool m_moving = false;
 	Vec2f m_subgrid_offset = {0, 0};
-	Vec2i m_look_direction = {0, 1}; // FIXME - handle invariant in a better way
+	Direction m_look_direction = Direction::down;
 };

@@ -1,6 +1,8 @@
 {
 	"events": [
 		{
+			"type": "disable_player_actions"
+		}, {
 			"type": "move_entity",
 			"parameters": {
 				"entity": "Error",
@@ -39,6 +41,8 @@
 			"parameters": {
 				"message": "Come back when you're ready to trade!"
 			}
+		}, {
+			"type": "enable_player_actions"
 		}
 	]
 }

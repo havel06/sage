@@ -25,6 +25,9 @@ Entity& Game_Logic::get_player()
 
 void Game_Logic::player_interact()
 {
+	if (player_actions_disabled)
+		return;
+
 	Entity& player = get_player();
 	Vec2i target = player.position + direction_to_vec2i(player.get_look_direction());
 	Entity* target_entity = map.get_entity(target);
@@ -40,6 +43,9 @@ void Game_Logic::player_interact()
 
 void Game_Logic::move_player(Direction direction)
 {
+	if (player_actions_disabled)
+		return;
+
 	Entity& player = get_player();
 	player.look(direction);
 	auto new_pos = player.position + direction_to_vec2i(direction);

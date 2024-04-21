@@ -16,6 +16,7 @@ public:
 	Game_Facade(Resource_Manager&, Music_Player&, Game_Logic&);
 	void set_current_map(const String& filename);
 	void teleport_player(Vec2i position);
+	void set_player_interactions_enabled(bool enabled);
 	void teleport_entity(const String& entity_name, Vec2i position);
 	Vec2i get_entity_position(const String& entity_name);
 	void move_entity(const String& entity_name, Vec2i position);

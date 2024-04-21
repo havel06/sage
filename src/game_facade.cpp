@@ -123,3 +123,8 @@ void Game_Facade::move_entity(const String& entity_name, Vec2i position)
 	Direction direction = vec2i_to_direction(position - entity->position);
 	entity->move(direction);
 }
+
+void Game_Facade::set_player_interactions_enabled(bool enabled)
+{
+	m_logic.player_actions_disabled = !enabled;
+}

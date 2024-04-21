@@ -19,6 +19,7 @@ public:
 	Item_Registry item_registry;
 	Inventory inventory;
 	Sequence* start_sequence = nullptr;
+	bool player_actions_disabled = false;
 
 	void update(float time_delta);
 	Entity& get_player();

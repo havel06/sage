@@ -16,6 +16,8 @@
 #include "sequence/events/play_sound.hpp"
 #include "sequence/events/teleport_player.hpp"
 #include "sequence/events/teleport_entity.hpp"
+#include "sequence/events/enable_player_actions.hpp"
+#include "sequence/events/disable_player_actions.hpp"
 #include "sequence/sequence.hpp"
 #include "utils/file.hpp"
 #include "utils/log.hpp"
@@ -119,6 +121,10 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 		const char* sequence_src = cJSON_GetObjectItem(params, "sequence")->valuestring;
 		Sequence& sequence = m_resource_manager.get_sequence(sequence_src);
 		loaded_event = make_own_ptr<Events::Activate_Sequence>(m_facade, sequence);
+	} else if (type == "enable_player_actions") {
+		loaded_event = make_own_ptr<Events::Enable_Player_Actions>(m_facade);
+	} else if (type == "disable_player_actions") {
+		loaded_event = make_own_ptr<Events::Disable_Player_Actions>(m_facade);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		loaded_event = make_own_ptr<Events::Dummy>(m_facade);

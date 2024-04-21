@@ -5,27 +5,23 @@
 			"parameters": {
 				"message": "Hello world!!!"
 			}
-		},
-		{
+		}, {
 			"type": "echo",
 			"parameters": {
 				"message": "Hello again!"
 			}
-		},
-		{
+		}, {
 			"type": "change_map",
 			"parameters": {
 				"map": "maps/testmap0.tmj"
 			}
-		},
-		{
+		}, {
 			"type": "teleport_player",
 			"parameters": {
 				"x": 18,
 				"y": 4
 			}
-		},
-		{
+		}, {
 			"type": "play_music",
 			"parameters": {
 				"music": "audio/sinnesloschen-beam.mp3"

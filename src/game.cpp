@@ -33,6 +33,7 @@ void Game::draw_frame(float time_delta)
 	process_input();
 	m_logic.update(time_delta);
 	m_res_manager.update_sequences(time_delta); // FIXME - somehow refactor this into game logic
+	m_music_player.update();
 	m_camera.position = m_logic.get_player().get_subgrid_position() + Vec2f{0.5, 0.5};
 	m_map_renderer.draw(m_logic.map, m_camera);
 	m_text_box_renderer.draw();

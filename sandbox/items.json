@@ -40,6 +40,16 @@
 				"size_x": 16,
 				"size_y": 16
 			}
+		}, {
+			"id": "dungeon_key",
+			"name": "Dungeon Key",
+			"sprite": {
+				"texture": "textures/key.png",
+				"position_x": 0,
+				"position_y": 0,
+				"size_x": 16,
+				"size_y": 16
+			}
 		}
 	]
 }

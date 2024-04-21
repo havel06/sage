@@ -2,16 +2,16 @@
 	"condition": {
 		"type": "has_item",
 		"parameters": {
-			"item": "rupee_green",
-			"count": 5
+			"item": "dungeon_key",
+			"count": 1
 		}
 	},
 	"events": [
 		{
 			"type": "remove_item",
 			"parameters": {
-				"item": "rupee_green",
-				"count": 5
+				"item": "dungeon_key",
+				"count": 1
 			}
 		}, {
 			"type": "teleport_entity",
@@ -26,6 +26,11 @@
 				"entity": "Gate 1",
 				"x": 500,
 				"y": 500
+			}
+		}, {
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/gate.wav"
 			}
 		}
 	]

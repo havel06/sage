@@ -45,8 +45,10 @@ void Game::draw_frame(float time_delta)
 void Game::process_input()
 {
 	if (IsKeyPressed(KEY_ENTER)) {
-		m_logic.text_box.advance();
-		m_logic.player_interact();
+		if (m_logic.text_box.contains_message())
+			m_logic.text_box.advance();
+		else
+			m_logic.player_interact();
 	} else if (IsKeyPressed(KEY_I)) {
 		m_show_inventory = !m_show_inventory;
 	}

@@ -14,9 +14,21 @@
 				"message": "Okay, here is the key..."
 			}
 		}, {
+			"type": "remove_item",
+			"parameters": {
+				"item": "rupee_green",
+				"count": 5
+			}
+		}, {
+			"type": "give_item",
+			"parameters": {
+				"item": "dungeon_key",
+				"count": 1
+			}
+		}, {
 			"type": "display_text",
 			"parameters": {
-				"message": "TODO"
+				"message": "You have been given the dungeon key."
 			}
 		}
 	]

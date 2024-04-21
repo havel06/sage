@@ -6,8 +6,8 @@
 			"condition": {
 				"type": "has_item",
 				"parameters": {
-					"item": "rupee_green",
-					"count": 5
+					"item": "dungeon_key",
+					"count": 1
 				}
 			}
 		}
@@ -16,7 +16,7 @@
 		{
 			"type": "display_text",
 			"parameters": {
-				"message": "You need 5 rupees to open this gate."
+				"message": "You need a key to open this gate."
 			}
 		}
 	]

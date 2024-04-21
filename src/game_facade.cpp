@@ -31,8 +31,20 @@ void Game_Facade::spawn_player()
 
 	// FIXME - get from config
 	player.name = "Player";
-	player.sprite = Sprite{m_res_manager.get_texture("textures/sprites.png")};
-	player.sprite.texture_clip.size = {16, 16};
+
+	Texture tex = m_res_manager.get_texture("textures/sprites.png");
+	player.sprite_down = Sprite{tex};
+	player.sprite_down.texture_clip.size = {16, 16};
+	player.sprite_up = Sprite{tex};
+	player.sprite_up.texture_clip.position = {16, 0};
+	player.sprite_up.texture_clip.size = {16, 16};
+	player.sprite_right = Sprite{tex};
+	player.sprite_right.texture_clip.position = {32, 0};
+	player.sprite_right.texture_clip.size = {16, 16};
+	player.sprite_left = Sprite{tex};
+	player.sprite_left.texture_clip.position = {32, 0};
+	player.sprite_left.texture_clip.size = {-16, 16};
+
 	m_logic.map.add_entity((Entity&&)player);
 }
 
@@ -83,7 +95,7 @@ void Game_Facade::set_entity_sprite(const String& entity_name, const Sprite& spr
 		return;
 	}
 
-	entity->sprite = sprite;
+	entity->sprite_down = sprite;
 }
 
 void Game_Facade::play_music(Sound music)

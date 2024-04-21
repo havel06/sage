@@ -13,6 +13,7 @@ public:
 	Sprite();
 
 	void draw(Rectf transform) const;
+	bool is_null() const;
 private:
 	Texture m_texture;
 };

@@ -167,7 +167,7 @@ void Map_Loader::parse_object(const cJSON* object)
 	if (tile_id) {
 		// Tile object
 		Tile tile = resolve_tile(tile_id->valueint);
-		entity.sprite = tile.sprite;
+		entity.sprite_down = tile.sprite;
 		// NOTE - For some reason, tile objects have origin in the bottom left corner.
 		entity.position.y -= entity.size.y;
 	}

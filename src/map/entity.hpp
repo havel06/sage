@@ -13,11 +13,14 @@ public:
 	Sequence* assigned_sequence = nullptr;
 
 	String name;
-	Sprite sprite;
 	Vec2i position = {0, 0};
 	Vec2i size = {1, 1};
 	float move_speed = 4.5;
 	bool passable = false;
+	Sprite sprite_down;
+	Sprite sprite_up;
+	Sprite sprite_right;
+	Sprite sprite_left;
 
 	Vec2f get_subgrid_position() const;
 	void update(float time_delta);

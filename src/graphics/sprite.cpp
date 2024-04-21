@@ -18,6 +18,11 @@ Sprite::Sprite()
 	m_texture.id = 0;
 }
 
+bool Sprite::is_null() const
+{
+	return m_texture.id <= 0;
+}
+
 void Sprite::draw(Rectf transform) const
 {
 	//SG_DEBUG("Sprite texture id: %d", m_texture.id);

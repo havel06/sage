@@ -12,6 +12,7 @@ src = [
   'src/graphics/map_renderer.cpp',
   'src/graphics/sprite.cpp',
   'src/graphics/text_box_renderer.cpp',
+  'src/io/character_profile_loader.cpp',
   'src/io/cjson_types.cpp',
   'src/io/item_registry_loader.cpp',
   'src/io/project_loader.cpp',

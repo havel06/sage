@@ -1,9 +1,11 @@
 #include "resource_manager.hpp"
+#include "character_profile.hpp"
 #include "raylib/raylib.h"
 #include "sequence/sequence.hpp"
 #include "io/sequence_loader.hpp"
 #include "io/tmj.hpp"
 #include "utils/log.hpp"
+#include "character_profile_loader.hpp"
 #include <cstdlib>
 
 Resource_Manager::Resource_Manager(Sequence_Loader& seq_loader, const String& asset_path) :
@@ -62,6 +64,16 @@ Map Resource_Manager::get_map(const char* filename)
 	TMJ::Map_Loader loader(*this, full_filename);
 	SG_INFO("Loaded map \"%s\"", full_filename.data());
 	return loader.retrieve_map();
+}
+
+Character_Profile Resource_Manager::get_character_profile(const char* filename)
+{
+	// TODO - caching?
+	String full_filename = get_full_filename(filename);
+	Character_Profile_Loader loader(*this);
+	const auto profile = loader.load(full_filename.data());
+	SG_INFO("Loaded character \"%s\"", full_filename.data());
+	return profile;
 }
 
 String Resource_Manager::get_full_filename(const String& filename)

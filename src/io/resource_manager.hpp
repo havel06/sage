@@ -4,6 +4,7 @@
 #include "utils/pool_table.hpp"
 #include "sequence/sequence.hpp"
 #include "map/map.hpp"
+#include "character_profile.hpp"
 #include <raylib/raylib.h>
 
 class Sequence_Loader;
@@ -18,6 +19,7 @@ public:
 	Sequence& get_sequence(const char*, bool absolute_path = false);
 	Map get_map(const char*);
 	void update_sequences(float time_delta);
+	Character_Profile get_character_profile(const char*);
 private:
 	String get_full_filename(const String& filename);
 	String get_canonical_path(const String& path);

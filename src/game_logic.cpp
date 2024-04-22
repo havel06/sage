@@ -18,7 +18,7 @@ void Game_Logic::update(float time_delta)
 
 Entity& Game_Logic::get_player()
 {
-	Entity* player_ptr = map.get_entity("Player");
+	Entity* player_ptr = map.get_entity("Link");
 	assert(player_ptr);
 	return *player_ptr;
 }

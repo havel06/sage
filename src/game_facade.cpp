@@ -1,4 +1,5 @@
 #include "game_facade.hpp"
+#include "character_profile.hpp"
 #include "io/resource_manager.hpp"
 #include "map/entity.hpp"
 #include "utils/direction.hpp"
@@ -30,20 +31,14 @@ void Game_Facade::spawn_player()
 	Entity player;
 
 	// FIXME - get from config
-	player.name = "Player";
+	Character_Profile character = m_res_manager.get_character_profile("characters/link.json");
 
-	Texture tex = m_res_manager.get_texture("textures/sprites.png");
-	player.sprite_down = Sprite{tex};
-	player.sprite_down.texture_clip.size = {16, 16};
-	player.sprite_up = Sprite{tex};
-	player.sprite_up.texture_clip.position = {16, 0};
-	player.sprite_up.texture_clip.size = {16, 16};
-	player.sprite_right = Sprite{tex};
-	player.sprite_right.texture_clip.position = {32, 0};
-	player.sprite_right.texture_clip.size = {16, 16};
-	player.sprite_left = Sprite{tex};
-	player.sprite_left.texture_clip.position = {32, 0};
-	player.sprite_left.texture_clip.size = {-16, 16};
+	player.name = character.name;
+
+	player.sprite_down = character.sprite_down;
+	player.sprite_up = character.sprite_up;
+	player.sprite_left = character.sprite_left;
+	player.sprite_right = character.sprite_right;
 
 	m_logic.map.add_entity((Entity&&)player);
 }

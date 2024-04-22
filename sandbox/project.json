@@ -1,4 +1,5 @@
 {
 	"name": "Sandbox",
-	"sequence": "sequences/start.json"
+	"sequence": "sequences/start.json",
+	"default_character": "characters/link.json"
 }

@@ -23,6 +23,9 @@ Game::Game(const char* project_path) :
 	Item_Registry_Loader item_registry_loader(m_res_manager);
 	item_registry_loader.load(m_logic.item_registry, project_path);
 
+	// Set up main character profile
+	m_logic.main_character = m_res_manager.get_character_profile(description.default_character.data());
+
 	// FIXME - refactor?
 	m_logic.start_sequence = &m_res_manager.get_sequence(description.start_sequence.data());
 	m_logic.start_sequence->try_activate();

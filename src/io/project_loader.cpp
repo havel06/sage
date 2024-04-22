@@ -19,6 +19,8 @@ Project_Description load_project_description(String project_root)
 		cJSON_GetObjectItem(json, "name")->valuestring;
 	description.start_sequence =
 		cJSON_GetObjectItem(json, "sequence")->valuestring;
+	description.default_character =
+		cJSON_GetObjectItem(json, "default_character")->valuestring;
 
 	cJSON_Delete(json);
 

@@ -30,8 +30,7 @@ void Game_Facade::spawn_player()
 	// TODO - maybe this should happen in game_logic
 	Entity player;
 
-	// FIXME - get from config
-	Character_Profile character = m_res_manager.get_character_profile("characters/link.json");
+	Character_Profile character = m_logic.main_character;
 
 	player.name = character.name;
 

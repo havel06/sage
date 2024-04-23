@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string.h>
+#include <assert.h>
 
 template<typename T>
 class Optional
@@ -134,5 +135,19 @@ void Optional<T>::emplace(T&& val)
 	}
 
 	m_has_value = true;
+}
+
+template<typename T>
+T& Optional<T>::value()
+{
+	assert(m_has_value);
+	return *((T*)m_value);
+}
+
+template<typename T>
+const T& Optional<T>::value() const
+{
+	assert(m_has_value);
+	return *((T*)m_value);
 }
 

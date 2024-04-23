@@ -1,4 +1,5 @@
 #include "map_renderer.hpp"
+#include "character_profile.hpp"
 #include "graphics/camera.hpp"
 #include "map/map.hpp"
 #include "map/entity.hpp"
@@ -50,27 +51,23 @@ void Map_Renderer::draw_entity(const Entity& entity)
 
 	Direction look_direction = entity.get_look_direction();
 
-	switch (look_direction) {
-		case Direction::down:
-			entity.sprite_down.draw(transform);
-			break;
-		case Direction::up:
-			if (!entity.sprite_up.is_null())
-				entity.sprite_up.draw(transform);
-			else
-				entity.sprite_down.draw(transform);
-			break;
-		case Direction::right:
-			if (!entity.sprite_right.is_null())
-				entity.sprite_right.draw(transform);
-			else
-				entity.sprite_down.draw(transform);
-			break;
-		case Direction::left:
-			if (!entity.sprite_left.is_null())
-				entity.sprite_left.draw(transform);
-			else
-				entity.sprite_down.draw(transform);
-			break;
+	if (entity.assigned_character.has_value()) {
+		const Character_Profile& character = entity.assigned_character.value();
+		switch (look_direction) {
+			case Direction::down:
+				character.sprite_down.draw(transform);
+				break;
+			case Direction::up:
+				character.sprite_up.draw(transform);
+				break;
+			case Direction::right:
+				character.sprite_right.draw(transform);
+				break;
+			case Direction::left:
+				character.sprite_left.draw(transform);
+				break;
+		}
+	} else {
+		entity.sprite.draw(transform);
 	}
 }

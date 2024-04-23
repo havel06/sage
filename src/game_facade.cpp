@@ -33,11 +33,7 @@ void Game_Facade::spawn_player()
 	Character_Profile character = m_logic.main_character;
 
 	player.name = character.name;
-
-	player.sprite_down = character.sprite_down;
-	player.sprite_up = character.sprite_up;
-	player.sprite_left = character.sprite_left;
-	player.sprite_right = character.sprite_right;
+	player.assigned_character = character;
 
 	m_logic.map.add_entity((Entity&&)player);
 }
@@ -89,7 +85,7 @@ void Game_Facade::set_entity_sprite(const String& entity_name, const Sprite& spr
 		return;
 	}
 
-	entity->sprite_down = sprite;
+	entity->sprite = sprite;
 }
 
 void Game_Facade::play_music(Sound music)

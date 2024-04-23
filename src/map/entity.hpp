@@ -1,9 +1,11 @@
 #pragma once
 
+#include "character_profile.hpp"
 #include "graphics/sprite.hpp"
 #include "utils/direction.hpp"
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
+#include "utils/optional.hpp"
 
 class Sequence;
 
@@ -17,10 +19,8 @@ public:
 	Vec2i size = {1, 1};
 	float move_speed = 4.5;
 	bool passable = false;
-	Sprite sprite_down;
-	Sprite sprite_up;
-	Sprite sprite_right;
-	Sprite sprite_left;
+	Sprite sprite;
+	Optional<Character_Profile> assigned_character;
 
 	Vec2f get_subgrid_position() const;
 	void update(float time_delta);

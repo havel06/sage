@@ -27,6 +27,7 @@ src = [
   'src/map/tile_layer.cpp',
   'src/map/tile_layers.cpp',
   'src/music_player.cpp',
+  'src/party.cpp',
   'src/sequence/conditions/has_item.cpp',
   'src/sequence/conditions/not.cpp',
   'src/sequence/events/activate_sequence.cpp',

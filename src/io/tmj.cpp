@@ -180,6 +180,10 @@ void Map_Loader::parse_object(const cJSON* object)
 			const char* sequence_name = cJSON_GetObjectItem(property, "value")->valuestring;
 			String sequence_path = relative_to_real_path(sequence_name);
 			entity.assigned_sequence = &m_resource_manager.get_sequence(sequence_path.data(), true);
+		} else if (name == "character") {
+			const char* character_relative = cJSON_GetObjectItem(property, "value")->valuestring;
+			String character_path = relative_to_real_path(character_relative);
+			entity.assigned_character = m_resource_manager.get_character_profile(character_path.data(), true);
 		} else if (name == "passable") {
 			entity.passable = cJSON_GetObjectItem(property, "value")->valueint;
 		} else {

@@ -66,10 +66,10 @@ Map Resource_Manager::get_map(const char* filename)
 	return loader.retrieve_map();
 }
 
-Character_Profile Resource_Manager::get_character_profile(const char* filename)
+Character_Profile Resource_Manager::get_character_profile(const char* filename, bool absolute_path)
 {
 	// TODO - caching?
-	String full_filename = get_full_filename(filename);
+	String full_filename = absolute_path ? get_canonical_path(filename) : get_full_filename(filename);
 	Character_Profile_Loader loader(*this);
 	const auto profile = loader.load(full_filename.data());
 	SG_INFO("Loaded character \"%s\"", full_filename.data());

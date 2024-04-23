@@ -67,6 +67,11 @@
                  "name":"Error",
                  "properties":[
                         {
+                         "name":"character",
+                         "type":"file",
+                         "value":"..\/characters\/error.json"
+                        }, 
+                        {
                          "name":"sequence",
                          "type":"file",
                          "value":"..\/sequences\/house\/trade.json"

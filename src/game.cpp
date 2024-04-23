@@ -24,7 +24,7 @@ Game::Game(const char* project_path) :
 	item_registry_loader.load(m_logic.item_registry, project_path);
 
 	// Set up main character profile
-	m_logic.main_character = m_res_manager.get_character_profile(description.default_character.data());
+	m_logic.party.main_character() = m_res_manager.get_character_profile(description.default_character.data());
 
 	// FIXME - refactor?
 	m_logic.start_sequence = &m_res_manager.get_sequence(description.start_sequence.data());

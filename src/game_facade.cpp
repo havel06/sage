@@ -30,7 +30,7 @@ void Game_Facade::spawn_player()
 	// TODO - maybe this should happen in game_logic
 	Entity player;
 
-	Character_Profile character = m_logic.main_character;
+	Character_Profile character = m_logic.party.main_character();
 
 	player.name = character.name;
 	player.assigned_character = character;
@@ -129,4 +129,9 @@ void Game_Facade::move_entity(const String& entity_name, Vec2i position)
 void Game_Facade::set_player_interactions_enabled(bool enabled)
 {
 	m_logic.player_actions_disabled = !enabled;
+}
+
+void Game_Facade::add_to_party(const Character_Profile& profile)
+{
+	m_logic.party.add_character(profile);
 }

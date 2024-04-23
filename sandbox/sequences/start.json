@@ -6,9 +6,9 @@
 				"message": "Hello world!!!"
 			}
 		}, {
-			"type": "echo",
+			"type": "add_to_party",
 			"parameters": {
-				"message": "Hello again!"
+				"character": "characters/bagu.json"
 			}
 		}, {
 			"type": "change_map",

@@ -4,6 +4,7 @@
 #include "sequence/conditions/has_item.hpp"
 #include "sequence/conditions/not.hpp"
 #include "sequence/events/activate_sequence.hpp"
+#include "sequence/events/add_to_party.hpp"
 #include "sequence/events/change_sprite.hpp"
 #include "sequence/events/display_text.hpp"
 #include "sequence/events/dummy.hpp"
@@ -121,6 +122,10 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 		const char* sequence_src = cJSON_GetObjectItem(params, "sequence")->valuestring;
 		Sequence& sequence = m_resource_manager.get_sequence(sequence_src);
 		loaded_event = make_own_ptr<Events::Activate_Sequence>(m_facade, sequence);
+	} else if (type == "add_to_party") {
+		const char* character_src = cJSON_GetObjectItem(params, "character")->valuestring;
+		Character_Profile character = m_resource_manager.get_character_profile(character_src);
+		loaded_event = make_own_ptr<Events::Add_To_Party>(m_facade, character);
 	} else if (type == "enable_player_actions") {
 		loaded_event = make_own_ptr<Events::Enable_Player_Actions>(m_facade);
 	} else if (type == "disable_player_actions") {

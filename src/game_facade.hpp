@@ -1,5 +1,6 @@
 #pragma once
 
+#include "character_profile.hpp"
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
 #include <raylib/raylib.h>
@@ -27,6 +28,7 @@ public:
 	int get_owned_item_count(const String& id);
 	void set_entity_sprite(const String& entity_name, const Sprite& sprite);
 	void play_music(Sound);
+	void add_to_party(const Character_Profile&);
 private:
 	void spawn_player();
 

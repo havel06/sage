@@ -6,10 +6,14 @@
 class Party
 {
 public:
+	Party();
 	int get_character_count() const;
-	Character_Profile& get_main_character();
+	Character_Profile& main_character();
 	Character_Profile& get_character(int index);
+	void add_character(const Character_Profile&);
 private:
+	bool contains_character(const String& name);
+
 	// NOTE - main character is at index 0
 	Array<Character_Profile> m_characters;
 };

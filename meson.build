@@ -31,6 +31,7 @@ src = [
   'src/sequence/conditions/has_item.cpp',
   'src/sequence/conditions/not.cpp',
   'src/sequence/events/activate_sequence.cpp',
+  'src/sequence/events/add_to_party.cpp',
   'src/sequence/events/change_map.cpp',
   'src/sequence/events/change_sprite.cpp',
   'src/sequence/events/disable_player_actions.cpp',

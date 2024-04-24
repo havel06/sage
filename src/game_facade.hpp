@@ -4,6 +4,7 @@
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
 #include <raylib/raylib.h>
+#include "utils/array.hpp"
 
 class Resource_Manager;
 class Game_Logic;
@@ -29,7 +30,7 @@ public:
 	void set_entity_sprite(const String& entity_name, const Sprite& sprite);
 	void play_music(Sound);
 	void add_to_party(const Character_Profile&);
-	void enter_combat();
+	void enter_combat(const Array<Character_Profile>& enemies);
 private:
 	void spawn_player();
 

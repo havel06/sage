@@ -13,7 +13,7 @@ Game::Game(const char* project_path) :
 	m_res_manager(m_sequence_loader, project_path),
 	m_text_box_renderer(m_logic.text_box),
 	m_inventory_renderer(m_logic.item_registry, m_logic.inventory),
-	m_combat_renderer(m_logic.party)
+	m_combat_renderer(m_logic.party, m_logic.combat)
 {
 	// Project description
 	Project_Description description = load_project_description(String{project_path});

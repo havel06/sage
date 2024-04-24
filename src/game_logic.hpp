@@ -7,6 +7,7 @@
 #include "item/item_registry.hpp"
 #include "party.hpp"
 #include "text_box.hpp"
+#include "combat.hpp"
 
 // fwd
 class Sequence;
@@ -22,6 +23,7 @@ public:
 	Item_Registry item_registry;
 	Inventory inventory;
 	Sequence* start_sequence = nullptr;
+	Combat combat;
 	bool player_actions_disabled = false;
 	bool in_combat = false;
 

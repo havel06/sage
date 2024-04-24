@@ -4,6 +4,7 @@ subdir('vendor')
 
 src = [
   'src/application.cpp',
+  'src/combat.cpp',
   'src/game.cpp',
   'src/game_facade.cpp',
   'src/game_logic.cpp',

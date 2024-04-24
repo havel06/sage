@@ -1,7 +1,12 @@
 {
 	"events": [
 		{
-			"type": "enter_combat"
+			"type": "enter_combat",
+			"parameters": {
+				"enemies": [
+					"characters/enemy1.json"
+				]
+			}
 		}
 	]
 }

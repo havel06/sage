@@ -1,5 +1,6 @@
 #include "sequence_loader.hpp"
 #include "cJSON.h"
+#include "character_profile.hpp"
 #include "io/resource_manager.hpp"
 #include "sequence/conditions/has_item.hpp"
 #include "sequence/conditions/not.hpp"
@@ -132,7 +133,14 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 	} else if (type == "disable_player_actions") {
 		loaded_event = make_own_ptr<Events::Disable_Player_Actions>(m_facade);
 	} else if (type == "enter_combat") {
-		loaded_event = make_own_ptr<Events::Enter_Combat>(m_facade);
+		const cJSON* enemies_json = cJSON_GetObjectItem(params, "enemies");
+		const cJSON* enemy_json;
+		Array<Character_Profile> enemies;
+		cJSON_ArrayForEach(enemy_json, enemies_json) {
+			Character_Profile enemy = m_resource_manager.get_character_profile(enemy_json->valuestring);
+			enemies.push_back(enemy);
+		}
+		loaded_event = make_own_ptr<Events::Enter_Combat>(m_facade, (Array<Character_Profile>&&)enemies);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		loaded_event = make_own_ptr<Events::Dummy>(m_facade);

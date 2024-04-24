@@ -17,7 +17,7 @@ public:
 	String name;
 	Vec2i position = {0, 0};
 	Vec2i size = {1, 1};
-	float move_speed = 4.5;
+	float move_speed = 5;
 	bool passable = false;
 	Sprite sprite;
 	Optional<Character_Profile> assigned_character;

@@ -2,6 +2,7 @@
 
 #include "game_logic.hpp"
 #include "graphics/camera.hpp"
+#include "graphics/combat_renderer.hpp"
 #include "graphics/inventory_renderer.hpp"
 #include "graphics/map_renderer.hpp"
 #include "graphics/text_box_renderer.hpp"
@@ -28,6 +29,7 @@ private:
 	Inventory_Renderer m_inventory_renderer;
 	Music_Player m_music_player;
 	Game_Camera m_camera;
+	Combat_Renderer m_combat_renderer;
 
 	bool m_show_inventory = false;
 };

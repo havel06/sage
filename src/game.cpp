@@ -12,7 +12,8 @@ Game::Game(const char* project_path) :
 	m_sequence_loader(m_res_manager, m_game_facade),
 	m_res_manager(m_sequence_loader, project_path),
 	m_text_box_renderer(m_logic.text_box),
-	m_inventory_renderer(m_logic.item_registry, m_logic.inventory)
+	m_inventory_renderer(m_logic.item_registry, m_logic.inventory),
+	m_combat_renderer(m_logic.party)
 {
 	// Project description
 	Project_Description description = load_project_description(String{project_path});
@@ -49,9 +50,7 @@ void Game::draw_frame(float time_delta)
 		}
 	} else {
 		// Combat mode
-		if (m_logic.in_combat) {
-			DrawText("combat!", 100, 100, 50, WHITE);
-		}
+		m_combat_renderer.draw();
 	}
 
 }

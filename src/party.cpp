@@ -23,6 +23,12 @@ Character_Profile& Party::get_character(int index)
 	return m_characters[index];
 }
 
+const Character_Profile& Party::get_character(int index) const
+{
+	return m_characters[index];
+}
+
+
 void Party::add_character(const Character_Profile& profile)
 {
 	if (contains_character(profile.name)) {

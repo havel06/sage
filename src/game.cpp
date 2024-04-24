@@ -33,20 +33,30 @@ Game::Game(const char* project_path) :
 
 void Game::draw_frame(float time_delta)
 {
-	process_input();
-	m_logic.update(time_delta);
-	m_res_manager.update_sequences(time_delta); // FIXME - somehow refactor this into game logic
 	m_music_player.update();
-	m_camera.position = m_logic.get_player().get_subgrid_position() + Vec2f{0.5, 0.5};
-	m_map_renderer.draw(m_logic.map, m_camera);
-	m_text_box_renderer.draw();
+	m_logic.update(time_delta);
 
-	if (m_show_inventory) {
-		m_inventory_renderer.draw();
+	if (!m_logic.in_combat) {
+		// Normal mode
+		process_normal_input();
+		m_res_manager.update_sequences(time_delta); // FIXME - somehow refactor this into game logic
+		m_camera.position = m_logic.get_player().get_subgrid_position() + Vec2f{0.5, 0.5};
+		m_map_renderer.draw(m_logic.map, m_camera);
+		m_text_box_renderer.draw();
+
+		if (m_show_inventory) {
+			m_inventory_renderer.draw();
+		}
+	} else {
+		// Combat mode
+		if (m_logic.in_combat) {
+			DrawText("combat!", 100, 100, 50, WHITE);
+		}
 	}
+
 }
 
-void Game::process_input()
+void Game::process_normal_input()
 {
 	if (IsKeyPressed(KEY_ENTER)) {
 		if (m_logic.text_box.contains_message())

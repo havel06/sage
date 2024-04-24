@@ -1,0 +1,7 @@
+{
+	"events": [
+		{
+			"type": "enter_combat"
+		}
+	]
+}

@@ -135,3 +135,8 @@ void Game_Facade::add_to_party(const Character_Profile& profile)
 {
 	m_logic.party.add_character(profile);
 }
+
+void Game_Facade::enter_combat()
+{
+	m_logic.in_combat = true;
+}

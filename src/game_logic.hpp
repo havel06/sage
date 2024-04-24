@@ -23,6 +23,7 @@ public:
 	Inventory inventory;
 	Sequence* start_sequence = nullptr;
 	bool player_actions_disabled = false;
+	bool in_combat = false;
 
 	void update(float time_delta);
 	Entity& get_player();

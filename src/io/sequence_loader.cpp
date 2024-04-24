@@ -19,6 +19,7 @@
 #include "sequence/events/teleport_entity.hpp"
 #include "sequence/events/enable_player_actions.hpp"
 #include "sequence/events/disable_player_actions.hpp"
+#include "sequence/events/enter_combat.hpp"
 #include "sequence/sequence.hpp"
 #include "utils/file.hpp"
 #include "utils/log.hpp"
@@ -130,6 +131,8 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 		loaded_event = make_own_ptr<Events::Enable_Player_Actions>(m_facade);
 	} else if (type == "disable_player_actions") {
 		loaded_event = make_own_ptr<Events::Disable_Player_Actions>(m_facade);
+	} else if (type == "enter_combat") {
+		loaded_event = make_own_ptr<Events::Enter_Combat>(m_facade);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		loaded_event = make_own_ptr<Events::Dummy>(m_facade);

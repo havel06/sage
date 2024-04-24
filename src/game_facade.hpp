@@ -29,6 +29,7 @@ public:
 	void set_entity_sprite(const String& entity_name, const Sprite& sprite);
 	void play_music(Sound);
 	void add_to_party(const Character_Profile&);
+	void enter_combat();
 private:
 	void spawn_player();
 

@@ -17,7 +17,7 @@ public:
 	Game(const char* project_path);
 	void draw_frame(float time_delta);
 private:
-	void process_input();
+	void process_normal_input();
 
 	Game_Facade m_game_facade;
 	Sequence_Loader m_sequence_loader;

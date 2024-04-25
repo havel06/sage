@@ -13,6 +13,12 @@ public:
 	void enter();
 	void draw();
 private:
+	void draw_abilities();
+	void fix_selected_ability_index();
+
+	const int m_margin = 50;
+	const int m_height = 200;
+
 	Combat& m_combat;
 	int m_selected_ability = 0;
 };

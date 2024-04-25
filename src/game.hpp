@@ -21,6 +21,7 @@ public:
 	void draw_frame(float time_delta);
 private:
 	void process_normal_input();
+	void process_combat_input();
 
 	Game_Facade m_game_facade;
 	Sequence_Loader m_sequence_loader;

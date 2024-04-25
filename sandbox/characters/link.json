@@ -27,5 +27,14 @@
 		"position_y": 0,
 		"size_x": -16,
 		"size_y": 16
-	}
+	},
+	"abilities": [
+		{
+			"name": "Punch",
+			"damage": 1
+		}, {
+			"name": "Slash",
+			"damage": 5
+		}
+	]
 }

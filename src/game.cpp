@@ -54,6 +54,7 @@ void Game::draw_frame(float time_delta)
 		}
 	} else {
 		// Combat mode
+		process_combat_input();
 		m_combat_renderer.draw();
 		m_combat_controller.draw();
 	}
@@ -81,5 +82,16 @@ void Game::process_normal_input()
 		m_logic.move_player(Direction::right);
 	} else if (IsKeyDown(KEY_LEFT)) {
 		m_logic.move_player(Direction::left);
+	}
+}
+
+void Game::process_combat_input()
+{
+	if (m_logic.in_combat) {
+		if (IsKeyPressed(KEY_UP)) {
+			m_combat_controller.go_up();
+		} else if (IsKeyPressed(KEY_DOWN)) {
+			m_combat_controller.go_down();
+		}
 	}
 }

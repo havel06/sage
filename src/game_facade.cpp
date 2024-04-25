@@ -144,3 +144,12 @@ void Game_Facade::enter_combat(const Array<Character_Profile>& enemies)
 
 	m_logic.in_combat = true;
 }
+
+void Game_Facade::add_quest(const String& name, const String& description)
+{
+	SG_INFO("Added quest \"%s\"", name.data());
+	m_logic.quest_log.add_quest(Quest{
+		.name = name,
+		.description = description
+	});
+}

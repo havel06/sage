@@ -26,6 +26,12 @@
 			"parameters": {
 				"music": "audio/sinnesloschen-beam.mp3"
 			}
+		}, {
+			"type": "add_quest",
+			"parameters": {
+				"name": "Visit Error",
+				"description": "Visit Error in his house and speak to him."
+			}
 		}
 	]
 }

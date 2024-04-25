@@ -31,6 +31,7 @@ public:
 	void play_music(Sound);
 	void add_to_party(const Character_Profile&);
 	void enter_combat(const Array<Character_Profile>& enemies);
+	void add_quest(const String& name, const String& description);
 private:
 	void spawn_player();
 

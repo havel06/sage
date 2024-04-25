@@ -8,6 +8,7 @@
 #include "party.hpp"
 #include "text_box.hpp"
 #include "combat.hpp"
+#include "quest/quest_log.hpp"
 
 // fwd
 class Sequence;
@@ -24,6 +25,7 @@ public:
 	Inventory inventory;
 	Sequence* start_sequence = nullptr;
 	Combat combat;
+	Quest_Log quest_log;
 	bool player_actions_disabled = false;
 	bool in_combat = false;
 

@@ -138,10 +138,7 @@ void Game_Facade::add_to_party(const Character_Profile& profile)
 
 void Game_Facade::enter_combat(const Array<Character_Profile>& enemies)
 {
-	for (int i = 0; i < enemies.size(); i++) {
-		m_logic.combat.add_enemy(enemies[i]);
-	}
-
+	m_logic.combat.start_battle(enemies);
 	m_logic.in_combat = true;
 }
 

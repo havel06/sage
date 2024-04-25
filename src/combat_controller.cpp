@@ -53,7 +53,7 @@ void Combat_Controller::draw_abilities()
 	const int padding = 15;
 	const int x = m_margin + padding;
 	int y = GetScreenHeight() - m_height - m_margin + padding;
-	const Character_Profile& character = m_combat.get_character_on_turn();
+	const Character_Profile& character = m_combat.get_unit_on_turn().character;
 	DrawText(character.name.data(), x, y, 25, WHITE);
 	y += 40;
 
@@ -66,7 +66,7 @@ void Combat_Controller::draw_abilities()
 
 void Combat_Controller::fix_selected_ability_index()
 {
-	const Character_Profile& character = m_combat.get_character_on_turn();
+	const Character_Profile& character = m_combat.get_unit_on_turn().character;
 	const int ability_count = character.abilities.size();
 
 	if (m_selected_ability < 0) {

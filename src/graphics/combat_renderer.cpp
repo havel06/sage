@@ -25,14 +25,19 @@ void Combat_Renderer::draw_party()
 	int y = GetScreenHeight() / 6;
 
 	const int size = GetScreenHeight() / 8;
-	const int margin = size / 4;
+	const int margin = size / 3;
 
 	for (int i = 0; i < m_party.get_character_count(); i++) {
 		Rectf transform = {
 			.position = Vec2f{(float)x, (float)y},
 			.size = Vec2f{(float)size, (float)size}
 		};
-		m_party.get_character(i).sprite_right.draw(transform);
+
+		const Combat_Unit& unit = m_combat.get_hero(i);
+
+		unit.character.sprite_right.draw(transform);
+		draw_hp_bar({x, y}, size, unit);
+
 		y += size + margin;
 	}
 }
@@ -40,7 +45,7 @@ void Combat_Renderer::draw_party()
 void Combat_Renderer::draw_enemies()
 {
 	const int size = GetScreenHeight() / 8;
-	const int margin = size / 4;
+	const int margin = size / 3;
 
 	int x = GetScreenWidth() / 5 * 4 - size;
 	int y = GetScreenHeight() / 6;
@@ -50,7 +55,29 @@ void Combat_Renderer::draw_enemies()
 			.position = Vec2f{(float)x, (float)y},
 			.size = Vec2f{(float)size, (float)size}
 		};
-		m_combat.get_enemy(i).sprite_left.draw(transform);
+
+		const Combat_Unit& unit = m_combat.get_enemy(i);
+
+		unit.character.sprite_right.draw(transform);
+		draw_hp_bar({x, y}, size, unit);
+
 		y += size + margin;
 	}
+}
+
+void Combat_Renderer::draw_hp_bar(const Vec2i unit_pos, const int unit_size, const Combat_Unit& unit)
+{
+	const int bar_x = unit_pos.x;
+	const int bar_y = unit_pos.y + unit_size + 8;
+	const int padding = 4;
+
+	const int height = 14;
+	DrawRectangle(bar_x, bar_y, unit_size, height, BLACK);
+
+	float hp_portion = (float)unit.hp / unit.character.max_hp;
+
+	DrawRectangle(bar_x + padding, bar_y + padding, (unit_size - 2*padding) * hp_portion, height - 2 * padding, RED);
+
+	(void)padding;
+	(void)unit;
 }

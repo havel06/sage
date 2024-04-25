@@ -15,4 +15,6 @@ struct Character_Profile
 	Sprite sprite_right;
 
 	Array<Ability> abilities;
+
+	int max_hp = 0;
 };

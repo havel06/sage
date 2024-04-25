@@ -1,5 +1,6 @@
 {
 	"name": "Bagu",
+	"max_hp": 15,
 	"sprite_down": {
 		"texture": "textures/sprites.png",
 		"position_x": 112,

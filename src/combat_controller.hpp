@@ -2,6 +2,13 @@
 
 class Combat;
 
+enum class Combat_Controller_State
+{
+	selecting_ability,
+	selecting_enemy,
+	waiting_for_enemy_turn,
+};
+
 class Combat_Controller
 {
 public:

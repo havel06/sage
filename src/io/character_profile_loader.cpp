@@ -35,6 +35,8 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 		profile.abilities.push_back(load_ability(ability_json));
 	}
 
+	profile.max_hp = cJSON_GetObjectItem(json, "max_hp")->valueint;
+
 	cJSON_Delete(json);
 
 	return profile;

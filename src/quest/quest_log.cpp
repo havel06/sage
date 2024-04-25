@@ -18,3 +18,13 @@ void Quest_Log::remove_quest(const String& name)
 
 	SG_ERROR("Could not find quest \"%s\"", name.data());
 }
+
+int Quest_Log::get_quest_count() const
+{
+	return m_quests.size();
+}
+
+const Quest& Quest_Log::get_quest(int index) const
+{
+	return m_quests[index];
+}

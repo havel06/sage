@@ -12,6 +12,7 @@ src = [
   'src/graphics/combat_renderer.cpp',
   'src/graphics/inventory_renderer.cpp',
   'src/graphics/map_renderer.cpp',
+  'src/graphics/quest_log_renderer.cpp',
   'src/graphics/sprite.cpp',
   'src/graphics/text_box_renderer.cpp',
   'src/io/character_profile_loader.cpp',

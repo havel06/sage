@@ -5,6 +5,7 @@
 #include "graphics/combat_renderer.hpp"
 #include "graphics/inventory_renderer.hpp"
 #include "graphics/map_renderer.hpp"
+#include "graphics/quest_log_renderer.hpp"
 #include "graphics/text_box_renderer.hpp"
 #include "io/resource_manager.hpp"
 #include "io/sequence_loader.hpp"
@@ -30,6 +31,8 @@ private:
 	Music_Player m_music_player;
 	Game_Camera m_camera;
 	Combat_Renderer m_combat_renderer;
+	Quest_Log_Renderer m_quest_log_renderer;
 
 	bool m_show_inventory = false;
+	bool m_show_quest_log = false;
 };

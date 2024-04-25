@@ -6,17 +6,15 @@
 namespace Events
 {
 
-class Add_Quest : public Event
+class Finish_Quest : public Event
 {
 public:
-	Add_Quest(Game_Facade&, String&& id, String&& name, String&& description);
+	Finish_Quest(Game_Facade&, String&& id);
 	void update(float time_delta) override;
 	bool is_finished() const override;
 	void reset() override;
 private:
 	String m_id;
-	String m_name;
-	String m_description;
 	bool m_activated = false;
 };
 

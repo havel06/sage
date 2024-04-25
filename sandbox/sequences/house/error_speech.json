@@ -3,6 +3,11 @@
 		{
 			"type": "disable_player_actions"
 		}, {
+			"type": "finish_quest",
+			"parameters": {
+				"id": "visit_error"
+			}
+		}, {
 			"type": "move_entity",
 			"parameters": {
 				"entity": "Error",
@@ -43,6 +48,13 @@
 			}
 		}, {
 			"type": "enable_player_actions"
+		}, {
+			"type": "add_quest",
+			"parameters": {
+				"id": "bring_error_money",
+				"name": "Bring 5 rupees to error",
+				"description": "Obtain 5 rupees and trade it with Error for the dungoen key."
+			}
 		}
 	]
 }

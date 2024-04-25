@@ -29,6 +29,7 @@
 		}, {
 			"type": "add_quest",
 			"parameters": {
+				"id": "visit_error",
 				"name": "Visit Error",
 				"description": "Visit Error in his house and speak to him."
 			}

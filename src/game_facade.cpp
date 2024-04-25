@@ -145,11 +145,17 @@ void Game_Facade::enter_combat(const Array<Character_Profile>& enemies)
 	m_logic.in_combat = true;
 }
 
-void Game_Facade::add_quest(const String& name, const String& description)
+void Game_Facade::add_quest(const String& id, const String& name, const String& description)
 {
-	SG_INFO("Added quest \"%s\"", name.data());
+	SG_INFO("Added quest \"%s\"", id.data());
 	m_logic.quest_log.add_quest(Quest{
+		.id = id,
 		.name = name,
 		.description = description
 	});
+}
+
+void Game_Facade::finish_quest(const String& name)
+{
+	m_logic.quest_log.remove_quest(name);
 }

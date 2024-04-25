@@ -44,6 +44,7 @@ src = [
   'src/sequence/events/echo.cpp',
   'src/sequence/events/enable_player_actions.cpp',
   'src/sequence/events/enter_combat.cpp',
+  'src/sequence/events/finish_quest.cpp',
   'src/sequence/events/give_item.cpp',
   'src/sequence/events/move_entity.cpp',
   'src/sequence/events/play_music.cpp',

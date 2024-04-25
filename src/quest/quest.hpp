@@ -4,6 +4,7 @@
 
 struct Quest
 {
+	String id;
 	String name;
 	String description;
 };

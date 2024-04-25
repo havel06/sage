@@ -5,6 +5,11 @@
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
 
+Game_Logic::Game_Logic() :
+	combat(party)
+{
+}
+
 void Game_Logic::update(float time_delta)
 {
 	assert(start_sequence);

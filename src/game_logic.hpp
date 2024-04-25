@@ -29,6 +29,8 @@ public:
 	bool player_actions_disabled = false;
 	bool in_combat = false;
 
+	Game_Logic();
+
 	void update(float time_delta);
 	Entity& get_player();
 	void player_interact();

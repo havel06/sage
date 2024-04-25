@@ -15,6 +15,7 @@ void Combat_Renderer::draw()
 	draw_party();
 	draw_enemies();
 
+	ClearBackground(SKYBLUE);
 	DrawText("combat!", 100, 100, 50, WHITE);
 }
 

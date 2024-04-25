@@ -12,6 +12,7 @@
 #include "map/map.hpp"
 #include "music_player.hpp"
 #include "sequence/sequence.hpp"
+#include "combat_controller.hpp"
 
 class Game
 {
@@ -32,6 +33,7 @@ private:
 	Game_Camera m_camera;
 	Combat_Renderer m_combat_renderer;
 	Quest_Log_Renderer m_quest_log_renderer;
+	Combat_Controller m_combat_controller;
 
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;

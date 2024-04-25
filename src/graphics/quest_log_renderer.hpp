@@ -2,6 +2,8 @@
 
 class Quest_Log;
 
+// FIXME - port to new UI system, after we have one
+
 class Quest_Log_Renderer
 {
 public:

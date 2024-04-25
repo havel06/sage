@@ -6,6 +6,9 @@ class Inventory;
 class Item_Registry;
 struct Item;
 
+
+// FIXME - port to new UI system, after we have one
+
 class Inventory_Renderer
 {
 public:

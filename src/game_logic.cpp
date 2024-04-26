@@ -12,12 +12,18 @@ Game_Logic::Game_Logic() :
 
 void Game_Logic::update(float time_delta)
 {
-	assert(start_sequence);
-	start_sequence->update(time_delta);
+	if (in_combat) {
+		// Combat mode
+		combat.update();
+	} else {
+		// Normal mode
+		assert(start_sequence);
+		start_sequence->update(time_delta);
 
-	for (int i = 0; i < map.get_entity_count(); i++) {
-		Entity& entity = map.get_entity(i);
-		entity.update(time_delta);
+		for (int i = 0; i < map.get_entity_count(); i++) {
+			Entity& entity = map.get_entity(i);
+			entity.update(time_delta);
+		}
 	}
 }
 

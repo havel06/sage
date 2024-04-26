@@ -2,6 +2,7 @@
 #include "ability.hpp"
 #include "character_profile.hpp"
 #include "party.hpp"
+#include "utils/log.hpp"
 
 Combat_Unit::Combat_Unit(Character_Profile p)
 {
@@ -61,9 +62,9 @@ Combat_Unit& Combat::get_unit_on_turn()
 	}
 }
 
-void Combat::use_ability(int ability_index)
+void Combat::use_ability(int ability_index, int target_index)
 {
-	assert(is_hero_turn());
+	SG_DEBUG("Use ability %d", ability_index);
 
 	Combat_Unit& unit = get_unit_on_turn();
 	
@@ -71,6 +72,38 @@ void Combat::use_ability(int ability_index)
 	assert(ability_index < unit.character.abilities.size());
 
 	const Ability& ability = unit.character.abilities[ability_index];
-	// FIXME
-	(void)ability;
+	Combat_Unit& target = m_is_hero_turn ? m_enemies[target_index] : m_heroes[target_index];
+
+	target.hp -= ability.damage;
+	advance_turn();
+}
+
+void Combat::advance_turn()
+{
+	if (m_is_hero_turn) {
+		// Advance hero
+		m_current_hero_turn++;
+
+		// Overflow
+		if (m_current_hero_turn >= m_heroes.size())
+			m_current_hero_turn = 0;
+	} else {
+		// Advance enemy
+		m_current_enemy_turn++;
+
+		// Overflow
+		if (m_current_enemy_turn >= m_enemies.size())
+			m_current_enemy_turn = 0;
+	}
+
+	m_is_hero_turn = !m_is_hero_turn;
+}
+
+void Combat::update()
+{
+	if (!m_is_hero_turn) {
+		// Enemy turn
+		// FIXME - AI
+		use_ability(0, 0);
+	}
 }

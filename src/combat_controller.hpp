@@ -6,10 +6,10 @@ enum class Combat_Controller_State
 {
 	selecting_ability,
 	selecting_enemy,
-	waiting_for_enemy_turn,
 };
 
 // FIXME - refactor this after switching to new UI system
+// FIXME - move some rendering (future effects and such) into cobmat_renderer
 
 class Combat_Controller
 {
@@ -23,11 +23,14 @@ public:
 	void draw();
 private:
 	void draw_abilities();
+	void draw_selected_enemy();
 	void fix_selected_ability_index();
 
 	const int m_margin = 50;
 	const int m_height = 200;
 
-	Combat& m_combat;
 	int m_selected_ability = 0;
+	int m_selected_enemy = 0;
+	Combat_Controller_State m_state = Combat_Controller_State::selecting_ability;
+	Combat& m_combat;
 };

@@ -87,11 +87,11 @@ void Game::process_normal_input()
 
 void Game::process_combat_input()
 {
-	if (m_logic.in_combat) {
-		if (IsKeyPressed(KEY_UP)) {
-			m_combat_controller.go_up();
-		} else if (IsKeyPressed(KEY_DOWN)) {
-			m_combat_controller.go_down();
-		}
+	if (IsKeyPressed(KEY_UP)) {
+		m_combat_controller.go_up();
+	} else if (IsKeyPressed(KEY_DOWN)) {
+		m_combat_controller.go_down();
+	} else if (IsKeyPressed(KEY_ENTER)) {
+		m_combat_controller.enter();
 	}
 }

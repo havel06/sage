@@ -34,6 +34,7 @@ public:
 
 private:
 	void advance_turn();
+	void check_eliminated_units();
 
 	Party& m_party;
 

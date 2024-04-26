@@ -106,4 +106,22 @@ void Combat::update()
 		// FIXME - AI
 		use_ability(0, 0);
 	}
+
+	check_eliminated_units();
+	// FIXME - check win/lose condition
+}
+
+void Combat::check_eliminated_units()
+{
+	auto check_array = [](Array<Combat_Unit>& units) {
+		for (int i = 0; i < units.size(); i++) {
+			if (units[i].hp <= 0) {
+				units.remove(i);
+				i--;
+			}
+		}
+	};
+
+	check_array(m_enemies);
+	check_array(m_heroes);
 }

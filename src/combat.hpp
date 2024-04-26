@@ -14,6 +14,8 @@ public:
 	Combat_Unit(Character_Profile);
 };
 
+// FIXME - refactor some parts into smaller classes
+
 class Combat
 {
 public:

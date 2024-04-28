@@ -108,7 +108,6 @@ void Combat::update()
 	}
 
 	check_eliminated_units();
-	// FIXME - check win/lose condition
 }
 
 void Combat::check_eliminated_units()
@@ -124,4 +123,24 @@ void Combat::check_eliminated_units()
 
 	check_array(m_enemies);
 	check_array(m_heroes);
+}
+
+Combat_Result Combat::get_current_result() const
+{
+	if (has_player_won())
+		return Combat_Result::won;
+	else if (has_player_lost())
+		return Combat_Result::lost;
+	else
+		return Combat_Result::none;
+}
+
+bool Combat::has_player_won() const
+{
+	return m_enemies.empty();
+}
+
+bool Combat::has_player_lost() const
+{
+	return m_heroes.empty();
 }

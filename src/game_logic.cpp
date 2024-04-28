@@ -1,4 +1,5 @@
 #include "game_logic.hpp"
+#include "combat.hpp"
 #include "map/entity.hpp"
 #include "sequence/sequence.hpp"
 #include "game_facade.hpp"
@@ -15,6 +16,10 @@ void Game_Logic::update(float time_delta)
 	if (in_combat) {
 		// Combat mode
 		combat.update();
+		Combat_Result result = combat.get_current_result();
+		if (result == Combat_Result::won || result == Combat_Result::lost) {
+			in_combat = false;
+		}
 	} else {
 		// Normal mode
 		assert(start_sequence);

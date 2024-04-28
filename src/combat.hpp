@@ -14,6 +14,13 @@ public:
 	Combat_Unit(Character_Profile);
 };
 
+enum class Combat_Result
+{
+	none,
+	won,
+	lost,
+};
+
 // FIXME - refactor some parts into smaller classes
 
 class Combat
@@ -34,9 +41,13 @@ public:
 	const Combat_Unit& get_unit_on_turn() const;
 	Combat_Unit& get_unit_on_turn();
 
+	Combat_Result get_current_result() const;
+
 private:
 	void advance_turn();
 	void check_eliminated_units();
+	bool has_player_won() const;
+	bool has_player_lost() const;
 
 	Party& m_party;
 

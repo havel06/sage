@@ -1,7 +1,7 @@
 #pragma once
 
 class Combat;
-class Party;
+class Combat_Unit;
 
 struct Combat_AI_Decision
 {
@@ -12,11 +12,11 @@ struct Combat_AI_Decision
 class Combat_AI
 {
 public:
-	Combat_AI(const Combat&, const Party&);
+	Combat_AI(const Combat&);
 	Combat_AI_Decision make_decision();
 private:
 	float evaluate_option(int ability_index, int target_index);
+	float evaluate_hero_unit(const Combat_Unit&);
 
 	const Combat& m_combat;
-	const Party& m_party;
 };

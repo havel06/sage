@@ -36,6 +36,7 @@ public:
 	void use_ability(int ability_index, int target_index);
 
 	int get_enemy_count() const;
+	int get_hero_count() const;
 	const Combat_Unit& get_hero(int index) const;
 	const Combat_Unit& get_enemy(int index) const;
 	const Combat_Unit& get_unit_on_turn() const;

@@ -35,6 +35,11 @@ int Combat::get_enemy_count() const
 	return m_enemies.size();
 }
 
+int Combat::get_hero_count() const
+{
+	return m_heroes.size();
+}
+
 const Combat_Unit& Combat::get_hero(int index) const
 {
 	return m_heroes[index];
@@ -104,7 +109,7 @@ void Combat::update()
 {
 	if (!m_is_hero_turn) {
 		// Enemy turn
-		Combat_AI ai(*this, m_party);
+		Combat_AI ai(*this);
 		auto decision = ai.make_decision();
 		use_ability(decision.ability_index, decision.target_index);
 	}

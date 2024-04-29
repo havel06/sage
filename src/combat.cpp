@@ -1,6 +1,7 @@
 #include "combat.hpp"
 #include "ability.hpp"
 #include "character_profile.hpp"
+#include "combat_ai.hpp"
 #include "party.hpp"
 #include "utils/log.hpp"
 
@@ -103,8 +104,9 @@ void Combat::update()
 {
 	if (!m_is_hero_turn) {
 		// Enemy turn
-		// FIXME - AI
-		use_ability(0, 0);
+		Combat_AI ai(*this, m_party);
+		auto decision = ai.make_decision();
+		use_ability(decision.ability_index, decision.target_index);
 	}
 
 	check_eliminated_units();

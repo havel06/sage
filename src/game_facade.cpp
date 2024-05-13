@@ -136,9 +136,9 @@ void Game_Facade::add_to_party(const Character_Profile& profile)
 	m_logic.party.add_character(profile);
 }
 
-void Game_Facade::enter_combat(const Array<Character_Profile>& enemies)
+void Game_Facade::enter_combat(const Array<Character_Profile>& enemies, Sequence& win_sequence)
 {
-	m_logic.combat.start_battle(enemies);
+	m_logic.combat.start_battle(enemies, win_sequence);
 	m_logic.in_combat = true;
 }
 

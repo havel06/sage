@@ -4,15 +4,15 @@
 namespace Events
 {
 
-Enter_Combat::Enter_Combat(Game_Facade& facade, Array<Character_Profile>&& enemies) :
-	Event{facade}
+Enter_Combat::Enter_Combat(Game_Facade& facade, Array<Character_Profile>&& enemies, Sequence& win_sequence) :
+	Event{facade}, m_win_sequence{win_sequence}
 {
 	m_enemies = (Array<Character_Profile>&&)enemies;
 }
 
 void Enter_Combat::update(float)
 {
-	m_game_facade.enter_combat(m_enemies);
+	m_game_facade.enter_combat(m_enemies, m_win_sequence);
 	m_activated = true;
 }
 

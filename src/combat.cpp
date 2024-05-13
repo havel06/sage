@@ -3,6 +3,7 @@
 #include "character_profile.hpp"
 #include "combat_ai.hpp"
 #include "party.hpp"
+#include "sequence/sequence.hpp"
 #include "utils/log.hpp"
 
 Combat_Unit::Combat_Unit(Character_Profile p)
@@ -16,8 +17,10 @@ Combat::Combat(Party& party) :
 {
 }
 
-void Combat::start_battle(const Array<Character_Profile>& enemies)
+void Combat::start_battle(const Array<Character_Profile>& enemies, Sequence& win_sequence)
 {
+	m_win_sequence = &win_sequence;
+
 	m_heroes.clear();
 	m_enemies.clear();
 
@@ -115,6 +118,10 @@ void Combat::update()
 	}
 
 	check_eliminated_units();
+
+	if (has_player_won()) {
+		m_win_sequence->try_activate();
+	}
 }
 
 void Combat::check_eliminated_units()

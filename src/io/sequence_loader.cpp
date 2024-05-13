@@ -143,6 +143,8 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 	} else if (type == "disable_player_actions") {
 		loaded_event = make_own_ptr<Events::Disable_Player_Actions>(m_facade);
 	} else if (type == "enter_combat") {
+		const char* sequence_path = cJSON_GetObjectItem(params, "win_sequence")->valuestring;
+		Sequence& win_sequence = m_resource_manager.get_sequence(sequence_path);
 		const cJSON* enemies_json = cJSON_GetObjectItem(params, "enemies");
 		const cJSON* enemy_json;
 		Array<Character_Profile> enemies;
@@ -150,7 +152,7 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 			Character_Profile enemy = m_resource_manager.get_character_profile(enemy_json->valuestring);
 			enemies.push_back(enemy);
 		}
-		loaded_event = make_own_ptr<Events::Enter_Combat>(m_facade, (Array<Character_Profile>&&)enemies);
+		loaded_event = make_own_ptr<Events::Enter_Combat>(m_facade, (Array<Character_Profile>&&)enemies, win_sequence);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		loaded_event = make_own_ptr<Events::Dummy>(m_facade);

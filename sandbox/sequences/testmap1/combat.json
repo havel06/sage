@@ -5,7 +5,8 @@
 			"parameters": {
 				"enemies": [
 					"characters/enemy1.json"
-				]
+				],
+				"win_sequence": "sequences/testmap1/combat_win.json"
 			}
 		}
 	]

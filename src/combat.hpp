@@ -4,6 +4,7 @@
 #include "utils/array.hpp"
 
 class Party;
+class Sequence;
 
 class Combat_Unit
 {
@@ -32,7 +33,7 @@ public:
 
 	bool is_hero_turn() const { return m_is_hero_turn; }
 
-	void start_battle(const Array<Character_Profile>& enemies);
+	void start_battle(const Array<Character_Profile>& enemies, Sequence& win_sequence);
 	void use_ability(int ability_index, int target_index);
 
 	int get_enemy_count() const;
@@ -51,6 +52,7 @@ private:
 	bool has_player_lost() const;
 
 	Party& m_party;
+	Sequence* m_win_sequence;
 
 	Array<Combat_Unit> m_heroes;
 	Array<Combat_Unit> m_enemies;

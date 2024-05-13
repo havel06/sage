@@ -10,6 +10,7 @@ class Resource_Manager;
 class Game_Logic;
 class Music_Player;
 class Sprite;
+class Sequence;
 
 // Facade for sequence events to interface with the rest of the game.
 class Game_Facade
@@ -30,7 +31,7 @@ public:
 	void set_entity_sprite(const String& entity_name, const Sprite& sprite);
 	void play_music(Sound);
 	void add_to_party(const Character_Profile&);
-	void enter_combat(const Array<Character_Profile>& enemies);
+	void enter_combat(const Array<Character_Profile>& enemies, Sequence& win_sequence);
 	void add_quest(const String& id, const String& name, const String& description);
 	void finish_quest(const String& id);
 private:

@@ -11,14 +11,14 @@
 			"type": "move_entity",
 			"parameters": {
 				"entity": "Error",
-				"x": 9,
-				"y": 14 
+				"x": 8,
+				"y": 13 
 			}
 		}, {
 			"type": "move_entity",
 			"parameters": {
 				"entity": "Error",
-				"x": 9,
+				"x": 8,
 				"y": 6
 			}
 		}, {

@@ -9,8 +9,8 @@
 		}, {
 			"type": "teleport_player",
 			"parameters": {
-				"x": 9,
-				"y": 4
+				"x": 8,
+				"y": 3
 			}
 		}, {
 			"type": "activate_sequence",

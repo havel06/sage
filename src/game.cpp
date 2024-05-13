@@ -13,6 +13,7 @@ Game::Game(const char* project_path) :
 	m_res_manager(m_sequence_loader, project_path),
 	m_text_box_renderer(m_logic.text_box),
 	m_inventory_renderer(m_logic.item_registry, m_logic.inventory),
+	m_camera_controller(m_camera),
 	m_combat_renderer(m_logic.party, m_logic.combat),
 	m_quest_log_renderer(m_logic.quest_log),
 	m_combat_controller(m_logic.combat)
@@ -43,7 +44,7 @@ void Game::draw_frame(float time_delta)
 		// Normal mode
 		process_normal_input();
 		m_res_manager.update_sequences(time_delta); // FIXME - somehow refactor this into game logic
-		m_camera.position = m_logic.get_player().get_subgrid_position() + Vec2f{0.5, 0.5};
+		m_camera_controller.update(m_logic.map, m_logic.get_player());
 		m_map_renderer.draw(m_logic.map, m_camera);
 		m_text_box_renderer.draw();
 

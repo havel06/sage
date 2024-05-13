@@ -11,6 +11,7 @@ src = [
   'src/game_facade.cpp',
   'src/game_logic.cpp',
   'src/graphics/camera.cpp',
+  'src/graphics/camera_controller.cpp',
   'src/graphics/combat_renderer.cpp',
   'src/graphics/inventory_renderer.cpp',
   'src/graphics/map_renderer.cpp',

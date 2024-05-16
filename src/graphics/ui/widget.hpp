@@ -2,6 +2,7 @@
 
 #include "utils/own_ptr.hpp"
 #include "utils/array.hpp"
+#include "utils/rect.hpp"
 
 namespace UI
 {
@@ -17,7 +18,7 @@ class Widget_Collection
 public:
 	void add_widget(Widget_Ptr&&);
 	// Should only be called by parent widget
-	void draw(float time_delta);
+	void draw(Recti parent_area, float time_delta);
 private:
 	Array<Widget_Ptr> m_widgets;
 };
@@ -26,11 +27,11 @@ private:
 class Widget
 {
 public:
-	void draw(float time_delta);
+	void draw(Recti parent_area, float time_delta);
 	void add_child(Widget_Ptr&&);
 private:
 	Widget_Collection m_children;
-	virtual void draw_impl(float time_delta) = 0;
+	virtual void draw_impl(Recti parent_area, float time_delta) = 0;
 };
 
 }

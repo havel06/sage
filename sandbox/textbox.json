@@ -1,0 +1,30 @@
+{
+	"type": "box",
+	"layout": {
+		"columns": [5, 90, 5],
+		"rows": [60, 35, 5]
+	},
+	"children": [
+		{
+			"type": "box",
+			"parameters": {
+				"colour": {
+					"r": 0,
+					"g": 0,
+					"b": 0,
+					"a": 100
+				}
+			},
+			"layout": {
+				"columns": [5, 90, 5],
+				"rows": [5, 90, 5]
+			},
+			"children": [
+				{
+					"type": "text",
+					"name": "Text"
+				}
+			]
+		}
+	]
+}

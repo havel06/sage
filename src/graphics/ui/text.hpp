@@ -9,6 +9,7 @@ namespace UI
 class Text : public Widget
 {
 public:
+	Text(Layout&&);
 	String text;
 	int size = 10;
 private:

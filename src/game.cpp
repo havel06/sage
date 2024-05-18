@@ -1,5 +1,7 @@
 #include "game.hpp"
 #include "game_facade.hpp"
+#include "graphics/ui/widget.hpp"
+#include "io/gui_loader.hpp"
 #include "io/item_registry_loader.hpp"
 #include "io/project_loader.hpp"
 #include "sequence/event.hpp"
@@ -59,7 +61,6 @@ void Game::draw_frame(float time_delta)
 		m_combat_renderer.draw();
 		m_combat_controller.draw();
 	}
-
 }
 
 void Game::process_normal_input()

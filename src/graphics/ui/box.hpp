@@ -9,7 +9,8 @@ namespace UI
 class Box : public Widget
 {
 public:
-	Colour colour;
+	Box(Layout&&);
+	Colour colour = {0, 0, 0, 0};
 private:
 	void draw_impl(Recti parent_area, float time_delta) override;
 };

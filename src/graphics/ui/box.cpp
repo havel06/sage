@@ -1,8 +1,14 @@
 #include "box.hpp"
 #include "raylib/raylib.h"
+#include "utils/log.hpp"
 
 namespace UI
 {
+
+Box::Box(Layout&& layout) :
+	Widget((Layout&&)layout)
+{
+}
 
 void Box::draw_impl(Recti parent_area, float)
 {

@@ -11,6 +11,7 @@ public:
 
 private:
 	UI::Widget_Ptr parse_widget(const cJSON* json);
-	UI::Widget_Ptr parse_box(const cJSON* params);
-	UI::Widget_Ptr parse_text(const cJSON* params);
+	UI::Layout parse_layout(const cJSON* json);
+	UI::Widget_Ptr parse_box(UI::Layout&&, const cJSON* params);
+	UI::Widget_Ptr parse_text(UI::Layout&&, const cJSON* params);
 };

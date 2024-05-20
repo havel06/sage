@@ -21,6 +21,7 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const cJSON* json)
 	String type = cJSON_GetObjectItem(json, "type")->valuestring;
 	const cJSON* params = cJSON_GetObjectItem(json, "parameters");
 
+	// Layout
 	UI::Layout layout = parse_layout(cJSON_GetObjectItem(json, "layout"));
 
 	// Children
@@ -45,6 +46,12 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const cJSON* json)
 		SG_ERROR("Invalid widget type \"%s\"", type.data());
 		// FIXME - recover
 		assert(false);
+	}
+
+	// Name
+	const cJSON* name_json = cJSON_GetObjectItem(json, "name");
+	if (name_json) {
+		widget->set_name(String{name_json->valuestring});
 	}
 
 	return widget;
@@ -92,6 +99,7 @@ UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const cJSON* params)
 
 	if (params) {
 		widget->text = cJSON_GetObjectItem(params, "text")->valuestring;
+		widget->size = cJSON_GetObjectItem(params, "size")->valueint;
 	}
 
 	return widget;

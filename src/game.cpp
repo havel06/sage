@@ -29,6 +29,9 @@ Game::Game(const char* project_path) :
 	Item_Registry_Loader item_registry_loader(m_res_manager);
 	item_registry_loader.load(m_logic.item_registry, project_path);
 
+	// UI
+	m_text_box_renderer.load(project_path);
+
 	// Set up main character profile
 	m_logic.party.main_character() = m_res_manager.get_character_profile(description.default_character.data());
 

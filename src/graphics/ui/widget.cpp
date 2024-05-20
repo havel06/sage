@@ -1,4 +1,5 @@
 #include "widget.hpp"
+#include "raylib/raylib.h"
 
 namespace UI
 {
@@ -60,6 +61,41 @@ void Widget::draw(Recti parent_area, float time_delta)
 {
 	draw_impl(parent_area, time_delta);
 	m_layout.draw(parent_area, time_delta);
+}
+
+void Widget::draw_as_root(float time_delta)
+{
+	Recti area = {
+		{0, 0},
+		{GetScreenWidth(), GetScreenHeight()}
+	};
+
+	draw(area, time_delta);
+}
+
+void Widget::set_name(String&& name)
+{
+	m_name = (String&&)name;
+}
+
+Widget* Widget::get_widget_by_name(const String& name)
+{
+	if (m_name == name) {
+		return this;
+	} else {
+		return m_layout.get_widget_by_name(name);
+	}
+}
+
+Widget* Layout::get_widget_by_name(const String& name)
+{
+	for (int i = 0; i < m_elements.size(); i++) {
+		Widget* maybe_found = m_elements[i].widget->get_widget_by_name(name);
+		if (maybe_found)
+			return maybe_found;
+	}
+
+	return nullptr;
 }
 
 }

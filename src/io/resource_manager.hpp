@@ -27,8 +27,7 @@ private:
 	String m_asset_path;
 	Table<String, Texture> m_textures;
 	Table<String, Sound> m_sounds;
-	// NOTE - this might not be future-proof
-	Pool_Table<String, Sequence, 256> m_sequences;
+	Table<String, Own_Ptr<Sequence>> m_sequences;
 
 	Sequence_Loader& m_sequence_loader;
 };

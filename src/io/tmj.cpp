@@ -191,7 +191,7 @@ void Map_Loader::parse_object(const cJSON* object)
 		}
 	}
 
-	m_map.add_entity((Entity&&)entity);
+	m_map.entities.add_entity((Entity&&)entity);
 }
 
 void Map_Loader::parse_tilesets(const cJSON* tilesets)

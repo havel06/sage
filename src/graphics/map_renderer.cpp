@@ -16,8 +16,8 @@ void Map_Renderer::draw(const Map& map, const Game_Camera& camera)
 		draw_layer(map.layers.get_layer(i));
 	}
 
-	for (int i = 0; i < map.get_entity_count(); i++) {
-		draw_entity(map.get_entity(i));
+	for (int i = 0; i < map.entities.get_entity_count(); i++) {
+		draw_entity(map.entities.get_entity(i));
 	}
 
 	EndMode2D();

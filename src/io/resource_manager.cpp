@@ -45,15 +45,15 @@ Sound Resource_Manager::get_sound(const char* filename)
 Sequence& Resource_Manager::get_sequence(const char* filename, bool absolute_path)
 {
 	String full_filename = absolute_path ? get_canonical_path(filename) : get_full_filename(filename);
-	Sequence* found = m_sequences.get(full_filename);
+	Own_Ptr<Sequence>* found = m_sequences.get(full_filename);
 	if (found)
-		return *found;
+		return **found;
 
 	//SG_DEBUG("Loading sequence \"%s\"", full_filename.data());
 	Sequence sequence = m_sequence_loader.load(full_filename);
 	SG_INFO("Loaded sequence \"%s\"", full_filename.data());
 
-	return m_sequences.insert(String{full_filename}, (Sequence&&)sequence);
+	return *m_sequences.insert(String{full_filename}, make_own_ptr<Sequence>((Sequence&&)sequence));
 }
 
 Map Resource_Manager::get_map(const char* filename)
@@ -95,7 +95,7 @@ String Resource_Manager::get_canonical_path(const String& path)
 
 void Resource_Manager::update_sequences(float time_delta)
 {
-	m_sequences.for_each([&](Sequence& seq){
-		seq.update(time_delta);
+	m_sequences.for_each([&](const String&, Own_Ptr<Sequence>& seq){
+		seq->update(time_delta);
 	});
 }

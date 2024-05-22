@@ -35,7 +35,7 @@ void Game_Facade::spawn_player()
 	player.name = character.name;
 	player.assigned_character = character;
 
-	m_logic.map.add_entity((Entity&&)player);
+	m_logic.map.entities.add_entity((Entity&&)player);
 }
 
 void Game_Facade::teleport_player(Vec2i position)
@@ -45,7 +45,7 @@ void Game_Facade::teleport_player(Vec2i position)
 
 void Game_Facade::teleport_entity(const String& entity_name, Vec2i position)
 {
-	Entity* entity = m_logic.map.get_entity(entity_name);
+	Entity* entity = m_logic.map.entities.get_entity(entity_name);
 
 	if (!entity) {
 		SG_ERROR("Entity \"%s\" not found", entity_name.data());
@@ -78,7 +78,7 @@ void Game_Facade::remove_item(const String& id, int count)
 
 void Game_Facade::set_entity_sprite(const String& entity_name, const Sprite& sprite)
 {
-	Entity* entity = m_logic.map.get_entity(entity_name);
+	Entity* entity = m_logic.map.entities.get_entity(entity_name);
 
 	if (!entity) {
 		SG_ERROR("Entity \"%s\" not found", entity_name.data());
@@ -100,7 +100,7 @@ int Game_Facade::get_owned_item_count(const String& id)
 
 Vec2i Game_Facade::get_entity_position(const String& entity_name)
 {
-	Entity* entity = m_logic.map.get_entity(entity_name);
+	Entity* entity = m_logic.map.entities.get_entity(entity_name);
 
 	if (!entity) {
 		SG_ERROR("Entity \"%s\" not found", entity_name.data());
@@ -112,7 +112,7 @@ Vec2i Game_Facade::get_entity_position(const String& entity_name)
 
 void Game_Facade::move_entity(const String& entity_name, Vec2i position)
 {
-	Entity* entity = m_logic.map.get_entity(entity_name);
+	Entity* entity = m_logic.map.entities.get_entity(entity_name);
 
 	if (!entity) {
 		SG_ERROR("Entity \"%s\" not found", entity_name.data());

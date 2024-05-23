@@ -1,6 +1,7 @@
 #include "file.hpp"
 #include <stdio.h>
 #include <assert.h>
+#include "log.hpp"
 
 String remove_filename(const String& path)
 {
@@ -30,7 +31,11 @@ String remove_filename(const String& path)
 String read_file_to_str(const char* filename)
 {
 	FILE* file = fopen(filename, "r");
-	assert(file);
+
+	if (!file) {
+		SG_ERROR("Cannot open file %s\n", filename);
+		assert(false);
+	}
 
 	String result;
 	int c;

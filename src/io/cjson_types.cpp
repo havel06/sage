@@ -6,6 +6,7 @@ namespace cJSON_Types
 
 Sprite parse_sprite(const cJSON* json, Resource_Manager& res_mgr)
 {
+	assert(json);
 	const char* texture_name = cJSON_GetObjectItem(json, "texture")->valuestring;
 	const Texture texture = res_mgr.get_texture(texture_name);
 	Sprite sprite(texture);

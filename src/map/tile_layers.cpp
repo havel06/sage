@@ -31,6 +31,9 @@ const Tile_Layer& Tile_Layers::get_layer(int index) const
 
 bool Tile_Layers::is_passable(Vec2i position) const
 {
+	if (!is_position_valid(position))
+		return false;
+
 	for (int i = 0; i < m_layers.size(); i++) {
 		if (!m_layers[i].get_tile(position).passable) {
 			return false;
@@ -38,4 +41,9 @@ bool Tile_Layers::is_passable(Vec2i position) const
 	}
 
 	return true;
+}
+
+bool Tile_Layers::is_position_valid(Vec2i pos) const
+{
+	return (pos.x >= 0 && pos.x < m_width && pos.y >= 0 && pos.y < m_height);
 }

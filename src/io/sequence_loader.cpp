@@ -39,6 +39,7 @@ Sequence_Loader::Sequence_Loader(Resource_Manager& res_mgr, Game_Facade& facade)
 
 Sequence Sequence_Loader::load(const String& filename)
 {
+	SG_DEBUG("Parsing sequence %s", filename.data());
 	String content = read_file_to_str(filename.data());
 	cJSON* json = cJSON_Parse(content.data());
 	Sequence sequence;
@@ -50,6 +51,7 @@ Sequence Sequence_Loader::load(const String& filename)
 
 	// Events
 	const cJSON* events = cJSON_GetObjectItem(json, "events");
+	assert(cJSON_IsArray(events));
 	const cJSON* event_json;
 	cJSON_ArrayForEach(event_json, events) {
 		sequence.add_event(parse_event(event_json));
@@ -68,7 +70,10 @@ Sequence Sequence_Loader::load(const String& filename)
 // TODO - refactor to an event factory?
 Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 {
-	const String type = cJSON_GetObjectItem(json, "type")->valuestring;
+	assert(json);
+	const cJSON* type_json = cJSON_GetObjectItem(json, "type");
+	assert(type_json);
+	const String type = type_json->valuestring;
 	const cJSON* params = cJSON_GetObjectItem(json, "parameters");
 	Event_Ptr loaded_event;
 

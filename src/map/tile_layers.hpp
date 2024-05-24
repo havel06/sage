@@ -15,6 +15,7 @@ public:
 
 	bool is_empty() const { return m_layers.empty(); }
 	bool is_passable(Vec2i) const;
+	bool is_position_valid(Vec2i pos) const;
 private:
 	int m_width = 0;
 	int m_height = 0;

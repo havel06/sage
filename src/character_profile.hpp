@@ -20,4 +20,5 @@ struct Character_Profile
 	Array<Ability> abilities;
 
 	int max_hp = 0;
+	float move_speed = 5;
 };

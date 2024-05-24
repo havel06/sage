@@ -35,6 +35,11 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 		profile.size.y = cJSON_GetObjectItem(character_size, "y")->valuedouble;
 	}
 
+	const cJSON* move_speed = cJSON_GetObjectItem(json, "move_speed");
+	if (move_speed) {
+		profile.move_speed = move_speed->valuedouble;
+	}
+
 	const cJSON* abilites = cJSON_GetObjectItem(json, "abilities");
 	const cJSON* ability_json;
 	cJSON_ArrayForEach(ability_json, abilites) {

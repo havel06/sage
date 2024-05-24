@@ -7,7 +7,14 @@
 void Entity::update(float time_delta)
 {
 	if (m_moving) {
-		m_subgrid_offset += direction_to_vec2i(m_look_direction) * move_speed * time_delta;
+		auto get_move_speed = [this](){
+			if (assigned_character.has_value())
+				return assigned_character.value().move_speed;
+			else
+				return move_speed;
+		};
+
+		m_subgrid_offset += direction_to_vec2i(m_look_direction) * get_move_speed() * time_delta;
 
 		if (abs(m_subgrid_offset.x) >= 1 || abs(m_subgrid_offset.y) >= 1) {
 			position += m_subgrid_offset.round();

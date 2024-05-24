@@ -13,9 +13,11 @@ public:
 	void update(const Map& map, const Entity& player);
 	void set_zoom(int amount);
 private:
-	bool is_camera_out_of_bounds_horizontal(Vec2f position, float zoom, Vec2i map_size);
-	bool is_camera_out_of_bounds_vertical(Vec2f position, float zoom, Vec2i map_size);
-	bool is_player_out_of_camera(Rectf player_rect);
+	void fix_camera_out_of_bounds(Vec2i map_size);
+	void fix_camera_out_of_bounds_horizontal(Vec2i map_size);
+	void fix_camera_out_of_bounds_vertical(Vec2i map_size);
+	int get_camera_view_world_width();
+	int get_camera_view_world_height();
 
 	Game_Camera& m_camera;
 };

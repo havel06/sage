@@ -10,7 +10,7 @@
 #include <raylib/raylib.h>
 
 Game::Game(const char* project_path) :
-	m_game_facade(m_res_manager, m_music_player, m_logic),
+	m_game_facade(m_res_manager, m_music_player, m_logic, m_camera_controller),
 	m_sequence_loader(m_res_manager, m_game_facade),
 	m_res_manager(m_sequence_loader, project_path),
 	m_text_box_renderer(m_logic.text_box),

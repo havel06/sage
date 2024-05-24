@@ -23,6 +23,7 @@
 #include "sequence/events/enable_player_actions.hpp"
 #include "sequence/events/disable_player_actions.hpp"
 #include "sequence/events/enter_combat.hpp"
+#include "sequence/events/zoom_camera.hpp"
 #include "sequence/sequence.hpp"
 #include "utils/file.hpp"
 #include "utils/log.hpp"
@@ -138,6 +139,9 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 	} else if (type == "finish_quest") {
 		String id = cJSON_GetObjectItem(params, "id")->valuestring;
 		loaded_event = make_own_ptr<Events::Finish_Quest>(m_facade, (String&&)id);
+	} else if (type == "zoom_camera") {
+		const int amount = cJSON_GetObjectItem(params, "zoom")->valueint;
+		loaded_event = make_own_ptr<Events::Zoom_Camera>(m_facade, amount);
 	} else if (type == "enable_player_actions") {
 		loaded_event = make_own_ptr<Events::Enable_Player_Actions>(m_facade);
 	} else if (type == "disable_player_actions") {

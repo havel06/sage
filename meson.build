@@ -59,6 +59,7 @@ src = [
   'src/sequence/events/remove_item.cpp',
   'src/sequence/events/teleport_entity.cpp',
   'src/sequence/events/teleport_player.cpp',
+  'src/sequence/events/zoom_camera.cpp',
   'src/sequence/sequence.cpp',
   'src/text_box.cpp',
   'src/utils/file.cpp',

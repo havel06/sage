@@ -11,6 +11,7 @@ class Camera_Controller
 public:
 	Camera_Controller(Game_Camera&);
 	void update(const Map& map, const Entity& player);
+	void set_zoom(int amount);
 private:
 	bool is_camera_out_of_bounds_horizontal(Vec2f position, float zoom, Vec2i map_size);
 	bool is_camera_out_of_bounds_vertical(Vec2f position, float zoom, Vec2i map_size);

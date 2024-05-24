@@ -11,12 +11,13 @@ class Game_Logic;
 class Music_Player;
 class Sprite;
 class Sequence;
+class Camera_Controller;
 
 // Facade for sequence events to interface with the rest of the game.
 class Game_Facade
 {
 public:
-	Game_Facade(Resource_Manager&, Music_Player&, Game_Logic&);
+	Game_Facade(Resource_Manager&, Music_Player&, Game_Logic&, Camera_Controller&);
 	void set_current_map(const String& filename);
 	void teleport_player(Vec2i position);
 	void set_player_interactions_enabled(bool enabled);
@@ -34,10 +35,12 @@ public:
 	void enter_combat(const Array<Character_Profile>& enemies, Sequence& win_sequence);
 	void add_quest(const String& id, const String& name, const String& description);
 	void finish_quest(const String& id);
+	void zoom_camera(int amount);
 private:
 	void spawn_player();
 
 	Resource_Manager& m_res_manager;
 	Music_Player& m_music_player;
 	Game_Logic& m_logic;
+	Camera_Controller& m_camera_controller;
 };

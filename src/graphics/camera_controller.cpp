@@ -88,3 +88,8 @@ bool Camera_Controller::is_player_out_of_camera(Rectf player_rect)
 
 	return !camera_rect.overlaps(player_rect);
 }
+
+void Camera_Controller::set_zoom(int amount)
+{
+	m_camera.zoom = amount;
+}

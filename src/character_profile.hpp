@@ -4,6 +4,7 @@
 #include "utils/string.hpp"
 #include "utils/array.hpp"
 #include "graphics/sprite.hpp"
+#include "utils/vec2.hpp"
 
 struct Character_Profile
 {
@@ -13,6 +14,8 @@ struct Character_Profile
 	Sprite sprite_up;
 	Sprite sprite_left;
 	Sprite sprite_right;
+
+	Vec2f size = {1, 1};
 
 	Array<Ability> abilities;
 

@@ -53,6 +53,10 @@ void Map_Renderer::draw_entity(const Entity& entity)
 
 	if (entity.assigned_character.has_value()) {
 		const Character_Profile& character = entity.assigned_character.value();
+
+		transform.size = character.size;
+		transform.position.y -= character.size.y - 1; //Adjust foot position
+
 		switch (look_direction) {
 			case Direction::down:
 				character.sprite_down.draw(transform);

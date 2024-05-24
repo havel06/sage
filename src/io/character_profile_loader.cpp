@@ -29,6 +29,12 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 	profile.sprite_left  = cJSON_Types::parse_sprite(sprite_left_json,  m_resource_manager);
 	profile.sprite_right = cJSON_Types::parse_sprite(sprite_right_json, m_resource_manager);
 
+	const cJSON* character_size = cJSON_GetObjectItem(json, "size");
+	if (character_size) {
+		profile.size.x = cJSON_GetObjectItem(character_size, "x")->valuedouble;
+		profile.size.y = cJSON_GetObjectItem(character_size, "y")->valuedouble;
+	}
+
 	const cJSON* abilites = cJSON_GetObjectItem(json, "abilities");
 	const cJSON* ability_json;
 	cJSON_ArrayForEach(ability_json, abilites) {

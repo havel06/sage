@@ -166,3 +166,17 @@ bool String::has_postfix(const String& other) const
 
 	return strcmp(other.data(), data() + (length() - other.length())) == 0;
 }
+
+String String::substring(int start, int length) const
+{
+	assert(start >= 0);
+	assert(length >= 0);
+
+	String result;
+
+	for (int i = 0; i < length; i++) {
+		result.append((*this)[start + i]);
+	}
+
+	return result;
+}

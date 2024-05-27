@@ -28,6 +28,7 @@ public:
 	int length() const { return m_length; }
 	bool has_prefix(const String& other) const;
 	bool has_postfix(const String& other) const;
+	String substring(int start, int length) const;
 
 	const char* data() const { return m_data; }
 	char* data() { return m_data; }

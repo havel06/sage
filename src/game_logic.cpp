@@ -22,6 +22,8 @@ void Game_Logic::update(float time_delta)
 		}
 	} else {
 		// Normal mode
+		text_box.update(time_delta);
+		
 		assert(start_sequence);
 		start_sequence->update(time_delta);
 

@@ -6,7 +6,7 @@
 #include "io/tmj.hpp"
 #include "utils/log.hpp"
 #include "character_profile_loader.hpp"
-#include <cstdlib>
+#include "utils/filesystem.hpp"
 
 Resource_Manager::Resource_Manager(Sequence_Loader& seq_loader, const String& asset_path) :
 	m_sequence_loader{seq_loader}
@@ -83,14 +83,6 @@ String Resource_Manager::get_full_filename(const String& filename)
 	full_filename.append(filename);
 
 	return get_canonical_path(full_filename);
-}
-
-String Resource_Manager::get_canonical_path(const String& path)
-{
-	char real_path[512];
-	realpath(path.data(), real_path);
-
-	return real_path;
 }
 
 void Resource_Manager::update_sequences(float time_delta)

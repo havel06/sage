@@ -22,7 +22,6 @@ public:
 	Character_Profile get_character_profile(const char*, bool absolute_path = false);
 private:
 	String get_full_filename(const String& filename);
-	String get_canonical_path(const String& path);
 
 	String m_asset_path;
 	Table<String, Texture> m_textures;

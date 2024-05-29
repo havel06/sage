@@ -8,5 +8,5 @@ String get_canonical_path(const String& str)
 
 String get_canonical_path(const char* str)
 {
-	return std::filesystem::canonical(str).c_str();
+	return std::filesystem::canonical(str).string().c_str();
 }

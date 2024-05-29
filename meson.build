@@ -72,4 +72,15 @@ deps = [
   raylib_lib,
 ]
 
-executable('out', [src, vendor_src], dependencies : deps, include_directories : [vendor_inc, 'src'])
+options = []
+
+if host_machine.system() == 'windows'
+  deps += meson.get_compiler('cpp').find_library('winmm')
+  options = ['werror=false', 'unity=on']
+endif
+
+executable('out', [src, vendor_src],
+  dependencies : deps,
+  include_directories : [vendor_inc, 'src'],
+  override_options : options
+)

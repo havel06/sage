@@ -4,6 +4,7 @@
 
 const char* log_level_str(Log_Level level)
 {
+#ifdef __unix__
 	switch (level) {
 		case Log_Level::debug:
 			return "\033[96mDEBUG\033[39m";
@@ -14,6 +15,18 @@ const char* log_level_str(Log_Level level)
 		case Log_Level::warning:
 			return "\033[93mWARNING\033[39m";
 	}
+#else
+	switch (level) {
+		case Log_Level::debug:
+			return "DEBUG";
+		case Log_Level::error:
+			return "ERROR";
+		case Log_Level::info:
+			return "INFO";
+		case Log_Level::warning:
+			return "WARNING";
+	}
+#endif
 }
 
 void log_message(Log_Level level, const char* fmt, ...)

@@ -5,12 +5,18 @@
 
 String remove_filename(const String& path)
 {
+#ifdef _WIN32
+	const char separator = '\\';
+#else
+	const char separator = '/';
+#endif
+
 	bool slash_found = false;
 	int slash_position = 0;
 
 	// Find the slash
 	for (int i = 0; i < path.length(); i++) {
-		if (path[i] == '/') {
+		if (path[i] == separator) {
 			slash_found = true;
 			slash_position = i;
 		}

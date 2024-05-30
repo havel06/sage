@@ -3,11 +3,13 @@
 #include "utils/file.hpp"
 #include "utils/log.hpp"
 #include "game_facade.hpp"
+#include "graphics/camera.hpp"
 #include <stdio.h>
 #include <cJSON.h>
 
-Game_Saveloader::Game_Saveloader(const String& project_dir, Game_Facade& facade) :
-	m_game_facade{facade}
+Game_Saveloader::Game_Saveloader(const String& project_dir, Game_Facade& facade, Game_Camera& camera) :
+	m_game_facade{facade},
+	m_camera{camera}
 {
 	m_project_dir = project_dir;
 }
@@ -31,6 +33,7 @@ void Game_Saveloader::save()
 	cJSON* json = cJSON_CreateObject();
 	String map_relative_path = get_relative_path(map_absolute_path, m_project_dir);
 	cJSON_AddItemToObject(json, "current_map", cJSON_CreateString(map_relative_path.data()));
+	cJSON_AddItemToObject(json, "camera_zoom", cJSON_CreateNumber(m_camera.zoom));
 	
 	// Write to file
 	create_directories_for_file(m_savefile_path);
@@ -54,9 +57,10 @@ void Game_Saveloader::load()
 
 	String file_contents = read_file_to_str(m_savefile_path.data());
 	cJSON* json = cJSON_Parse(file_contents.data());
-	const char* current_map = cJSON_GetObjectItem(json, "current_map")->valuestring;
 
+	const char* current_map = cJSON_GetObjectItem(json, "current_map")->valuestring;
 	m_game_facade.set_current_map(current_map);
+	m_camera.zoom = cJSON_GetObjectItem(json, "camera_zoom")->valuedouble;
 
 	cJSON_Delete(json);
 	SG_INFO("Loaded game state.");

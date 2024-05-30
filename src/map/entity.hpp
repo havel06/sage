@@ -19,6 +19,7 @@ public:
 	Vec2i size = {1, 1};
 	float move_speed = 5;
 	bool passable = false;
+	bool area_trigger = false; // Entity is triggered when a player is inside its hitbox
 	Sprite sprite;
 	Optional<Character_Profile> assigned_character;
 

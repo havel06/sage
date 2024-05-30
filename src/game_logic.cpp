@@ -27,9 +27,19 @@ void Game_Logic::update(float time_delta)
 		assert(start_sequence);
 		start_sequence->update(time_delta);
 
+		Entity& player = get_player();
+
 		for (int i = 0; i < map.entities.get_entity_count(); i++) {
 			Entity& entity = map.entities.get_entity(i);
 			entity.update(time_delta);
+
+			// Area triggers
+			if (entity.area_trigger &&
+				entity.assigned_sequence &&
+				entity.get_bounding_box().contains(player.position))
+			{
+				entity.assigned_sequence->try_activate();
+			}
 		}
 	}
 }
@@ -54,6 +64,9 @@ void Game_Logic::player_interact()
 		return;
 
 	if (!target_entity->assigned_sequence)
+		return;
+
+	if (target_entity->area_trigger) // Don't activate area triggers with manual interaction
 		return;
 
 	target_entity->assigned_sequence->try_activate();

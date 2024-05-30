@@ -192,6 +192,8 @@ void Map_Loader::parse_object(const cJSON* object)
 			entity.assigned_character = m_resource_manager.get_character_profile(character_path.data(), true);
 		} else if (name == "passable") {
 			entity.passable = cJSON_GetObjectItem(property, "value")->valueint;
+		} else if (name == "area_trigger") {
+			entity.area_trigger = cJSON_GetObjectItem(property, "value")->valueint;
 		} else {
 			SG_WARNING("Object property \"%s\" is not supported.", name.data());
 		}

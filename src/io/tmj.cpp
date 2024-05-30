@@ -10,7 +10,7 @@
 namespace TMJ
 {
 
-Tileset::Tileset(Vec2i tile_size, int columns, int count, const Texture& texture)
+Tileset::Tileset(Vec2i tile_size, int columns, int count, const Sage_Texture& texture)
 {
 	m_tiles.resize(count);
 	for (int i = 0; i < count; i++) {
@@ -231,7 +231,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 			// Tileset from one image
 			const char* image_relative = image_json->valuestring;
 			String image_path = relative_to_real_path(image_relative);
-			Texture texture = m_resource_manager.get_texture(image_path.data(), true);
+			Sage_Texture texture = m_resource_manager.get_texture(image_path.data(), true);
 			return Tileset{
 				Vec2i{tile_width, tile_height},
 				columns,
@@ -249,7 +249,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 		if (tileset.is_image_collection()) {
 			const char* image_relative = cJSON_GetObjectItem(special_tile, "image")->valuestring;
 			String image_path = relative_to_real_path(image_relative);
-			Texture texture = m_resource_manager.get_texture(image_path.data(), true);
+			Sage_Texture texture = m_resource_manager.get_texture(image_path.data(), true);
 			Sprite sprite{texture};
 			tileset.add_tile(Tile{sprite});
 		}

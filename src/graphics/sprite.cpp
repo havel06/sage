@@ -3,24 +3,24 @@
 #include <raylib/raylib.h>
 #include <assert.h>
 
-Sprite::Sprite(const Texture& texture)
+Sprite::Sprite(const Sage_Texture& texture)
 {
 	m_texture = texture;
 
 	texture_clip.position.x = 0;
 	texture_clip.position.y = 0;
-	texture_clip.size.x = texture.width;
-	texture_clip.size.y = texture.height;
+	texture_clip.size.x = texture.ray_texture.width;
+	texture_clip.size.y = texture.ray_texture.height;
 }
 
 Sprite::Sprite()
 {
-	m_texture.id = 0;
+	m_texture.ray_texture.id = 0;
 }
 
 bool Sprite::is_null() const
 {
-	return m_texture.id <= 0;
+	return m_texture.ray_texture.id <= 0;
 }
 
 void Sprite::draw(Rectf transform) const
@@ -42,5 +42,10 @@ void Sprite::draw(Rectf transform) const
 		transform.size.y,
 	};
 
-	DrawTexturePro(m_texture, source, dest, {}, 0, WHITE);
+	DrawTexturePro(m_texture.ray_texture, source, dest, {}, 0, WHITE);
+}
+
+const String& Sprite::get_texture_path() const
+{
+	return m_texture.path;
 }

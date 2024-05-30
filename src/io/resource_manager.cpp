@@ -14,17 +14,17 @@ Resource_Manager::Resource_Manager(Sequence_Loader& seq_loader, const String& as
 	m_asset_path = asset_path;
 }
 
-Texture Resource_Manager::get_texture(const char* filename, bool absolute_path)
+Sage_Texture Resource_Manager::get_texture(const char* filename, bool absolute_path)
 {
 	String full_filename = absolute_path ? get_canonical_path(filename) : get_full_filename(filename);
-	const Texture* found = m_textures.get(full_filename);
+	const Sage_Texture* found = m_textures.get(full_filename);
 	if (found)
 		return *found;
 
-	Texture texture = LoadTexture(full_filename.data());
+	Sage_Texture texture = {LoadTexture(full_filename.data()), full_filename};
 	SG_INFO("Loaded texture \"%s\"", full_filename.data());
 	//SG_DEBUG("%d", texture.id);
-	m_textures.insert(String{full_filename}, Texture{texture});
+	m_textures.insert(String{full_filename}, Sage_Texture{texture});
 	return texture;
 }
 

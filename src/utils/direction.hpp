@@ -41,6 +41,20 @@ Direction vec2_to_direction(Vec2<T> vec)
 	}
 }
 
+inline const char* direction_to_string(Direction dir)
+{
+	switch (dir) {
+		case Direction::up:
+			return "up";
+		case Direction::down:
+			return "down";
+		case Direction::right:
+			return "right";
+		case Direction::left:
+			return "left";
+	}
+}
+
 const auto direction_to_vec2i = direction_to_vec2<int>;
 const auto direction_to_vec2f = direction_to_vec2<float>;
 const auto vec2i_to_direction = vec2_to_direction<int>;

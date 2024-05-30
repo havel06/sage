@@ -1,5 +1,6 @@
 #include "resource_manager.hpp"
 #include "character_profile.hpp"
+#include "io/savegame/sequence_saveloader.hpp"
 #include "raylib/raylib.h"
 #include "sequence/sequence.hpp"
 #include "io/sequence_loader.hpp"
@@ -8,8 +9,9 @@
 #include "character_profile_loader.hpp"
 #include "utils/filesystem.hpp"
 
-Resource_Manager::Resource_Manager(Sequence_Loader& seq_loader, const String& asset_path) :
-	m_sequence_loader{seq_loader}
+Resource_Manager::Resource_Manager(Sequence_Loader& seq_loader, Sequence_Saveloader& seq_saveload, const String& asset_path) :
+	m_sequence_loader{seq_loader},
+	m_sequence_saveloader{seq_saveload}
 {
 	m_asset_path = asset_path;
 }
@@ -53,6 +55,9 @@ Sequence& Resource_Manager::get_sequence(const char* filename, bool absolute_pat
 	Sequence sequence = m_sequence_loader.load(full_filename);
 	SG_INFO("Loaded sequence \"%s\"", full_filename.data());
 
+	// Load savagame
+	m_sequence_saveloader.load(sequence);
+
 	return *m_sequences.insert(String{full_filename}, make_own_ptr<Sequence>((Sequence&&)sequence));
 }
 
@@ -89,5 +94,12 @@ void Resource_Manager::update_sequences(float time_delta)
 {
 	m_sequences.for_each([&](const String&, Own_Ptr<Sequence>& seq){
 		seq->update(time_delta);
+	});
+}
+
+void Resource_Manager::save_sequences()
+{
+	m_sequences.for_each([&](const String&, Own_Ptr<Sequence>& seq){
+		m_sequence_saveloader.save(*seq);
 	});
 }

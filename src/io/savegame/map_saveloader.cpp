@@ -21,10 +21,7 @@ void Map_Saveloader::set_save_directory(const String& path)
 	m_saved_maps_dir = path;
 	m_saved_maps_dir.append("/maps");
 
-	if (!directory_exists(m_saved_maps_dir)) {
-		create_directory(m_saved_maps_dir);
-		SG_INFO("Created directory \"%s\".", m_saved_maps_dir.data());
-	}
+	create_directory(m_saved_maps_dir);
 }
 
 void Map_Saveloader::save(const Map& map)

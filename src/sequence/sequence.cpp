@@ -2,6 +2,11 @@
 #include "game_facade.hpp"
 #include "utils/log.hpp"
 
+Sequence::Sequence(const String& path)
+{
+	m_path = path;
+}
+
 void Sequence::add_event(Event_Ptr&& event)
 {
 	m_events.push_back((Event_Ptr&&)event);
@@ -10,6 +15,15 @@ void Sequence::add_event(Event_Ptr&& event)
 void Sequence::set_condition(Condition_Ptr&& condition)
 {
 	m_condition = (Condition_Ptr&&)condition;
+}
+
+void Sequence::set_current_event(int index)
+{
+	if (index > m_events.size()) {
+		end_or_reset();
+	}
+
+	m_current_event = index;
 }
 
 void Sequence::update(float time_delta)
@@ -33,7 +47,7 @@ void Sequence::update(float time_delta)
 	}
 
 	// Check if all events are finished
-	if (m_current_event == m_events.size())
+	if (m_current_event >= m_events.size())
 		end_or_reset();
 }
 

@@ -13,11 +13,16 @@ class Sprite;
 class Sequence;
 class Camera_Controller;
 class Map_Saveloader;
+class Sequence_Saveloader;
+
+
+// FIXME - maybe too many responsibilities
 
 // Facade for sequence events to interface with the rest of the game.
 class Game_Facade
 {
 public:
+	// FIXME - maybe too many arguments
 	Game_Facade(Resource_Manager&, Music_Player&, Game_Logic&, Camera_Controller&, Map_Saveloader&);
 	void set_current_map(const String& filename);
 	void teleport_player(Vec2i position);
@@ -37,6 +42,7 @@ public:
 	void add_quest(const String& id, const String& name, const String& description);
 	void finish_quest(const String& id);
 	void zoom_camera(int amount);
+	void save_game();
 private:
 	void spawn_player();
 

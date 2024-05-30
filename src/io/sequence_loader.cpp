@@ -42,7 +42,7 @@ Sequence Sequence_Loader::load(const String& filename)
 	SG_DEBUG("Parsing sequence %s", filename.data());
 	String content = read_file_to_str(filename.data());
 	cJSON* json = cJSON_Parse(content.data());
-	Sequence sequence;
+	Sequence sequence(filename);
 
 	const cJSON* repeatable = cJSON_GetObjectItem(json, "repeatable");
 	if (repeatable) {

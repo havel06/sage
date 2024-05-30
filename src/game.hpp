@@ -10,7 +10,8 @@
 #include "graphics/text_box_renderer.hpp"
 #include "io/resource_manager.hpp"
 #include "io/sequence_loader.hpp"
-#include "io/map_saveloader.hpp"
+#include "io/savegame/map_saveloader.hpp"
+#include "io/savegame/sequence_saveloader.hpp"
 #include "map/map.hpp"
 #include "music_player.hpp"
 #include "sequence/sequence.hpp"
@@ -39,6 +40,7 @@ private:
 	Quest_Log_Renderer m_quest_log_renderer;
 	Combat_Controller m_combat_controller;
 	Map_Saveloader m_map_saveloader;
+	Sequence_Saveloader m_sequence_saveloader;
 
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;

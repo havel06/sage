@@ -1,7 +1,8 @@
 #include "game_facade.hpp"
 #include "character_profile.hpp"
 #include "io/resource_manager.hpp"
-#include "io/map_saveloader.hpp"
+#include "io/savegame/map_saveloader.hpp"
+#include "io/savegame/sequence_saveloader.hpp"
 #include "map/entity.hpp"
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
@@ -27,6 +28,7 @@ void Game_Facade::set_current_map(const String& filename)
 {
 	// Save current map first
 	m_map_saveloader.save(m_logic.map);
+	//save_game(); // Save everything while we're at it
 
 	m_logic.map = m_res_manager.get_map(filename.data());
 	spawn_player();
@@ -173,4 +175,10 @@ void Game_Facade::finish_quest(const String& name)
 void Game_Facade::zoom_camera(int amount)
 {
 	m_camera_controller.set_zoom(amount);
+}
+
+void Game_Facade::save_game()
+{
+	m_map_saveloader.save(m_logic.map);
+	m_res_manager.save_sequences();
 }

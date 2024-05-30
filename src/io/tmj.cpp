@@ -160,6 +160,10 @@ void Map_Loader::parse_object(const cJSON* object)
 	Entity entity;
 
 	entity.name = cJSON_GetObjectItem(object, "name")->valuestring;
+	if (entity.name.empty()) {
+		SG_ERROR("All entities must have a name.");
+		assert(false);
+	}
 	entity.position.x = round(cJSON_GetObjectItem(object, "x")->valuedouble / m_tile_width);
 	entity.position.y = round(cJSON_GetObjectItem(object, "y")->valuedouble / m_tile_height);
 	entity.size.x = cJSON_GetObjectItem(object, "width")->valueint / m_tile_width;

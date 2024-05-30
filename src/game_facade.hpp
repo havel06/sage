@@ -12,12 +12,13 @@ class Music_Player;
 class Sprite;
 class Sequence;
 class Camera_Controller;
+class Map_Saveloader;
 
 // Facade for sequence events to interface with the rest of the game.
 class Game_Facade
 {
 public:
-	Game_Facade(Resource_Manager&, Music_Player&, Game_Logic&, Camera_Controller&);
+	Game_Facade(Resource_Manager&, Music_Player&, Game_Logic&, Camera_Controller&, Map_Saveloader&);
 	void set_current_map(const String& filename);
 	void teleport_player(Vec2i position);
 	void set_player_interactions_enabled(bool enabled);
@@ -43,4 +44,5 @@ private:
 	Music_Player& m_music_player;
 	Game_Logic& m_logic;
 	Camera_Controller& m_camera_controller;
+	Map_Saveloader& m_map_saveloader;
 };

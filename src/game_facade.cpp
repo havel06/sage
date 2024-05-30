@@ -1,6 +1,7 @@
 #include "game_facade.hpp"
 #include "character_profile.hpp"
 #include "io/resource_manager.hpp"
+#include "io/map_saveloader.hpp"
 #include "map/entity.hpp"
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
@@ -8,17 +9,27 @@
 #include "music_player.hpp"
 #include "graphics/camera_controller.hpp"
 
-Game_Facade::Game_Facade(Resource_Manager& res_mgr, Music_Player& music_player, Game_Logic& logic, Camera_Controller& controller) :
+Game_Facade::Game_Facade(
+		Resource_Manager& res_mgr,
+		Music_Player& music_player,
+		Game_Logic& logic,
+		Camera_Controller& controller,
+		Map_Saveloader& map_saveloader) :
 	m_res_manager{res_mgr},
 	m_music_player{music_player},
 	m_logic{logic},
-	m_camera_controller{controller}
+	m_camera_controller{controller},
+	m_map_saveloader{map_saveloader}
 {
 }
 
 void Game_Facade::set_current_map(const String& filename)
 {
+	// Save current map first
+	m_map_saveloader.save(m_logic.map);
+
 	m_logic.map = m_res_manager.get_map(filename.data());
+	m_map_saveloader.load(m_logic.map); // Load progress
 	spawn_player();
 
 	if (m_logic.map.assigned_sequence)

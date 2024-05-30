@@ -62,6 +62,8 @@ Map_Loader::Map_Loader(Resource_Manager& res_mgr, const String& path) :
 	cJSON* tilesets = cJSON_GetObjectItem(json, "tilesets");
 
 	m_map.resize(width, height);
+	m_map.set_path(path);
+
 	//parse_properties(cJSON_GetObjectItem(json, "properties"));
 	parse_tilesets(tilesets);
 	parse_layer_array(layers);

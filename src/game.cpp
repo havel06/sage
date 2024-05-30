@@ -10,7 +10,7 @@
 #include <raylib/raylib.h>
 
 Game::Game(const char* project_path) :
-	m_game_facade(m_res_manager, m_music_player, m_logic, m_camera_controller),
+	m_game_facade(m_res_manager, m_music_player, m_logic, m_camera_controller, m_map_saveloader),
 	m_sequence_loader(m_res_manager, m_game_facade),
 	m_res_manager(m_sequence_loader, project_path),
 	m_text_box_renderer(m_logic.text_box),
@@ -18,7 +18,8 @@ Game::Game(const char* project_path) :
 	m_camera_controller(m_camera),
 	m_combat_renderer(m_logic.party, m_logic.combat),
 	m_quest_log_renderer(m_logic.quest_log),
-	m_combat_controller(m_logic.combat)
+	m_combat_controller(m_logic.combat),
+	m_map_saveloader(project_path)
 {
 	// Project description
 	Project_Description description = load_project_description(String{project_path});
@@ -31,6 +32,9 @@ Game::Game(const char* project_path) :
 
 	// UI
 	m_text_box_renderer.load(project_path);
+
+	// Map progress saveloader
+	m_map_saveloader.set_save_directory("savegame");
 
 	// Set up main character profile
 	m_logic.party.main_character() = m_res_manager.get_character_profile(description.default_character.data());

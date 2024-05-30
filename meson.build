@@ -25,6 +25,7 @@ src = [
   'src/io/cjson_types.cpp',
   'src/io/item_registry_loader.cpp',
   'src/io/gui_loader.cpp',
+  'src/io/map_saveloader.cpp',
   'src/io/project_loader.cpp',
   'src/io/resource_manager.cpp',
   'src/io/sequence_loader.cpp',

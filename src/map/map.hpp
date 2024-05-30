@@ -30,7 +30,7 @@ public:
 	Tile_Layers layers;
 	Map_Entities entities;
 
-	Map(int width, int height);
+	Map(const String& path, int width, int height);
 	Map();
 
 	void resize(int width, int height);
@@ -38,7 +38,12 @@ public:
 	int get_width() const { return m_width; }
 	int get_height() const { return m_height; }
 	bool is_position_valid(Vec2i pos) const;
+
+	void set_path(const String& path) { m_path = path; }
+	const String& get_path() const { return m_path; }
 private:
+	String m_path;
+
 	int m_width;
 	int m_height;
 };

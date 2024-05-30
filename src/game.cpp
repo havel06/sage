@@ -19,7 +19,7 @@ Game::Game(const char* project_path) :
 	m_combat_renderer(m_logic.party, m_logic.combat),
 	m_quest_log_renderer(m_logic.quest_log),
 	m_combat_controller(m_logic.combat),
-	m_map_saveloader(project_path)
+	m_map_saveloader(m_res_manager, project_path)
 {
 	// Project description
 	Project_Description description = load_project_description(String{project_path});

@@ -1,13 +1,16 @@
 #include "map_saveloader.hpp"
 #include "cJSON.h"
 #include "io/cjson_types.hpp"
+#include "io/resource_manager.hpp"
 #include "utils/direction.hpp"
+#include "utils/file.hpp"
 #include "utils/filesystem.hpp"
 #include "map/map.hpp"
 #include "utils/log.hpp"
 #include "stdio.h"
 
-Map_Saveloader::Map_Saveloader(const String& project_dir)
+Map_Saveloader::Map_Saveloader(Resource_Manager& res_mgr, const String& project_dir) :
+	m_resource_manager{res_mgr}
 {
 	m_project_dir = project_dir;
 }
@@ -64,6 +67,17 @@ void Map_Saveloader::load(Map& map)
 		return;
 	}
 
+	String savefile_path = get_savefile_location(map.get_path());
+
+	if (!file_exists(savefile_path)) {
+		return;
+	}
+
+	String file_contents = read_file_to_str(savefile_path.data());
+	cJSON* json = cJSON_Parse(file_contents.data());
+	deserialise_entites(map.entities, cJSON_GetObjectItem(json, "entities"));
+	cJSON_Delete(json);
+
 	SG_INFO("Loaded state of map \"%s\".", map.get_path().data());
 }
 
@@ -99,7 +113,35 @@ cJSON* Map_Saveloader::serialise_entity(const Entity& entity)
 	cJSON_AddItemToObject(entity_json, "direction", cJSON_CreateString(direction_to_string(entity.get_look_direction())));
 
 	if (!entity.sprite.is_null())
-		cJSON_AddItemToObject(entity_json, "sprite", cJSON_Types::serialise_sprite(entity.sprite));
+		cJSON_AddItemToObject(entity_json, "sprite", cJSON_Types::serialise_sprite(entity.sprite, m_project_dir));
 
 	return entity_json;
+}
+
+void Map_Saveloader::deserialise_entity(Entity& entity, const cJSON* entity_json)
+{
+	entity.position.x = cJSON_GetObjectItem(entity_json, "x")->valueint;
+	entity.position.y = cJSON_GetObjectItem(entity_json, "y")->valueint;
+
+	const cJSON* sprite_json = cJSON_GetObjectItem(entity_json, "sprite");
+	if (sprite_json)
+		entity.sprite = cJSON_Types::parse_sprite(sprite_json, m_resource_manager);
+
+	entity.look(direction_from_string(cJSON_GetObjectItem(entity_json, "direction")->valuestring));
+}
+
+void Map_Saveloader::deserialise_entites(Map_Entities& entities, const cJSON* json)
+{
+	assert(json);
+
+	cJSON* entity_json = nullptr;
+	cJSON_ArrayForEach(entity_json, json) {
+		const char* name = cJSON_GetObjectItem(entity_json, "name")->valuestring;
+		Entity* entity = entities.get_entity(name);
+		if (entity) {
+			deserialise_entity(*entity, entity_json);
+		} else {
+			SG_ERROR("Savegame loading - unable to find entity \"%s\".", name);
+		}
+	}
 }

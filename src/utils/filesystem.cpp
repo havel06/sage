@@ -21,6 +21,16 @@ bool directory_exists(const String& path)
 	return directory_exists(path.data());
 }
 
+bool file_exists(const char* path)
+{
+	return std::filesystem::exists(path);
+}
+
+bool file_exists(const String& path)
+{
+	return directory_exists(path.data());
+}
+
 void create_directory(const char* path)
 {
 	std::filesystem::create_directories(path);

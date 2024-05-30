@@ -2,6 +2,7 @@
 
 #include "vec2.hpp"
 #include <assert.h>
+#include <string.h>
 
 enum class Direction {
 	up,
@@ -53,6 +54,27 @@ inline const char* direction_to_string(Direction dir)
 		case Direction::left:
 			return "left";
 	}
+}
+
+inline Direction direction_from_string(const char* str)
+{
+	if (strcmp(str, "up") == 0) {
+		return Direction::up;
+	}
+
+	if (strcmp(str, "down") == 0) {
+		return Direction::down;
+	}
+
+	if (strcmp(str, "right") == 0) {
+		return Direction::right;
+	}
+	
+	if (strcmp(str, "left") == 0) {
+		return Direction::left;
+	}
+
+	assert(false);
 }
 
 const auto direction_to_vec2i = direction_to_vec2<int>;

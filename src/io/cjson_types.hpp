@@ -11,6 +11,6 @@ namespace cJSON_Types
 {
 
 Sprite parse_sprite(const cJSON*, Resource_Manager&);
-cJSON* serialise_sprite(const Sprite&);
+cJSON* serialise_sprite(const Sprite&, const String& project_dir);
 
 }

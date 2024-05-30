@@ -29,8 +29,8 @@ void Game_Facade::set_current_map(const String& filename)
 	m_map_saveloader.save(m_logic.map);
 
 	m_logic.map = m_res_manager.get_map(filename.data());
-	m_map_saveloader.load(m_logic.map); // Load progress
 	spawn_player();
+	m_map_saveloader.load(m_logic.map); // Load progress
 
 	if (m_logic.map.assigned_sequence)
 		m_logic.map.assigned_sequence->try_activate();

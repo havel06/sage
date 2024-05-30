@@ -51,6 +51,11 @@ Game::Game(const char* project_path) :
 	m_logic.start_sequence->try_activate();
 }
 
+Game::~Game()
+{
+	m_game_facade.save_game();
+}
+
 void Game::draw_frame(float time_delta)
 {
 	m_music_player.update();

@@ -22,6 +22,7 @@ class Game
 {
 public:
 	Game(const char* project_path);
+	~Game();
 	void draw_frame(float time_delta);
 private:
 	void process_normal_input();

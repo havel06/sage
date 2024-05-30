@@ -10,7 +10,7 @@
 #include <raylib/raylib.h>
 
 Game::Game(const char* project_path) :
-	m_game_facade(m_res_manager, m_music_player, m_logic, m_camera_controller, m_map_saveloader),
+	m_game_facade(m_res_manager, m_music_player, m_logic, m_camera_controller, m_map_saveloader, m_game_saveloader),
 	m_sequence_loader(m_res_manager, m_game_facade),
 	m_res_manager(m_sequence_loader, m_sequence_saveloader, project_path),
 	m_text_box_renderer(m_logic.text_box),
@@ -20,7 +20,8 @@ Game::Game(const char* project_path) :
 	m_quest_log_renderer(m_logic.quest_log),
 	m_combat_controller(m_logic.combat),
 	m_map_saveloader(m_res_manager, project_path),
-	m_sequence_saveloader(project_path)
+	m_sequence_saveloader(project_path),
+	m_game_saveloader(project_path, m_game_facade)
 {
 	// Project description
 	Project_Description description = load_project_description(String{project_path});
@@ -37,9 +38,13 @@ Game::Game(const char* project_path) :
 	// Savegame location
 	m_map_saveloader.set_save_directory("savegame");
 	m_sequence_saveloader.set_save_directory("savegame");
+	m_game_saveloader.set_save_directory("savegame");
 
 	// Set up main character profile
 	m_logic.party.main_character() = m_res_manager.get_character_profile(description.default_character.data());
+
+	// Load savegame
+	m_game_saveloader.load();	
 
 	// FIXME - refactor?
 	m_logic.start_sequence = &m_res_manager.get_sequence(description.start_sequence.data());

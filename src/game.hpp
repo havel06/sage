@@ -12,6 +12,7 @@
 #include "io/sequence_loader.hpp"
 #include "io/savegame/map_saveloader.hpp"
 #include "io/savegame/sequence_saveloader.hpp"
+#include "io/savegame/game_saveloader.hpp"
 #include "map/map.hpp"
 #include "music_player.hpp"
 #include "sequence/sequence.hpp"
@@ -41,6 +42,7 @@ private:
 	Combat_Controller m_combat_controller;
 	Map_Saveloader m_map_saveloader;
 	Sequence_Saveloader m_sequence_saveloader;
+	Game_Saveloader m_game_saveloader;
 
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;

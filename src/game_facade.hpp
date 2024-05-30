@@ -14,6 +14,7 @@ class Sequence;
 class Camera_Controller;
 class Map_Saveloader;
 class Sequence_Saveloader;
+class Game_Saveloader;
 
 
 // FIXME - maybe too many responsibilities
@@ -23,8 +24,9 @@ class Game_Facade
 {
 public:
 	// FIXME - maybe too many arguments
-	Game_Facade(Resource_Manager&, Music_Player&, Game_Logic&, Camera_Controller&, Map_Saveloader&);
+	Game_Facade(Resource_Manager&, Music_Player&, Game_Logic&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&);
 	void set_current_map(const String& filename);
+	const String& get_current_map_path();
 	void teleport_player(Vec2i position);
 	void set_player_interactions_enabled(bool enabled);
 	void teleport_entity(const String& entity_name, Vec2i position);
@@ -51,4 +53,5 @@ private:
 	Game_Logic& m_logic;
 	Camera_Controller& m_camera_controller;
 	Map_Saveloader& m_map_saveloader;
+	Game_Saveloader& m_game_saveloader;
 };

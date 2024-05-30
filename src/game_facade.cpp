@@ -3,6 +3,7 @@
 #include "io/resource_manager.hpp"
 #include "io/savegame/map_saveloader.hpp"
 #include "io/savegame/sequence_saveloader.hpp"
+#include "io/savegame/game_saveloader.hpp"
 #include "map/entity.hpp"
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
@@ -15,20 +16,22 @@ Game_Facade::Game_Facade(
 		Music_Player& music_player,
 		Game_Logic& logic,
 		Camera_Controller& controller,
-		Map_Saveloader& map_saveloader) :
+		Map_Saveloader& map_saveloader,
+		Game_Saveloader& game_saveloader) :
 	m_res_manager{res_mgr},
 	m_music_player{music_player},
 	m_logic{logic},
 	m_camera_controller{controller},
-	m_map_saveloader{map_saveloader}
+	m_map_saveloader{map_saveloader},
+	m_game_saveloader{game_saveloader}
 {
 }
 
 void Game_Facade::set_current_map(const String& filename)
 {
 	// Save current map first
-	m_map_saveloader.save(m_logic.map);
-	//save_game(); // Save everything while we're at it
+	//m_map_saveloader.save(m_logic.map);
+	save_game(); // Save everything while we're at it
 
 	m_logic.map = m_res_manager.get_map(filename.data());
 	spawn_player();
@@ -38,6 +41,11 @@ void Game_Facade::set_current_map(const String& filename)
 		m_logic.map.assigned_sequence->try_activate();
 
 	SG_INFO("Set current map to \"%s\"", filename.data());
+}
+
+const String& Game_Facade::get_current_map_path()
+{
+	return m_logic.map.get_path();
 }
 
 void Game_Facade::spawn_player()
@@ -179,6 +187,7 @@ void Game_Facade::zoom_camera(int amount)
 
 void Game_Facade::save_game()
 {
+	m_game_saveloader.save();
 	m_map_saveloader.save(m_logic.map);
 	m_res_manager.save_sequences();
 }

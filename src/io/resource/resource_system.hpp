@@ -15,5 +15,5 @@ public:
 	Texture_Manager texture_manager;
 	Map_Manager map_manager;
 
-	Resource_System(const String& resource_root_path, Sequence_Loader&);
+	Resource_System(const String& resource_root_path, Sequence_Loader&, Sequence_Saveloader&);
 };

@@ -12,7 +12,7 @@
 Game::Game(const char* project_path) :
 	m_game_facade(m_resource_system.map_manager, m_resource_system.sequence_manager, m_music_player, m_logic, m_camera_controller, m_map_saveloader, m_game_saveloader),
 	m_sequence_loader(m_resource_system, m_game_facade),
-	m_resource_system(project_path, m_sequence_loader),
+	m_resource_system(project_path, m_sequence_loader, m_sequence_saveloader),
 	m_text_box_renderer(m_logic.text_box),
 	m_inventory_renderer(m_logic.item_registry, m_logic.inventory),
 	m_camera_controller(m_camera),

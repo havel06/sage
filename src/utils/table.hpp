@@ -15,9 +15,11 @@ public:
 	const T* get(const Key&) const;
 	bool contains(const Key&) const;
 
+	// Callback takes 2 arguments, key and value
 	template<typename Callable>
 	void for_each(Callable c);
 
+	// Callback takes 2 arguments, key and value
 	template<typename Callable>
 	void for_each(Callable c) const;
 

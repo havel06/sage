@@ -1,32 +1,31 @@
 #include "sequence_manager.hpp"
 #include "../sequence_loader.hpp"
+#include "utils/own_ptr.hpp"
 
-Sequence_Manager::Sequence_Manager(const String& resource_root_path, Sequence_Loader& loader) :
+Sequence_Manager::Sequence_Manager(const String& resource_root_path, Sequence_Loader& loader, Sequence_Saveloader& saveloader) :
 	Resource_Manager(resource_root_path),
-	m_loader{loader}
+	m_loader{loader},
+	m_saveloader{saveloader}
 {
 }
 
 Own_Ptr<Sequence> Sequence_Manager::load_resource(const String& filename)
 {
-	return make_own_ptr<Sequence>(m_loader.load(filename));
+	Own_Ptr<Sequence> seq = make_own_ptr<Sequence>(m_loader.load(filename));
+	m_saveloader.load(*seq);
+	return seq;
 }
 
 void Sequence_Manager::update(float time_delta)
 {
-	// FIXME
-	(void)time_delta;
-	assert(false);
-	//m_sequences.for_each([&](const String&, Own_Ptr<Sequence>& seq){
-	//	seq->update(time_delta);
-	//});
+	for_each_resource([&](Sequence& sequence){
+		sequence.update(time_delta);
+	});
 }
 
 void Sequence_Manager::save()
 {
-	// FIXME
-	assert(false);
-	//m_sequences.for_each([&](const String&, Own_Ptr<Sequence>& seq){
-	//	m_sequence_saveloader.save(*seq);
-	//});
+	for_each_resource([&](Sequence& sequence){
+		m_saveloader.save(sequence);
+	});
 }

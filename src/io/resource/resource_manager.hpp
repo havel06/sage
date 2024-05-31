@@ -10,6 +10,10 @@ class Resource_Manager
 public:
 	Resource_Manager(const String& resource_root_path);
 	Resource_Type& get(const String& file_path, bool absolute_path);
+protected:
+	// Callback must take in one argument, Resource_Type&
+	template<typename Callback>
+	void for_each_resource(Callback c);
 private:
 	using Resource_Ptr = Own_Ptr<Resource_Type>;
 
@@ -19,6 +23,7 @@ private:
 	String m_resource_root_path;
 	Table<String, Resource_Ptr> m_resources;
 };
+
 
 
 // Implementation
@@ -49,4 +54,14 @@ String Resource_Manager<Resource_Type>::get_full_resource_path(const String& rel
 	full_filename.append("/");
 	full_filename.append(relative_filename);
 	return get_canonical_path(full_filename);
+}
+
+template<typename Resource_Type>
+template<typename Callback>
+void Resource_Manager<Resource_Type>::for_each_resource(Callback c)
+{
+	m_resources.for_each([&](const auto& key, Resource_Ptr& value){
+		(void)key;
+		c(*value);
+	});
 }

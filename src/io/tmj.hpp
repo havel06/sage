@@ -5,7 +5,7 @@
 #include "raylib/raylib.h"
 
 struct cJSON;
-class Resource_Manager;
+class Resource_System;
 
 namespace TMJ
 {
@@ -33,7 +33,7 @@ struct Tileset_In_Map
 class Map_Loader
 {
 public:
-	Map_Loader(Resource_Manager&, const String& path);
+	Map_Loader(Resource_System&, const String& path);
 	Map retrieve_map();
 private:
 	//void parse_properties(const cJSON*);
@@ -50,7 +50,7 @@ private:
 	String relative_to_real_path(const char* relative_path);
 
 	String m_path;
-	Resource_Manager& m_resource_manager;
+	Resource_System& m_resource_system;
 	Map m_map;
 	int m_tile_width;
 	int m_tile_height;

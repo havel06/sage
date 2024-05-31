@@ -6,7 +6,7 @@
 class Map;
 class Map_Entities;
 class Entity;
-class Resource_Manager;
+class Texture_Manager;
 struct cJSON;
 
 // Saves and loads player progress in maps
@@ -14,7 +14,7 @@ struct cJSON;
 class Map_Saveloader
 {
 public:
-	Map_Saveloader(Resource_Manager&, const String& project_dir);
+	Map_Saveloader(Texture_Manager&, const String& project_dir);
 	void set_save_directory(const String& path);
 
 	void save(const Map&);
@@ -28,7 +28,7 @@ private:
 	void deserialise_entites(Map_Entities&, const cJSON* entities);
 	void deserialise_entity(Entity&, const cJSON* entity_json);
 
-	Resource_Manager& m_resource_manager;
+	Texture_Manager& m_texture_manager;
 	String m_project_dir;
 	String m_saved_maps_dir;
 };

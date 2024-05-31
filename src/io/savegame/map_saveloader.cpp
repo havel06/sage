@@ -1,7 +1,6 @@
 #include "map_saveloader.hpp"
 #include "cJSON.h"
 #include "io/cjson_types.hpp"
-#include "io/resource_manager.hpp"
 #include "utils/direction.hpp"
 #include "utils/file.hpp"
 #include "utils/filesystem.hpp"
@@ -9,8 +8,8 @@
 #include "utils/log.hpp"
 #include "stdio.h"
 
-Map_Saveloader::Map_Saveloader(Resource_Manager& res_mgr, const String& project_dir) :
-	m_resource_manager{res_mgr}
+Map_Saveloader::Map_Saveloader(Texture_Manager& tex_mgr, const String& project_dir) :
+	m_texture_manager{tex_mgr}
 {
 	m_project_dir = project_dir;
 }
@@ -122,7 +121,7 @@ void Map_Saveloader::deserialise_entity(Entity& entity, const cJSON* entity_json
 
 	const cJSON* sprite_json = cJSON_GetObjectItem(entity_json, "sprite");
 	if (sprite_json)
-		entity.sprite = cJSON_Types::parse_sprite(sprite_json, m_resource_manager);
+		entity.sprite = cJSON_Types::parse_sprite(sprite_json, m_texture_manager);
 
 	entity.look(direction_from_string(cJSON_GetObjectItem(entity_json, "direction")->valuestring));
 }

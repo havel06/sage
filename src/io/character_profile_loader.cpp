@@ -2,11 +2,10 @@
 #include "ability.hpp"
 #include "utils/file.hpp"
 #include "cJSON.h"
-#include "resource_manager.hpp"
 #include "cjson_types.hpp"
 
-Character_Profile_Loader::Character_Profile_Loader(Resource_Manager& res_mgr) :
-	m_resource_manager{res_mgr}
+Character_Profile_Loader::Character_Profile_Loader(Texture_Manager& tex_mgr) :
+	m_texture_manager{tex_mgr}
 {
 }
 
@@ -24,10 +23,10 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 	const cJSON* sprite_left_json  = cJSON_GetObjectItem(json, "sprite_left");
 	const cJSON* sprite_right_json = cJSON_GetObjectItem(json, "sprite_right");
 
-	profile.sprite_down  = cJSON_Types::parse_sprite(sprite_down_json,  m_resource_manager);
-	profile.sprite_up    = cJSON_Types::parse_sprite(sprite_up_json,    m_resource_manager);
-	profile.sprite_left  = cJSON_Types::parse_sprite(sprite_left_json,  m_resource_manager);
-	profile.sprite_right = cJSON_Types::parse_sprite(sprite_right_json, m_resource_manager);
+	profile.sprite_down  = cJSON_Types::parse_sprite(sprite_down_json,  m_texture_manager);
+	profile.sprite_up    = cJSON_Types::parse_sprite(sprite_up_json,    m_texture_manager);
+	profile.sprite_left  = cJSON_Types::parse_sprite(sprite_left_json,  m_texture_manager);
+	profile.sprite_right = cJSON_Types::parse_sprite(sprite_right_json, m_texture_manager);
 
 	const cJSON* character_size = cJSON_GetObjectItem(json, "size");
 	if (character_size) {

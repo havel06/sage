@@ -1,6 +1,5 @@
 #include "game_facade.hpp"
 #include "character_profile.hpp"
-#include "io/resource_manager.hpp"
 #include "io/savegame/map_saveloader.hpp"
 #include "io/savegame/sequence_saveloader.hpp"
 #include "io/savegame/game_saveloader.hpp"
@@ -10,15 +9,19 @@
 #include "game_logic.hpp"
 #include "music_player.hpp"
 #include "graphics/camera_controller.hpp"
+#include "io/resource/map_manager.hpp"
+#include "io/resource/sequence_manager.hpp"
 
 Game_Facade::Game_Facade(
-		Resource_Manager& res_mgr,
+		Map_Manager& map_mgr,
+		Sequence_Manager& seq_mgr,
 		Music_Player& music_player,
 		Game_Logic& logic,
 		Camera_Controller& controller,
 		Map_Saveloader& map_saveloader,
 		Game_Saveloader& game_saveloader) :
-	m_res_manager{res_mgr},
+	m_map_manager{map_mgr},
+	m_sequence_manager{seq_mgr},
 	m_music_player{music_player},
 	m_logic{logic},
 	m_camera_controller{controller},
@@ -33,19 +36,20 @@ void Game_Facade::set_current_map(const String& filename)
 	//m_map_saveloader.save(m_logic.map);
 	save_game(); // Save everything while we're at it
 
-	m_logic.map = m_res_manager.get_map(filename.data());
+	m_logic.map = &m_map_manager.get(filename, false);
 	spawn_player();
-	m_map_saveloader.load(m_logic.map); // Load progress
+	m_map_saveloader.load(*m_logic.map); // Load progress
 
-	if (m_logic.map.assigned_sequence)
-		m_logic.map.assigned_sequence->try_activate();
+	if (m_logic.map->assigned_sequence)
+		m_logic.map->assigned_sequence->try_activate();
 
 	SG_INFO("Set current map to \"%s\"", filename.data());
 }
 
 const String& Game_Facade::get_current_map_path()
 {
-	return m_logic.map.get_path();
+	assert(m_logic.map);
+	return m_logic.map->get_path();
 }
 
 void Game_Facade::spawn_player()
@@ -58,7 +62,8 @@ void Game_Facade::spawn_player()
 	player.name = character.name;
 	player.assigned_character = character;
 
-	m_logic.map.entities.add_entity((Entity&&)player);
+	assert(m_logic.map);
+	m_logic.map->entities.add_entity((Entity&&)player);
 }
 
 void Game_Facade::teleport_player(Vec2i position)
@@ -68,7 +73,8 @@ void Game_Facade::teleport_player(Vec2i position)
 
 void Game_Facade::teleport_entity(const String& entity_name, Vec2i position)
 {
-	Entity* entity = m_logic.map.entities.get_entity(entity_name);
+	assert(m_logic.map);
+	Entity* entity = m_logic.map->entities.get_entity(entity_name);
 
 	if (!entity) {
 		SG_ERROR("Entity \"%s\" not found", entity_name.data());
@@ -101,7 +107,8 @@ void Game_Facade::remove_item(const String& id, int count)
 
 void Game_Facade::set_entity_sprite(const String& entity_name, const Sprite& sprite)
 {
-	Entity* entity = m_logic.map.entities.get_entity(entity_name);
+	assert(m_logic.map);
+	Entity* entity = m_logic.map->entities.get_entity(entity_name);
 
 	if (!entity) {
 		SG_ERROR("Entity \"%s\" not found", entity_name.data());
@@ -123,7 +130,8 @@ int Game_Facade::get_owned_item_count(const String& id)
 
 Vec2i Game_Facade::get_entity_position(const String& entity_name)
 {
-	Entity* entity = m_logic.map.entities.get_entity(entity_name);
+	assert(m_logic.map);
+	Entity* entity = m_logic.map->entities.get_entity(entity_name);
 
 	if (!entity) {
 		SG_ERROR("Entity \"%s\" not found", entity_name.data());
@@ -135,7 +143,8 @@ Vec2i Game_Facade::get_entity_position(const String& entity_name)
 
 void Game_Facade::move_entity(const String& entity_name, Vec2i position)
 {
-	Entity* entity = m_logic.map.entities.get_entity(entity_name);
+	assert(m_logic.map);
+	Entity* entity = m_logic.map->entities.get_entity(entity_name);
 
 	if (!entity) {
 		SG_ERROR("Entity \"%s\" not found", entity_name.data());
@@ -188,6 +197,7 @@ void Game_Facade::zoom_camera(int amount)
 void Game_Facade::save_game()
 {
 	m_game_saveloader.save();
-	m_map_saveloader.save(m_logic.map);
-	m_res_manager.save_sequences();
+	assert(m_logic.map);
+	m_map_saveloader.save(*m_logic.map);
+	m_sequence_manager.save();
 }

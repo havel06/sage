@@ -2,13 +2,12 @@
 #include "cJSON.h"
 #include "utils/file.hpp"
 #include "graphics/sprite.hpp"
-#include "resource_manager.hpp"
 #include "item/item_registry.hpp"
 #include "utils/log.hpp"
 #include "cjson_types.hpp"
 
-Item_Registry_Loader::Item_Registry_Loader(Resource_Manager& res_mgr) :
-	m_resource_manager{res_mgr}
+Item_Registry_Loader::Item_Registry_Loader(Texture_Manager& tex_mgr) :
+	m_texture_manager{tex_mgr}
 {
 }
 
@@ -27,7 +26,7 @@ void Item_Registry_Loader::load(Item_Registry& registry, String project_root)
 		const String id = cJSON_GetObjectItem(item_json, "id")->valuestring;
 		const String name = cJSON_GetObjectItem(item_json, "name")->valuestring;
 		const cJSON* sprite_json = cJSON_GetObjectItem(item_json, "sprite");
-		Sprite sprite = cJSON_Types::parse_sprite(sprite_json, m_resource_manager);
+		Sprite sprite = cJSON_Types::parse_sprite(sprite_json, m_texture_manager);
 		registry.add_item(Item{
 			.id = id,
 			.name = name,

@@ -1,16 +1,16 @@
 #include "cjson_types.hpp"
 #include "cJSON.h"
-#include "io/resource_manager.hpp"
 #include "utils/filesystem.hpp"
+#include "io/resource/texture_manager.hpp"
 
 namespace cJSON_Types
 {
 
-Sprite parse_sprite(const cJSON* json, Resource_Manager& res_mgr)
+Sprite parse_sprite(const cJSON* json, Texture_Manager& texture_manager)
 {
 	assert(json);
 	const char* texture_name = cJSON_GetObjectItem(json, "texture")->valuestring;
-	const Sage_Texture texture = res_mgr.get_texture(texture_name);
+	const Sage_Texture texture = texture_manager.get(texture_name, false);
 	Sprite sprite(texture);
 	sprite.texture_clip.position.x = cJSON_GetObjectItem(json, "position_x")->valueint;
 	sprite.texture_clip.position.y = cJSON_GetObjectItem(json, "position_y")->valueint;

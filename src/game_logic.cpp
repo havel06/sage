@@ -9,6 +9,7 @@
 Game_Logic::Game_Logic() :
 	combat(party)
 {
+	map = &m_empty_map;
 }
 
 void Game_Logic::update(float time_delta)
@@ -29,8 +30,9 @@ void Game_Logic::update(float time_delta)
 
 		Entity& player = get_player();
 
-		for (int i = 0; i < map.entities.get_entity_count(); i++) {
-			Entity& entity = map.entities.get_entity(i);
+		assert(map);
+		for (int i = 0; i < map->entities.get_entity_count(); i++) {
+			Entity& entity = map->entities.get_entity(i);
 			entity.update(time_delta);
 
 			// Area triggers
@@ -46,7 +48,7 @@ void Game_Logic::update(float time_delta)
 
 Entity& Game_Logic::get_player()
 {
-	Entity* player_ptr = map.entities.get_entity(party.main_character().name);
+	Entity* player_ptr = map->entities.get_entity(party.main_character().name);
 	assert(player_ptr);
 	return *player_ptr;
 }
@@ -58,7 +60,7 @@ void Game_Logic::player_interact()
 
 	Entity& player = get_player();
 	Vec2i target = player.position + direction_to_vec2i(player.get_look_direction());
-	Entity* target_entity = map.entities.get_entity(target);
+	Entity* target_entity = map->entities.get_entity(target);
 
 	if (!target_entity)
 		return;
@@ -81,13 +83,14 @@ void Game_Logic::move_player(Direction direction)
 	player.look(direction);
 	auto new_pos = player.position + direction_to_vec2i(direction);
 
+	assert(map);
 	// Check for tile collision
-	if (!map.is_position_valid(new_pos) || !map.layers.is_passable(new_pos))
+	if (!map->is_position_valid(new_pos) || !map->layers.is_passable(new_pos))
 		return;
 
 	// Check for entity collision
-	for (int i = 0; i < map.entities.get_entity_count(); i++) {
-		const Entity& entity = map.entities.get_entity(i);
+	for (int i = 0; i < map->entities.get_entity_count(); i++) {
+		const Entity& entity = map->entities.get_entity(i);
 		if (!entity.passable && entity.get_bounding_box().contains(new_pos))
 			return;
 	}

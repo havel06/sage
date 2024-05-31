@@ -1,7 +1,6 @@
 #include "sequence_loader.hpp"
 #include "cJSON.h"
 #include "character_profile.hpp"
-#include "io/resource_manager.hpp"
 #include "sequence/conditions/has_item.hpp"
 #include "sequence/conditions/not.hpp"
 #include "sequence/events/activate_sequence.hpp"
@@ -29,12 +28,12 @@
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
 #include "cjson_types.hpp"
+#include "resource/resource_system.hpp"
 
-Sequence_Loader::Sequence_Loader(Resource_Manager& res_mgr, Game_Facade& facade) :
+Sequence_Loader::Sequence_Loader(Resource_System& res_system, Game_Facade& facade) :
 	m_facade{facade},
-	m_resource_manager{res_mgr}
+	m_resource_system{res_system}
 {
-
 }
 
 Sequence Sequence_Loader::load(const String& filename)
@@ -117,24 +116,24 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 		loaded_event = make_own_ptr<Events::Move_Entity>(m_facade, (String&&)name, Vec2i{x, y});
 	} else if (type == "play_sound") {
 		const char* filename = cJSON_GetObjectItem(params, "sound")->valuestring;
-		Sound sound = m_resource_manager.get_sound(filename);
+		Sound sound = m_resource_system.sound_manager.get(filename, false);
 		loaded_event = make_own_ptr<Events::Play_Sound>(m_facade, sound);
 	} else if (type == "play_music") {
 		const char* filename = cJSON_GetObjectItem(params, "music")->valuestring;
-		Sound music = m_resource_manager.get_sound(filename);
+		Sound music = m_resource_system.sound_manager.get(filename, false);
 		loaded_event = make_own_ptr<Events::Play_Music>(m_facade, music);
 	} else if (type == "change_sprite") {
 		const String entity = cJSON_GetObjectItem(params, "entity")->valuestring;
 		const cJSON* sprite_json = cJSON_GetObjectItem(params, "sprite");
-		const Sprite sprite = cJSON_Types::parse_sprite(sprite_json, m_resource_manager);
+		const Sprite sprite = cJSON_Types::parse_sprite(sprite_json, m_resource_system.texture_manager);
 		loaded_event = make_own_ptr<Events::Change_Sprite>(m_facade, (String&&)entity, sprite);
 	} else if (type == "activate_sequence") {
 		const char* sequence_src = cJSON_GetObjectItem(params, "sequence")->valuestring;
-		Sequence& sequence = m_resource_manager.get_sequence(sequence_src);
+		Sequence& sequence = m_resource_system.sequence_manager.get(sequence_src, false);
 		loaded_event = make_own_ptr<Events::Activate_Sequence>(m_facade, sequence);
 	} else if (type == "add_to_party") {
 		const char* character_src = cJSON_GetObjectItem(params, "character")->valuestring;
-		Character_Profile character = m_resource_manager.get_character_profile(character_src);
+		Character_Profile character = m_resource_system.character_profile_manager.get(character_src, false);
 		loaded_event = make_own_ptr<Events::Add_To_Party>(m_facade, character);
 	} else if (type == "add_quest") {
 		String id = cJSON_GetObjectItem(params, "id")->valuestring;
@@ -153,12 +152,12 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 		loaded_event = make_own_ptr<Events::Disable_Player_Actions>(m_facade);
 	} else if (type == "enter_combat") {
 		const char* sequence_path = cJSON_GetObjectItem(params, "win_sequence")->valuestring;
-		Sequence& win_sequence = m_resource_manager.get_sequence(sequence_path);
+		Sequence& win_sequence = m_resource_system.sequence_manager.get(sequence_path, false);
 		const cJSON* enemies_json = cJSON_GetObjectItem(params, "enemies");
 		const cJSON* enemy_json;
 		Array<Character_Profile> enemies;
 		cJSON_ArrayForEach(enemy_json, enemies_json) {
-			Character_Profile enemy = m_resource_manager.get_character_profile(enemy_json->valuestring);
+			Character_Profile enemy = m_resource_system.character_profile_manager.get(enemy_json->valuestring, false);
 			enemies.push_back(enemy);
 		}
 		loaded_event = make_own_ptr<Events::Enter_Combat>(m_facade, (Array<Character_Profile>&&)enemies, win_sequence);

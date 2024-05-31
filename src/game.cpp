@@ -10,16 +10,16 @@
 #include <raylib/raylib.h>
 
 Game::Game(const char* project_path) :
-	m_game_facade(m_res_manager, m_music_player, m_logic, m_camera_controller, m_map_saveloader, m_game_saveloader),
-	m_sequence_loader(m_res_manager, m_game_facade),
-	m_res_manager(m_sequence_loader, m_sequence_saveloader, project_path),
+	m_game_facade(m_resource_system.map_manager, m_resource_system.sequence_manager, m_music_player, m_logic, m_camera_controller, m_map_saveloader, m_game_saveloader),
+	m_sequence_loader(m_resource_system, m_game_facade),
+	m_resource_system(project_path, m_sequence_loader),
 	m_text_box_renderer(m_logic.text_box),
 	m_inventory_renderer(m_logic.item_registry, m_logic.inventory),
 	m_camera_controller(m_camera),
 	m_combat_renderer(m_logic.party, m_logic.combat),
 	m_quest_log_renderer(m_logic.quest_log),
 	m_combat_controller(m_logic.combat),
-	m_map_saveloader(m_res_manager, project_path),
+	m_map_saveloader(m_resource_system.texture_manager, project_path),
 	m_sequence_saveloader(project_path),
 	m_game_saveloader(project_path, m_game_facade, m_camera)
 {
@@ -29,7 +29,7 @@ Game::Game(const char* project_path) :
 	SetWindowTitle(description.name.data());
 
 	// Item registry
-	Item_Registry_Loader item_registry_loader(m_res_manager);
+	Item_Registry_Loader item_registry_loader(m_resource_system.texture_manager);
 	item_registry_loader.load(m_logic.item_registry, project_path);
 
 	// UI
@@ -41,13 +41,13 @@ Game::Game(const char* project_path) :
 	m_game_saveloader.set_save_directory("savegame");
 
 	// Set up main character profile
-	m_logic.party.main_character() = m_res_manager.get_character_profile(description.default_character.data());
+	m_logic.party.main_character() = m_resource_system.character_profile_manager.get(description.default_character.data(), false);
 
 	// Load savegame
-	m_game_saveloader.load();	
+	m_game_saveloader.load();
 
 	// FIXME - refactor?
-	m_logic.start_sequence = &m_res_manager.get_sequence(description.start_sequence.data());
+	m_logic.start_sequence = &m_resource_system.sequence_manager.get(description.start_sequence.data(), false);
 	m_logic.start_sequence->try_activate();
 }
 
@@ -64,9 +64,10 @@ void Game::draw_frame(float time_delta)
 	if (!m_logic.in_combat) {
 		// Normal mode
 		process_normal_input();
-		m_res_manager.update_sequences(time_delta); // FIXME - somehow refactor this into game logic
-		m_camera_controller.update(m_logic.map, m_logic.get_player());
-		m_map_renderer.draw(m_logic.map, m_camera);
+		assert(m_logic.map);
+		m_resource_system.sequence_manager.update(time_delta); // FIXME - somehow refactor this into game logic
+		m_camera_controller.update(*m_logic.map, m_logic.get_player());
+		m_map_renderer.draw(*m_logic.map, m_camera);
 		m_text_box_renderer.draw();
 
 		if (m_show_inventory) {

@@ -1,10 +1,10 @@
 #include "tmj.hpp"
 #include "cJSON.h"
-#include "io/resource_manager.hpp"
 #include "map/tile_layer.hpp"
 #include "utils/string.hpp"
 #include "utils/log.hpp"
 #include "utils/file.hpp"
+#include "resource/resource_system.hpp"
 #include <string.h>
 
 namespace TMJ
@@ -45,8 +45,8 @@ void Tileset::set_passable(int index, bool value)
 	m_tiles[index].passable = value;
 }
 
-Map_Loader::Map_Loader(Resource_Manager& res_mgr, const String& path) :
-	m_resource_manager{res_mgr}
+Map_Loader::Map_Loader(Resource_System& res_system, const String& path) :
+	m_resource_system{res_system}
 {
 	m_path = path;
 
@@ -185,11 +185,11 @@ void Map_Loader::parse_object(const cJSON* object)
 		if (name == "sequence") {
 			const char* sequence_name = cJSON_GetObjectItem(property, "value")->valuestring;
 			String sequence_path = relative_to_real_path(sequence_name);
-			entity.assigned_sequence = &m_resource_manager.get_sequence(sequence_path.data(), true);
+			entity.assigned_sequence = &m_resource_system.sequence_manager.get(sequence_path.data(), true);
 		} else if (name == "character") {
 			const char* character_relative = cJSON_GetObjectItem(property, "value")->valuestring;
 			String character_path = relative_to_real_path(character_relative);
-			entity.assigned_character = m_resource_manager.get_character_profile(character_path.data(), true);
+			entity.assigned_character = m_resource_system.character_profile_manager.get(character_path.data(), true);
 		} else if (name == "passable") {
 			entity.passable = cJSON_GetObjectItem(property, "value")->valueint;
 		} else if (name == "area_trigger") {
@@ -237,7 +237,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 			// Tileset from one image
 			const char* image_relative = image_json->valuestring;
 			String image_path = relative_to_real_path(image_relative);
-			Sage_Texture texture = m_resource_manager.get_texture(image_path.data(), true);
+			Sage_Texture texture = m_resource_system.texture_manager.get(image_path.data(), true);
 			return Tileset{
 				Vec2i{tile_width, tile_height},
 				columns,
@@ -255,7 +255,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 		if (tileset.is_image_collection()) {
 			const char* image_relative = cJSON_GetObjectItem(special_tile, "image")->valuestring;
 			String image_path = relative_to_real_path(image_relative);
-			Sage_Texture texture = m_resource_manager.get_texture(image_path.data(), true);
+			Sage_Texture texture = m_resource_system.texture_manager.get(image_path.data(), true);
 			Sprite sprite{texture};
 			tileset.add_tile(Tile{sprite});
 		}

@@ -5,12 +5,12 @@
 #include "io/tmj.hpp"
 
 //fwd
-class Resource_Manager;
+class Texture_Manager;
 
 namespace cJSON_Types
 {
 
-Sprite parse_sprite(const cJSON*, Resource_Manager&);
+Sprite parse_sprite(const cJSON*, Texture_Manager&);
 cJSON* serialise_sprite(const Sprite&, const String& project_dir);
 
 }

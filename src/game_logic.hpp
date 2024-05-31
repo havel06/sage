@@ -12,13 +12,13 @@
 
 // fwd
 class Sequence;
-class Resource_Manager;
+class Resource_Manager_old;
 class Music_Player;
 
 class Game_Logic
 {
 public:
-	Map map; // TODO - shouldn't map be private?
+	Map* map = nullptr; // TODO - shouldn't map be private?
 	Text_Box text_box; // TODO - shouldn't this be private?
 	Party party; // TODO - make private?
 	Item_Registry item_registry;
@@ -36,4 +36,6 @@ public:
 	void player_interact();
 	void move_player(Direction direction);
 private:
+
+	Map m_empty_map;
 };

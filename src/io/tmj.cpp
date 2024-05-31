@@ -48,6 +48,7 @@ void Tileset::set_passable(int index, bool value)
 Map_Loader::Map_Loader(Resource_System& res_system, const String& path) :
 	m_resource_system{res_system}
 {
+	SG_DEBUG("Parsing map \"%s\"", path.data());
 	m_path = path;
 
 	//SG_DEBUG("Opening map file \"%s\"", m_path.data());

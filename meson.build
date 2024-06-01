@@ -56,6 +56,7 @@ src = [
   'src/sequence/events/add_to_party.cpp',
   'src/sequence/events/change_map.cpp',
   'src/sequence/events/change_sprite.cpp',
+  'src/sequence/events/delay.cpp',
   'src/sequence/events/disable_player_actions.cpp',
   'src/sequence/events/display_text.cpp',
   'src/sequence/events/echo.cpp',

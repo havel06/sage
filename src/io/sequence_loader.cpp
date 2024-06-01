@@ -7,6 +7,7 @@
 #include "sequence/events/add_quest.hpp"
 #include "sequence/events/finish_quest.hpp"
 #include "sequence/events/add_to_party.hpp"
+#include "sequence/events/delay.hpp"
 #include "sequence/events/change_sprite.hpp"
 #include "sequence/events/display_text.hpp"
 #include "sequence/events/dummy.hpp"
@@ -84,6 +85,10 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 		const String message =
 			cJSON_GetObjectItem(params, "message")->valuestring;
 		loaded_event = make_own_ptr<Events::Display_Text>(m_facade, (String&&)message);
+	} else if (type == "delay") {
+		const float seconds =
+			cJSON_GetObjectItem(params, "seconds")->valuedouble;
+		loaded_event = make_own_ptr<Events::Delay>(m_facade, seconds);
 	} else if (type == "give_item") {
 		const String id =
 			cJSON_GetObjectItem(params, "item")->valuestring;

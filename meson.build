@@ -34,6 +34,7 @@ src = [
   'src/io/resource/sound_manager.cpp',
   'src/io/resource/texture_manager.cpp',
   'src/io/savegame/game_saveloader.cpp',
+  'src/io/savegame/inventory_saveloader.cpp',
   'src/io/savegame/map_saveloader.cpp',
   'src/io/savegame/sequence_saveloader.cpp',
   'src/io/sequence_loader.cpp',

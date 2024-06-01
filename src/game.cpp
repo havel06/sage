@@ -61,6 +61,15 @@ Game::~Game()
 
 void Game::draw_frame(float time_delta)
 {
+	// FIXME - refactor this function
+	if (m_dev_mode) {
+		m_camera_controller.update(*m_logic.map, m_logic.get_player());
+		assert(m_logic.map);
+		m_map_renderer.draw(*m_logic.map, m_camera);
+		m_dev_tools.draw();
+		return;
+	}
+
 	m_music_player.update();
 	m_logic.update(time_delta);
 
@@ -88,6 +97,11 @@ void Game::draw_frame(float time_delta)
 
 void Game::process_normal_input()
 {
+	if (IsKeyPressed(KEY_F12)) {
+		m_dev_mode = !m_dev_mode;
+		return;
+	}
+
 	if (IsKeyPressed(KEY_ENTER)) {
 		if (m_logic.text_box.contains_message())
 			m_logic.text_box.advance();

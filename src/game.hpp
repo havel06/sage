@@ -1,5 +1,6 @@
 #pragma once
 
+#include "dev_tools/dev_tools.hpp"
 #include "game_logic.hpp"
 #include "graphics/camera.hpp"
 #include "graphics/camera_controller.hpp"
@@ -47,6 +48,9 @@ private:
 	Combat_Renderer m_combat_renderer;
 	Quest_Log_Renderer m_quest_log_renderer;
 
+	Dev_Tools m_dev_tools;
+
+	bool m_dev_mode = false;
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;
 };

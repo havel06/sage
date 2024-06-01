@@ -13,16 +13,18 @@ Game::Game(const char* project_path) :
 	m_game_facade(m_resource_system.map_manager, m_resource_system.sequence_manager, m_music_player, m_logic, m_camera_controller, m_map_saveloader, m_game_saveloader),
 	m_sequence_loader(m_resource_system, m_game_facade),
 	m_resource_system(project_path, m_sequence_loader, m_sequence_saveloader),
-	m_text_box_renderer(m_logic.text_box),
-	m_inventory_renderer(m_logic.item_registry, m_logic.inventory),
-	m_camera_controller(m_camera),
-	m_combat_renderer(m_logic.party, m_logic.combat),
-	m_quest_log_renderer(m_logic.quest_log),
 	m_combat_controller(m_logic.combat),
 	m_map_saveloader(m_resource_system.texture_manager, project_path),
 	m_sequence_saveloader(project_path),
-	m_game_saveloader(project_path, m_game_facade, m_camera, m_logic.inventory)
+	m_game_saveloader(project_path, m_game_facade, m_camera, m_logic.inventory),
+	m_camera_controller(m_camera),
+	m_text_box_renderer(m_logic.text_box),
+	m_inventory_renderer(m_logic.item_registry, m_logic.inventory),
+	m_combat_renderer(m_logic.party, m_logic.combat),
+	m_quest_log_renderer(m_logic.quest_log)
 {
+	// FIXME - make the constructor smaller by injecting into member classes via their constructors
+
 	// Project description
 	Project_Description description = load_project_description(String{project_path});
 	SG_INFO("Loaded project \"%s\"", description.name.data());

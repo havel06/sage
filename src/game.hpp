@@ -33,17 +33,19 @@ private:
 	Resource_System m_resource_system;
 	Game_Logic m_logic;
 	Map_Renderer m_map_renderer;
-	Text_Box_Renderer m_text_box_renderer;
-	Inventory_Renderer m_inventory_renderer;
 	Music_Player m_music_player;
-	Game_Camera m_camera;
-	Camera_Controller m_camera_controller;
-	Combat_Renderer m_combat_renderer;
-	Quest_Log_Renderer m_quest_log_renderer;
 	Combat_Controller m_combat_controller;
 	Map_Saveloader m_map_saveloader;
 	Sequence_Saveloader m_sequence_saveloader;
 	Game_Saveloader m_game_saveloader;
+
+	// Rendering
+	Game_Camera m_camera;
+	Camera_Controller m_camera_controller;
+	Text_Box_Renderer m_text_box_renderer;
+	Inventory_Renderer m_inventory_renderer;
+	Combat_Renderer m_combat_renderer;
+	Quest_Log_Renderer m_quest_log_renderer;
 
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;

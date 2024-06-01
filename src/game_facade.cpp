@@ -32,12 +32,11 @@ Game_Facade::Game_Facade(
 
 void Game_Facade::set_current_map(const String& filename)
 {
-	// Save current map first
-	//m_map_saveloader.save(m_logic.map);
-	save_game(); // Save everything while we're at it
+	save_game(); // Save everything, because why not
 
 	m_logic.map = &m_map_manager.get(filename, false);
 	spawn_player();
+	// NOTE - map loading has to happen here, because we need the player entity to be present.
 	m_map_saveloader.load(*m_logic.map); // Load progress
 
 	if (m_logic.map->assigned_sequence)

@@ -84,15 +84,17 @@ deps = [
   raylib_lib,
 ]
 
-options = []
+# Custom options for Windows builds
+executable_options = []
 
 if host_machine.system() == 'windows'
   deps += meson.get_compiler('cpp').find_library('winmm')
-  options = ['werror=false', 'unity=on']
+  executable_options = ['werror=y=on']
 endif
 
-executable('out', [src, vendor_src],
+executable('out', src,
   dependencies : deps,
   include_directories : [vendor_inc, 'src'],
-  override_options : options
+  override_options : executable_options,
+  link_with : vendor_lib
 )

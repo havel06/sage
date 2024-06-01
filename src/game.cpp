@@ -62,6 +62,9 @@ Game::~Game()
 void Game::draw_frame(float time_delta)
 {
 	// FIXME - refactor this function
+	if (IsKeyPressed(KEY_F12))
+		m_dev_mode = !m_dev_mode;
+
 	if (m_dev_mode) {
 		m_camera_controller.update(*m_logic.map, m_logic.get_player());
 		assert(m_logic.map);
@@ -97,11 +100,6 @@ void Game::draw_frame(float time_delta)
 
 void Game::process_normal_input()
 {
-	if (IsKeyPressed(KEY_F12)) {
-		m_dev_mode = !m_dev_mode;
-		return;
-	}
-
 	if (IsKeyPressed(KEY_ENTER)) {
 		if (m_logic.text_box.contains_message())
 			m_logic.text_box.advance();

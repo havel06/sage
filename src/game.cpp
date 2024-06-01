@@ -33,7 +33,8 @@ Game::Game(const char* project_path) :
 	item_registry_loader.load(m_logic.item_registry, project_path);
 
 	// UI
-	m_text_box_renderer.load(project_path);
+	GUI_Loader gui_loader(m_resource_system.font_manager);
+	m_text_box_renderer.load(gui_loader, project_path);
 
 	// Savegame location
 	m_map_saveloader.set_save_directory("savegame");

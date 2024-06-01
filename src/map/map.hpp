@@ -32,6 +32,8 @@ public:
 
 	Map(const String& path, int width, int height);
 	Map();
+	Map(const Map&) = delete;
+	Map(Map&&) = delete;
 
 	void resize(int width, int height);
 

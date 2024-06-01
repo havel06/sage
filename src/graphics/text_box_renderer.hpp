@@ -2,15 +2,17 @@
 
 #include "ui/widget.hpp"
 
+// fwd
 class Text_Box;
 class String;
+class GUI_Loader;
 
 class Text_Box_Renderer
 {
 public:
 	Text_Box_Renderer(const Text_Box&);
 	void draw();
-	void load(const String& project_root);
+	void load(GUI_Loader&, const String& project_root);
 private:
 	const Text_Box& m_text_box;
 	UI::Widget_Ptr m_widget;

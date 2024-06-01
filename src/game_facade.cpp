@@ -55,14 +55,19 @@ const String& Game_Facade::get_current_map_path()
 void Game_Facade::spawn_player()
 {
 	// TODO - maybe this should happen in game_logic
-	Entity player;
 
+	assert(m_logic.map);
 	Character_Profile character = m_logic.party.main_character();
+
+	// Check if player already exists
+	if (m_logic.map->entities.get_entity(character.name))
+		return;
+
+	Entity player;
 
 	player.name = character.name;
 	player.assigned_character = character;
 
-	assert(m_logic.map);
 	m_logic.map->entities.add_entity((Entity&&)player);
 }
 

@@ -34,7 +34,7 @@ class Map_Loader
 {
 public:
 	Map_Loader(Resource_System&, const String& path);
-	Map retrieve_map();
+	Own_Ptr<Map> retrieve_map();
 private:
 	//void parse_properties(const cJSON*);
 	void parse_layer_array(const cJSON* layer);
@@ -51,7 +51,7 @@ private:
 
 	String m_path;
 	Resource_System& m_resource_system;
-	Map m_map;
+	Own_Ptr<Map> m_map;
 	int m_tile_width;
 	int m_tile_height;
 	Array<Tileset_In_Map> m_tilesets;

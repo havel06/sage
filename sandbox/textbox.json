@@ -29,7 +29,8 @@
 					"name": "Text",
 					"parameters": {
 						"text": "",
-						"size": 20
+						"size": 33,
+						"font": "Retro Gaming.ttf"
 					}
 				}
 			]

@@ -9,12 +9,11 @@ Text_Box_Renderer::Text_Box_Renderer(const Text_Box& text_box) :
 {
 }
 
-void Text_Box_Renderer::load(const String& project_root)
+void Text_Box_Renderer::load(GUI_Loader& gui_loader, const String& project_root)
 {
 	String path = project_root;
 	path.append("/textbox.json");
-	GUI_Loader loader;
-	m_widget = loader.load(path.data());
+	m_widget = gui_loader.load(path.data());
 }
 
 void Text_Box_Renderer::draw()

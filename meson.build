@@ -27,6 +27,7 @@ src = [
   'src/io/item_registry_loader.cpp',
   'src/io/project_loader.cpp',
   'src/io/resource/character_profile_manager.cpp',
+  'src/io/resource/font_manager.cpp',
   'src/io/resource/map_manager.cpp',
   'src/io/resource/resource_system.cpp',
   'src/io/resource/sequence_manager.cpp',

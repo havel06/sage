@@ -12,7 +12,7 @@ Text::Text(Layout&& layout) :
 void Text::draw_impl(Recti parent_area, float)
 {
 	String wrapped_text = wrap_text(text, parent_area.size.x);
-	DrawText(wrapped_text.data(), parent_area.position.x, parent_area.position.y, size, WHITE);
+	DrawTextEx(font, wrapped_text.data(), {(float)parent_area.position.x, (float)parent_area.position.y}, size, 0, WHITE);
 }
 
 Array<String> Text::split_text_to_words(const String& text)

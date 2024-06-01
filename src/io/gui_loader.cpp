@@ -5,7 +5,13 @@
 #include "utils/own_ptr.hpp"
 #include "graphics/ui/text.hpp"
 #include "graphics/ui/box.hpp"
+#include "io/resource/font_manager.hpp"
 #include <cJSON.h>
+
+GUI_Loader::GUI_Loader(Font_Manager& font_mgr) :
+	m_font_manager{font_mgr}
+{
+}
 
 UI::Widget_Ptr GUI_Loader::load(const char* filename)
 {
@@ -100,6 +106,7 @@ UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const cJSON* params)
 	if (params) {
 		widget->text = cJSON_GetObjectItem(params, "text")->valuestring;
 		widget->size = cJSON_GetObjectItem(params, "size")->valueint;
+		widget->font = m_font_manager.get(cJSON_GetObjectItem(params, "font")->valuestring, false);
 	}
 
 	return widget;

@@ -62,8 +62,9 @@ Map_Loader::Map_Loader(Resource_System& res_system, const String& path) :
 	cJSON* layers = cJSON_GetObjectItem(json, "layers");
 	cJSON* tilesets = cJSON_GetObjectItem(json, "tilesets");
 
-	m_map.resize(width, height);
-	m_map.set_path(path);
+	m_map = make_own_ptr<Map>();
+	m_map->resize(width, height);
+	m_map->set_path(path);
 
 	//parse_properties(cJSON_GetObjectItem(json, "properties"));
 	parse_tilesets(tilesets);
@@ -72,9 +73,9 @@ Map_Loader::Map_Loader(Resource_System& res_system, const String& path) :
 	cJSON_Delete(json);
 }
 
-Map Map_Loader::retrieve_map()
+Own_Ptr<Map> Map_Loader::retrieve_map()
 {
-	return m_map;
+	return (Own_Ptr<Map>&&)(m_map);
 }
 
 /*
@@ -126,11 +127,11 @@ void Map_Loader::parse_tile_layer(const cJSON* layer_json)
 
 	int position_index = 0;
 	const cJSON* tile_index;
-	Tile_Layer layer(m_map.get_width(), m_map.get_height());
+	Tile_Layer layer(m_map->get_width(), m_map->get_height());
 
 	cJSON_ArrayForEach(tile_index, indices) {
-		int y = position_index / m_map.get_width();
-		int x = position_index % m_map.get_width();
+		int y = position_index / m_map->get_width();
+		int x = position_index % m_map->get_width();
 
 		if (tile_index->valueint == 0) {
 			Tile empty_tile;
@@ -144,7 +145,7 @@ void Map_Loader::parse_tile_layer(const cJSON* layer_json)
 		position_index++;
 	}
 
-	m_map.layers.add_layer((Tile_Layer&&)layer);
+	m_map->layers.add_layer((Tile_Layer&&)layer);
 }
 
 void Map_Loader::parse_object_layer(const cJSON* layer_json)
@@ -200,7 +201,7 @@ void Map_Loader::parse_object(const cJSON* object)
 		}
 	}
 
-	m_map.entities.add_entity((Entity&&)entity);
+	m_map->entities.add_entity((Entity&&)entity);
 }
 
 void Map_Loader::parse_tilesets(const cJSON* tilesets)

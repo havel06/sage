@@ -10,6 +10,7 @@ Resource_System::Resource_System(const String& resource_root_path, Sequence_Load
 	sequence_manager(resource_root_path, seq_loader, saveloader),
 	sound_manager(resource_root_path),
 	texture_manager(resource_root_path),
-	map_manager(resource_root_path, *this)
+	map_manager(resource_root_path, *this),
+	font_manager(resource_root_path)
 {
 }

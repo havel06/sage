@@ -50,6 +50,7 @@ Map::Map() : Map("", 0, 0)
 
 void Map_Entities::add_entity(Entity&& entity)
 {
+	SG_DEBUG("Adding entity \"%s\"", entity.name.data());
 	m_entities.push_back((Entity&&)entity);
 }
 

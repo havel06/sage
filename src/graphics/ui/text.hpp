@@ -2,6 +2,7 @@
 
 #include "widget.hpp"
 #include "utils/string.hpp"
+#include <raylib/raylib.h>
 
 namespace UI
 {
@@ -10,7 +11,8 @@ class Text : public Widget
 {
 public:
 	Text(Layout&&);
-	String text;
+	Font font = GetFontDefault();
+	String text = "";
 	int size = 10;
 private:
 	void draw_impl(Recti parent_area, float time_delta) override;

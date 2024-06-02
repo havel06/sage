@@ -63,7 +63,7 @@ Game::~Game()
 void Game::draw_frame(float time_delta)
 {
 	// FIXME - refactor this function
-	if (IsKeyPressed(KEY_F12))
+	if (IsKeyPressed(KEY_F3))
 		m_dev_mode = !m_dev_mode;
 
 	if (m_dev_mode) {

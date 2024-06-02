@@ -19,7 +19,10 @@ Own_Ptr<Font> Font_Manager::load_resource(const String& filename)
 	String font_filename = m_resource_root;
 	font_filename.append("/");
 	font_filename.append(cJSON_GetObjectItem(json, "file")->valuestring);
-	Font font = LoadFont(font_filename.data());
+
+	const int font_size = cJSON_GetObjectItem(json, "size")->valueint;
+
+	Font font = LoadFontEx(font_filename.data(), font_size, nullptr, 0);
 
 	bool filter = cJSON_GetObjectItem(json, "filter")->valueint;
 	if (filter) {

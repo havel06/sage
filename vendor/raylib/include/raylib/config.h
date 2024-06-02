@@ -56,9 +56,9 @@
 // Wait for events passively (sleeping while no events) instead of polling them actively every frame
 //#define SUPPORT_EVENTS_WAITING      1
 // Allow automatic screen capture of current screen pressing F12, defined in KeyCallback()
-#define SUPPORT_SCREEN_CAPTURE      1
+#define SUPPORT_SCREEN_CAPTURE      0
 // Allow automatic gif recording of current screen pressing CTRL+F12, defined in KeyCallback()
-#define SUPPORT_GIF_RECORDING       1
+#define SUPPORT_GIF_RECORDING       0
 // Support CompressData() and DecompressData() functions
 #define SUPPORT_COMPRESSION_API     1
 // Support automatic generated events, loading and recording of those events when required

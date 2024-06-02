@@ -21,7 +21,8 @@ Game::Game(const char* project_path) :
 	m_text_box_renderer(m_logic.text_box),
 	m_inventory_renderer(m_logic.item_registry, m_logic.inventory),
 	m_combat_renderer(m_logic.party, m_logic.combat),
-	m_quest_log_renderer(m_logic.quest_log)
+	m_quest_log_renderer(m_logic.quest_log),
+	m_dev_tools(m_game_facade, project_path)
 {
 	// FIXME - make the constructor smaller by injecting into member classes via their constructors
 
@@ -69,7 +70,7 @@ void Game::draw_frame(float time_delta)
 		m_camera_controller.update(*m_logic.map, m_logic.get_player());
 		assert(m_logic.map);
 		m_map_renderer.draw(*m_logic.map, m_camera);
-		m_dev_tools.draw();
+		m_dev_tools.draw(*m_logic.map);
 		return;
 	}
 

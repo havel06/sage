@@ -30,7 +30,7 @@
 					"parameters": {
 						"text": "",
 						"size": 33,
-						"font": "Retro Gaming.ttf"
+						"font": "font.json"
 					}
 				}
 			]

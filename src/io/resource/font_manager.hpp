@@ -9,4 +9,5 @@ public:
 	Font_Manager(const String& resource_root_path);
 private:
 	Own_Ptr<Font> load_resource(const String& filename) override;
+	String m_resource_root;
 };

@@ -53,17 +53,24 @@ void Sequence::update(float time_delta)
 
 void Sequence::end_or_reset()
 {
-	m_active = false;
-
 	if (!repeatable) {
+		// End
+		m_active = false;
 		m_finished = true;
 	} else {
-		// Reset events
-		for (int i = 0; i < m_events.size(); i++)
-			m_events[i]->reset();
-
-		m_current_event = 0;
+		reset();
 	}
+}
+
+void Sequence::reset()
+{
+	// Reset events
+	for (int i = 0; i < m_events.size(); i++)
+		m_events[i]->reset();
+
+	m_current_event = 0;
+	m_finished = false;
+	m_active = false;
 }
 
 void Sequence::try_activate()

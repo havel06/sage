@@ -23,6 +23,7 @@ public:
 
 	void update(float time_delta);
 	void try_activate();
+	void reset();
 
 	bool is_active() const { return m_active; }
 	bool has_finished() const { return m_finished; }

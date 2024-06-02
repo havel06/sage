@@ -9,6 +9,7 @@ src = [
   'src/combat_controller.cpp',
   'src/dev_tools/dev_tools.cpp',
   'src/dev_tools/mode_general.cpp',
+  'src/dev_tools/mode_sequence.cpp',
   'src/game.cpp',
   'src/game_facade.cpp',
   'src/game_logic.cpp',

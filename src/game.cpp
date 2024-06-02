@@ -22,7 +22,7 @@ Game::Game(const char* project_path) :
 	m_inventory_renderer(m_logic.item_registry, m_logic.inventory),
 	m_combat_renderer(m_logic.party, m_logic.combat),
 	m_quest_log_renderer(m_logic.quest_log),
-	m_dev_tools(m_game_facade, project_path)
+	m_dev_tools(m_game_facade, m_resource_system.sequence_manager, project_path)
 {
 	// FIXME - make the constructor smaller by injecting into member classes via their constructors
 

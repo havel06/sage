@@ -13,9 +13,20 @@ public:
 	Sequence_Manager(const String& resource_root_path, Sequence_Loader&, Sequence_Saveloader&);
 	void update(float time_delta);
 	void save();
+
+	// Callable must take one argument, Sequence&
+	template<typename Callable>
+	void for_each(Callable c);
 private:
 	Own_Ptr<Sequence> load_resource(const String& filename) override;
 
 	Sequence_Loader& m_loader;
 	Sequence_Saveloader& m_saveloader;
 };
+
+
+template<typename Callable>
+void Sequence_Manager::for_each(Callable c)
+{
+	for_each_resource(c);
+}

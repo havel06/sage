@@ -2,6 +2,7 @@
 #include "io/resource/sequence_manager.hpp"
 #include "imgui.h"
 #include "utils/filesystem.hpp"
+#include "utils/log.hpp"
 
 Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Sequence_Manager& seq_manager, const String& resource_root_path) :
 	m_sequence_manager{seq_manager}
@@ -14,7 +15,9 @@ void Dev_Tools_Mode_Sequence::draw()
 	ImGui::Begin("Sequences");
 
 	m_sequence_manager.for_each([&](Sequence& sequence){
-		if (ImGui::Selectable(get_relative_path(sequence.get_path(), m_resource_root).data())) {
+		const bool is_selected = m_selected_sequence == &sequence;
+		const String relative_path = get_relative_path(sequence.get_path(), m_resource_root);
+		if (ImGui::Selectable(relative_path.data(), is_selected)) {
 			m_selected_sequence = &sequence;
 		}
 	});

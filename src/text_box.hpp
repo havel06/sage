@@ -8,6 +8,7 @@ class Text_Box
 public:
 	bool contains_message() const;
 	String get_displayed_message() const;
+	int get_displayed_character_count() const;
 	void push_message(String&&);
 	void update(float time_delta);
 	void advance();

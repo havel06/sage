@@ -10,11 +10,14 @@ bool Text_Box::contains_message() const
 String Text_Box::get_displayed_message() const
 {
 	assert(contains_message());
+	return m_messages[m_current_message];
+}
 
+int Text_Box::get_displayed_character_count() const
+{
+	assert(contains_message());
 	const float time_per_character = 0.02;
-	const int characters_shown = min((int)(m_time_shown / time_per_character), m_messages[m_current_message].length());
-
-	return m_messages[m_current_message].substring(0, characters_shown);
+	return min((int)(m_time_shown / time_per_character), m_messages[m_current_message].length());
 }
 
 void Text_Box::push_message(String&& message)

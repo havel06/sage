@@ -63,7 +63,7 @@ String Text::wrap_text(const String& text, int width)
 			continue;
 		}
 
-		auto space_left = width - MeasureText(line.data(), size);
+		auto space_left = width - MeasureTextEx(font, line.data(), size, 0).x;
 
 		const auto word_width = MeasureText((words[i]).data(), size);
 		if (word_width <= space_left) {

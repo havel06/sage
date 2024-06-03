@@ -26,6 +26,6 @@ void Text_Box_Renderer::draw()
 	UI::Text* text_widget = (UI::Text*)m_widget->get_widget_by_name("Text");
 	assert(text_widget);
 
-	text_widget->text = m_text_box.get_displayed_message();
+	text_widget->text = m_text_box.get_displayed_message().substring(0, m_text_box.get_displayed_character_count());
 	m_widget->draw_as_root(0);
 }

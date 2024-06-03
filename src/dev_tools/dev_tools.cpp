@@ -3,6 +3,7 @@
 #include "imgui.h"
 #include "utils/log.hpp"
 #include "rlImGui.h"
+#include "map/map.hpp"
 
 Dev_Tools::Dev_Tools(Game_Facade& facade, Sequence_Manager& seq_mgr, const String& project_root) :
 	m_general(facade, project_root),
@@ -16,7 +17,7 @@ Dev_Tools::~Dev_Tools()
 	rlImGuiShutdown();
 }
 
-void Dev_Tools::draw(const Map& map)
+void Dev_Tools::draw(Map& map)
 {
 	rlImGuiBegin();
 
@@ -30,6 +31,7 @@ void Dev_Tools::draw(const Map& map)
 			m_sequence.draw();
 			break;
 		case Dev_Tools_Mode::entities:
+			m_entity.draw(map.entities);
 			break;
 	}
 

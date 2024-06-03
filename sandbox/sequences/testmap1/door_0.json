@@ -12,6 +12,12 @@
 				"x": 18,
 				"y": 2
 			}
+		}, {
+			"type": "rotate_entity",
+			"parameters": {
+				"entity": "Link",
+				"direction": "down"
+			}
 		}
 	]
 }

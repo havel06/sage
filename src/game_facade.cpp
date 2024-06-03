@@ -145,6 +145,19 @@ Vec2i Game_Facade::get_entity_position(const String& entity_name)
 	return entity->position;
 }
 
+Direction Game_Facade::get_entity_direction(const String& entity_name)
+{
+	assert(m_logic.map);
+	Entity* entity = m_logic.map->entities.get_entity(entity_name);
+
+	if (!entity) {
+		SG_ERROR("Entity \"%s\" not found", entity_name.data());
+		return {};
+	}
+
+	return entity->get_look_direction();
+}
+
 void Game_Facade::move_entity(const String& entity_name, Vec2i position)
 {
 	assert(m_logic.map);
@@ -160,6 +173,19 @@ void Game_Facade::move_entity(const String& entity_name, Vec2i position)
 
 	Direction direction = vec2i_to_direction(position - entity->position);
 	entity->move(direction);
+}
+
+void Game_Facade::rotate_entity(const String& entity_name, Direction direction)
+{
+	assert(m_logic.map);
+	Entity* entity = m_logic.map->entities.get_entity(entity_name);
+
+	if (!entity) {
+		SG_ERROR("Entity \"%s\" not found", entity_name.data());
+		return;
+	}
+
+	entity->look(direction);
 }
 
 void Game_Facade::set_player_interactions_enabled(bool enabled)

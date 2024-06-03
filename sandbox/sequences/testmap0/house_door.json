@@ -13,6 +13,12 @@
 				"y": 3
 			}
 		}, {
+			"type": "rotate_entity",
+			"parameters": {
+				"entity": "Link",
+				"direction": "down"
+			}
+		}, {
 			"type": "activate_sequence",
 			"parameters": {
 				"sequence": "sequences/house/error_speech.json"

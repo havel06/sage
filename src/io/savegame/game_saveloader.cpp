@@ -1,5 +1,6 @@
 #include "game_saveloader.hpp"
 #include "io/savegame/inventory_saveloader.hpp"
+#include "io/savegame/quest_saveloader.hpp"
 #include "item/inventory.hpp"
 #include "utils/filesystem.hpp"
 #include "utils/file.hpp"
@@ -9,10 +10,11 @@
 #include <stdio.h>
 #include <cJSON.h>
 
-Game_Saveloader::Game_Saveloader(const String& project_dir, Game_Facade& facade, Game_Camera& camera, Inventory& inv) :
+Game_Saveloader::Game_Saveloader(const String& project_dir, Game_Facade& facade, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log) :
 	m_game_facade{facade},
 	m_camera{camera},
-	m_inventory{inv}
+	m_inventory{inv},
+	m_quest_log{quest_log}
 {
 	m_project_dir = project_dir;
 }
@@ -39,6 +41,8 @@ void Game_Saveloader::save()
 	cJSON_AddItemToObject(json, "camera_zoom", cJSON_CreateNumber(m_camera.zoom));
 	Inventory_Saveloader inv_saveloader;
 	cJSON_AddItemToObject(json, "inventory", inv_saveloader.save(m_inventory));
+	Quest_Saveloader quest_saveloader(m_quest_log);
+	cJSON_AddItemToObject(json, "quests", quest_saveloader.save());
 	
 	// Write to file
 	create_directories_for_file(m_savefile_path);
@@ -68,6 +72,8 @@ void Game_Saveloader::load()
 	m_camera.zoom = cJSON_GetObjectItem(json, "camera_zoom")->valuedouble;
 	Inventory_Saveloader inv_saveloader;
 	inv_saveloader.load(m_inventory, cJSON_GetObjectItem(json, "inventory"));
+	Quest_Saveloader quest_saveloader(m_quest_log);
+	quest_saveloader.load(cJSON_GetObjectItem(json, "quests"));
 
 	cJSON_Delete(json);
 	SG_INFO("Loaded game state.");

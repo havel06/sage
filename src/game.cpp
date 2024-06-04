@@ -16,7 +16,7 @@ Game::Game(const char* project_path) :
 	m_combat_controller(m_logic.combat),
 	m_map_saveloader(m_resource_system.texture_manager, project_path),
 	m_sequence_saveloader(project_path),
-	m_game_saveloader(project_path, m_game_facade, m_camera, m_logic.inventory),
+	m_game_saveloader(project_path, m_game_facade, m_camera, m_logic.inventory, m_logic.quest_log),
 	m_camera_controller(m_camera),
 	m_text_box_renderer(m_logic.text_box),
 	m_inventory_renderer(m_logic.item_registry, m_logic.inventory),

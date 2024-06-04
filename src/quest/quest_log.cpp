@@ -28,3 +28,8 @@ const Quest& Quest_Log::get_quest(int index) const
 {
 	return m_quests[index];
 }
+
+void Quest_Log::clear()
+{
+	m_quests.clear();
+}

@@ -30,7 +30,7 @@
 #include "utils/file.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
-#include "cjson_types.hpp"
+#include "json_types.hpp"
 #include "resource/resource_system.hpp"
 
 Sequence_Loader::Sequence_Loader(Resource_System& res_system, Game_Facade& facade) :
@@ -136,7 +136,7 @@ Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
 	} else if (type == "change_sprite") {
 		const String entity = cJSON_GetObjectItem(params, "entity")->valuestring;
 		const cJSON* sprite_json = cJSON_GetObjectItem(params, "sprite");
-		const Sprite sprite = cJSON_Types::parse_sprite(sprite_json, m_resource_system.texture_manager);
+		const Sprite sprite = JSON_Types::parse_sprite(sprite_json, m_resource_system.texture_manager);
 		loaded_event = make_own_ptr<Events::Change_Sprite>(m_facade, (String&&)entity, sprite);
 	} else if (type == "activate_sequence") {
 		const char* sequence_src = cJSON_GetObjectItem(params, "sequence")->valuestring;

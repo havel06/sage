@@ -1,38 +1,36 @@
 #include "item_registry_loader.hpp"
-#include "cJSON.h"
 #include "utils/file.hpp"
 #include "graphics/sprite.hpp"
 #include "item/item_registry.hpp"
 #include "utils/log.hpp"
-#include "cjson_types.hpp"
+#include "utils/json.hpp"
+#include "json_types.hpp"
 
 Item_Registry_Loader::Item_Registry_Loader(Texture_Manager& tex_mgr) :
 	m_texture_manager{tex_mgr}
 {
 }
 
-void Item_Registry_Loader::load(Item_Registry& registry, String project_root)
+void Item_Registry_Loader::load(Item_Registry& registry, const String& project_root)
 {
-	// Get file
-	String project_file_path = project_root;
-	project_file_path.append("/items.json");
-	String file_content = read_file_to_str(project_file_path.data());
+	// FIXME - error handling
+	String filename = project_root;
+	filename.append("/items.json");
+	JSON::Object json = JSON::Object::from_file(filename.data());
+	JSON::Object_View view = json.get_view();
 
-	const cJSON* json = cJSON_Parse(file_content.data());
-	const cJSON* items = cJSON_GetObjectItem(json, "items");
+	JSON::Array_View items = view["items"].as_array();
 
-	const cJSON* item_json;
-	cJSON_ArrayForEach(item_json, items) {
-		const String id = cJSON_GetObjectItem(item_json, "id")->valuestring;
-		const String name = cJSON_GetObjectItem(item_json, "name")->valuestring;
-		const cJSON* sprite_json = cJSON_GetObjectItem(item_json, "sprite");
-		Sprite sprite = cJSON_Types::parse_sprite(sprite_json, m_texture_manager);
+	items.for_each([&](const JSON::Value_View& item) {
+		const String id = item.as_object()["id"].as_string();
+		const String name = item.as_object()["name"].as_string();
+		Sprite sprite = JSON_Types::parse_sprite(item.as_object()["sprite"].as_object(), m_texture_manager);
 		registry.add_item(Item{
 			.id = id,
 			.name = name,
 			.sprite = sprite,
 		});
-	}
+	});
 
 	SG_INFO("Loaded item registry");
 }

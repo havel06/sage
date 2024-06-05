@@ -1,6 +1,6 @@
 #include "map_saveloader.hpp"
 #include "cJSON.h"
-#include "io/cjson_types.hpp"
+#include "io/json_types.hpp"
 #include "utils/direction.hpp"
 #include "utils/file.hpp"
 #include "utils/filesystem.hpp"
@@ -109,7 +109,7 @@ cJSON* Map_Saveloader::serialise_entity(const Entity& entity)
 	cJSON_AddItemToObject(entity_json, "direction", cJSON_CreateString(direction_to_string(entity.get_look_direction())));
 
 	if (!entity.sprite.is_null())
-		cJSON_AddItemToObject(entity_json, "sprite", cJSON_Types::serialise_sprite(entity.sprite, m_project_dir));
+		cJSON_AddItemToObject(entity_json, "sprite", JSON_Types::serialise_sprite(entity.sprite, m_project_dir));
 
 	return entity_json;
 }
@@ -121,7 +121,7 @@ void Map_Saveloader::deserialise_entity(Entity& entity, const cJSON* entity_json
 
 	const cJSON* sprite_json = cJSON_GetObjectItem(entity_json, "sprite");
 	if (sprite_json)
-		entity.sprite = cJSON_Types::parse_sprite(sprite_json, m_texture_manager);
+		entity.sprite = JSON_Types::parse_sprite(sprite_json, m_texture_manager);
 
 	entity.look(direction_from_string(cJSON_GetObjectItem(entity_json, "direction")->valuestring));
 }

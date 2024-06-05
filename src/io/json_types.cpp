@@ -1,21 +1,22 @@
-#include "cjson_types.hpp"
-#include "cJSON.h"
+#include "json_types.hpp"
 #include "utils/filesystem.hpp"
 #include "io/resource/texture_manager.hpp"
+#include "utils/json.hpp"
 
-namespace cJSON_Types
+namespace JSON_Types
 {
 
-Sprite parse_sprite(const cJSON* json, Texture_Manager& texture_manager)
+Sprite parse_sprite(const JSON::Object_View& json, Texture_Manager& texture_manager)
 {
-	assert(json);
-	const char* texture_name = cJSON_GetObjectItem(json, "texture")->valuestring;
+	// FIXME - error handling
+	const char* texture_name = json["texture"].as_string();
 	const Sage_Texture texture = texture_manager.get(texture_name, false);
+
 	Sprite sprite(texture);
-	sprite.texture_clip.position.x = cJSON_GetObjectItem(json, "position_x")->valueint;
-	sprite.texture_clip.position.y = cJSON_GetObjectItem(json, "position_y")->valueint;
-	sprite.texture_clip.size.x = cJSON_GetObjectItem(json, "size_x")->valueint;
-	sprite.texture_clip.size.y = cJSON_GetObjectItem(json, "size_y")->valueint;
+	sprite.texture_clip.position.x = json["position_x"].as_int();
+	sprite.texture_clip.position.y = json["position_y"].as_int();
+	sprite.texture_clip.size.x = json["size_x"].as_int();
+	sprite.texture_clip.size.y = json["size_y"].as_int();
 
 	return sprite;
 }

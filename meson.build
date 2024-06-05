@@ -26,7 +26,7 @@ src = [
   'src/graphics/ui/text.cpp',
   'src/graphics/ui/widget.cpp',
   'src/io/character_profile_loader.cpp',
-  'src/io/cjson_types.cpp',
+  'src/io/json_types.cpp',
   'src/io/gui_loader.cpp',
   'src/io/item_registry_loader.cpp',
   'src/io/project_loader.cpp',

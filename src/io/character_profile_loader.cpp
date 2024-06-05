@@ -1,8 +1,8 @@
 #include "character_profile_loader.hpp"
 #include "ability.hpp"
 #include "utils/file.hpp"
-#include "cJSON.h"
-#include "cjson_types.hpp"
+#include "utils/json.hpp"
+#include "json_types.hpp"
 
 Character_Profile_Loader::Character_Profile_Loader(Texture_Manager& tex_mgr) :
 	m_texture_manager{tex_mgr}
@@ -11,51 +11,44 @@ Character_Profile_Loader::Character_Profile_Loader(Texture_Manager& tex_mgr) :
 
 Character_Profile Character_Profile_Loader::load(const char* file_path)
 {
-	String content = read_file_to_str(file_path);
-	cJSON* json = cJSON_Parse(content.data());
+	JSON::Object json = JSON::Object::from_file(file_path);
+	JSON::Object_View json_view = json.get_view();
 
 	Character_Profile profile;
 
-	profile.name = cJSON_GetObjectItem(json, "name")->valuestring;
+	profile.name = json_view["name"].as_string();
 
-	const cJSON* sprite_down_json  = cJSON_GetObjectItem(json, "sprite_down");
-	const cJSON* sprite_up_json    = cJSON_GetObjectItem(json, "sprite_up");
-	const cJSON* sprite_left_json  = cJSON_GetObjectItem(json, "sprite_left");
-	const cJSON* sprite_right_json = cJSON_GetObjectItem(json, "sprite_right");
+	profile.sprite_down  = JSON_Types::parse_sprite(json_view["sprite_down"].as_object(),  m_texture_manager);
+	profile.sprite_up    = JSON_Types::parse_sprite(json_view["sprite_up"].as_object(),    m_texture_manager);
+	profile.sprite_left  = JSON_Types::parse_sprite(json_view["sprite_left"].as_object(),  m_texture_manager);
+	profile.sprite_right = JSON_Types::parse_sprite(json_view["sprite_right"].as_object(), m_texture_manager);
 
-	profile.sprite_down  = cJSON_Types::parse_sprite(sprite_down_json,  m_texture_manager);
-	profile.sprite_up    = cJSON_Types::parse_sprite(sprite_up_json,    m_texture_manager);
-	profile.sprite_left  = cJSON_Types::parse_sprite(sprite_left_json,  m_texture_manager);
-	profile.sprite_right = cJSON_Types::parse_sprite(sprite_right_json, m_texture_manager);
-
-	const cJSON* character_size = cJSON_GetObjectItem(json, "size");
-	if (character_size) {
-		profile.size.x = cJSON_GetObjectItem(character_size, "x")->valuedouble;
-		profile.size.y = cJSON_GetObjectItem(character_size, "y")->valuedouble;
+	if (json_view.has("size")) {
+		const JSON::Object_View character_size = json_view["size"].as_object();
+		profile.size.x = character_size["x"].as_float();
+		profile.size.y = character_size["y"].as_float();
 	}
 
-	const cJSON* move_speed = cJSON_GetObjectItem(json, "move_speed");
-	if (move_speed) {
-		profile.move_speed = move_speed->valuedouble;
+	if (json_view.has("move_speed")) {
+		profile.move_speed = json_view["move_speed"].as_float();
 	}
 
-	const cJSON* abilites = cJSON_GetObjectItem(json, "abilities");
-	const cJSON* ability_json;
-	cJSON_ArrayForEach(ability_json, abilites) {
-		profile.abilities.push_back(load_ability(ability_json));
+	if (json_view.has("abilities")) {
+		JSON::Array_View abilites = json_view["abilities"].as_array();
+		abilites.for_each([&](const JSON::Value_View& ability_json){
+			profile.abilities.push_back(load_ability(ability_json.as_object()));
+		});
 	}
 
-	profile.max_hp = cJSON_GetObjectItem(json, "max_hp")->valueint;
-
-	cJSON_Delete(json);
+	profile.max_hp = json_view["max_hp"].as_int();
 
 	return profile;
 }
 
-Ability Character_Profile_Loader::load_ability(const cJSON* ability_json)
+Ability Character_Profile_Loader::load_ability(const JSON::Object_View& ability_json)
 {
 	Ability ability;
-	ability.name = cJSON_GetObjectItem(ability_json, "name")->valuestring;
-	ability.damage = cJSON_GetObjectItem(ability_json, "damage")->valueint;
+	ability.name = ability_json["name"].as_string();
+	ability.damage = ability_json["damage"].as_int();
 	return ability;
 }

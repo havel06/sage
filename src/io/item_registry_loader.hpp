@@ -11,7 +11,7 @@ class Item_Registry_Loader
 {
 public:
 	Item_Registry_Loader(Texture_Manager&);
-	void load(Item_Registry&, String project_root);
+	void load(Item_Registry&, const String& project_root);
 private:
 
 	Texture_Manager& m_texture_manager;

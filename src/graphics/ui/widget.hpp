@@ -33,6 +33,8 @@ public:
 	// Should only be called by parent widget
 	void draw(Recti parent_area, float time_delta);
 	Widget* get_widget_by_name(const String&);
+	Layout clone() const;
+	void clear();
 private:
 	Array<float> m_columns;
 	Array<float> m_rows;
@@ -45,16 +47,19 @@ class Widget
 public:
 	Widget(Layout&&);
 	virtual ~Widget() = default;
+	Widget_Ptr clone() const;
 	void set_name(String&&);
 	void draw(Recti parent_area, float time_delta);
 	void draw_as_root(float time_delta);
 	void add_child(Widget_Ptr&&, int row, int column);
 	void add_child(Widget_Ptr&&);
+	void clear_children();
 	Widget* get_widget_by_name(const String&);
 private:
 	String m_name = "";
 	Layout m_layout;
 	virtual void draw_impl(Recti parent_area, float time_delta) = 0;
+	virtual Widget_Ptr clone_impl(Layout&&) const = 0;
 };
 
 }

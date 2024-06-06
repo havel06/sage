@@ -1,28 +1,50 @@
 #include "quest_log_renderer.hpp"
 #include "quest/quest_log.hpp"
-#include <raylib/raylib.h>
+#include "io/gui_loader.hpp"
+#include "ui/box.hpp"
+#include "ui/text.hpp"
 
 Quest_Log_Renderer::Quest_Log_Renderer(const Quest_Log& log) :
 	m_quest_log{log}
 {
 }
 
+void Quest_Log_Renderer::load(GUI_Loader& gui_loader, const String& project_root)
+{
+	String log_path = project_root;
+	log_path.append("/quest_log.json");
+
+	String quest_path = project_root;
+	quest_path.append("/quest.json");
+
+	m_log_widget = gui_loader.load(log_path.data());
+	m_quest_widget = gui_loader.load(quest_path.data());
+}
+
 void Quest_Log_Renderer::draw()
 {
-	if (m_quest_log.get_quest_count() == 0) {
-		DrawText("No active quests", 100, 100, 40, WHITE);
-		return;
-	}
+	assert(m_log_widget);
+	assert(m_quest_widget);
 
-	int x = 200;
-	int y = 200;
+	// FIXME - do this cast safely
+	UI::Box* quests_box_widget = (UI::Box*)m_log_widget->get_widget_by_name("Quests");
+	assert(quests_box_widget);
 
+	// Put the quests in
+	quests_box_widget->clear_children();
 	for (int i = 0; i < m_quest_log.get_quest_count(); i++) {
-		const Quest& quest = m_quest_log.get_quest(i);
+		UI::Widget_Ptr new_quest_widget = m_quest_widget->clone();
+		// FIXME - do this cast safely
+		UI::Text* quest_name = (UI::Text*)new_quest_widget->get_widget_by_name("Name");
+		UI::Text* quest_desc = (UI::Text*)new_quest_widget->get_widget_by_name("Description");
 
-		DrawRectangle(x, y, 500, 70, DARKGRAY);
-		DrawText(quest.name.data(), x + 10, y, 30, WHITE);
-		DrawText(quest.description.data(), x + 10, y + 40, 20, WHITE);
-		y += 80;
+		assert(quest_name);
+		assert(quest_desc);
+		quest_name->text = m_quest_log.get_quest(i).name;
+		quest_desc->text = m_quest_log.get_quest(i).description;
+
+		quests_box_widget->add_child((UI::Widget_Ptr&&)new_quest_widget);
 	}
+
+	m_log_widget->draw_as_root(0);
 }

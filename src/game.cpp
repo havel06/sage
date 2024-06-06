@@ -38,6 +38,7 @@ Game::Game(const char* project_path) :
 	// UI
 	GUI_Loader gui_loader(m_resource_system.font_manager);
 	m_text_box_renderer.load(gui_loader, project_path);
+	m_quest_log_renderer.load(gui_loader, project_path);
 
 	// Savegame location
 	m_map_saveloader.set_save_directory("savegame");

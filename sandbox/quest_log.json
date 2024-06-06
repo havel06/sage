@@ -1,0 +1,28 @@
+{
+	"type": "box",
+	"layout": {
+		"columns": [25, 50, 25],
+		"rows": [20, 60, 20]
+	},
+	"parameters": {},
+	"children": [
+		{
+			"row": 1,
+			"column": 1,
+			"type": "box",
+			"layout": {
+				"rows": [33, 33, 33],
+				"columns": [100]
+			},
+			"parameters": {
+				"colour": {
+					"r": 20,
+					"g": 20,
+					"b": 20,
+					"a": 255
+				}
+			},
+			"name": "Quests"
+		}
+	]
+}

@@ -13,6 +13,7 @@ public:
 	Colour colour = {0, 0, 0, 0};
 private:
 	void draw_impl(Recti parent_area, float time_delta) override;
+	Widget_Ptr clone_impl(Layout&&) const override;
 };
 
 }

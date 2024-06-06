@@ -26,4 +26,11 @@ void Box::draw_impl(Recti parent_area, float)
 	);
 }
 
+Widget_Ptr Box::clone_impl(Layout&& layout) const
+{
+	Own_Ptr<Box> cloned = make_own_ptr<Box>((Layout&&)layout);
+	cloned->colour = colour;
+	return cloned;
+}
+
 }

@@ -78,6 +78,18 @@ void Layout::draw(Recti parent_area, float time_delta)
 	}
 }
 
+Layout Layout::clone() const
+{
+	Layout cloned{m_rows, m_columns};
+
+	for (int i = 0; i < m_elements.size(); i++) {
+		const Layout_Element& element = m_elements[i];
+		cloned.add(element.widget->clone(), element.row, element.column);
+	}
+
+	return cloned;
+}
+
 Widget::Widget(Layout&& layout) :
 	m_layout{(Layout&&)layout}
 {
@@ -132,6 +144,23 @@ Widget* Layout::get_widget_by_name(const String& name)
 	}
 
 	return nullptr;
+}
+
+Widget_Ptr Widget::clone() const
+{
+	Widget_Ptr cloned = clone_impl(m_layout.clone());
+	cloned->set_name(String{m_name});
+	return cloned;
+}
+
+void Widget::clear_children()
+{
+	m_layout.clear();
+}
+
+void Layout::clear()
+{
+	m_elements.clear();
 }
 
 }

@@ -86,4 +86,13 @@ String Text::wrap_text(const String& text, int width)
 	return result;
 }
 
+Widget_Ptr Text::clone_impl(Layout&& layout) const
+{
+	Own_Ptr<Text> cloned = make_own_ptr<Text>((Layout&&)layout);
+	cloned->text = text;
+	cloned->font = font;
+	cloned->size = size;
+	return cloned;
+}
+
 }

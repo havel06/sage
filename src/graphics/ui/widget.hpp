@@ -36,6 +36,9 @@ public:
 	Layout clone() const;
 	void clear();
 private:
+	// FIXME - specify expand direction
+	void expand();
+
 	Array<float> m_columns;
 	Array<float> m_rows;
 	Array<Layout_Element> m_elements;

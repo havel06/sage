@@ -45,6 +45,7 @@ void Layout::add(Widget_Ptr&& widget)
 		return true;
 	};
 
+	// Add to free spot if possible
 	for (int row = 0; row < m_rows.size(); row++) {
 		for (int column = 0; column < m_columns.size(); column++) {
 			if (is_spot_free(row, column)) {
@@ -53,6 +54,15 @@ void Layout::add(Widget_Ptr&& widget)
 			}
 		}
 	}
+
+	// Expand the grid
+	expand();
+	add((Widget_Ptr&&)widget); // TODO - is there a better option than recursion?
+}
+
+void Layout::expand()
+{
+	m_rows.push_back(m_rows.back());
 }
 
 void Layout::draw(Recti parent_area, float time_delta)

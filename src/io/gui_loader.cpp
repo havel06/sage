@@ -1,12 +1,11 @@
 #include "gui_loader.hpp"
 #include "graphics/ui/widget.hpp"
-#include "utils/file.hpp"
+#include "utils/json.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
 #include "graphics/ui/text.hpp"
 #include "graphics/ui/box.hpp"
 #include "io/resource/font_manager.hpp"
-#include <cJSON.h>
 
 GUI_Loader::GUI_Loader(Font_Manager& font_mgr) :
 	m_font_manager{font_mgr}
@@ -15,30 +14,28 @@ GUI_Loader::GUI_Loader(Font_Manager& font_mgr) :
 
 UI::Widget_Ptr GUI_Loader::load(const char* filename)
 {
-	String file_content = read_file_to_str(filename);
+	JSON::Object json = JSON::Object::from_file(filename);
 
-	const cJSON* json = cJSON_Parse(file_content.data());
-
-	return parse_widget(json);
+	return parse_widget(json.get_view());
 }
 
-UI::Widget_Ptr GUI_Loader::parse_widget(const cJSON* json)
+UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json)
 {
-	String type = cJSON_GetObjectItem(json, "type")->valuestring;
-	const cJSON* params = cJSON_GetObjectItem(json, "parameters");
+	String type = json["type"].as_string();
+	JSON::Object_View params = json["parameters"].as_object();
 
 	// Layout
-	UI::Layout layout = parse_layout(cJSON_GetObjectItem(json, "layout"));
+	UI::Layout layout = json.has("layout") ? parse_layout(json["layout"].as_object()) : UI::Layout{};
 
 	// Children
 	// FIXME - refactor this code block to a function
-	const cJSON* children = cJSON_GetObjectItem(json, "children");
-	const cJSON* child;
-	cJSON_ArrayForEach(child, children) {
-		layout.add(UI::Layout_Element {
-			.row = cJSON_GetObjectItem(child, "row")->valueint,
-			.column = cJSON_GetObjectItem(child, "column")->valueint,
-			.widget = parse_widget(child)
+	if (json.has("children")) {
+		json["children"].as_array().for_each([&](const JSON::Value_View& child){
+			layout.add(UI::Layout_Element {
+				.row = child.as_object()["row"].as_int(),
+				.column = child.as_object()["column"].as_int(),
+				.widget = parse_widget(child.as_object())
+			});
 		});
 	}
 
@@ -55,59 +52,52 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const cJSON* json)
 	}
 
 	// Name
-	const cJSON* name_json = cJSON_GetObjectItem(json, "name");
-	if (name_json) {
-		widget->set_name(String{name_json->valuestring});
+	if (json.has("name")) {
+		widget->set_name(json["name"].as_string());
 	}
 
 	return widget;
 }
 
-UI::Layout GUI_Loader::parse_layout(const cJSON* json)
+UI::Layout GUI_Loader::parse_layout(const JSON::Object_View& json)
 {
 	// FIXME - what if the numbers don't add up to 100??
 	Array<float> rows;
 	Array<float> columns;
 
-	const cJSON* rows_json = cJSON_GetObjectItem(json, "rows");
-	const cJSON* row_json;
-	cJSON_ArrayForEach(row_json, rows_json) {
-		rows.push_back(row_json->valuedouble / 100);
-	}
+	json["rows"].as_array().for_each([&](const JSON::Value_View& row){
+		rows.push_back(row.as_float() / 100);
+	});
 
-	const cJSON* columns_json = cJSON_GetObjectItem(json, "columns");
-	const cJSON* column_json;
-	cJSON_ArrayForEach(column_json, columns_json) {
-		columns.push_back(column_json->valuedouble / 100);
-	}
+	json["columns"].as_array().for_each([&](const JSON::Value_View& column){
+		columns.push_back(column.as_float() / 100);
+	});
 
 	return UI::Layout{rows, columns};
 }
 
-UI::Widget_Ptr GUI_Loader::parse_box(UI::Layout&& layout, const cJSON* params)
+UI::Widget_Ptr GUI_Loader::parse_box(UI::Layout&& layout, const JSON::Object_View& params)
 {
 	Own_Ptr<UI::Box> widget = make_own_ptr<UI::Box>((UI::Layout&&)layout);
 
-	if (params) {
-		const cJSON* colour_json = cJSON_GetObjectItem(params, "colour");
-		widget->colour.r = cJSON_GetObjectItem(colour_json, "r")->valueint;
-		widget->colour.g = cJSON_GetObjectItem(colour_json, "g")->valueint;
-		widget->colour.b = cJSON_GetObjectItem(colour_json, "b")->valueint;
-		widget->colour.a = cJSON_GetObjectItem(colour_json, "a")->valueint;
+	if (params.has("colour")) {
+		JSON::Object_View colour_json = params["colour"].as_object();
+		widget->colour.r = colour_json["r"].as_int();
+		widget->colour.g = colour_json["g"].as_int();
+		widget->colour.b = colour_json["b"].as_int();
+		widget->colour.a = colour_json["a"].as_int();
 	}
 
 	return widget;
 }
 
-UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const cJSON* params)
+UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const JSON::Object_View& params)
 {
 	Own_Ptr<UI::Text> widget = make_own_ptr<UI::Text>((UI::Layout&&)layout);
 
-	if (params) {
-		widget->text = cJSON_GetObjectItem(params, "text")->valuestring;
-		widget->size = cJSON_GetObjectItem(params, "size")->valueint;
-		widget->font = m_font_manager.get(cJSON_GetObjectItem(params, "font")->valuestring, false);
-	}
+	widget->text = params["text"].as_string();
+	widget->size = params["size"].as_int();
+	widget->font = m_font_manager.get(params["font"].as_string(), false);
 
 	return widget;
 }

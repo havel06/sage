@@ -4,6 +4,7 @@
 		"columns": [2.5, 95, 2.5],
 		"rows": [60, 35, 5]
 	},
+	"parameters" : {},
 	"children": [
 		{
 			"row": 1,

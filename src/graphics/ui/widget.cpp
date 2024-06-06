@@ -4,10 +4,16 @@
 namespace UI
 {
 
-Layout::Layout(const Array<float> rows, const Array<float>& columns)
+Layout::Layout(const Array<float>& rows, const Array<float>& columns)
 {
 	m_rows = rows;
 	m_columns = columns;
+}
+
+Layout::Layout()
+{
+	m_columns.push_back(1);
+	m_rows.push_back(1);
 }
 
 void Layout::add(Layout_Element&& element)

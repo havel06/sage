@@ -25,7 +25,8 @@ class Layout
 {
 public:
 	// Rows and columns are on a scale from 0 to 1
-	Layout(const Array<float> rows, const Array<float>& columns);
+	Layout(const Array<float>& rows, const Array<float>& columns);
+	Layout();
 	void add(Layout_Element&&);
 	// Should only be called by parent widget
 	void draw(Recti parent_area, float time_delta);

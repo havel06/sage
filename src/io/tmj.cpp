@@ -189,7 +189,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 {
 	// FIXME - refactor this function a bit
 
-	//SG_DEBUG("Parsing TMJ tileset...");
+	SG_DEBUG("Parsing TMJ tileset \"%s\"", tileset_filename_relative);
 	String tileset_path = relative_to_real_path(tileset_filename_relative);
 	JSON::Object json = JSON::Object::from_file(tileset_path.data());
 	JSON::Object_View view = json.get_view();
@@ -217,19 +217,24 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 		}
 	}();
 
+	if (view.has("tiles")) {
+		view["tiles"].as_array().for_each([&](const JSON::Value_View& value){
+			JSON::Object_View tile = value.as_object();
 
-	view["tiles"].as_array().for_each([&](const JSON::Value_View& tile){
-		if (tileset.is_image_collection()) {
-			const char* image_relative = tile.as_object()["image"].as_string();
-			String image_path = relative_to_real_path(image_relative);
-			Sage_Texture texture = m_resource_system.texture_manager.get(image_path.data(), true);
-			Sprite sprite{texture};
-			tileset.add_tile(Tile{sprite});
-		}
+			if (tileset.is_image_collection()) {
+				const char* image_relative = tile["image"].as_string();
+				String image_path = relative_to_real_path(image_relative);
+				Sage_Texture texture = m_resource_system.texture_manager.get(image_path.data(), true);
+				Sprite sprite{texture};
+				tileset.add_tile(Tile{sprite});
+			}
 
-		const int id = tile.as_object()["id"].as_int();
-		parse_tile_properties(tile.as_object()["properties"].as_array(), id, tileset);
-	});
+			if (tile.has("properties")) {
+				const int id = tile["id"].as_int();
+				parse_tile_properties(tile["properties"].as_array(), id, tileset);
+			}
+		});
+	}
 	
 	SG_DEBUG("Loaded tileset \"%s\"", tileset_path.data());
 	return tileset;

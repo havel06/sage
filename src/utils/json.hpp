@@ -48,7 +48,7 @@ public:
 
 	// Callable should take one argument, const Value_View&
 	template<typename Callable>
-	void for_each(Callable callback);
+	void for_each(Callable callback) const;
 private:
 	const cJSON* m_cjson;
 };
@@ -79,7 +79,7 @@ private:
 // Implementation
 
 template<typename Callable>
-void Array_View::for_each(Callable callback)
+void Array_View::for_each(Callable callback) const
 {
 	const cJSON* item = nullptr;
 	cJSON_ArrayForEach(item, m_cjson) {

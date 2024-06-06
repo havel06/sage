@@ -4,7 +4,12 @@
 #include "utils/string.hpp"
 #include "raylib/raylib.h"
 
+//fwd
 struct cJSON;
+namespace JSON {
+	class Object_View;
+	class Array_View;
+}
 class Resource_System;
 
 namespace TMJ
@@ -37,14 +42,14 @@ public:
 	Own_Ptr<Map> retrieve_map();
 private:
 	//void parse_properties(const cJSON*);
-	void parse_layer_array(const cJSON* layer);
-	void parse_layer(const cJSON* layer);
-	void parse_tile_layer(const cJSON* layer);
-	void parse_object_layer(const cJSON* layer);
-	void parse_object(const cJSON* object);
-	void parse_tilesets(const cJSON* tilesets);
+	void parse_layer_array(const JSON::Array_View& layer);
+	void parse_layer(const JSON::Object_View& layer);
+	void parse_tile_layer(const JSON::Object_View& layer);
+	void parse_object_layer(const JSON::Object_View& layer);
+	void parse_object(const JSON::Object_View& object);
+	void parse_tilesets(const JSON::Array_View& tilesets);
 	Tileset parse_tileset(const char* tileset_filename);
-	void parse_tile_properties(const cJSON* properties, int id, Tileset& tileset);
+	void parse_tile_properties(const JSON::Array_View& properties, int id, Tileset& tileset);
 	Tile resolve_tile(int tile_index);
 
 	String relative_to_real_path(const char* relative_path);

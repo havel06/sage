@@ -4,6 +4,7 @@
 #include "utils/string.hpp"
 #include "utils/log.hpp"
 #include "utils/file.hpp"
+#include "utils/json.hpp"
 #include "resource/resource_system.hpp"
 #include <string.h>
 
@@ -51,26 +52,21 @@ Map_Loader::Map_Loader(Resource_System& res_system, const String& path) :
 	SG_DEBUG("Parsing map \"%s\"", path.data());
 	m_path = path;
 
-	//SG_DEBUG("Opening map file \"%s\"", m_path.data());
-	String file_content = read_file_to_str(m_path.data());
+	JSON::Object json = JSON::Object::from_file(m_path.data());
+	JSON::Object_View view = json.get_view();
 
-	cJSON* json = cJSON_Parse(file_content.data());
-	const int width = cJSON_GetObjectItem(json, "width")->valueint;
-	const int height = cJSON_GetObjectItem(json, "height")->valueint;
-	m_tile_width = cJSON_GetObjectItem(json, "tilewidth")->valueint;
-	m_tile_height = cJSON_GetObjectItem(json, "tileheight")->valueint;
-	cJSON* layers = cJSON_GetObjectItem(json, "layers");
-	cJSON* tilesets = cJSON_GetObjectItem(json, "tilesets");
+	const int width = view["width"].as_int();
+	const int height = view["height"].as_int();
+	m_tile_width = view["tilewidth"].as_int();
+	m_tile_height = view["tileheight"].as_int();
 
 	m_map = make_own_ptr<Map>();
 	m_map->resize(width, height);
 	m_map->set_path(path);
 
 	//parse_properties(cJSON_GetObjectItem(json, "properties"));
-	parse_tilesets(tilesets);
-	parse_layer_array(layers);
-
-	cJSON_Delete(json);
+	parse_tilesets(view["tilesets"].as_array());
+	parse_layer_array(view["layers"].as_array());
 }
 
 Own_Ptr<Map> Map_Loader::retrieve_map()
@@ -78,144 +74,117 @@ Own_Ptr<Map> Map_Loader::retrieve_map()
 	return (Own_Ptr<Map>&&)(m_map);
 }
 
-/*
-void Map_Loader::parse_properties(const cJSON* properties)
+void Map_Loader::parse_layer_array(const JSON::Array_View& layer_array)
 {
-	const cJSON* property;
-	cJSON_ArrayForEach(property, properties) {
-		const String name = cJSON_GetObjectItem(property, "name")->valuestring;
-		if (name == "sequence") {
-			const char* sequence_name = cJSON_GetObjectItem(property, "value")->valuestring;
-			String sequence_path = relative_to_real_path(sequence_name);
-			m_map.assigned_sequence = &m_resource_manager.get_sequence(sequence_path.data(), true);
-		} else {
-			SG_WARNING("Map property \"%s\" is not supported.", name.data());
-		}
-	}
-}
-*/
-
-void Map_Loader::parse_layer_array(const cJSON* layer_array)
-{
-	const cJSON* layer_json;
-	cJSON_ArrayForEach(layer_json, layer_array) {
-		parse_layer(layer_json);
-	}
+	layer_array.for_each([&](const JSON::Value_View& layer){
+		parse_layer(layer.as_object());
+	});
 }
 
-void Map_Loader::parse_layer(const cJSON* layer_json)
+void Map_Loader::parse_layer(const JSON::Object_View& layer_json)
 {
 	//SG_DEBUG("Parsing TMJ layer...");
 
-	const cJSON* type = cJSON_GetObjectItem(layer_json, "type");
+	const String type = layer_json["type"].as_string();
 
-	if (strcmp(type->valuestring, "tilelayer") == 0) {
+	if (type == "tilelayer") {
 		parse_tile_layer(layer_json);
-	} else if (strcmp(type->valuestring, "objectgroup") == 0) {
+	} else if (type == "objectgroup") {
 		parse_object_layer(layer_json);
-	} else if (strcmp(type->valuestring, "group") == 0) {
-		cJSON* layers = cJSON_GetObjectItem(layer_json, "layers");
-		parse_layer_array(layers);
+	} else if (type == "group") {
+		parse_layer_array(layer_json["layers"].as_array());
 	} else {
 		SG_WARNING("Image layers are not supported.");
 	}
 }
 
-void Map_Loader::parse_tile_layer(const cJSON* layer_json)
+void Map_Loader::parse_tile_layer(const JSON::Object_View& layer_json)
 {
-	const cJSON* indices = cJSON_GetObjectItem(layer_json, "data");
-
 	int position_index = 0;
-	const cJSON* tile_index;
 	Tile_Layer layer(m_map->get_width(), m_map->get_height());
 
-	cJSON_ArrayForEach(tile_index, indices) {
+	layer_json["data"].as_array().for_each([&](const JSON::Value_View& index){
 		int y = position_index / m_map->get_width();
 		int x = position_index % m_map->get_width();
 
-		if (tile_index->valueint == 0) {
+		if (index.as_int() == 0) {
 			Tile empty_tile;
 			empty_tile.passable = true;
 			layer.set_tile({x, y}, empty_tile);
 		} else {
-			Tile tile = resolve_tile(tile_index->valueint);
+			Tile tile = resolve_tile(index.as_int());
 			layer.set_tile({x, y}, tile);
 		}
 
 		position_index++;
-	}
+	});
 
 	m_map->layers.add_layer((Tile_Layer&&)layer);
 }
 
-void Map_Loader::parse_object_layer(const cJSON* layer_json)
+void Map_Loader::parse_object_layer(const JSON::Object_View& layer_json)
 {
-	const cJSON* objects = cJSON_GetObjectItem(layer_json, "objects");
-	const cJSON* object;
-	cJSON_ArrayForEach(object, objects) {
-		parse_object(object);
-	}
+	layer_json["objects"].as_array().for_each([&](const JSON::Value_View& object_json){
+		parse_object(object_json.as_object());
+	});
 }
 
-void Map_Loader::parse_object(const cJSON* object)
+void Map_Loader::parse_object(const JSON::Object_View& object)
 {
 	Entity entity;
 
-	entity.name = cJSON_GetObjectItem(object, "name")->valuestring;
+	entity.name = object["name"].as_string();
 	if (entity.name.empty()) {
 		SG_ERROR("All entities must have a name.");
 		assert(false);
 	}
-	entity.position.x = round(cJSON_GetObjectItem(object, "x")->valuedouble / m_tile_width);
-	entity.position.y = round(cJSON_GetObjectItem(object, "y")->valuedouble / m_tile_height);
-	entity.size.x = cJSON_GetObjectItem(object, "width")->valueint / m_tile_width;
-	entity.size.y = cJSON_GetObjectItem(object, "height")->valueint / m_tile_height;
+	entity.position.x = round(object["x"].as_float() / m_tile_width);
+	entity.position.y = round(object["y"].as_float() / m_tile_height);
+	entity.size.x = object["width"].as_int() / m_tile_width;
+	entity.size.y = object["height"].as_int() / m_tile_height;
 
-	const cJSON* tile_id = cJSON_GetObjectItem(object, "gid");
-	if (tile_id) {
+	if (object.has("gid")) {
 		// Tile object
-		Tile tile = resolve_tile(tile_id->valueint);
+		Tile tile = resolve_tile(object["gid"].as_int());
 		entity.sprite = tile.sprite;
 		// NOTE - For some reason, tile objects have origin in the bottom left corner.
 		entity.position.y -= entity.size.y;
 	}
 
-	const cJSON* properties = cJSON_GetObjectItem(object, "properties");
-	const cJSON* property;
-	cJSON_ArrayForEach(property, properties) {
-		const String name = cJSON_GetObjectItem(property, "name")->valuestring;
+	object["properties"].as_array().for_each([&](const JSON::Value_View& value){
+		const JSON::Object_View property = value.as_object();
+
+		const String name = property["name"].as_string();
 		if (name == "sequence") {
-			const char* sequence_name = cJSON_GetObjectItem(property, "value")->valuestring;
+			const char* sequence_name = property["value"].as_string();
 			String sequence_path = relative_to_real_path(sequence_name);
 			entity.assigned_sequence = &m_resource_system.sequence_manager.get(sequence_path.data(), true);
 		} else if (name == "character") {
-			const char* character_relative = cJSON_GetObjectItem(property, "value")->valuestring;
+			const char* character_relative = property["value"].as_string();
 			String character_path = relative_to_real_path(character_relative);
 			entity.assigned_character = m_resource_system.character_profile_manager.get(character_path.data(), true);
 		} else if (name == "passable") {
-			entity.passable = cJSON_GetObjectItem(property, "value")->valueint;
+			entity.passable = property["value"].as_bool();
 		} else if (name == "area_trigger") {
-			entity.area_trigger = cJSON_GetObjectItem(property, "value")->valueint;
+			entity.area_trigger = property["value"].as_bool();
 		} else {
 			SG_WARNING("Object property \"%s\" is not supported.", name.data());
 		}
-	}
+	});
 
 	m_map->entities.add_entity((Entity&&)entity);
 }
 
-void Map_Loader::parse_tilesets(const cJSON* tilesets)
+void Map_Loader::parse_tilesets(const JSON::Array_View& tilesets)
 {
-	const cJSON* tileset;
-	cJSON_ArrayForEach(tileset, tilesets) {
-		const int first_id = cJSON_GetObjectItem(tileset, "firstgid")->valueint;
-		const char* src = cJSON_GetObjectItem(tileset, "source")->valuestring;
-
+	tilesets.for_each([&](const JSON::Value_View& tileset){
+		const int first_id = tileset.as_object()["firstgid"].as_int();
+		const char* src = tileset.as_object()["source"].as_string();
 		m_tilesets.push_back(Tileset_In_Map{
 			.first_id = first_id,
 			.tileset = parse_tileset(src)
 		});
-	}
+	});
 }
 
 Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
@@ -224,20 +193,18 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 
 	//SG_DEBUG("Parsing TMJ tileset...");
 	String tileset_path = relative_to_real_path(tileset_filename_relative);
-	cJSON* tileset_json = cJSON_Parse(read_file_to_str(tileset_path.data()).data());
+	JSON::Object json = JSON::Object::from_file(tileset_path.data());
+	JSON::Object_View view = json.get_view();
 
-	const int columns = cJSON_GetObjectItem(tileset_json, "columns")->valueint;
-	const int tilecount = cJSON_GetObjectItem(tileset_json, "tilecount")->valueint;
-	const int tile_width = cJSON_GetObjectItem(tileset_json, "tilewidth")->valueint;
-	const int tile_height = cJSON_GetObjectItem(tileset_json, "tileheight")->valueint;
-	const cJSON* special_tiles = cJSON_GetObjectItem(tileset_json, "tiles");
-
-	const cJSON* image_json = cJSON_GetObjectItem(tileset_json, "image");
+	const int columns = view["columns"].as_int();
+	const int tilecount = view["tilecount"].as_int();
+	const int tile_width = view["tilewidth"].as_int();
+	const int tile_height = view["tileheight"].as_int();
 
 	Tileset tileset = [&](){
-		if (image_json) {
+		if (view.has("image")) {
 			// Tileset from one image
-			const char* image_relative = image_json->valuestring;
+			const char* image_relative = view["image"].as_string();
 			String image_path = relative_to_real_path(image_relative);
 			Sage_Texture texture = m_resource_system.texture_manager.get(image_path.data(), true);
 			return Tileset{
@@ -252,38 +219,35 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 		}
 	}();
 
-	const cJSON* special_tile;
-	cJSON_ArrayForEach(special_tile, special_tiles) {
+
+	view["tiles"].as_array().for_each([&](const JSON::Value_View& tile){
 		if (tileset.is_image_collection()) {
-			const char* image_relative = cJSON_GetObjectItem(special_tile, "image")->valuestring;
+			const char* image_relative = tile.as_object()["image"].as_string();
 			String image_path = relative_to_real_path(image_relative);
 			Sage_Texture texture = m_resource_system.texture_manager.get(image_path.data(), true);
 			Sprite sprite{texture};
 			tileset.add_tile(Tile{sprite});
 		}
 
-		const int id = cJSON_GetObjectItem(special_tile, "id")->valueint;
-		const cJSON* properties = cJSON_GetObjectItem(special_tile, "properties");
-		parse_tile_properties(properties, id, tileset);
-	}
+		const int id = tile.as_object()["id"].as_int();
+		parse_tile_properties(tile.as_object()["properties"].as_array(), id, tileset);
+	});
 	
-	cJSON_Delete(tileset_json);
 	SG_DEBUG("Loaded tileset \"%s\"", tileset_path.data());
 	return tileset;
 }
 
-void Map_Loader::parse_tile_properties(const cJSON* properties, int id, Tileset& tileset)
+void Map_Loader::parse_tile_properties(const JSON::Array_View& properties, int id, Tileset& tileset)
 {
-	const cJSON* property;
-	cJSON_ArrayForEach(property, properties) {
-		String name = cJSON_GetObjectItem(property, "name")->valuestring;
+	properties.for_each([&](const JSON::Value_View& property){
+		String name = property.as_object()["name"].as_string();
 		if (name == "passable") {
-			const bool value = cJSON_GetObjectItem(property, "value")->valueint;
+			const bool value = property.as_object()["value"].as_bool();
 			tileset.set_passable(id, value);
 		} else {
 			SG_WARNING("Tile property \"%s\" is not supported.", name.data());
 		}
-	}
+	});
 }
 
 String Map_Loader::relative_to_real_path(const char* relative_path)

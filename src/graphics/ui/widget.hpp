@@ -21,13 +21,15 @@ struct Layout_Element
 	Widget_Ptr widget;
 };
 
+// FIXME - separate file
 class Layout
 {
 public:
 	// Rows and columns are on a scale from 0 to 1
 	Layout(const Array<float>& rows, const Array<float>& columns);
 	Layout();
-	void add(Layout_Element&&);
+	void add(Widget_Ptr&&, int row, int column);
+	void add(Widget_Ptr&&);
 	// Should only be called by parent widget
 	void draw(Recti parent_area, float time_delta);
 	Widget* get_widget_by_name(const String&);
@@ -47,6 +49,7 @@ public:
 	void draw(Recti parent_area, float time_delta);
 	void draw_as_root(float time_delta);
 	void add_child(Widget_Ptr&&, int row, int column);
+	void add_child(Widget_Ptr&&);
 	Widget* get_widget_by_name(const String&);
 private:
 	String m_name = "";

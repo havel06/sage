@@ -30,12 +30,15 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json)
 	// Children
 	// FIXME - refactor this code block to a function
 	if (json.has("children")) {
-		json["children"].as_array().for_each([&](const JSON::Value_View& child){
-			layout.add(UI::Layout_Element {
-				.row = child.as_object()["row"].as_int(),
-				.column = child.as_object()["column"].as_int(),
-				.widget = parse_widget(child.as_object())
-			});
+		json["children"].as_array().for_each([&](const JSON::Value_View& value){
+			JSON::Object_View child = value.as_object();
+			if (child.has("row") && child.has("column")) {
+				const int row = child["row"].as_int();
+				const int column = child["column"].as_int();
+				layout.add(parse_widget(child), row, column);
+			} else {
+				layout.add(parse_widget(child));
+			}
 		});
 	}
 

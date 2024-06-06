@@ -16,14 +16,43 @@ Layout::Layout()
 	m_rows.push_back(1);
 }
 
-void Layout::add(Layout_Element&& element)
+void Layout::add(Widget_Ptr&& widget, int row, int column)
 {
-	assert(element.row < m_rows.size());
-	assert(element.row >= 0);
-	assert(element.column < m_columns.size());
-	assert(element.column >= 0);
+	assert(row < m_rows.size());
+	assert(row >= 0);
+	assert(column < m_columns.size());
+	assert(column >= 0);
 
-	m_elements.push_back((Layout_Element&&)element);
+	m_elements.push_back(Layout_Element{
+		.row = row,
+		.column = column,
+		.widget = (Widget_Ptr&&)widget,
+	});
+
+}
+
+void Layout::add(Widget_Ptr&& widget)
+{
+	// Find free spot
+	// NOTE - possible optimisation
+
+	auto is_spot_free = [&](int row, int column) -> bool {
+		for (int i = 0; i < m_elements.size(); i++) {
+			if (m_elements[i].row == row && m_elements[i].column == column) {
+				return false;
+			}
+		}
+		return true;
+	};
+
+	for (int row = 0; row < m_rows.size(); row++) {
+		for (int column = 0; column < m_columns.size(); column++) {
+			if (is_spot_free(row, column)) {
+				add((Widget_Ptr&&)widget, row, column);
+				return;
+			}
+		}
+	}
 }
 
 void Layout::draw(Recti parent_area, float time_delta)
@@ -56,11 +85,12 @@ Widget::Widget(Layout&& layout) :
 
 void Widget::add_child(Widget_Ptr&& widget, int row, int column)
 {
-	m_layout.add(Layout_Element {
-		.row = row,
-		.column = column,
-		.widget = (Widget_Ptr&&)widget
-	});
+	m_layout.add((Widget_Ptr&&)widget, row, column);
+}
+
+void Widget::add_child(Widget_Ptr&& widget)
+{
+	m_layout.add((Widget_Ptr&&)widget);
 }
 
 void Widget::draw(Recti parent_area, float time_delta)

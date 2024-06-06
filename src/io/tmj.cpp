@@ -1,12 +1,10 @@
 #include "tmj.hpp"
-#include "cJSON.h"
 #include "map/tile_layer.hpp"
 #include "utils/string.hpp"
 #include "utils/log.hpp"
 #include "utils/file.hpp"
 #include "utils/json.hpp"
 #include "resource/resource_system.hpp"
-#include <string.h>
 
 namespace TMJ
 {

@@ -28,6 +28,7 @@
 #include "sequence/sequence.hpp"
 #include "utils/direction.hpp"
 #include "utils/file.hpp"
+#include "utils/json.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
 #include "json_types.hpp"
@@ -42,160 +43,140 @@ Sequence_Loader::Sequence_Loader(Resource_System& res_system, Game_Facade& facad
 Sequence Sequence_Loader::load(const String& filename)
 {
 	SG_DEBUG("Parsing sequence %s", filename.data());
-	String content = read_file_to_str(filename.data());
-	cJSON* json = cJSON_Parse(content.data());
+
+	const JSON::Object json = JSON::Object::from_file(filename.data());
+	const JSON::Object_View view = json.get_view();
 	Sequence sequence(filename);
 
-	const cJSON* repeatable = cJSON_GetObjectItem(json, "repeatable");
-	if (repeatable) {
-		sequence.repeatable = repeatable->valueint;
+	if (view.has("repeatable")) {
+		sequence.repeatable = view["repeatable"].as_bool();
 	}
 
 	// Events
-	const cJSON* events = cJSON_GetObjectItem(json, "events");
-	assert(cJSON_IsArray(events));
-	const cJSON* event_json;
-	cJSON_ArrayForEach(event_json, events) {
-		sequence.add_event(parse_event(event_json));
-	}
+	view["events"].as_array().for_each([&](const JSON::Value_View& event) {
+		sequence.add_event(parse_event(event.as_object()));
+	});
 
 	// Condition
-	const cJSON* condition_json = cJSON_GetObjectItem(json, "condition");
-	if (condition_json) {
-		sequence.set_condition(parse_condition(condition_json));
+	if (view.has("condition")) {
+		sequence.set_condition(parse_condition(view["condition"].as_object()));
 	}
 
-	cJSON_Delete(json);
 	return sequence;
 }
 
 // TODO - refactor to an event factory?
-Event_Ptr Sequence_Loader::parse_event(const cJSON* json)
+Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json)
 {
-	assert(json);
-	const cJSON* type_json = cJSON_GetObjectItem(json, "type");
-	assert(type_json);
-	const String type = type_json->valuestring;
-	const cJSON* params = cJSON_GetObjectItem(json, "parameters");
+	const String type= json["type"].as_string();
+	const JSON::Object_View params = json["parameters"].as_object();
 	Event_Ptr loaded_event;
 
 	if (type == "echo") {
-		const String message =
-			cJSON_GetObjectItem(params, "message")->valuestring;
+		const String message = params["message"].as_string();
 		loaded_event = make_own_ptr<Events::Echo>(m_facade, (String&&)message);
 	} else if (type == "display_text") {
-		const String message =
-			cJSON_GetObjectItem(params, "message")->valuestring;
+		const String message = params["message"].as_string();
 		loaded_event = make_own_ptr<Events::Display_Text>(m_facade, (String&&)message);
 	} else if (type == "delay") {
-		const float seconds =
-			cJSON_GetObjectItem(params, "seconds")->valuedouble;
+		const float seconds = params["seconds"].as_float();
 		loaded_event = make_own_ptr<Events::Delay>(m_facade, seconds);
 	} else if (type == "give_item") {
-		const String id =
-			cJSON_GetObjectItem(params, "item")->valuestring;
-		const int count =
-			cJSON_GetObjectItem(params, "count")->valueint;
+		const String id = params["item"].as_string();
+		const int count = params["count"].as_int();
 		loaded_event = make_own_ptr<Events::Give_Item>(m_facade, (String&&)id, count);
 	} else if (type == "remove_item") {
-		const String id =
-			cJSON_GetObjectItem(params, "item")->valuestring;
-		const int count =
-			cJSON_GetObjectItem(params, "count")->valueint;
+		const String id = params["item"].as_string();
+		const int count = params["count"].as_int();
 		loaded_event = make_own_ptr<Events::Remove_Item>(m_facade, (String&&)id, count);
 	} else if (type == "change_map") {
-		const String map =
-			cJSON_GetObjectItem(params, "map")->valuestring;
+		const String map = params["map"].as_string();
 		loaded_event = make_own_ptr<Events::Change_Map>(m_facade, (String&&)map);
 	} else if (type == "teleport_player") {
-		const int x = cJSON_GetObjectItem(params, "x")->valueint;
-		const int y = cJSON_GetObjectItem(params, "y")->valueint;
+		const int x = params["x"].as_int();
+		const int y = params["y"].as_int();
 		loaded_event = make_own_ptr<Events::Teleport_Player>(m_facade, Vec2i{x, y});
 	} else if (type == "teleport_entity") {
-		const String name = cJSON_GetObjectItem(params, "entity")->valuestring;
-		const int x = cJSON_GetObjectItem(params, "x")->valueint;
-		const int y = cJSON_GetObjectItem(params, "y")->valueint;
+		const String name = params["entity"].as_string();
+		const int x = params["x"].as_int();
+		const int y = params["y"].as_int();
 		loaded_event = make_own_ptr<Events::Teleport_Entity>(m_facade, (String&&)name, Vec2i{x, y});
 	} else if (type == "move_entity") {
-		const String name = cJSON_GetObjectItem(params, "entity")->valuestring;
-		const int x = cJSON_GetObjectItem(params, "x")->valueint;
-		const int y = cJSON_GetObjectItem(params, "y")->valueint;
+		const String name = params["entity"].as_string();
+		const int x = params["x"].as_int();
+		const int y = params["y"].as_int();
 		loaded_event = make_own_ptr<Events::Move_Entity>(m_facade, (String&&)name, Vec2i{x, y});
 	} else if (type == "rotate_entity") {
-		const String name = cJSON_GetObjectItem(params, "entity")->valuestring;
-		const Direction dir = direction_from_string(cJSON_GetObjectItem(params, "direction")->valuestring);
+		const String name = params["entity"].as_string();
+		const Direction dir = direction_from_string(params["direction"].as_string());
 		loaded_event = make_own_ptr<Events::Rotate_Entity>(m_facade, (String&&)name, dir);
 	} else if (type == "play_sound") {
-		const char* filename = cJSON_GetObjectItem(params, "sound")->valuestring;
+		const char* filename = params["sound"].as_string();
 		Sound sound = m_resource_system.sound_manager.get(filename, false);
 		loaded_event = make_own_ptr<Events::Play_Sound>(m_facade, sound);
 	} else if (type == "play_music") {
-		const char* filename = cJSON_GetObjectItem(params, "music")->valuestring;
+		const char* filename = params["music"].as_string();
 		Sound music = m_resource_system.sound_manager.get(filename, false);
 		loaded_event = make_own_ptr<Events::Play_Music>(m_facade, music);
 	} else if (type == "change_sprite") {
-		const String entity = cJSON_GetObjectItem(params, "entity")->valuestring;
-		const cJSON* sprite_json = cJSON_GetObjectItem(params, "sprite");
-		const Sprite sprite = JSON_Types::parse_sprite(sprite_json, m_resource_system.texture_manager);
+		const String entity = params["entity"].as_string();
+		const Sprite sprite = JSON_Types::parse_sprite(params["sprite"].as_object(), m_resource_system.texture_manager);
 		loaded_event = make_own_ptr<Events::Change_Sprite>(m_facade, (String&&)entity, sprite);
 	} else if (type == "activate_sequence") {
-		const char* sequence_src = cJSON_GetObjectItem(params, "sequence")->valuestring;
+		const char* sequence_src = params["sequence"].as_string();
 		Sequence& sequence = m_resource_system.sequence_manager.get(sequence_src, false);
 		loaded_event = make_own_ptr<Events::Activate_Sequence>(m_facade, sequence);
 	} else if (type == "add_to_party") {
-		const char* character_src = cJSON_GetObjectItem(params, "character")->valuestring;
+		const char* character_src = params["character"].as_string();
 		Character_Profile character = m_resource_system.character_profile_manager.get(character_src, false);
 		loaded_event = make_own_ptr<Events::Add_To_Party>(m_facade, character);
 	} else if (type == "add_quest") {
-		String id = cJSON_GetObjectItem(params, "id")->valuestring;
-		String name = cJSON_GetObjectItem(params, "name")->valuestring;
-		String description = cJSON_GetObjectItem(params, "description")->valuestring;
-		loaded_event = make_own_ptr<Events::Add_Quest>(m_facade, (String&&)id, (String&&)name, (String&&)description);
+		String id = params["id"].as_string();
+		String name = params["name"].as_string();
+		String desc = params["description"].as_string();
+		loaded_event = make_own_ptr<Events::Add_Quest>(m_facade, (String&&)id, (String&&)name, (String&&)desc);
 	} else if (type == "finish_quest") {
-		String id = cJSON_GetObjectItem(params, "id")->valuestring;
+		String id = params["id"].as_string();
 		loaded_event = make_own_ptr<Events::Finish_Quest>(m_facade, (String&&)id);
 	} else if (type == "zoom_camera") {
-		const int amount = cJSON_GetObjectItem(params, "zoom")->valueint;
+		const int amount = params["zoom"].as_int();
 		loaded_event = make_own_ptr<Events::Zoom_Camera>(m_facade, amount);
 	} else if (type == "enable_player_actions") {
 		loaded_event = make_own_ptr<Events::Enable_Player_Actions>(m_facade);
 	} else if (type == "disable_player_actions") {
 		loaded_event = make_own_ptr<Events::Disable_Player_Actions>(m_facade);
 	} else if (type == "enter_combat") {
-		const char* sequence_path = cJSON_GetObjectItem(params, "win_sequence")->valuestring;
+		const char* sequence_path = params["win_sequence"].as_string();
 		Sequence& win_sequence = m_resource_system.sequence_manager.get(sequence_path, false);
-		const cJSON* enemies_json = cJSON_GetObjectItem(params, "enemies");
-		const cJSON* enemy_json;
 		Array<Character_Profile> enemies;
-		cJSON_ArrayForEach(enemy_json, enemies_json) {
-			Character_Profile enemy = m_resource_system.character_profile_manager.get(enemy_json->valuestring, false);
+		params["enemies"].as_array().for_each([&](const JSON::Value_View& value){
+			Character_Profile enemy = m_resource_system.character_profile_manager.get(value.as_string(), false);
 			enemies.push_back(enemy);
-		}
+		});
 		loaded_event = make_own_ptr<Events::Enter_Combat>(m_facade, (Array<Character_Profile>&&)enemies, win_sequence);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		loaded_event = make_own_ptr<Events::Dummy>(m_facade);
 	}
 
-	const cJSON* asynchronous = cJSON_GetObjectItem(json, "asynchronous");
-	if (asynchronous) {
-		loaded_event->asynchronous = asynchronous->valueint;
+	if (json.has("asynchronous")) {
+		loaded_event->asynchronous = json["asynchronous"].as_bool();
 	}
 
 	return loaded_event;
 }
 
-Condition_Ptr Sequence_Loader::parse_condition(const cJSON* json)
+Condition_Ptr Sequence_Loader::parse_condition(const JSON::Object_View& json)
 {
-	const String type = cJSON_GetObjectItem(json, "type")->valuestring;
-	const cJSON* params = cJSON_GetObjectItem(json, "parameters");
+	const String type = json["type"].as_string();
+	const JSON::Object_View params = json["parameters"].as_object();
 
 	if (type == "has_item") {
-		String item = cJSON_GetObjectItem(params, "item")->valuestring;
-		const int count = cJSON_GetObjectItem(params, "count")->valueint;
+		String item = params["item"].as_string();
+		const int count = params["count"].as_int();
 		return make_own_ptr<Conditions::Has_Item>(m_facade, (String&&)item, count);
 	} else if (type == "not") {
-		Condition_Ptr sub_condition = parse_condition(cJSON_GetObjectItem(params, "condition"));
+		Condition_Ptr sub_condition = parse_condition(params["condition"].as_object());
 		return make_own_ptr<Conditions::Not>(m_facade, (Condition_Ptr&&)sub_condition);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());

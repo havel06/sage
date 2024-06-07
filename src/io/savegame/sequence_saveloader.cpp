@@ -39,7 +39,7 @@ void Sequence_Saveloader::save(const Sequence& sequence)
 	// Delete JSON
 	cJSON_Delete(json);
 
-	SG_INFO("Saved state of sequence \"%s\".", savefile_path.data());
+	//SG_DEBUG("Saved state of sequence \"%s\".", savefile_path.data());
 }
 
 void Sequence_Saveloader::load(Sequence& sequence)
@@ -56,7 +56,7 @@ void Sequence_Saveloader::load(Sequence& sequence)
 
 	cJSON_Delete(json);
 
-	SG_INFO("Loaded state of sequence \"%s\".", savefile_path.data());
+	//SG_DEBUG("Loaded state of sequence \"%s\".", savefile_path.data());
 }
 
 String Sequence_Saveloader::get_savefile_location(const String& sequence_path)

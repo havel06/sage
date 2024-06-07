@@ -3,7 +3,7 @@
 #include "utils/file.hpp"
 #include <cJSON.h>
 #include "utils/log.hpp"
-
+#include <stdio.h>
 
 namespace JSON
 {
@@ -85,6 +85,11 @@ Object::~Object()
 	delete m_cjson;
 }
 
+Object::Object()
+{
+	m_cjson = cJSON_CreateObject();
+}
+
 Object::Object(cJSON* cjson)
 {
 	m_cjson = cjson;
@@ -105,6 +110,104 @@ Object Object::from_file(const char* filename)
 	}
 
 	return Object{cjson};
+}
+
+void Object::write_to_file(const char* filename)
+{
+	FILE* f = fopen(filename, "w");
+	assert(f);
+	char* json_str = cJSON_Print(m_cjson);
+	fputs(json_str, f);
+	free(json_str);
+	fclose(f);
+}
+
+Value::Value(cJSON* cjson)
+{
+	m_cjson = cjson;
+}
+
+Value::Value(int val)
+{
+	m_cjson = cJSON_CreateNumber(val);
+}
+
+Value::Value(float val)
+{
+	m_cjson = cJSON_CreateNumber(val);
+}
+
+Value::Value(bool val)
+{
+	m_cjson = cJSON_CreateBool(val);
+}
+
+Value::Value(const char* str)
+{
+	m_cjson = cJSON_CreateString(str);
+}
+
+Value::Value(Array&& arr)
+{
+	m_cjson = ((Array&&)arr).release();
+}
+
+Value::Value(Object&& obj)
+{
+	m_cjson = ((Object&&)obj).release();
+}
+
+Value::~Value()
+{
+	if (m_cjson)
+		delete m_cjson;
+}
+
+cJSON* Value::release() &&
+{
+	auto* ptr = m_cjson;
+	m_cjson = nullptr;
+	return ptr;
+}
+
+Value_View Value::get_view() const
+{
+	return Value_View{m_cjson};
+}
+
+Array::Array()
+{
+	m_cjson = cJSON_CreateArray();
+}
+
+Array::~Array()
+{
+	if (m_cjson)
+		delete m_cjson;
+}
+
+cJSON* Array::release() &&
+{
+	auto* ptr = m_cjson;
+	m_cjson = nullptr;
+	return ptr;
+}
+
+cJSON* Object::release() &&
+{
+	auto* ptr = m_cjson;
+	m_cjson = nullptr;
+	return ptr;
+}
+
+Array_View Array::get_view() const
+{
+	return Array_View{m_cjson};
+}
+
+void Object::add(const char* key, Value&& val)
+{
+	cJSON_AddItemToObject(m_cjson, key, ((Value&&)val).release());
 }
 
 }

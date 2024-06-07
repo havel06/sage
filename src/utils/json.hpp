@@ -9,6 +9,8 @@ namespace JSON
 // fwd
 class Object_View;
 class Array_View;
+class Array;
+class Object;
 
 class Value_View
 {
@@ -53,21 +55,58 @@ private:
 	const cJSON* m_cjson;
 };
 
+class Value
+{
+public:
+	Value(int);
+	Value(float);
+	Value(bool);
+	Value(const char*);
+	Value(Array&&);
+	Value(Object&&);
+	~Value();
+
+	cJSON* release() &&;
+	Value_View get_view() const;
+private:
+	Value(cJSON*);
+
+	cJSON* m_cjson;
+};
+
+class Array
+{
+public:
+	Array();
+	~Array();
+
+	Array(Array&& other) = delete;
+	Array(const Array& other) = delete;
+
+	cJSON* release() &&;
+	Array_View get_view() const;
+private:
+	cJSON* m_cjson;
+};
 
 class Object
 {
 public:
-	static Object from_file(const char* filename);
-
+	Object();
 	~Object();
+	static Object from_file(const char* filename);
+	void write_to_file(const char* filename);
+
 	// TODO - implement?
 	Object(const Object&) = delete;
 	Object(Object&&) = delete;
 	Object& operator=(const Object&) = delete;
 	Object& operator=(Object&&) = delete;
 
-	Object_View get_view() const;
+	void add(const char* key, Value&&);
 
+	Object_View get_view() const;
+	cJSON* release() &&;
 private:
 	Object(cJSON*);
 

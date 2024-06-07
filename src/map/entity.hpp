@@ -29,6 +29,7 @@ public:
 	void look(Direction);
 	Recti get_bounding_box() const;
 	Direction get_look_direction() const { return m_look_direction; };
+	bool is_moving() const { return m_moving; }
 private:
 	bool m_moving = false;
 	Vec2f m_subgrid_offset = {0, 0};

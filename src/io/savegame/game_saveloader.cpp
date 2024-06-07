@@ -7,14 +7,16 @@
 #include "utils/log.hpp"
 #include "game_facade.hpp"
 #include "graphics/camera.hpp"
+#include "io/resource/sequence_manager.hpp"
 #include <stdio.h>
 #include <cJSON.h>
 
-Game_Saveloader::Game_Saveloader(const String& project_dir, Game_Facade& facade, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log) :
+Game_Saveloader::Game_Saveloader(const String& project_dir, Game_Facade& facade, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager) :
 	m_game_facade{facade},
 	m_camera{camera},
 	m_inventory{inv},
-	m_quest_log{quest_log}
+	m_quest_log{quest_log},
+	m_seq_manager{seq_manager}
 {
 	m_project_dir = project_dir;
 }
@@ -43,6 +45,7 @@ void Game_Saveloader::save()
 	cJSON_AddItemToObject(json, "inventory", inv_saveloader.save(m_inventory));
 	Quest_Saveloader quest_saveloader(m_quest_log);
 	cJSON_AddItemToObject(json, "quests", quest_saveloader.save());
+	cJSON_AddItemToObject(json, "active_sequences", serialise_active_sequences());
 	
 	// Write to file
 	create_directories_for_file(m_savefile_path);
@@ -74,7 +77,32 @@ void Game_Saveloader::load()
 	inv_saveloader.load(m_inventory, cJSON_GetObjectItem(json, "inventory"));
 	Quest_Saveloader quest_saveloader(m_quest_log);
 	quest_saveloader.load(cJSON_GetObjectItem(json, "quests"));
+	load_active_sequences(cJSON_GetObjectItem(json, "active_sequences"));
 
 	cJSON_Delete(json);
 	SG_INFO("Loaded game state.");
+}
+
+cJSON* Game_Saveloader::serialise_active_sequences()
+{
+	cJSON* json = cJSON_CreateArray();
+
+	m_seq_manager.for_each([&](const Sequence& sequence){
+		if (sequence.is_active()) {
+			String path = get_relative_path(sequence.get_path().data(), m_project_dir);
+			cJSON_AddItemToArray(json, cJSON_CreateString(path.data()));
+		}
+	});
+
+	return json;
+}
+
+void Game_Saveloader::load_active_sequences(const cJSON* json)
+{
+	assert(json);
+
+	const cJSON* seq_json;
+	cJSON_ArrayForEach(seq_json, json) {
+		m_seq_manager.get(seq_json->valuestring, false).try_activate();
+	}
 }

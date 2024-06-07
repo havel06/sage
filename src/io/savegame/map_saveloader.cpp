@@ -107,6 +107,7 @@ cJSON* Map_Saveloader::serialise_entity(const Entity& entity)
 	cJSON_AddItemToObject(entity_json, "x", cJSON_CreateNumber(entity.position.x));
 	cJSON_AddItemToObject(entity_json, "y", cJSON_CreateNumber(entity.position.y));
 	cJSON_AddItemToObject(entity_json, "direction", cJSON_CreateString(direction_to_string(entity.get_look_direction())));
+	cJSON_AddItemToObject(entity_json, "moving", cJSON_CreateBool(entity.is_moving()));
 
 	if (!entity.sprite.is_null())
 		cJSON_AddItemToObject(entity_json, "sprite", JSON_Types::serialise_sprite(entity.sprite, m_project_dir));
@@ -124,6 +125,10 @@ void Map_Saveloader::deserialise_entity(Entity& entity, const cJSON* entity_json
 		entity.sprite = JSON_Types::parse_sprite(sprite_json, m_texture_manager);
 
 	entity.look(direction_from_string(cJSON_GetObjectItem(entity_json, "direction")->valuestring));
+
+	if (cJSON_GetObjectItem(entity_json, "moving")->valueint) {
+		entity.move(entity.get_look_direction());
+	}
 }
 
 void Map_Saveloader::deserialise_entites(Map_Entities& entities, const cJSON* json)

@@ -1,4 +1,5 @@
 #include "application.hpp"
+#include "io/project_loader.hpp"
 #include "utils/log.hpp"
 #include <raylib/raylib.h>
 
@@ -19,7 +20,12 @@ void Application::run(int argc, const char* argv[])
 	}
 
 	const char* project_path = argv[1];
-	Game game(project_path);
+
+	Project_Description description = load_project_description(String{project_path});
+	SG_INFO("Loaded project \"%s\"", description.name.data());
+	SetWindowTitle(description.name.data());
+
+	Game game(description);
 
 	while (!WindowShouldClose()) {
 		BeginDrawing();

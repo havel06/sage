@@ -4,6 +4,7 @@
 
 struct Project_Description
 {
+	String path;
 	String name;
 	String start_sequence;
 	String default_character;

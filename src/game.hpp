@@ -19,10 +19,12 @@
 #include "sequence/sequence.hpp"
 #include "combat_controller.hpp"
 
+struct Project_Description;
+
 class Game
 {
 public:
-	Game(const char* project_path);
+	Game(const Project_Description&);
 	~Game();
 	void draw_frame(float time_delta);
 private:

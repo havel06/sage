@@ -11,6 +11,7 @@ Project_Description load_project_description(String project_root)
 	JSON::Object_View view = json.get_view();
 
 	Project_Description description;
+	description.path = project_root;
 	description.name = view["name"].as_string();
 	description.start_sequence = view["sequence"].as_string();
 	description.default_character = view["default_character"].as_string();

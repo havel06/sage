@@ -43,7 +43,7 @@ void Game_Saveloader::save()
 	cJSON_AddItemToObject(json, "current_map", cJSON_CreateString(map_relative_path.data()));
 	cJSON_AddItemToObject(json, "camera_zoom", cJSON_CreateNumber(m_camera.zoom));
 	Inventory_Saveloader inv_saveloader;
-	cJSON_AddItemToObject(json, "inventory", inv_saveloader.save(m_inventory));
+	cJSON_AddItemToObject(json, "inventory", inv_saveloader.save(m_inventory).release());
 	Quest_Saveloader quest_saveloader(m_quest_log);
 	cJSON_AddItemToObject(json, "quests", quest_saveloader.save().release());
 	cJSON_AddItemToObject(json, "active_sequences", serialise_active_sequences());

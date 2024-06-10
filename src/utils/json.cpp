@@ -95,6 +95,11 @@ Object::Object(cJSON* cjson)
 	m_cjson = cjson;
 }
 
+Object::Object(Object&& other)
+{
+	m_cjson = ((Object&&)other).release();
+}
+
 Object_View Object::get_view() const
 {
 	return Object_View{m_cjson};

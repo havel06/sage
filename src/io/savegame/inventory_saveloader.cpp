@@ -1,35 +1,33 @@
 #include "inventory_saveloader.hpp"
 #include "item/inventory.hpp"
-#include "utils/string.hpp"
-#include <cJSON.h>
+#include "utils/json.hpp"
 #include <assert.h>
 
-cJSON* Inventory_Saveloader::save(const Inventory& inventory)
+JSON::Array Inventory_Saveloader::save(const Inventory& inventory)
 {
-	// Create json object
-	cJSON* json = cJSON_CreateArray();
+	JSON::Array json;
 
 	inventory.for_each_entry([&](const String& id, int count){
-		cJSON_AddItemToArray(json, serialise_item_stack(id, count));
+		json.add(serialise_item_stack(id, count));
 	});
 
 	return json;
 }
 
-void Inventory_Saveloader::load(Inventory& inventory, const cJSON* json)
+void Inventory_Saveloader::load(Inventory& inventory, const JSON::Array_View& json)
 {
-	const cJSON* item_stack_json;
-	cJSON_ArrayForEach(item_stack_json, json) {
-		const char* id = cJSON_GetObjectItem(item_stack_json, "id")->valuestring;
-		const int count = cJSON_GetObjectItem(item_stack_json, "count")->valueint;
+	json.for_each([&](const JSON::Value_View& value){
+		JSON::Object_View item_stack_json = value.as_object();
+		const char* id = item_stack_json["id"].as_string();
+		const int count = item_stack_json["count"].as_int();
 		inventory.add_item(id, count);
-	}
+	});
 }
 
-cJSON* Inventory_Saveloader::serialise_item_stack(const String& id, int count)
+JSON::Object Inventory_Saveloader::serialise_item_stack(const String& id, int count)
 {
-	cJSON* json = cJSON_CreateObject();
-	cJSON_AddItemToObject(json, "id", cJSON_CreateString(id.data()));
-	cJSON_AddItemToObject(json, "count", cJSON_CreateNumber(count));
+	JSON::Object json;
+	json.add("id", JSON::Value{id.data()});
+	json.add("count", JSON::Value{count});
 	return json;
 }

@@ -99,9 +99,9 @@ public:
 	static Object from_file(const char* filename);
 	void write_to_file(const char* filename);
 
+	Object(Object&&);
 	// TODO - implement?
 	Object(const Object&) = delete;
-	Object(Object&&) = delete;
 	Object& operator=(const Object&) = delete;
 	Object& operator=(Object&&) = delete;
 

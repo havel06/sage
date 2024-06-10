@@ -4,7 +4,6 @@
 #include "sequence/sequence.hpp"
 
 // fwd
-struct cJSON;
 class Resource_System;
 class Game_Facade;
 namespace JSON {

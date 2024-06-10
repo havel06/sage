@@ -1,5 +1,4 @@
 #include "sequence_loader.hpp"
-#include "cJSON.h"
 #include "character_profile.hpp"
 #include "sequence/conditions/has_item.hpp"
 #include "sequence/conditions/not.hpp"

@@ -80,8 +80,10 @@ public:
 	Array();
 	~Array();
 
-	Array(Array&& other) = delete;
+	Array(Array&& other);
 	Array(const Array& other) = delete;
+
+	void add(JSON::Value&&);
 
 	cJSON* release() &&;
 	Array_View get_view() const;

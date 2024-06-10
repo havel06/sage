@@ -180,6 +180,11 @@ Array::Array()
 	m_cjson = cJSON_CreateArray();
 }
 
+Array::Array(Array&& other)
+{
+	m_cjson = ((Array&&)other).release();
+}
+
 Array::~Array()
 {
 	if (m_cjson)
@@ -208,6 +213,11 @@ Array_View Array::get_view() const
 void Object::add(const char* key, Value&& val)
 {
 	cJSON_AddItemToObject(m_cjson, key, ((Value&&)val).release());
+}
+
+void Array::add(JSON::Value&& value)
+{
+	cJSON_AddItemToArray(m_cjson, ((JSON::Value&&)value).release());
 }
 
 }

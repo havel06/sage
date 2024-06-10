@@ -8,6 +8,7 @@
 #include "game_facade.hpp"
 #include "graphics/camera.hpp"
 #include "io/resource/sequence_manager.hpp"
+#include "utils/json.hpp"
 #include <stdio.h>
 #include <cJSON.h>
 
@@ -44,7 +45,7 @@ void Game_Saveloader::save()
 	Inventory_Saveloader inv_saveloader;
 	cJSON_AddItemToObject(json, "inventory", inv_saveloader.save(m_inventory));
 	Quest_Saveloader quest_saveloader(m_quest_log);
-	cJSON_AddItemToObject(json, "quests", quest_saveloader.save());
+	cJSON_AddItemToObject(json, "quests", quest_saveloader.save().release());
 	cJSON_AddItemToObject(json, "active_sequences", serialise_active_sequences());
 	
 	// Write to file

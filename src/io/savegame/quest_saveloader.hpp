@@ -1,14 +1,18 @@
 #pragma once
 
 class Quest_Log;
-struct cJSON;
+
+namespace JSON {
+	class Array;
+	class Array_View;
+}
 
 class Quest_Saveloader
 {
 public:
 	Quest_Saveloader(Quest_Log&);
-	cJSON* save();
-	void load(const cJSON*);
+	JSON::Array save();
+	void load(const JSON::Array_View&);
 private:
 	Quest_Log& m_quest_log;
 };

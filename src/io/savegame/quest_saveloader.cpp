@@ -1,38 +1,38 @@
 #include "quest_saveloader.hpp"
-#include "cJSON.h"
 #include "quest/quest_log.hpp"
+#include "utils/json.hpp"
 
 Quest_Saveloader::Quest_Saveloader(Quest_Log& quest_log) :
 	m_quest_log{quest_log}
 {
 }
 
-cJSON* Quest_Saveloader::save()
+JSON::Array Quest_Saveloader::save()
 {
-	cJSON* json = cJSON_CreateArray();
+	JSON::Array json;
 
 	for (int i = 0; i < m_quest_log.get_quest_count(); i++) {
 		const Quest& quest = m_quest_log.get_quest(i);
-		cJSON* quest_json = cJSON_CreateObject();
-		cJSON_AddItemToObject(quest_json, "id", cJSON_CreateString(quest.id.data()));
-		cJSON_AddItemToObject(quest_json, "name", cJSON_CreateString(quest.name.data()));
-		cJSON_AddItemToObject(quest_json, "description", cJSON_CreateString(quest.description.data()));
-		cJSON_AddItemToArray(json, quest_json);
+		JSON::Object quest_json;
+		quest_json.add("id", JSON::Value(quest.id.data()));
+		quest_json.add("name", JSON::Value(quest.name.data()));
+		quest_json.add("description", JSON::Value(quest.description.data()));
+		json.add((JSON::Value&&)quest_json);
 	}
 
 	return json;
 }
 
-void Quest_Saveloader::load(const cJSON* json)
+void Quest_Saveloader::load(const JSON::Array_View& json)
 {
 	m_quest_log.clear();
 
-	const cJSON* quest_json = nullptr;
-	cJSON_ArrayForEach(quest_json, json) {
+	json.for_each([&](const JSON::Value_View& value){
+		JSON::Object_View quest_json = value.as_object();
 		Quest quest;
-		quest.id = cJSON_GetObjectItem(quest_json, "id")->valuestring;
-		quest.name = cJSON_GetObjectItem(quest_json, "name")->valuestring;
-		quest.description = cJSON_GetObjectItem(quest_json, "description")->valuestring;
+		quest.id = quest_json["id"].as_string();
+		quest.name = quest_json["name"].as_string();
+		quest.description = quest_json["description"].as_string();
 		m_quest_log.add_quest((Quest&&)quest);
-	}
+	});
 }

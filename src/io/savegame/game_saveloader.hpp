@@ -7,7 +7,10 @@ class Game_Facade;
 class Game_Camera;
 class Inventory;
 class Sequence_Manager;
-struct cJSON;
+namespace JSON {
+	class Array_View;
+	class Array;
+}
 
 // FIXME - refactor this mess
 class Game_Saveloader
@@ -20,8 +23,8 @@ public:
 	void save();
 	void load();
 private:
-	cJSON* serialise_active_sequences();
-	void load_active_sequences(const cJSON*);
+	JSON::Array serialise_active_sequences();
+	void load_active_sequences(const JSON::Array_View&);
 
 	Game_Facade& m_game_facade;
 	Game_Camera& m_camera;

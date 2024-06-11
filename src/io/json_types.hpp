@@ -11,6 +11,6 @@ namespace JSON_Types
 {
 
 Sprite parse_sprite(const JSON::Object_View&, Texture_Manager&);
-cJSON* serialise_sprite(const Sprite&, const String& project_dir); // FIXME - rewrite to use new json wrappers
+JSON::Object serialise_sprite(const Sprite&, const String& project_dir);
 
 }

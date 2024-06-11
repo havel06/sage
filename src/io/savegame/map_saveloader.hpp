@@ -7,7 +7,12 @@ class Map;
 class Map_Entities;
 class Entity;
 class Texture_Manager;
-struct cJSON;
+namespace JSON {
+	class Object_View;
+	class Array_View;
+	class Object;
+	class Array;
+}
 
 // Saves and loads player progress in maps
 // FIXME - this might not be the best name
@@ -22,11 +27,11 @@ public:
 private:
 	String get_savefile_location(const String& map_path);
 
-	cJSON* serialise_entities(const Map_Entities&); // Returns a JSON array
-	cJSON* serialise_entity(const Entity&); // Returns a JSON object
+	JSON::Array serialise_entities(const Map_Entities&); // Returns a JSON array
+	JSON::Object serialise_entity(const Entity&); // Returns a JSON object
 
-	void deserialise_entites(Map_Entities&, const cJSON* entities);
-	void deserialise_entity(Entity&, const cJSON* entity_json);
+	void deserialise_entites(Map_Entities&, const JSON::Array_View& entities);
+	void deserialise_entity(Entity&, const JSON::Object_View& entity_json);
 
 	Texture_Manager& m_texture_manager;
 	String m_project_dir;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "size.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/array.hpp"
 #include "utils/rect.hpp"
@@ -26,7 +27,7 @@ class Layout
 {
 public:
 	// Rows and columns are on a scale from 0 to 1
-	Layout(const Array<float>& rows, const Array<float>& columns);
+	Layout(const Array<Size>& rows, const Array<Size>& columns);
 	Layout();
 	void add(Widget_Ptr&&, int row, int column);
 	void add(Widget_Ptr&&);
@@ -39,8 +40,8 @@ private:
 	// FIXME - specify expand direction
 	void expand();
 
-	Array<float> m_columns;
-	Array<float> m_rows;
+	Array<Size> m_columns;
+	Array<Size> m_rows;
 	Array<Layout_Element> m_elements;
 };
 

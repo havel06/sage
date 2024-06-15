@@ -4,7 +4,7 @@
 namespace UI
 {
 
-Layout::Layout(const Array<float>& rows, const Array<float>& columns)
+Layout::Layout(const Array<Size>& rows, const Array<Size>& columns)
 {
 	m_rows = rows;
 	m_columns = columns;
@@ -12,8 +12,8 @@ Layout::Layout(const Array<float>& rows, const Array<float>& columns)
 
 Layout::Layout()
 {
-	m_columns.push_back(1);
-	m_rows.push_back(1);
+	m_columns.push_back(Size{ .parent_width = 1 });
+	m_rows.push_back(Size{ .parent_height = 1 });
 }
 
 void Layout::add(Widget_Ptr&& widget, int row, int column)
@@ -74,15 +74,15 @@ void Layout::draw(Recti parent_area, float time_delta)
 
 		// Calculate offset
 		for (int i = 0; i < element.column; i++) {
-			widget_area.position.x += m_columns[i] * parent_area.size.x;
+			widget_area.position.x += m_columns[i].to_pixels(parent_area.size);
 		}
 		for (int i = 0; i < element.row; i++) {
-			widget_area.position.y += m_rows[i] * parent_area.size.y;
+			widget_area.position.y += m_rows[i].to_pixels(parent_area.size);
 		}
 
 		// Size
-		widget_area.size.x = m_columns[element.column] * parent_area.size.x;
-		widget_area.size.y = m_rows[element.row] * parent_area.size.y;
+		widget_area.size.x = m_columns[element.column].to_pixels(parent_area.size);
+		widget_area.size.y = m_rows[element.row].to_pixels(parent_area.size);
 
 		m_elements[i].widget->draw(widget_area, time_delta);
 	}

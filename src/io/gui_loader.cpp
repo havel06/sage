@@ -64,16 +64,16 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json)
 
 UI::Layout GUI_Loader::parse_layout(const JSON::Object_View& json)
 {
-	// FIXME - what if the numbers don't add up to 100??
-	Array<float> rows;
-	Array<float> columns;
+	// FIXME - what if the numbers don't add up to 1??
+	Array<UI::Size> rows;
+	Array<UI::Size> columns;
 
 	json["rows"].as_array().for_each([&](const JSON::Value_View& row){
-		rows.push_back(row.as_float() / 100);
+		rows.push_back(UI::Size{ .parent_height = row.as_float()});
 	});
 
 	json["columns"].as_array().for_each([&](const JSON::Value_View& column){
-		columns.push_back(column.as_float() / 100);
+		columns.push_back(UI::Size{ .parent_width = column.as_float()});
 	});
 
 	return UI::Layout{rows, columns};

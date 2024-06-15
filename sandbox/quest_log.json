@@ -1,8 +1,8 @@
 {
 	"type": "box",
 	"layout": {
-		"columns": [25, 50, 25],
-		"rows": [20, 60, 20]
+		"columns": [0.25, 0.50, 0.25],
+		"rows": [0.20, 0.60, 0.20]
 	},
 	"parameters": {},
 	"children": [
@@ -11,8 +11,8 @@
 			"column": 1,
 			"type": "box",
 			"layout": {
-				"rows": [33, 33, 33],
-				"columns": [100]
+				"rows": [0.33, 0.33, 0.33],
+				"columns": [1]
 			},
 			"parameters": {
 				"colour": {

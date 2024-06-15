@@ -19,6 +19,30 @@ UI::Widget_Ptr GUI_Loader::load(const char* filename)
 	return parse_widget(json.get_view());
 }
 
+UI::Size GUI_Loader::parse_size(const JSON::Object_View& json)
+{
+	UI::Size size;
+
+	if (json.has("automatic")) {
+		size.automatic = json["automatic"].as_bool();
+		return size; // We can return immediately, since other values are ignored
+	}
+
+	if (json.has("parent_width")) {
+		size.parent_width = json["parent_width"].as_float();
+	}
+
+	if (json.has("parent_height")) {
+		size.parent_height = json["parent_height"].as_float();
+	}
+
+	if (json.has("pixels")) {
+		size.pixels = json["pixels"].as_int();
+	}
+
+	return size;
+}
+
 UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json)
 {
 	String type = json["type"].as_string();
@@ -69,11 +93,11 @@ UI::Layout GUI_Loader::parse_layout(const JSON::Object_View& json)
 	Array<UI::Size> columns;
 
 	json["rows"].as_array().for_each([&](const JSON::Value_View& row){
-		rows.push_back(UI::Size{ .parent_height = row.as_float()});
+		rows.push_back(parse_size(row.as_object()));
 	});
 
 	json["columns"].as_array().for_each([&](const JSON::Value_View& column){
-		columns.push_back(UI::Size{ .parent_width = column.as_float()});
+		columns.push_back(parse_size(column.as_object()));
 	});
 
 	return UI::Layout{rows, columns};

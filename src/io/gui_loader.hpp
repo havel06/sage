@@ -15,6 +15,7 @@ public:
 	UI::Widget_Ptr load(const char* filename);
 
 private:
+	UI::Size parse_size(const JSON::Object_View& json);
 	UI::Widget_Ptr parse_widget(const JSON::Object_View& json);
 	UI::Layout parse_layout(const JSON::Object_View& json);
 	UI::Widget_Ptr parse_box(UI::Layout&&, const JSON::Object_View& json);

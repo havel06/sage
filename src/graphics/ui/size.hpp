@@ -13,7 +13,7 @@ struct Size
 	float parent_width = 0;
 	float parent_height = 0;
 
-	int to_pixels(Vec2i parent_size);
+	int to_pixels(Vec2i parent_size) const;
 };
 
 

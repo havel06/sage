@@ -37,6 +37,8 @@ public:
 	Layout clone() const;
 	void clear();
 private:
+	// FIXME - rename
+	Array<int> calculate_rows_or_columns(const Array<Size>&, Vec2i parent_size, int direction_size);
 	// FIXME - specify expand direction
 	void expand();
 

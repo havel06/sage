@@ -1,8 +1,28 @@
 {
 	"type": "box",
 	"layout": {
-		"columns": [0.025, 0.95, 0.025],
-		"rows": [0.60, 0.35, 0.05]
+		"columns": [
+			{
+				"automatic": true
+			},
+			{
+				"parent_width": 0.95
+			},
+			{
+				"automatic": true
+			}
+		],
+		"rows": [
+			{
+				"parent_height": 0.6
+			},
+			{
+				"parent_height": 0.35
+			},
+			{
+				"parent_height": 0.05
+			}
+		]
 	},
 	"parameters" : {},
 	"children": [
@@ -19,8 +39,28 @@
 				}
 			},
 			"layout": {
-				"columns": [0.05, 0.90, 0.05],
-				"rows": [0.10, 0.80, 0.10]
+				"columns": [
+					{
+						"parent_width": 0.05
+					},
+					{
+						"parent_width": 0.90
+					},
+					{
+						"parent_width": 0.05
+					}
+				],
+				"rows": [
+					{
+						"parent_height": 0.1
+					},
+					{
+						"parent_height": 0.8
+					},
+					{
+						"parent_height": 0.1
+					}
+				]
 			},
 			"children": [
 				{

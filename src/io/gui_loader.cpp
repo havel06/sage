@@ -1,5 +1,8 @@
 #include "gui_loader.hpp"
+#include "graphics/ui/image.hpp"
 #include "graphics/ui/widget.hpp"
+#include "io/json_types.hpp"
+#include "io/resource/texture_manager.hpp"
 #include "utils/json.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
@@ -7,8 +10,9 @@
 #include "graphics/ui/box.hpp"
 #include "io/resource/font_manager.hpp"
 
-GUI_Loader::GUI_Loader(Font_Manager& font_mgr) :
-	m_font_manager{font_mgr}
+GUI_Loader::GUI_Loader(Font_Manager& font_mgr, Texture_Manager& tex_mgr) :
+	m_font_manager{font_mgr},
+	m_texture_manager{tex_mgr}
 {
 }
 
@@ -72,6 +76,8 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json)
 		widget = parse_box((UI::Layout&&)layout, params);
 	} else if (type == "text") {
 		widget = parse_text((UI::Layout&&)layout, params);
+	} else if (type == "image") {
+		widget = parse_image((UI::Layout&&)layout, params);
 	} else {
 		SG_ERROR("Invalid widget type \"%s\"", type.data());
 		// FIXME - recover
@@ -127,4 +133,9 @@ UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const JSON::Object_Vi
 	widget->font = m_font_manager.get(params["font"].as_string(), false);
 
 	return widget;
+}
+
+UI::Widget_Ptr GUI_Loader::parse_image(UI::Layout&& layout, const JSON::Object_View& params)
+{
+	return make_own_ptr<UI::Image>((UI::Layout&&)layout, JSON_Types::parse_sprite(params["sprite"].as_object(), m_texture_manager));
 }

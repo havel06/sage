@@ -1,10 +1,12 @@
 #include "inventory_renderer.hpp"
+#include "graphics/ui/image.hpp"
 #include "raylib/raylib.h"
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
 #include "item/item.hpp"
 #include "item/inventory.hpp"
 #include "item/item_registry.hpp"
+#include "io/gui_loader.hpp"
 
 Inventory_Renderer::Inventory_Renderer(const Item_Registry& item_registry, const Inventory& inventory) :
 	m_item_registry{item_registry},
@@ -14,14 +16,6 @@ Inventory_Renderer::Inventory_Renderer(const Item_Registry& item_registry, const
 
 void Inventory_Renderer::draw()
 {
-	// Background
-	for (int y = 0; y < m_slots_vertical; y++)
-	{
-		for (int x = 0; x < m_slots_horizontal; x++) {
-			draw_slot_background(x, y);
-		}
-	}
-
 	// Foreground
 	int index = 0;
 	m_inventory.for_each_entry([&](const String& id, int count){
@@ -29,41 +23,34 @@ void Inventory_Renderer::draw()
 			return;
 
 		const Item& item = m_item_registry.get_item(id);
-		draw_slot_item(index, item, count);
+		draw_slot(index, item, count);
 		index++;
 	});
 }
 
-void Inventory_Renderer::draw_slot_background(int index_x, int index_y)
+void Inventory_Renderer::load(GUI_Loader& loader, const String& project_root)
 {
-	Vec2i position = calculate_slot_position(index_x, index_y);
-
-	// Background
-	const Color background_colour = Color{0, 0, 0, 222};
-	DrawRectangle(position.x, position.y, m_slot_size, m_slot_size, background_colour);
-	// Outline
-	DrawRectangleLinesEx(
-		Rectangle {(float)position.x, (float)position.y, (float)m_slot_size, (float)m_slot_size},
-		2,
-		GRAY);
+	String path = project_root;
+	path.append("/inventory_slot.json");
+	m_slot_widget = loader.load(path.data());
 }
 
-void Inventory_Renderer::draw_slot_item(int index, const Item& item, int count)
+void Inventory_Renderer::draw_slot(int index, const Item& item, int count)
 {
 	const int index_x = index % m_slots_horizontal;
 	const int index_y = index / m_slots_vertical;
 
-	Vec2i slot_position = calculate_slot_position(index_x, index_y);
-	const int padding = (m_slot_size - m_slot_item_size) / 2;
-	Vec2i item_position = slot_position + Vec2i{padding, padding};
+	const Vec2i position = calculate_slot_position(index_x, index_y);
+	const Vec2i size = {74, 74};
 
-	item.sprite.draw(Rectf{
-		.position = item_position,
-		.size = Vec2i{m_slot_item_size, m_slot_item_size}
-	});
+	// FIXME - safe cast
+	((UI::Image*)(m_slot_widget->get_widget_by_name("Image")))->sprite = item.sprite;
 
-	String count_str = String::from_int(count);
-	DrawText(count_str.data(), slot_position.x + 4, slot_position.y + 4, 16, WHITE);
+	// FIXME - time delta
+	m_slot_widget->draw(Recti{position, size}, 0);
+
+	// TODO
+	(void)count;
 }
 
 Vec2i Inventory_Renderer::calculate_slot_position(int index_x, int index_y)

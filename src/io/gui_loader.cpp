@@ -137,5 +137,10 @@ UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const JSON::Object_Vi
 
 UI::Widget_Ptr GUI_Loader::parse_image(UI::Layout&& layout, const JSON::Object_View& params)
 {
-	return make_own_ptr<UI::Image>((UI::Layout&&)layout, JSON_Types::parse_sprite(params["sprite"].as_object(), m_texture_manager));
+	Own_Ptr<UI::Image> widget = make_own_ptr<UI::Image>((UI::Layout&&)layout);
+
+	if (params.has("sprite"))
+		widget->sprite = JSON_Types::parse_sprite(params["sprite"].as_object(), m_texture_manager);
+
+	return widget;
 }

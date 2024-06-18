@@ -22,6 +22,7 @@ void Sequence_Saveloader::set_save_directory(const String& path)
 void Sequence_Saveloader::save(const Sequence& sequence)
 {
 	String savefile_path = get_savefile_location(sequence.get_path());
+	create_directories_for_file(savefile_path);
 
 	JSON::Object json;
 	json.add("current_event", JSON::Value{sequence.get_current_event_index()});

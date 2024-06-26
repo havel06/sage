@@ -1,6 +1,7 @@
 #include "inventory_renderer.hpp"
 #include "graphics/ui/image.hpp"
 #include "graphics/ui/widget.hpp"
+#include "graphics/ui/text.hpp"
 #include "raylib/raylib.h"
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
@@ -30,8 +31,15 @@ void Inventory_Renderer::draw()
 		const Item& item = m_item_registry.get_item(id);
 
 		UI::Widget_Ptr slot_widget = m_slot_widget->clone();
+
+		// Image
 		// FIXME - safe cast
 		((UI::Image*)(m_slot_widget->get_widget_by_name("Image")))->sprite = item.sprite;
+
+		// Count
+		// FIXME - safe cast
+		((UI::Text*)(m_slot_widget->get_widget_by_name("Count")))->text = String::from_int(count);
+
 		slots_widget->add_child((UI::Widget_Ptr&&)slot_widget);
 	});
 

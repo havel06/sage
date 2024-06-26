@@ -68,7 +68,18 @@
 					"column": 1,
 					"type": "image",
 					"name": "Image",
-					"parameters": {}
+					"parameters": {},
+					"children": [
+						{
+							"type": "text",
+							"name": "Count",
+							"parameters": {
+								"text": "",
+								"font": "font.json",
+								"size": 24
+							}
+						}
+					]
 				}
 			]
 		}

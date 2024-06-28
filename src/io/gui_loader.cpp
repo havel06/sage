@@ -1,4 +1,5 @@
 #include "gui_loader.hpp"
+#include "graphics/ui/button.hpp"
 #include "graphics/ui/image.hpp"
 #include "graphics/ui/widget.hpp"
 #include "io/json_types.hpp"
@@ -78,6 +79,8 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json)
 		widget = parse_text((UI::Layout&&)layout, params);
 	} else if (type == "image") {
 		widget = parse_image((UI::Layout&&)layout, params);
+	} else if (type == "button") {
+		widget = parse_button((UI::Layout&&)layout, params);
 	} else {
 		SG_ERROR("Invalid widget type \"%s\"", type.data());
 		// FIXME - recover
@@ -143,4 +146,12 @@ UI::Widget_Ptr GUI_Loader::parse_image(UI::Layout&& layout, const JSON::Object_V
 		widget->sprite = JSON_Types::parse_sprite(params["sprite"].as_object(), m_texture_manager);
 
 	return widget;
+}
+
+UI::Widget_Ptr GUI_Loader::parse_button(UI::Layout&& layout, const JSON::Object_View& params)
+{
+	UI::Widget_Ptr content_normal = parse_widget(params["normal"].as_object());
+	UI::Widget_Ptr content_focused = parse_widget(params["focused"].as_object());
+
+	return make_own_ptr<UI::Button>((UI::Widget_Ptr&&)content_normal, (UI::Widget_Ptr&&)content_focused, (UI::Layout&&)layout);
 }

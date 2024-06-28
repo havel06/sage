@@ -110,6 +110,11 @@ void Combat_Controller::draw_abilities()
 
 void Combat_Controller::draw_selected_enemy()
 {
-	// FIXME - make better
-	DrawText(m_combat.get_enemy(m_selected_enemy).character.name.data(), 200, 200, 30, WHITE);
+	const Character_Profile& enemy = m_combat.get_enemy(m_selected_enemy).character;
+
+	// FIXME - safe cast
+	((UI::Text*)(m_menu_widget->get_widget_by_name("Title")))->text = enemy.name;
+	(m_menu_widget->get_widget_by_name("Options"))->clear_children();
+
+	m_menu_widget->draw_as_root(0); // FIXME - time delta
 }

@@ -22,12 +22,20 @@ enum class Combat_Result
 	lost,
 };
 
-// FIXME - refactor some parts into smaller classes
+class Combat_Observer
+{
+public:
+	virtual void on_hero_turn_begin() = 0;
+};
 
+// FIXME - refactor some parts into smaller classes
 class Combat
 {
 public:
 	Combat(Party& party);
+
+	void add_observer(Combat_Observer&);
+	void remove_observer(Combat_Observer&);
 
 	void update();
 
@@ -54,9 +62,11 @@ private:
 	Party& m_party;
 	Sequence* m_win_sequence;
 
+	Array<Combat_Observer*> m_observers;
+
 	Array<Combat_Unit> m_heroes;
 	Array<Combat_Unit> m_enemies;
 	bool m_is_hero_turn = true;
-	int m_current_hero_turn;
-	int m_current_enemy_turn;
+	int m_current_hero_turn = 0;
+	int m_current_enemy_turn = 0;
 };

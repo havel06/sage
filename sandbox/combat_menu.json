@@ -124,51 +124,7 @@
 									}
 								]
 							},
-							"parameters": {},
-							"children": [
-								{
-									"type": "button",
-									"parameters": {
-										"normal": {
-											"type": "text",
-											"parameters": {
-												"text": "Option",
-												"size": 30,
-												"font": "font.json"
-											}
-										},
-										"focused": {
-											"type": "text",
-											"parameters": {
-												"text": "Option (F)",
-												"size": 30,
-												"font": "font.json"
-											}
-										}
-									}
-								},
-								{
-									"type": "button",
-									"parameters": {
-										"normal": {
-											"type": "text",
-											"parameters": {
-												"text": "Option",
-												"size": 30,
-												"font": "font.json"
-											}
-										},
-										"focused": {
-											"type": "text",
-											"parameters": {
-												"text": "Option (F)",
-												"size": 30,
-												"font": "font.json"
-											}
-										}
-									}
-								}
-							]
+							"parameters": {}
 						}
 					]
 				},

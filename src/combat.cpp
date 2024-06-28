@@ -17,6 +17,21 @@ Combat::Combat(Party& party) :
 {
 }
 
+void Combat::add_observer(Combat_Observer& observer)
+{
+	m_observers.push_back(&observer);
+}
+
+void Combat::remove_observer(Combat_Observer& observer)
+{
+	for (int i = 0; i < m_observers.size(); i++) {
+		if (m_observers[i] == &observer) {
+			m_observers.remove(i);
+			return;
+		}
+	}
+}
+
 void Combat::start_battle(const Array<Character_Profile>& enemies, Sequence& win_sequence)
 {
 	m_win_sequence = &win_sequence;
@@ -30,6 +45,15 @@ void Combat::start_battle(const Array<Character_Profile>& enemies, Sequence& win
 
 	for (int i = 0; i < enemies.size(); i++) {
 		m_enemies.push_back(Combat_Unit{enemies[i]});
+	}
+
+	m_is_hero_turn = true;
+	m_current_hero_turn = 0;
+	m_current_enemy_turn = 0;
+
+	// Notify observers
+	for (int i = 0; i < m_observers.size(); i++) {
+		m_observers[i]->on_hero_turn_begin();
 	}
 }
 
@@ -90,6 +114,7 @@ void Combat::use_ability(int ability_index, int target_index)
 void Combat::advance_turn()
 {
 	if (m_is_hero_turn) {
+		m_is_hero_turn = false;
 		// Advance hero
 		m_current_hero_turn++;
 
@@ -97,15 +122,19 @@ void Combat::advance_turn()
 		if (m_current_hero_turn >= m_heroes.size())
 			m_current_hero_turn = 0;
 	} else {
+		m_is_hero_turn = true;
 		// Advance enemy
 		m_current_enemy_turn++;
 
 		// Overflow
 		if (m_current_enemy_turn >= m_enemies.size())
 			m_current_enemy_turn = 0;
-	}
 
-	m_is_hero_turn = !m_is_hero_turn;
+		// Notify observers
+		for (int i = 0; i < m_observers.size(); i++) {
+			m_observers[i]->on_hero_turn_begin();
+		}
+	}
 }
 
 void Combat::update()

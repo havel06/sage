@@ -1,6 +1,10 @@
 #pragma once
+#include "utils/string.hpp"
+#include "graphics/ui/widget.hpp"
 
+// fwd
 class Combat;
+class GUI_Loader;
 
 enum class Combat_Controller_State
 {
@@ -15,6 +19,7 @@ class Combat_Controller
 {
 public:
 	Combat_Controller(Combat&);
+	void load(GUI_Loader&, const String& project_root);
 	void go_down();
 	void go_up();
 	void go_right();
@@ -24,13 +29,11 @@ public:
 private:
 	void draw_abilities();
 	void draw_selected_enemy();
-	void fix_selected_ability_index();
 
-	const int m_margin = 50;
-	const int m_height = 200;
-
-	int m_selected_ability = 0;
+	int m_selected_ability = 0; // FIXME - remove
 	int m_selected_enemy = 0;
 	Combat_Controller_State m_state = Combat_Controller_State::selecting_ability;
 	Combat& m_combat;
+
+	UI::Widget_Ptr m_menu_widget;
 };

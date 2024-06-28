@@ -35,6 +35,7 @@ Game::Game(const Project_Description& description) :
 	m_text_box_renderer.load(gui_loader, description.path);
 	m_quest_log_renderer.load(gui_loader, description.path);
 	m_inventory_renderer.load(gui_loader, description.path);
+	m_combat_controller.load(gui_loader, description.path);
 
 	// Savegame location
 	m_map_saveloader.set_save_directory("savegame");

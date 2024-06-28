@@ -6,8 +6,8 @@
 template<typename T>
 struct Vec2
 {
-	T x;
-	T y;
+	T x = 0;
+	T y = 0;
 
 	template<typename T2>
 	operator Vec2<T2>() const
@@ -56,7 +56,7 @@ struct Vec2
 	bool directly_next_to(Vec2<T> other)
 	{
 		Vec2<T> diff = *this - other;
-		return diff.manhattan() == 1;	
+		return diff.manhattan() == 1;
 	}
 };
 

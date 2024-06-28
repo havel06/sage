@@ -20,10 +20,7 @@ class Combat_Controller
 public:
 	Combat_Controller(Combat&);
 	void load(GUI_Loader&, const String& project_root);
-	void go_down();
-	void go_up();
-	void go_right();
-	void go_left();
+	void input_direction(Direction);
 	void enter();
 	void draw();
 private:

@@ -2,6 +2,7 @@
 #include "character_profile.hpp"
 #include "combat.hpp"
 #include "io/gui_loader.hpp"
+#include "utils/direction.hpp"
 #include <raylib/raylib.h>
 
 Combat_Controller::Combat_Controller(Combat& combat) :
@@ -14,39 +15,17 @@ void Combat_Controller::load(GUI_Loader& loader, const String& project_root)
 	String path = project_root;
 	path.append("/combat_menu.json");
 	m_menu_widget = loader.load(path.data());
+
+	m_menu_widget->focus_first();
 }
 
-void Combat_Controller::go_down()
+void Combat_Controller::input_direction(Direction direction)
 {
 	if (!m_combat.is_hero_turn())
 		return;
 
 	if (m_state == Combat_Controller_State::selecting_ability) {
-		// FIXME - button
-	}
-}
-
-void Combat_Controller::go_up()
-{
-	if (!m_combat.is_hero_turn())
-		return;
-
-	if (m_state == Combat_Controller_State::selecting_ability) {
-		// FIXME - button
-	}
-}
-
-void Combat_Controller::go_right()
-{
-	if (m_state == Combat_Controller_State::selecting_ability) {
-		// FIXME - button
-	}
-}
-
-void Combat_Controller::go_left()
-{
-	if (m_state == Combat_Controller_State::selecting_ability) {
-		// FIXME - button
+		m_menu_widget->move_focus(direction);
 	}
 }
 
@@ -56,6 +35,7 @@ void Combat_Controller::enter()
 		return;
 
 	if (m_state == Combat_Controller_State::selecting_ability) {
+		m_menu_widget->process_click();
 		m_state = Combat_Controller_State::selecting_enemy;
 	} else {
 		m_combat.use_ability(m_selected_ability, m_selected_enemy);

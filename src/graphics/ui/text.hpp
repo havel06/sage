@@ -20,6 +20,7 @@ private:
 	Array<String> split_text_to_words(const String& text);
 	String wrap_text(const String& text, int width);
 	bool is_focusable() const override { return false; }
+	void process_click_impl() override {}
 };
 
 }

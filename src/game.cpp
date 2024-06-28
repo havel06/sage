@@ -124,9 +124,13 @@ void Game::process_normal_input()
 void Game::process_combat_input()
 {
 	if (IsKeyPressed(KEY_UP)) {
-		m_combat_controller.go_up();
+		m_combat_controller.input_direction(Direction::up);
 	} else if (IsKeyPressed(KEY_DOWN)) {
-		m_combat_controller.go_down();
+		m_combat_controller.input_direction(Direction::down);
+	} else if (IsKeyPressed(KEY_RIGHT)) {
+		m_combat_controller.input_direction(Direction::right);
+	} else if (IsKeyPressed(KEY_LEFT)) {
+		m_combat_controller.input_direction(Direction::left);
 	} else if (IsKeyPressed(KEY_ENTER)) {
 		m_combat_controller.enter();
 	}

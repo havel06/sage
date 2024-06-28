@@ -1,5 +1,6 @@
 #include "widget.hpp"
 #include "raylib/raylib.h"
+#include "utils/direction.hpp"
 #include "utils/log.hpp"
 
 namespace UI
@@ -223,6 +224,11 @@ bool Layout::focus_first()
 	return false;
 }
 
+void Widget::lose_focus()
+{
+	m_focused = false;
+}
+
 bool Widget::focus_first()
 {
 	if (is_focusable()) {
@@ -233,14 +239,66 @@ bool Widget::focus_first()
 	}
 }
 
-void Widget::focus_up()
+Focus_Move_Result Widget::move_focus(Direction direction)
 {
-	// FIXME
+	if (m_focused) {
+		return Focus_Move_Result::out_of_bounds;
+	} else {
+		return m_layout.move_focus(direction);
+	}
 }
 
-void Widget::focus_down()
+Focus_Move_Result Layout::move_focus(Direction direction)
 {
-	// FIXME
+	for (int i = 0; i < m_elements.size(); i++)	{
+		switch (m_elements[i].widget->move_focus(direction)) {
+			case Focus_Move_Result::moved:
+				return Focus_Move_Result::moved;
+
+			case Focus_Move_Result::no_action:
+				continue;
+
+			case Focus_Move_Result::out_of_bounds:
+				if (focus_next(direction, m_elements[i].row, m_elements[i].column)) {
+					m_elements[i].widget->lose_focus();
+					return Focus_Move_Result::moved;
+				} else {
+					return Focus_Move_Result::out_of_bounds;
+				}
+		}
+	}
+
+	return Focus_Move_Result::no_action;
+}
+
+bool Layout::focus_next(Direction direction, int current_row, int current_column)
+{
+	switch (direction) {
+		case Direction::up:
+			for (int row = 0; row < current_row; row++) {
+				Widget* w = get_widget_by_position(row, current_column);
+				if (w && w->focus_first()) {
+					return true;
+				}
+			}
+			return false;
+		case Direction::down:
+			for (int row = current_row + 1; row < m_rows.size(); row++) {
+				Widget* w = get_widget_by_position(row, current_column);
+				if (w && w->focus_first()) {
+					return true;
+				}
+			}
+			return false;
+		case Direction::left:
+			// FIXME
+			assert(false);
+			return false;
+		case Direction::right:
+			// FIXME
+			assert(false);
+			return false;
+	}
 }
 
 Widget* Widget::get_focused_widget()
@@ -262,6 +320,29 @@ Widget* Layout::get_focused_widget()
 	}
 
 	return nullptr;
+}
+
+Widget* Layout::get_widget_by_position(int row, int column)
+{
+	for (int i = 0; i < m_elements.size(); i++) {
+		if (m_elements[i].row == row && m_elements[i].column == column)
+			return m_elements[i].widget.get();
+	}
+
+	return nullptr;
+}
+
+void Widget::process_click()
+{
+	process_click_impl();
+	m_layout.process_click();
+}
+
+void Layout::process_click()
+{
+	for (int i = 0; i < m_elements.size(); i++) {
+		m_elements[i].widget->process_click();
+	}
 }
 
 }

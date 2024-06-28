@@ -110,12 +110,65 @@
 						{
 							"row": 2,
 							"column": 1,
-							"type": "text",
-							"parameters": {
-								"text": "FIXME - Options",
-								"size": 33,
-								"font": "font.json"
-							}
+							"type": "box",
+							"name": "Options",
+							"layout": {
+								"columns": [
+									{
+										"automatic": true
+									}
+								],
+								"rows": [
+									{
+										"automatic": true
+									}
+								]
+							},
+							"parameters": {},
+							"children": [
+								{
+									"type": "button",
+									"parameters": {
+										"normal": {
+											"type": "text",
+											"parameters": {
+												"text": "Option",
+												"size": 30,
+												"font": "font.json"
+											}
+										},
+										"focused": {
+											"type": "text",
+											"parameters": {
+												"text": "Option (F)",
+												"size": 30,
+												"font": "font.json"
+											}
+										}
+									}
+								},
+								{
+									"type": "button",
+									"parameters": {
+										"normal": {
+											"type": "text",
+											"parameters": {
+												"text": "Option",
+												"size": 30,
+												"font": "font.json"
+											}
+										},
+										"focused": {
+											"type": "text",
+											"parameters": {
+												"text": "Option (F)",
+												"size": 30,
+												"font": "font.json"
+											}
+										}
+									}
+								}
+							]
 						}
 					]
 				},

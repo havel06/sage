@@ -1,5 +1,6 @@
 #include "button.hpp"
 #include "graphics/ui/widget.hpp"
+#include "utils/log.hpp"
 
 namespace UI
 {
@@ -24,6 +25,14 @@ void Button::draw_impl(Recti parent_area, float time_delta)
 Widget_Ptr Button::clone_impl(Layout&& layout) const
 {
 	return make_own_ptr<Button>(m_content_normal->clone(), m_content_focused->clone(), (Layout&&)layout);
+}
+
+void Button::process_click_impl()
+{
+	if (is_focused()) {
+		SG_DEBUG("Button clicked");
+		on_click();
+	}
 }
 
 

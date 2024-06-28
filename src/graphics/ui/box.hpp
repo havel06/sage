@@ -14,6 +14,7 @@ public:
 private:
 	void draw_impl(Recti parent_area, float time_delta) override;
 	Widget_Ptr clone_impl(Layout&&) const override;
+	bool is_focusable() const override { return false; }
 };
 
 }

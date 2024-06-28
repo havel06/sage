@@ -14,8 +14,7 @@ Button::Button(Widget_Ptr&& normal, Widget_Ptr&& focused, Layout&& layout) :
 
 void Button::draw_impl(Recti parent_area, float time_delta)
 {
-	const bool focused = false; // FIXME	
-	if (focused) {
+	if (is_focused()) {
 		m_content_focused->draw(parent_area, time_delta);
 	} else {
 		m_content_normal->draw(parent_area, time_delta);

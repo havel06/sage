@@ -19,6 +19,7 @@ private:
 	Widget_Ptr clone_impl(Layout&&) const override;
 	Array<String> split_text_to_words(const String& text);
 	String wrap_text(const String& text, int width);
+	bool is_focusable() const override { return false; }
 };
 
 }

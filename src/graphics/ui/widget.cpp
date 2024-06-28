@@ -211,4 +211,57 @@ void Layout::clear()
 	m_elements.clear();
 }
 
+bool Layout::focus_first()
+{
+	for (int i = 0; i < m_elements.size(); i++)	{
+		Widget& widget = *(m_elements[i].widget);
+		if (widget.focus_first()) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool Widget::focus_first()
+{
+	if (is_focusable()) {
+		m_focused = true;
+		return true;
+	} else {
+		return m_layout.focus_first();
+	}
+}
+
+void Widget::focus_up()
+{
+	// FIXME
+}
+
+void Widget::focus_down()
+{
+	// FIXME
+}
+
+Widget* Widget::get_focused_widget()
+{
+	if (m_focused) {
+		return this;
+	} else {
+		return m_layout.get_focused_widget();
+	}
+}
+
+Widget* Layout::get_focused_widget()
+{
+	for (int i = 0; i < m_elements.size(); i++) {
+		Widget* maybe_found = m_elements[i].widget->get_focused_widget();
+
+		if (maybe_found)
+			return maybe_found;
+	}
+
+	return nullptr;
+}
+
 }

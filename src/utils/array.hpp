@@ -3,6 +3,66 @@
 #include <assert.h>
 #include <stdlib.h>
 
+// fwd
+template<typename T>
+class Array;
+
+
+template<typename T>
+class Array_Iterator
+{
+public:	
+	Array_Iterator(Array<T>& a, int index) :
+		m_array{a},
+		m_index{index}
+	{
+	}
+
+	Array_Iterator& operator++() {
+		m_index++;
+		return *this;
+	}
+
+	T& operator*() {
+		return m_array[m_index];
+	}
+
+	bool operator==(const Array_Iterator& other) const {
+		return (&m_array == &other.m_array && m_index == other.m_index);
+	}
+private:
+	Array<T>& m_array;
+	int m_index = 0;
+};
+
+template<typename T>
+class Array_Const_Iterator
+{
+public:	
+	Array_Const_Iterator(const Array<T>& a, int index) :
+		m_array{a},
+		m_index{index}
+	{
+	}
+
+	Array_Const_Iterator& operator++() {
+		m_index++;
+		return *this;
+	}
+
+	T& operator*() {
+		return m_array[m_index];
+	}
+
+	bool operator==(const Array_Const_Iterator& other) const {
+		return (&m_array == &other.m_array && m_index == other.m_index);
+	}
+private:
+	const Array<T>& m_array;
+	int m_index = 0;
+};
+
+
 template<typename T>
 class Array
 {
@@ -32,6 +92,11 @@ public:
 
 	const T& operator[](int i) const;
 	T& operator[](int i);
+
+	Array_Iterator<T> begin();
+	Array_Iterator<T> end();
+	Array_Const_Iterator<T> begin() const;
+	Array_Const_Iterator<T> end() const;
 private:
 	T* m_data = nullptr;
 	int m_size = 0;
@@ -255,4 +320,28 @@ void Array<T>::remove(int index)
 
 	m_size--;
 	m_data[m_size].~T();
+}
+
+template<typename T>
+Array_Iterator<T> Array<T>::begin()
+{
+	return Array_Iterator<T>(*this, 0);
+}
+
+template<typename T>
+Array_Iterator<T> Array<T>::end()
+{
+	return Array_Iterator<T>(*this, m_size);
+}
+
+template<typename T>
+Array_Const_Iterator<T> Array<T>::begin() const
+{
+	return Array_Const_Iterator<T>(*this, 0);
+}
+
+template<typename T>
+Array_Const_Iterator<T> Array<T>::end() const
+{
+	return Array_Const_Iterator<T>(*this, m_size);
 }

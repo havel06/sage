@@ -25,6 +25,7 @@ src = [
   'src/graphics/ui/box.cpp',
   'src/graphics/ui/button.cpp',
   'src/graphics/ui/image.cpp',
+  'src/graphics/ui/layout.cpp',
   'src/graphics/ui/size.cpp',
   'src/graphics/ui/text.cpp',
   'src/graphics/ui/widget.cpp',

@@ -30,12 +30,14 @@ Game::Game(const Project_Description& description) :
 	Item_Registry_Loader item_registry_loader(m_resource_system.texture_manager);
 	item_registry_loader.load(m_logic.item_registry, description.path);
 
+	// FIXME - try to remove this block
 	// UI
 	GUI_Loader gui_loader(m_resource_system.font_manager, m_resource_system.texture_manager);
 	m_text_box_renderer.load(gui_loader, description.path);
 	m_quest_log_renderer.load(gui_loader, description.path);
 	m_inventory_renderer.load(gui_loader, description.path);
 	m_combat_controller.load(gui_loader, description.path);
+	m_main_menu.load(gui_loader, description.path);
 
 	// Savegame location
 	m_map_saveloader.set_save_directory("savegame");
@@ -60,6 +62,12 @@ Game::~Game()
 
 void Game::draw_frame(float time_delta)
 {
+	if (m_in_main_menu) {
+		process_main_menu_input();
+		m_main_menu.draw(time_delta);
+		return;
+	}
+
 	// FIXME - refactor this function
 	if (IsKeyPressed(KEY_F3))
 		m_dev_mode = !m_dev_mode;
@@ -118,6 +126,21 @@ void Game::process_normal_input()
 		m_logic.move_player(Direction::right);
 	} else if (IsKeyDown(KEY_LEFT)) {
 		m_logic.move_player(Direction::left);
+	}
+}
+
+void Game::process_main_menu_input()
+{
+	if (IsKeyPressed(KEY_UP)) {
+		m_main_menu.input_direction(Direction::up);
+	} else if (IsKeyPressed(KEY_DOWN)) {
+		m_main_menu.input_direction(Direction::down);
+	} else if (IsKeyPressed(KEY_RIGHT)) {
+		m_main_menu.input_direction(Direction::right);
+	} else if (IsKeyPressed(KEY_LEFT)) {
+		m_main_menu.input_direction(Direction::left);
+	} else if (IsKeyPressed(KEY_ENTER)) {
+		m_main_menu.enter();
 	}
 }
 

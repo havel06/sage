@@ -6,6 +6,7 @@
 #include "graphics/camera_controller.hpp"
 #include "graphics/combat_renderer.hpp"
 #include "graphics/inventory_renderer.hpp"
+#include "graphics/main_menu_renderer.hpp"
 #include "graphics/map_renderer.hpp"
 #include "graphics/quest_log_renderer.hpp"
 #include "graphics/text_box_renderer.hpp"
@@ -28,6 +29,7 @@ public:
 	~Game();
 	void draw_frame(float time_delta);
 private:
+	void process_main_menu_input();
 	void process_normal_input();
 	void process_combat_input();
 
@@ -49,9 +51,11 @@ private:
 	Inventory_Renderer m_inventory_renderer;
 	Combat_Renderer m_combat_renderer;
 	Quest_Log_Renderer m_quest_log_renderer;
+	Main_Menu_Renderer m_main_menu;
 
 	Dev_Tools m_dev_tools;
 
+	bool m_in_main_menu = true; // FIXME - move to game logic
 	bool m_dev_mode = false;
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;

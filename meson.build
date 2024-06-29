@@ -18,6 +18,7 @@ src = [
   'src/graphics/camera_controller.cpp',
   'src/graphics/combat_renderer.cpp',
   'src/graphics/inventory_renderer.cpp',
+  'src/graphics/main_menu_renderer.cpp',
   'src/graphics/map_renderer.cpp',
   'src/graphics/quest_log_renderer.cpp',
   'src/graphics/sprite.cpp',

@@ -192,7 +192,7 @@ bool Layout::focus_next(Direction direction, int current_row, int current_column
 {
 	switch (direction) {
 		case Direction::up:
-			for (int row = 0; row < current_row; row++) {
+			for (int row = current_row - 1; row >= 0; row--) {
 				Widget* w = get_widget_by_position(row, current_column);
 				if (w && w->focus_first()) {
 					return true;

@@ -41,8 +41,8 @@ void Combat_Controller::update_ability_menu()
 	// FIXME - safe cast
 	((UI::Text*)(m_menu_widget->get_widget_by_name("Title")))->text = hero.name;
 
-	UI::Widget* m_options_box = (m_menu_widget->get_widget_by_name("Options"));
-	m_options_box->clear_children();
+	UI::Widget* options_box = (m_menu_widget->get_widget_by_name("Options"));
+	options_box->clear_children();
 
 	// FIXME - add abilities
 	for (int i = 0; i < hero.abilities.size(); i++) {
@@ -55,10 +55,10 @@ void Combat_Controller::update_ability_menu()
 			m_selected_ability = i;
 		};
 
-		m_options_box->add_child((UI::Widget_Ptr&&)option_widget);
+		options_box->add_child((UI::Widget_Ptr&&)option_widget);
 	}
 
-	m_options_box->focus_first();
+	options_box->focus_first();
 
 	SG_DEBUG("Updated combat GUI");
 }

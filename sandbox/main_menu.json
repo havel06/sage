@@ -1,0 +1,49 @@
+{
+	"type": "box",
+	"parameters": {},
+	"layout": {
+		"columns": [
+			{
+				"automatic": true
+			},
+			{
+				"automatic": true
+			},
+			{
+				"automatic": true
+			}
+		],
+		"rows": [
+			{
+				"automatic": true
+			},
+			{
+				"parent_height": 0.8
+			},
+			{
+				"automatic": true
+			}
+		]
+	},
+	"children": [
+		{
+			"type": "box",
+			"name": "Options",
+			"row": 1,
+			"column": 1,
+			"parameters": {},
+			"layout": {
+				"rows": [
+					{
+						"pixels": 80
+					}
+				],
+				"columns": [
+					{
+						"automatic": true
+					}
+				]
+			}
+		}
+	]
+}

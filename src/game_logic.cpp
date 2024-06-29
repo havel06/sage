@@ -1,5 +1,5 @@
 #include "game_logic.hpp"
-#include "combat.hpp"
+#include "combat/combat.hpp"
 #include "map/entity.hpp"
 #include "sequence/sequence.hpp"
 #include "game_facade.hpp"

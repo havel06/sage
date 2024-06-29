@@ -1,7 +1,7 @@
 #include "combat_renderer.hpp"
 #include "party.hpp"
 #include "utils/rect.hpp"
-#include "combat.hpp"
+#include "combat/combat.hpp"
 #include <raylib/raylib.h>
 
 Combat_Renderer::Combat_Renderer(const Party& party, const Combat& combat) :

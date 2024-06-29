@@ -7,7 +7,7 @@
 #include "item/item_registry.hpp"
 #include "party.hpp"
 #include "text_box.hpp"
-#include "combat.hpp"
+#include "combat/combat.hpp"
 #include "quest/quest_log.hpp"
 
 // fwd

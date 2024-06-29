@@ -17,7 +17,7 @@
 #include "map/map.hpp"
 #include "music_player.hpp"
 #include "sequence/sequence.hpp"
-#include "combat_controller.hpp"
+#include "combat/combat_controller.hpp"
 
 struct Project_Description;
 

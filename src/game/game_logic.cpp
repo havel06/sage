@@ -16,8 +16,10 @@ void Game_Logic::update(float time_delta)
 	switch (m_state) {
 		case Game_Logic_State::normal:
 			m_state_normal.update(time_delta);
+			break;
 		case Game_Logic_State::combat:
-			m_state_normal.update(time_delta);
+			m_state_combat.update(time_delta);
+			break;
 		case Game_Logic_State::main_menu:
 			break; // Main menu is handled in rendering
 		case Game_Logic_State::exit:

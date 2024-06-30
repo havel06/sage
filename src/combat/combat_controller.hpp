@@ -12,14 +12,13 @@ enum class Combat_Controller_State
 	selecting_enemy,
 };
 
-// FIXME - refactor this after switching to new UI system
 // FIXME - move some rendering (future effects and such) into cobmat_renderer
 
 class Combat_Controller : public Combat_Observer
 {
 public:
 	Combat_Controller(Combat&);
-	void load(GUI_Loader&, const String& project_root);
+	void load(GUI_Loader&, const String& project_root, const String& menu_filename, const String& option_filename);
 	void input_direction(Direction);
 	void enter();
 	void draw();

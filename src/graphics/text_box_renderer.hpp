@@ -12,7 +12,7 @@ class Text_Box_Renderer
 public:
 	Text_Box_Renderer(const Text_Box&);
 	void draw();
-	void load(GUI_Loader&, const String& project_root);
+	void load(GUI_Loader&, const String& project_root, const String& filename);
 private:
 	const Text_Box& m_text_box;
 	UI::Widget_Ptr m_widget;

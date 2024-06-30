@@ -17,14 +17,16 @@ Combat_Controller::Combat_Controller(Combat& combat) :
 	m_combat.add_observer(*this);
 }
 
-void Combat_Controller::load(GUI_Loader& loader, const String& project_root)
+void Combat_Controller::load(GUI_Loader& loader, const String& project_root, const String& menu_filename, const String& option_filename)
 {
 	String menu_path = project_root;
-	menu_path.append("/combat_menu.json");
+	menu_path.append("/");
+	menu_path.append(menu_filename);
 	m_menu_widget = loader.load(menu_path.data());
 
 	String button_path = project_root;
-	button_path.append("/combat_button.json");
+	button_path.append("/");
+	button_path.append(option_filename);
 	m_option_widget = loader.load(button_path.data());
 }
 

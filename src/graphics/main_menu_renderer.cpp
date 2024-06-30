@@ -11,14 +11,16 @@ Main_Menu_Renderer::Main_Menu_Renderer(Game_Logic& logic) :
 {
 }
 
-void Main_Menu_Renderer::load(GUI_Loader& loader, const String& project_root)
+void Main_Menu_Renderer::load(GUI_Loader& loader, const String& project_root, const String& menu_filename, const String& option_filename)
 {
 	String menu_path = project_root;
-	menu_path.append("/main_menu.json");
+	menu_path.append("/");
+	menu_path.append(menu_filename);
 	m_widget = loader.load(menu_path.data());
 
 	String button_path = project_root;
-	button_path.append("/main_menu_button.json");
+	button_path.append("/");
+	button_path.append(option_filename);
 	auto button_widget = loader.load(button_path.data());
 
 	UI::Widget* options_box = (m_widget->get_widget_by_name("Options"));

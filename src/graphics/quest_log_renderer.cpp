@@ -9,13 +9,15 @@ Quest_Log_Renderer::Quest_Log_Renderer(const Quest_Log& log) :
 {
 }
 
-void Quest_Log_Renderer::load(GUI_Loader& gui_loader, const String& project_root)
+void Quest_Log_Renderer::load(GUI_Loader& gui_loader, const String& project_root, const String& questlog_filename, const String& quest_filename)
 {
 	String log_path = project_root;
-	log_path.append("/quest_log.json");
+	log_path.append("/");
+	log_path.append(questlog_filename);
 
 	String quest_path = project_root;
-	quest_path.append("/quest.json");
+	quest_path.append("/");
+	quest_path.append(quest_filename);
 
 	m_log_widget = gui_loader.load(log_path.data());
 	m_quest_widget = gui_loader.load(quest_path.data());

@@ -38,11 +38,11 @@ Game::Game(const Project_Description& description) :
 	// FIXME - try to remove this block
 	// UI
 	GUI_Loader gui_loader(m_resource_system.font_manager, m_resource_system.texture_manager);
-	m_text_box_renderer.load(gui_loader, description.path);
-	m_quest_log_renderer.load(gui_loader, description.path);
-	m_inventory_renderer.load(gui_loader, description.path);
-	m_combat_controller.load(gui_loader, description.path);
-	m_main_menu.load(gui_loader, description.path);
+	m_text_box_renderer.load(gui_loader, description.path, description.gui_description.textbox_path);
+	m_quest_log_renderer.load(gui_loader, description.path, description.gui_description.quest_log_path, description.gui_description.quest_path);
+	m_inventory_renderer.load(gui_loader, description.path, description.gui_description.inventory_path, description.gui_description.inventory_slot_path);
+	m_combat_controller.load(gui_loader, description.path, description.gui_description.combat_menu_path, description.gui_description.combat_option_path);
+	m_main_menu.load(gui_loader, description.path, description.gui_description.main_menu_path, description.gui_description.main_menu_option_path);
 
 	// Savegame location
 	m_map_saveloader.set_save_directory("savegame");

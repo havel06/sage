@@ -47,13 +47,15 @@ void Inventory_Renderer::draw()
 	m_main_widget->draw_as_root(0);
 }
 
-void Inventory_Renderer::load(GUI_Loader& loader, const String& project_root)
+void Inventory_Renderer::load(GUI_Loader& loader, const String& project_root, const String& gui_filename, const String& gui_slot_filename)
 {
 	String slot_path = project_root;
-	slot_path.append("/inventory_slot.json");
+	slot_path.append("/");
+	slot_path.append(gui_slot_filename);
 
 	String main_widget_path = project_root;
-	main_widget_path.append("/inventory.json");
+	main_widget_path.append("/");
+	main_widget_path.append(gui_filename);
 
 	m_slot_widget = loader.load(slot_path.data());
 	m_main_widget = loader.load(main_widget_path.data());

@@ -1,5 +1,16 @@
 {
 	"name": "Sandbox",
 	"sequence": "sequences/start.json",
-	"default_character": "characters/link.json"
+	"default_character": "characters/link.json",
+	"gui": {
+		"textbox": "gui/textbox.json",
+		"inventory": "gui/inventory.json",
+		"inventory_slot": "gui/inventory_slot.json",
+		"combat_menu": "gui/combat_menu.json",
+		"combat_option": "gui/combat_button.json",
+		"quest_log": "gui/quest_log.json",
+		"quest": "gui/quest.json",
+		"main_menu": "gui/main_menu.json",
+		"main_menu_option": "gui/main_menu_button.json"
+	}
 }

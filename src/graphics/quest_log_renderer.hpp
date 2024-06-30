@@ -10,7 +10,7 @@ class Quest_Log_Renderer
 {
 public:
 	Quest_Log_Renderer(const Quest_Log&);
-	void load(GUI_Loader&, const String& project_root);
+	void load(GUI_Loader&, const String& project_root, const String& questlog_filename, const String& quest_filename);
 	void draw();
 private:
 	const Quest_Log& m_quest_log;

@@ -9,7 +9,7 @@ class Main_Menu_Renderer
 {
 public:
 	Main_Menu_Renderer(Game_Logic&);
-	void load(GUI_Loader&, const String& project_root);
+	void load(GUI_Loader&, const String& project_root, const String& menu_filename, const String& option_filename);
 	void input_direction(Direction);
 	void enter();
 	void draw(float time_delta);

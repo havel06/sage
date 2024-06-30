@@ -1,5 +1,7 @@
 #include "game_facade.hpp"
 #include "character_profile.hpp"
+#include "combat/battle_desc.hpp"
+#include "game/game_logic.hpp"
 #include "io/savegame/map_saveloader.hpp"
 #include "io/savegame/sequence_saveloader.hpp"
 #include "io/savegame/game_saveloader.hpp"
@@ -19,14 +21,16 @@ Game_Facade::Game_Facade(
 		Game_Logic_State_Normal& logic,
 		Camera_Controller& controller,
 		Map_Saveloader& map_saveloader,
-		Game_Saveloader& game_saveloader) :
+		Game_Saveloader& game_saveloader,
+		Game_Logic& game_logic) :
 	m_map_manager{map_mgr},
 	m_sequence_manager{seq_mgr},
 	m_music_player{music_player},
 	m_logic{logic},
 	m_camera_controller{controller},
 	m_map_saveloader{map_saveloader},
-	m_game_saveloader{game_saveloader}
+	m_game_saveloader{game_saveloader},
+	m_game_logic{game_logic}
 {
 }
 
@@ -198,10 +202,9 @@ void Game_Facade::add_to_party(const Character_Profile& profile)
 	m_logic.party.add_character(profile);
 }
 
-void Game_Facade::enter_combat(const Array<Character_Profile>& enemies, Sequence& win_sequence)
+void Game_Facade::enter_combat(const Battle_Description& description)
 {
-	m_logic.combat.start_battle(enemies, win_sequence);
-	m_logic.in_combat = true;
+	m_game_logic.enter_combat(description);
 }
 
 void Game_Facade::add_quest(const String& id, const String& name, const String& description)

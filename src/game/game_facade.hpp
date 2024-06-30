@@ -1,6 +1,7 @@
 #pragma once
 
 #include "character_profile.hpp"
+#include "combat/battle_desc.hpp"
 #include "utils/direction.hpp"
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
@@ -17,6 +18,7 @@ class Camera_Controller;
 class Map_Saveloader;
 class Sequence_Saveloader;
 class Game_Saveloader;
+class Game_Logic;
 
 
 // FIXME - maybe too many responsibilities
@@ -26,7 +28,7 @@ class Game_Facade
 {
 public:
 	// FIXME - maybe too many arguments
-	Game_Facade(Map_Manager&, Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&);
+	Game_Facade(Map_Manager&, Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&);
 	void set_current_map(const String& filename);
 	const String& get_current_map_path(); // FIXME - should this be here?
 	void teleport_player(Vec2i position);
@@ -44,7 +46,7 @@ public:
 	void set_entity_sprite(const String& entity_name, const Sprite& sprite);
 	void play_music(Sound);
 	void add_to_party(const Character_Profile&);
-	void enter_combat(const Array<Character_Profile>& enemies, Sequence& win_sequence);
+	void enter_combat(const Battle_Description&);
 	void add_quest(const String& id, const String& name, const String& description);
 	void finish_quest(const String& id);
 	void zoom_camera(int amount);
@@ -59,4 +61,5 @@ private:
 	Camera_Controller& m_camera_controller;
 	Map_Saveloader& m_map_saveloader;
 	Game_Saveloader& m_game_saveloader;
+	Game_Logic& m_game_logic;
 };

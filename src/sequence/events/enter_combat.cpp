@@ -1,18 +1,19 @@
 #include "enter_combat.hpp"
+#include "combat/battle_desc.hpp"
 #include "game/game_facade.hpp"
 
 namespace Events
 {
 
-Enter_Combat::Enter_Combat(Game_Facade& facade, Array<Character_Profile>&& enemies, Sequence& win_sequence) :
-	Event{facade}, m_win_sequence{win_sequence}
+Enter_Combat::Enter_Combat(Game_Facade& facade, Battle_Description&& description) :
+	Event{facade},
+	m_description{(Battle_Description&&)description}
 {
-	m_enemies = (Array<Character_Profile>&&)enemies;
 }
 
 void Enter_Combat::update(float)
 {
-	m_game_facade.enter_combat(m_enemies, m_win_sequence);
+	m_game_facade.enter_combat(m_description);
 	m_activated = true;
 }
 

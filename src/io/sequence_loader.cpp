@@ -1,5 +1,6 @@
 #include "sequence_loader.hpp"
 #include "character_profile.hpp"
+#include "combat/battle_desc.hpp"
 #include "sequence/conditions/has_item.hpp"
 #include "sequence/conditions/not.hpp"
 #include "sequence/events/activate_sequence.hpp"
@@ -152,7 +153,8 @@ Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json)
 			Character_Profile enemy = m_resource_system.character_profile_manager.get(value.as_string(), false);
 			enemies.push_back(enemy);
 		});
-		loaded_event = make_own_ptr<Events::Enter_Combat>(m_facade, (Array<Character_Profile>&&)enemies, win_sequence);
+		Battle_Description battle_desc{(Array<Character_Profile>&&)enemies, win_sequence};
+		loaded_event = make_own_ptr<Events::Enter_Combat>(m_facade, (Battle_Description&&)battle_desc);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		loaded_event = make_own_ptr<Events::Dummy>(m_facade);

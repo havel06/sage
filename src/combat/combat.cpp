@@ -1,6 +1,7 @@
 #include "combat.hpp"
 #include "ability.hpp"
 #include "character_profile.hpp"
+#include "combat/battle_desc.hpp"
 #include "combat_ai.hpp"
 #include "party.hpp"
 #include "sequence/sequence.hpp"
@@ -32,9 +33,9 @@ void Combat::remove_observer(Combat_Observer& observer)
 	}
 }
 
-void Combat::start_battle(const Array<Character_Profile>& enemies, Sequence& win_sequence)
+void Combat::start_battle(const Battle_Description& description)
 {
-	m_win_sequence = &win_sequence;
+	m_win_sequence = &description.win_sequence;
 
 	m_heroes.clear();
 	m_enemies.clear();
@@ -43,8 +44,8 @@ void Combat::start_battle(const Array<Character_Profile>& enemies, Sequence& win
 		m_heroes.push_back(Combat_Unit{m_party.get_character(i)});
 	}
 
-	for (int i = 0; i < enemies.size(); i++) {
-		m_enemies.push_back(Combat_Unit{enemies[i]});
+	for (const Character_Profile& enemy : description.enemies) {
+		m_enemies.push_back(Combat_Unit{enemy});
 	}
 
 	m_is_hero_turn = true;

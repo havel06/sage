@@ -1,6 +1,8 @@
 #pragma once
 
 #include "dev_tools/dev_tools.hpp"
+#include "game_logic.hpp"
+#include "game_logic_state_combat.hpp"
 #include "game_logic_state_normal.hpp"
 #include "graphics/camera.hpp"
 #include "graphics/camera_controller.hpp"
@@ -36,8 +38,10 @@ private:
 	Game_Facade m_game_facade;
 	Sequence_Loader m_sequence_loader;
 	Resource_System m_resource_system;
-	Game_Logic_State_Normal m_logic;
-	Map_Renderer m_map_renderer;
+	Combat m_combat;
+	Game_Logic_State_Normal m_logic_normal;
+	Game_Logic_State_Combat m_logic_combat;
+	Game_Logic m_logic;
 	Music_Player m_music_player;
 	Combat_Controller m_combat_controller;
 	Map_Saveloader m_map_saveloader;
@@ -46,6 +50,7 @@ private:
 
 	// Rendering
 	Game_Camera m_camera;
+	Map_Renderer m_map_renderer;
 	Camera_Controller m_camera_controller;
 	Text_Box_Renderer m_text_box_renderer;
 	Inventory_Renderer m_inventory_renderer;

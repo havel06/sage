@@ -13,6 +13,8 @@ src = [
   'src/dev_tools/mode_sequence.cpp',
   'src/game/game.cpp',
   'src/game/game_facade.cpp',
+  'src/game/game_logic.cpp',
+  'src/game/game_logic_state_combat.cpp',
   'src/game/game_logic_state_normal.cpp',
   'src/graphics/camera.cpp',
   'src/graphics/camera_controller.cpp',

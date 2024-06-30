@@ -2,6 +2,7 @@
 
 #include "character_profile.hpp"
 #include "utils/array.hpp"
+#include "battle_desc.hpp"
 
 class Party;
 class Sequence;
@@ -41,7 +42,7 @@ public:
 
 	bool is_hero_turn() const { return m_is_hero_turn; }
 
-	void start_battle(const Array<Character_Profile>& enemies, Sequence& win_sequence);
+	void start_battle(const Battle_Description&);
 	void use_ability(int ability_index, int target_index);
 
 	int get_enemy_count() const;

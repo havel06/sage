@@ -6,42 +6,31 @@
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
 
-Game_Logic_State_Normal::Game_Logic_State_Normal() :
-	combat(party)
+Game_Logic_State_Normal::Game_Logic_State_Normal()
 {
 	map = &m_empty_map;
 }
 
 void Game_Logic_State_Normal::update(float time_delta)
 {
-	if (in_combat) {
-		// Combat mode
-		combat.update();
-		Combat_Result result = combat.get_current_result();
-		if (result == Combat_Result::won || result == Combat_Result::lost) {
-			in_combat = false;
-		}
-	} else {
-		// Normal mode
-		text_box.update(time_delta);
-		
-		assert(start_sequence);
-		start_sequence->update(time_delta);
+	text_box.update(time_delta);
+	
+	assert(start_sequence);
+	start_sequence->update(time_delta);
 
-		Entity& player = get_player();
+	Entity& player = get_player();
 
-		assert(map);
-		for (int i = 0; i < map->entities.get_entity_count(); i++) {
-			Entity& entity = map->entities.get_entity(i);
-			entity.update(time_delta);
+	assert(map);
+	for (int i = 0; i < map->entities.get_entity_count(); i++) {
+		Entity& entity = map->entities.get_entity(i);
+		entity.update(time_delta);
 
-			// Area triggers
-			if (entity.area_trigger &&
-				entity.assigned_sequence &&
-				entity.get_bounding_box().contains(player.position))
-			{
-				entity.assigned_sequence->try_activate();
-			}
+		// Area triggers
+		if (entity.area_trigger &&
+			entity.assigned_sequence &&
+			entity.get_bounding_box().contains(player.position))
+		{
+			entity.assigned_sequence->try_activate();
 		}
 	}
 }

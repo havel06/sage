@@ -7,7 +7,6 @@
 #include "item/item_registry.hpp"
 #include "party.hpp"
 #include "text_box.hpp"
-#include "combat/combat.hpp"
 #include "quest/quest_log.hpp"
 
 // fwd
@@ -24,14 +23,12 @@ public:
 	Item_Registry item_registry;
 	Inventory inventory;
 	Sequence* start_sequence = nullptr;
-	Combat combat;
 	Quest_Log quest_log;
 	bool player_actions_disabled = false;
-	bool in_combat = false;
 
 	Game_Logic_State_Normal();
 
-	void update(float time_delta);
+	void update(float time_delta); // Should only be called by Game_Logic
 	Entity& get_player();
 	void player_interact();
 	void move_player(Direction direction);

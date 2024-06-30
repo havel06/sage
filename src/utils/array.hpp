@@ -50,7 +50,7 @@ public:
 		return *this;
 	}
 
-	T& operator*() {
+	const T& operator*() {
 		return m_array[m_index];
 	}
 

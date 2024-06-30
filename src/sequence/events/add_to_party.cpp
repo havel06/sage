@@ -1,5 +1,5 @@
 #include "add_to_party.hpp"
-#include "game_facade.hpp"
+#include "game/game_facade.hpp"
 
 namespace Events
 {

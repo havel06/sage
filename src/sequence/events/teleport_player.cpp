@@ -1,5 +1,5 @@
 #include "teleport_player.hpp"
-#include "game_facade.hpp"
+#include "game/game_facade.hpp"
 
 namespace Events
 {

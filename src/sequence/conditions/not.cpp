@@ -1,5 +1,5 @@
 #include "not.hpp"
-#include "game_facade.hpp"
+#include "game/game_facade.hpp"
 #include "sequence/condition.hpp"
 
 namespace Conditions

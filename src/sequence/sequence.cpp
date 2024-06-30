@@ -1,5 +1,5 @@
 #include "sequence.hpp"
-#include "game_facade.hpp"
+#include "game/game_facade.hpp"
 #include "utils/log.hpp"
 
 Sequence::Sequence(const String& path)

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../event.hpp"
-#include "game_facade.hpp"
 #include "utils/string.hpp"
 #include <raylib/raylib.h>
 

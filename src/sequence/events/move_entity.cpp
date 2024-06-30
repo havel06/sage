@@ -2,7 +2,7 @@
 #include "sequence/events/move_entity.hpp"
 #include "utils/direction.hpp"
 #include "map/entity.hpp"
-#include "game_facade.hpp"
+#include "game/game_facade.hpp"
 #include "utils/log.hpp"
 
 namespace Events

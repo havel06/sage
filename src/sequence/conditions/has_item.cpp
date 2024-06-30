@@ -1,5 +1,5 @@
 #include "has_item.hpp"
-#include "game_facade.hpp"
+#include "game/game_facade.hpp"
 
 namespace Conditions
 {

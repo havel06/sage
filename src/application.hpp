@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game.hpp"
+#include "game/game.hpp"
 
 class Application
 {

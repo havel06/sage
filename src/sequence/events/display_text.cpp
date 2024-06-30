@@ -1,5 +1,5 @@
 #include "display_text.hpp"
-#include "game_facade.hpp"
+#include "game/game_facade.hpp"
 #include "utils/log.hpp"
 
 namespace Events

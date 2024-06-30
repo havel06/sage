@@ -6,7 +6,7 @@
 #include "map/entity.hpp"
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
-#include "game_logic.hpp"
+#include "game_logic_state_normal.hpp"
 #include "music_player.hpp"
 #include "graphics/camera_controller.hpp"
 #include "io/resource/map_manager.hpp"
@@ -16,7 +16,7 @@ Game_Facade::Game_Facade(
 		Map_Manager& map_mgr,
 		Sequence_Manager& seq_mgr,
 		Music_Player& music_player,
-		Game_Logic& logic,
+		Game_Logic_State_Normal& logic,
 		Camera_Controller& controller,
 		Map_Saveloader& map_saveloader,
 		Game_Saveloader& game_saveloader) :

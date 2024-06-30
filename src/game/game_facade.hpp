@@ -9,7 +9,7 @@
 
 class Map_Manager;
 class Sequence_Manager;
-class Game_Logic;
+class Game_Logic_State_Normal;
 class Music_Player;
 class Sprite;
 class Sequence;
@@ -26,7 +26,7 @@ class Game_Facade
 {
 public:
 	// FIXME - maybe too many arguments
-	Game_Facade(Map_Manager&, Sequence_Manager&, Music_Player&, Game_Logic&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&);
+	Game_Facade(Map_Manager&, Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&);
 	void set_current_map(const String& filename);
 	const String& get_current_map_path(); // FIXME - should this be here?
 	void teleport_player(Vec2i position);
@@ -55,7 +55,7 @@ private:
 	Map_Manager& m_map_manager;
 	Sequence_Manager& m_sequence_manager;
 	Music_Player& m_music_player;
-	Game_Logic& m_logic;
+	Game_Logic_State_Normal& m_logic;
 	Camera_Controller& m_camera_controller;
 	Map_Saveloader& m_map_saveloader;
 	Game_Saveloader& m_game_saveloader;

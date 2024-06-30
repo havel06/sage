@@ -1,4 +1,4 @@
-#include "game_logic.hpp"
+#include "game_logic_state_normal.hpp"
 #include "combat/combat.hpp"
 #include "map/entity.hpp"
 #include "sequence/sequence.hpp"
@@ -6,13 +6,13 @@
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
 
-Game_Logic::Game_Logic() :
+Game_Logic_State_Normal::Game_Logic_State_Normal() :
 	combat(party)
 {
 	map = &m_empty_map;
 }
 
-void Game_Logic::update(float time_delta)
+void Game_Logic_State_Normal::update(float time_delta)
 {
 	if (in_combat) {
 		// Combat mode
@@ -46,14 +46,14 @@ void Game_Logic::update(float time_delta)
 	}
 }
 
-Entity& Game_Logic::get_player()
+Entity& Game_Logic_State_Normal::get_player()
 {
 	Entity* player_ptr = map->entities.get_entity(party.main_character().name);
 	assert(player_ptr);
 	return *player_ptr;
 }
 
-void Game_Logic::player_interact()
+void Game_Logic_State_Normal::player_interact()
 {
 	if (player_actions_disabled)
 		return;
@@ -74,7 +74,7 @@ void Game_Logic::player_interact()
 	target_entity->assigned_sequence->try_activate();
 }
 
-void Game_Logic::move_player(Direction direction)
+void Game_Logic_State_Normal::move_player(Direction direction)
 {
 	if (player_actions_disabled)
 		return;

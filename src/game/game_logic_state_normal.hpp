@@ -15,7 +15,7 @@ class Sequence;
 class Resource_Manager_old;
 class Music_Player;
 
-class Game_Logic
+class Game_Logic_State_Normal
 {
 public:
 	Map* map = nullptr; // TODO - shouldn't map be private?
@@ -29,7 +29,7 @@ public:
 	bool player_actions_disabled = false;
 	bool in_combat = false;
 
-	Game_Logic();
+	Game_Logic_State_Normal();
 
 	void update(float time_delta);
 	Entity& get_player();

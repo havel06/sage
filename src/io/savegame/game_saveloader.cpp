@@ -75,6 +75,15 @@ void Game_Saveloader::load()
 	SG_INFO("Loaded game state.");
 }
 
+void Game_Saveloader::new_game()
+{
+	if (!file_exists(m_savefile_path))
+		return;
+
+	String folder = remove_filename(m_savefile_path);
+	remove_directory(folder);
+}
+
 JSON::Array Game_Saveloader::serialise_active_sequences()
 {
 	JSON::Array json;

@@ -10,12 +10,13 @@
 #include <raylib/raylib.h>
 
 Game::Game(const Project_Description& description) :
-	m_game_facade(m_resource_system.map_manager, m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic),
+	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic),
 	m_sequence_loader(m_resource_system, m_game_facade),
 	m_resource_system(description.path, m_sequence_loader, m_sequence_saveloader),
 	m_combat(m_logic_normal.party),
+	m_logic_normal(m_resource_system.sequence_manager,m_map_saveloader, m_resource_system.map_manager, description.start_sequence),
 	m_logic_combat(m_logic, m_combat),
-	m_logic{m_logic_normal, m_logic_combat},
+	m_logic{m_game_saveloader, m_logic_normal, m_logic_combat},
 	m_combat_controller(m_combat),
 	m_map_saveloader(m_resource_system.texture_manager, description.path),
 	m_sequence_saveloader(description.path),
@@ -50,13 +51,6 @@ Game::Game(const Project_Description& description) :
 
 	// Set up main character profile
 	m_logic_normal.party.main_character() = m_resource_system.character_profile_manager.get(description.default_character.data(), false);
-
-	// Load savegame
-	m_game_saveloader.load();
-
-	// FIXME - refactor?
-	m_logic_normal.start_sequence = &m_resource_system.sequence_manager.get(description.start_sequence.data(), false);
-	m_logic_normal.start_sequence->try_activate();
 }
 
 Game::~Game()
@@ -82,10 +76,9 @@ void Game::draw_frame(float time_delta)
 		m_dev_mode = !m_dev_mode;
 
 	if (m_dev_mode) {
-		m_camera_controller.update(*m_logic_normal.map, m_logic_normal.get_player());
-		assert(m_logic_normal.map);
-		m_map_renderer.draw(*m_logic_normal.map, m_camera);
-		m_dev_tools.draw(*m_logic_normal.map);
+		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player());
+		m_map_renderer.draw(m_logic_normal.get_map(), m_camera);
+		m_dev_tools.draw(m_logic_normal.get_map());
 		return;
 	}
 
@@ -95,10 +88,8 @@ void Game::draw_frame(float time_delta)
 	if (m_logic.get_state() == Game_Logic_State::normal) {
 		// Normal mode
 		process_normal_input();
-		assert(m_logic_normal.map);
-		m_resource_system.sequence_manager.update(time_delta); // FIXME - somehow refactor this into game logic
-		m_camera_controller.update(*m_logic_normal.map, m_logic_normal.get_player());
-		m_map_renderer.draw(*m_logic_normal.map, m_camera);
+		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player());
+		m_map_renderer.draw(m_logic_normal.get_map(), m_camera);
 		m_text_box_renderer.draw();
 
 		if (m_show_inventory) {

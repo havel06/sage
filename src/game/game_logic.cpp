@@ -2,8 +2,10 @@
 #include "game/game_logic_state_normal.hpp"
 #include "game/game_logic_state_combat.hpp"
 #include "combat/battle_desc.hpp"
+#include "io/savegame/game_saveloader.hpp"
 
-Game_Logic::Game_Logic(Game_Logic_State_Normal& normal, Game_Logic_State_Combat& combat) :
+Game_Logic::Game_Logic(Game_Saveloader& saveloader, Game_Logic_State_Normal& normal, Game_Logic_State_Combat& combat) :
+	m_saveloader{saveloader},
 	m_state_normal{normal},
 	m_state_combat{combat}
 {
@@ -30,12 +32,14 @@ void Game_Logic::exit_game()
 
 void Game_Logic::continue_game()
 {
-	// FIXME
+	m_saveloader.load();
+	m_state = Game_Logic_State::normal;
 }
 
 void Game_Logic::new_game()
 {
-	// FIXME
+	m_saveloader.new_game();
+	m_state = Game_Logic_State::normal;
 }
 
 void Game_Logic::enter_combat(const Battle_Description& description)

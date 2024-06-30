@@ -41,6 +41,11 @@ void create_directory(const String& path)
 	create_directory(path.data());
 }
 
+void remove_directory(const String& path)
+{
+	std::filesystem::remove_all(path.data());
+}
+
 String get_relative_path(const String& path, const String& base)
 {
 	return std::filesystem::relative(path.data(), base.data()).string().data();

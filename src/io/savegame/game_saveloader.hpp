@@ -22,6 +22,7 @@ public:
 
 	void save();
 	void load();
+	void new_game();
 private:
 	JSON::Array serialise_active_sequences();
 	void load_active_sequences(const JSON::Array_View&);

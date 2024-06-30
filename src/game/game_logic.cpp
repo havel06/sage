@@ -16,9 +16,27 @@ void Game_Logic::update(float time_delta)
 			m_state_normal.update(time_delta);
 		case Game_Logic_State::combat:
 			m_state_normal.update(time_delta);
+		case Game_Logic_State::main_menu:
+			break; // Main menu is handled in rendering
+		case Game_Logic_State::exit:
+			break; // Do nothing
 	}
 }
 
+void Game_Logic::exit_game()
+{
+	m_state = Game_Logic_State::exit;
+}
+
+void Game_Logic::continue_game()
+{
+	// FIXME
+}
+
+void Game_Logic::new_game()
+{
+	// FIXME
+}
 
 void Game_Logic::enter_combat(const Battle_Description& description)
 {

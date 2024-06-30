@@ -4,6 +4,12 @@
 #include "ui/button.hpp"
 #include "io/gui_loader.hpp"
 #include "utils/log.hpp"
+#include "game/game_logic.hpp"
+
+Main_Menu_Renderer::Main_Menu_Renderer(Game_Logic& logic) :
+	m_logic{logic}
+{
+}
 
 void Main_Menu_Renderer::load(GUI_Loader& loader, const String& project_root)
 {
@@ -28,9 +34,17 @@ void Main_Menu_Renderer::load(GUI_Loader& loader, const String& project_root)
 		options_box->add_child((UI::Widget_Ptr&&)option_widget);
 	};
 
-	add_option("Continue", [](){});
-	add_option("New Game", [](){});
-	add_option("Exit", [](){});
+	add_option("Continue", [this](){
+		m_logic.continue_game();
+	});
+
+	add_option("New Game", [this](){
+		m_logic.new_game();
+	});
+
+	add_option("Exit", [this](){
+		m_logic.exit_game();
+	});
 
 	m_widget->focus_first();
 }

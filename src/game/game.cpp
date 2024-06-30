@@ -25,6 +25,7 @@ Game::Game(const Project_Description& description) :
 	m_inventory_renderer(m_logic_normal.item_registry, m_logic_normal.inventory),
 	m_combat_renderer(m_logic_normal.party, m_combat),
 	m_quest_log_renderer(m_logic_normal.quest_log),
+	m_main_menu(m_logic),
 	m_dev_tools(m_game_facade, m_resource_system.sequence_manager, description.path)
 {
 	// FIXME - make the constructor smaller by injecting into member classes via their constructors
@@ -63,9 +64,14 @@ Game::~Game()
 	m_game_facade.save_game();
 }
 
+bool Game::should_exit() const
+{
+	return m_logic.get_state() == Game_Logic_State::exit;
+}
+
 void Game::draw_frame(float time_delta)
 {
-	if (m_in_main_menu) {
+	if (m_logic.get_state() == Game_Logic_State::main_menu) {
 		process_main_menu_input();
 		m_main_menu.draw(time_delta);
 		return;

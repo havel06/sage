@@ -30,6 +30,7 @@ public:
 	Game(const Project_Description&);
 	~Game();
 	void draw_frame(float time_delta);
+	bool should_exit() const;
 private:
 	void process_main_menu_input();
 	void process_normal_input();
@@ -60,7 +61,6 @@ private:
 
 	Dev_Tools m_dev_tools;
 
-	bool m_in_main_menu = true; // FIXME - move to game logic
 	bool m_dev_mode = false;
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;

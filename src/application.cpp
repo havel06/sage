@@ -27,7 +27,7 @@ void Application::run(int argc, const char* argv[])
 
 	Game game(description);
 
-	while (!WindowShouldClose()) {
+	while (!WindowShouldClose() && !game.should_exit()) {
 		BeginDrawing();
 		ClearBackground(BLACK);
 		game.draw_frame(GetFrameTime());

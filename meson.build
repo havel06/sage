@@ -16,6 +16,7 @@ src = [
   'src/game/game_logic.cpp',
   'src/game/game_logic_state_combat.cpp',
   'src/game/game_logic_state_normal.cpp',
+  'src/graphics/animated_sprite.cpp',
   'src/graphics/camera.cpp',
   'src/graphics/camera_controller.cpp',
   'src/graphics/combat_renderer.cpp',

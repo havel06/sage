@@ -10,16 +10,16 @@ Combat_Renderer::Combat_Renderer(const Party& party, const Combat& combat) :
 {
 }
 
-void Combat_Renderer::draw()
+void Combat_Renderer::draw(float dt)
 {
-	draw_party();
-	draw_enemies();
+	draw_party(dt);
+	draw_enemies(dt);
 
 	ClearBackground(SKYBLUE);
 	DrawText("combat!", 100, 100, 50, WHITE);
 }
 
-void Combat_Renderer::draw_party()
+void Combat_Renderer::draw_party(float dt)
 {
 	int x = GetScreenWidth() / 5;
 	int y = GetScreenHeight() / 6;
@@ -35,14 +35,14 @@ void Combat_Renderer::draw_party()
 
 		const Combat_Unit& unit = m_combat.get_hero(i);
 
-		unit.character.sprite_right.draw(transform);
+		unit.character.sprite_right.draw(transform, dt);
 		draw_hp_bar({x, y}, size, unit);
 
 		y += size + margin;
 	}
 }
 
-void Combat_Renderer::draw_enemies()
+void Combat_Renderer::draw_enemies(float dt)
 {
 	const int size = GetScreenHeight() / 8;
 	const int margin = size / 3;
@@ -58,7 +58,7 @@ void Combat_Renderer::draw_enemies()
 
 		const Combat_Unit& unit = m_combat.get_enemy(i);
 
-		unit.character.sprite_right.draw(transform);
+		unit.character.sprite_right.draw(transform, dt);
 		draw_hp_bar({x, y}, size, unit);
 
 		y += size + margin;

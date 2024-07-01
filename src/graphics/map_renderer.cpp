@@ -8,7 +8,7 @@
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
 
-void Map_Renderer::draw(const Map& map, const Game_Camera& camera)
+void Map_Renderer::draw(const Map& map, const Game_Camera& camera, float dt)
 {
 	BeginMode2D(camera.to_ray_cam());
 
@@ -17,7 +17,7 @@ void Map_Renderer::draw(const Map& map, const Game_Camera& camera)
 	}
 
 	for (int i = 0; i < map.entities.get_entity_count(); i++) {
-		draw_entity(map.entities.get_entity(i));
+		draw_entity(map.entities.get_entity(i), dt);
 	}
 
 	EndMode2D();
@@ -42,7 +42,7 @@ void Map_Renderer::draw_tile(const Tile& tile, Vec2i position)
 	tile.sprite.draw(transform);
 }
 
-void Map_Renderer::draw_entity(const Entity& entity)
+void Map_Renderer::draw_entity(const Entity& entity, float time_delta)
 {
 	Rectf transform = Rectf{
 		.position = entity.get_subgrid_position(),
@@ -59,16 +59,16 @@ void Map_Renderer::draw_entity(const Entity& entity)
 
 		switch (look_direction) {
 			case Direction::down:
-				character.sprite_down.draw(transform);
+				character.sprite_down.draw(transform, time_delta);
 				break;
 			case Direction::up:
-				character.sprite_up.draw(transform);
+				character.sprite_up.draw(transform, time_delta);
 				break;
 			case Direction::right:
-				character.sprite_right.draw(transform);
+				character.sprite_right.draw(transform, time_delta);
 				break;
 			case Direction::left:
-				character.sprite_left.draw(transform);
+				character.sprite_left.draw(transform, time_delta);
 				break;
 		}
 	} else {

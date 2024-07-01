@@ -1,4 +1,5 @@
 #include "json_types.hpp"
+#include "graphics/animated_sprite.hpp"
 #include "utils/filesystem.hpp"
 #include "io/resource/texture_manager.hpp"
 #include "utils/json.hpp"
@@ -33,6 +34,38 @@ JSON::Object serialise_sprite(const Sprite& sprite, const String& project_dir)
 	json.add("position_y", sprite.texture_clip.position.y);
 	json.add("size_x", sprite.texture_clip.size.x);
 	json.add("size_y", sprite.texture_clip.size.y);
+
+	return json;
+}
+
+Animated_Sprite parse_animated_sprite(const JSON::Object_View& json, Texture_Manager& tex_mgr)
+{
+	// Fallback for non-animated sprites
+	if (!json.has("frame_time")) {
+		return Animated_Sprite{parse_sprite(json, tex_mgr)};
+	}
+
+	Array<Sprite> frames;
+
+	json["frames"].as_array().for_each([&](const JSON::Value_View& value){
+		frames.push_back(parse_sprite(value.as_object(), tex_mgr));
+	});
+
+	const float frame_time = json["frame_time"].as_float();
+
+	return Animated_Sprite{frames, frame_time};
+}
+
+JSON::Object serialise_animated_sprite(const Animated_Sprite& sprite, const String& project_dir)
+{
+	JSON::Array frames;
+	for (const Sprite& frame : sprite.get_frames()) {
+		frames.add(JSON::Value{serialise_sprite(frame, project_dir)});
+	}
+
+	JSON::Object json;
+	json.add("frame_time", JSON::Value{sprite.get_frame_time()});
+	json.add("frames", JSON::Value{(JSON::Array&&)frames});
 
 	return json;
 }

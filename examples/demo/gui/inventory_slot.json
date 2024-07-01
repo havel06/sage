@@ -1,0 +1,87 @@
+{
+	"type": "box",
+	"parameters": {},
+	"layout": {
+		"columns": [
+			{
+				"pixels": 10
+			},
+			{
+				"automatic": true
+			},
+			{
+				"pixels": 10
+			}
+		],
+		"rows": [
+			{
+				"pixels": 10
+			},
+			{
+				"automatic": true
+			},
+			{
+				"pixels": 10
+			}
+		]
+	},
+	"children": [
+		{
+			"row": 1,
+			"column": 1,
+			"type": "box",
+			"parameters": {
+				"colour": {
+					"r": 0,
+					"g": 0,
+					"b": 0,
+					"a": 200
+				}
+			},
+			"layout": {
+				"columns": [
+					{
+						"pixels": 5
+					},
+					{
+						"automatic": true
+					},
+					{
+						"pixels": 5
+					}
+				],
+				"rows": [
+					{
+						"pixels": 5
+					},
+					{
+						"automatic": true
+					},
+					{
+						"pixels": 5
+					}
+				]
+			},
+			"children": [
+				{
+					"row": 1,
+					"column": 1,
+					"type": "image",
+					"name": "Image",
+					"parameters": {},
+					"children": [
+						{
+							"type": "text",
+							"name": "Count",
+							"parameters": {
+								"text": "",
+								"font": "font.json",
+								"size": 24
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

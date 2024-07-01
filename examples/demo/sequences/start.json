@@ -16,6 +16,13 @@
 			"parameters": {
 				"zoom": 64
 			}
+		}, {
+			"type": "add_quest",
+			"parameters": {
+				"id": "visit_dungeon",
+				"name": "Visit the dungeon",
+				"description": "You have been tasked to clear out the dungeon north of the town."
+			}
 		}
 	]
 }

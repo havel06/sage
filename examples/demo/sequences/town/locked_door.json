@@ -1,0 +1,19 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "disable_player_actions",
+			"parameters": {}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "The door is locked."
+			}
+		},
+		{
+			"type": "enable_player_actions",
+			"parameters": {}
+		}
+	]
+}

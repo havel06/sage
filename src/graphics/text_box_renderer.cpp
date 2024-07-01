@@ -11,6 +11,9 @@ Text_Box_Renderer::Text_Box_Renderer(const Text_Box& text_box) :
 
 void Text_Box_Renderer::load(GUI_Loader& gui_loader, const String& project_root, const String& filename)
 {
+	if (filename.empty())
+		return;
+
 	String path = project_root;
 	path.append("/");
 	path.append(filename);
@@ -19,6 +22,9 @@ void Text_Box_Renderer::load(GUI_Loader& gui_loader, const String& project_root,
 
 void Text_Box_Renderer::draw()
 {
+	if (!m_widget)
+		return;
+
 	if (!m_text_box.contains_message())
 		return;
 

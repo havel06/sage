@@ -19,6 +19,9 @@ Combat_Controller::Combat_Controller(Combat& combat) :
 
 void Combat_Controller::load(GUI_Loader& loader, const String& project_root, const String& menu_filename, const String& option_filename)
 {
+	if (menu_filename.empty() || option_filename.empty())
+		return;
+
 	String menu_path = project_root;
 	menu_path.append("/");
 	menu_path.append(menu_filename);
@@ -91,6 +94,9 @@ void Combat_Controller::enter()
 
 void Combat_Controller::draw()
 {
+	if (!m_menu_widget || !m_option_widget)
+		return;
+
 	if (m_combat.is_hero_turn()) {
 		if (m_state == Combat_Controller_State::selecting_ability) {
 			m_menu_widget->draw_as_root(0); // FIXME - time delta

@@ -19,6 +19,9 @@ Inventory_Renderer::Inventory_Renderer(const Item_Registry& item_registry, const
 
 void Inventory_Renderer::draw()
 {
+	if (!m_main_widget || !m_slot_widget)
+		return;
+
 	// FIXME - safe cast
 	UI::Box* slots_widget = (UI::Box*)m_main_widget->get_widget_by_name("Slots");
 
@@ -49,6 +52,9 @@ void Inventory_Renderer::draw()
 
 void Inventory_Renderer::load(GUI_Loader& loader, const String& project_root, const String& gui_filename, const String& gui_slot_filename)
 {
+	if (gui_filename.empty() || gui_slot_filename.empty())
+		return;
+
 	String slot_path = project_root;
 	slot_path.append("/");
 	slot_path.append(gui_slot_filename);

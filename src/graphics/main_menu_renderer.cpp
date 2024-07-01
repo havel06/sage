@@ -13,6 +13,9 @@ Main_Menu_Renderer::Main_Menu_Renderer(Game_Logic& logic) :
 
 void Main_Menu_Renderer::load(GUI_Loader& loader, const String& project_root, const String& menu_filename, const String& option_filename)
 {
+	if (menu_filename.empty() || option_filename.empty())
+		return;
+	
 	String menu_path = project_root;
 	menu_path.append("/");
 	menu_path.append(menu_filename);
@@ -53,6 +56,9 @@ void Main_Menu_Renderer::load(GUI_Loader& loader, const String& project_root, co
 
 void Main_Menu_Renderer::draw(float dt)
 {
+	if (!m_widget)
+		return;
+
 	m_widget->draw_as_root(dt);
 }
 

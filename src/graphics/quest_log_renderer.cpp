@@ -11,6 +11,9 @@ Quest_Log_Renderer::Quest_Log_Renderer(const Quest_Log& log) :
 
 void Quest_Log_Renderer::load(GUI_Loader& gui_loader, const String& project_root, const String& questlog_filename, const String& quest_filename)
 {
+	if (quest_filename.empty() || quest_filename.empty())
+		return;
+
 	String log_path = project_root;
 	log_path.append("/");
 	log_path.append(questlog_filename);
@@ -25,8 +28,8 @@ void Quest_Log_Renderer::load(GUI_Loader& gui_loader, const String& project_root
 
 void Quest_Log_Renderer::draw()
 {
-	assert(m_log_widget);
-	assert(m_quest_widget);
+	if (!m_log_widget || !m_quest_widget)
+		return;
 
 	// FIXME - do this cast safely
 	UI::Box* quests_box_widget = (UI::Box*)m_log_widget->get_widget_by_name("Quests");

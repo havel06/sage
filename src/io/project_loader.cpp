@@ -33,7 +33,8 @@ Project_Description load_project_description(String project_root)
 	description.start_sequence = view["sequence"].as_string();
 	description.default_character = view["default_character"].as_string();
 
-	description.gui_description = load_gui_description(view["gui"].as_object());
+	if (view.has("gui"))
+		description.gui_description = load_gui_description(view["gui"].as_object());
 
 	return description;
 }

@@ -57,19 +57,36 @@ void Map_Renderer::draw_entity(const Entity& entity, float time_delta)
 		transform.size = character.size;
 		transform.position.y -= character.size.y - 1; //Adjust foot position
 
-		switch (look_direction) {
-			case Direction::down:
-				character.sprite_down.draw(transform, time_delta);
-				break;
-			case Direction::up:
-				character.sprite_up.draw(transform, time_delta);
-				break;
-			case Direction::right:
-				character.sprite_right.draw(transform, time_delta);
-				break;
-			case Direction::left:
-				character.sprite_left.draw(transform, time_delta);
-				break;
+		if (entity.is_moving()) {
+			switch (look_direction) {
+				case Direction::down:
+					character.sprite_move_down.draw(transform, time_delta);
+					break;
+				case Direction::up:
+					character.sprite_move_up.draw(transform, time_delta);
+					break;
+				case Direction::right:
+					character.sprite_move_right.draw(transform, time_delta);
+					break;
+				case Direction::left:
+					character.sprite_move_left.draw(transform, time_delta);
+					break;
+			}
+		} else {
+			switch (look_direction) {
+				case Direction::down:
+					character.sprite_down.draw(transform, time_delta);
+					break;
+				case Direction::up:
+					character.sprite_up.draw(transform, time_delta);
+					break;
+				case Direction::right:
+					character.sprite_right.draw(transform, time_delta);
+					break;
+				case Direction::left:
+					character.sprite_left.draw(transform, time_delta);
+					break;
+			}
 		}
 	} else {
 		entity.sprite.draw(transform);

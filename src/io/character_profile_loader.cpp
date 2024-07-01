@@ -23,6 +23,34 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 	profile.sprite_left  = JSON_Types::parse_animated_sprite(json_view["sprite_left"].as_object(),  m_texture_manager);
 	profile.sprite_right = JSON_Types::parse_animated_sprite(json_view["sprite_right"].as_object(), m_texture_manager);
 
+	if (json_view.has("sprite_move_down")) {
+		profile.sprite_move_down =
+			JSON_Types::parse_animated_sprite(json_view["sprite_move_down"].as_object(),  m_texture_manager);
+	} else {
+		profile.sprite_move_down = profile.sprite_down;
+	}
+
+	if (json_view.has("sprite_move_up")) {
+		profile.sprite_move_up =
+			JSON_Types::parse_animated_sprite(json_view["sprite_move_up"].as_object(),  m_texture_manager);
+	} else {
+		profile.sprite_move_up = profile.sprite_up;
+	}
+
+	if (json_view.has("sprite_move_left")) {
+		profile.sprite_move_left =
+			JSON_Types::parse_animated_sprite(json_view["sprite_move_left"].as_object(),  m_texture_manager);
+	} else {
+		profile.sprite_move_left = profile.sprite_left;
+	}
+
+	if (json_view.has("sprite_move_right")) {
+		profile.sprite_move_right =
+			JSON_Types::parse_animated_sprite(json_view["sprite_move_right"].as_object(),  m_texture_manager);
+	} else {
+		profile.sprite_move_right = profile.sprite_right;
+	}
+
 	if (json_view.has("size")) {
 		const JSON::Object_View character_size = json_view["size"].as_object();
 		profile.size.x = character_size["x"].as_float();

@@ -15,6 +15,11 @@ struct Character_Profile
 	Animated_Sprite sprite_left;
 	Animated_Sprite sprite_right;
 
+	Animated_Sprite sprite_move_down;
+	Animated_Sprite sprite_move_up;
+	Animated_Sprite sprite_move_left;
+	Animated_Sprite sprite_move_right;
+
 	Vec2f size = {1, 1};
 
 	Array<Ability> abilities;

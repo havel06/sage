@@ -75,7 +75,7 @@
 							"name": "Count",
 							"parameters": {
 								"text": "",
-								"font": "font.json",
+								"font": "gui/font.json",
 								"size": 24
 							}
 						}

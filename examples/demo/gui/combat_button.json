@@ -24,7 +24,7 @@
 			"name": "Name",
 			"parameters": {
 				"text": "",
-				"font": "font.json",
+				"font": "gui/font.json",
 				"size": 28
 			}
 		}

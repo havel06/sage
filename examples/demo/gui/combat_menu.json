@@ -104,7 +104,7 @@
 							"parameters": {
 								"text": "Title",
 								"size": 40,
-								"font": "font.json"
+								"font": "gui/font.json"
 							}
 						},
 						{

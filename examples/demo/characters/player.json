@@ -1,31 +1,31 @@
 {
-	"name": "Link",
+	"name": "Player",
 	"max_hp": 20,
 	"sprite_down": {
-		"texture": "textures/sprites.png",
-		"position_x": 0,
-		"position_y": 0,
+		"texture": "textures/tiny_dungeon.png",
+		"position_x": 32,
+		"position_y": 128,
 		"size_x": 16,
 		"size_y": 16
 	},
 	"sprite_up": {
-		"texture": "textures/sprites.png",
-		"position_x": 16,
-		"position_y": 0,
+		"texture": "textures/tiny_dungeon.png",
+		"position_x": 32,
+		"position_y": 128,
 		"size_x": 16,
 		"size_y": 16
 	},
 	"sprite_right": {
-		"texture": "textures/sprites.png",
+		"texture": "textures/tiny_dungeon.png",
 		"position_x": 32,
-		"position_y": 0,
+		"position_y": 128,
 		"size_x": 16,
 		"size_y": 16
 	},
 	"sprite_left": {
-		"texture": "textures/sprites.png",
+		"texture": "textures/tiny_dungeon.png",
 		"position_x": 32,
-		"position_y": 0,
+		"position_y": 128,
 		"size_x": -16,
 		"size_y": 16
 	},

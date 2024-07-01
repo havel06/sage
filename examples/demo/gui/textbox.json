@@ -101,7 +101,7 @@
 							"parameters": {
 								"text": "",
 								"size": 33,
-								"font": "font.json"
+								"font": "gui/font.json"
 							}
 						}
 					]

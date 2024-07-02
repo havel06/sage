@@ -26,7 +26,15 @@ void Quest_Log_Renderer::load(GUI_Loader& gui_loader, const String& project_root
 	m_quest_widget = gui_loader.load(quest_path.data());
 }
 
-void Quest_Log_Renderer::draw()
+void Quest_Log_Renderer::show(bool value)
+{
+	if (!m_log_widget)
+		return;
+
+	m_log_widget->show(value);
+}
+
+void Quest_Log_Renderer::draw(float dt)
 {
 	if (!m_log_widget || !m_quest_widget)
 		return;
@@ -51,5 +59,5 @@ void Quest_Log_Renderer::draw()
 		quests_box_widget->add_child((UI::Widget_Ptr&&)new_quest_widget);
 	}
 
-	m_log_widget->draw_as_root(0);
+	m_log_widget->draw_as_root(dt);
 }

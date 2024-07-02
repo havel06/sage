@@ -88,10 +88,11 @@ void Game::draw_frame(float time_delta)
 		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
 		m_text_box_renderer.draw(time_delta);
 
+		m_quest_log_renderer.show(m_show_quest_log);
+		m_quest_log_renderer.draw(time_delta);
+
 		if (m_show_inventory) {
 			m_inventory_renderer.draw();
-		} else if (m_show_quest_log) {
-			m_quest_log_renderer.draw();
 		}
 	} else {
 		// Combat mode

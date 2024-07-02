@@ -95,7 +95,14 @@ Array<int> Layout::calculate_rows_or_columns(const Array<Size>& rows_or_columns,
 	return result;
 }
 
-void Layout::draw(Recti parent_area, float time_delta)
+void Layout::show(bool value)
+{
+	for (Layout_Element& element : m_elements) {
+		element.widget->show(value);
+	}
+}
+
+void Layout::draw(Recti parent_area, float parent_opacity, float time_delta)
 {
 	// FIXME - refactor?
 
@@ -121,7 +128,7 @@ void Layout::draw(Recti parent_area, float time_delta)
 		widget_area.size.x = columns[element.column];
 		widget_area.size.y = rows[element.row];
 
-		m_elements[i].widget->draw(widget_area, time_delta);
+		m_elements[i].widget->draw(widget_area, parent_opacity, time_delta);
 	}
 }
 

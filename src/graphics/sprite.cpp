@@ -23,7 +23,7 @@ bool Sprite::is_null() const
 	return m_texture.ray_texture.id <= 0;
 }
 
-void Sprite::draw(Rectf transform) const
+void Sprite::draw(Rectf transform, float opacity) const
 {
 	//SG_DEBUG("Sprite texture id: %d", m_texture.id);
 	//SG_DEBUG("%d %d", m_texture.width, m_texture.height);
@@ -42,7 +42,8 @@ void Sprite::draw(Rectf transform) const
 		transform.size.y,
 	};
 
-	DrawTexturePro(m_texture.ray_texture, source, dest, {}, 0, WHITE);
+	Color colour = Color{255, 255, 255, (unsigned char)(255 * opacity)};
+	DrawTexturePro(m_texture.ray_texture, source, dest, {}, 0, colour);
 }
 
 const String& Sprite::get_texture_path() const

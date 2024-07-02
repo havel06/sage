@@ -2,6 +2,7 @@
 #include "raylib/raylib.h"
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
+#include "utils/minmax.hpp"
 
 namespace UI
 {
@@ -10,6 +11,21 @@ namespace UI
 Widget::Widget(Layout&& layout) :
 	m_layout{(Layout&&)layout}
 {
+}
+
+void Widget::show(bool value)
+{
+	m_should_show = value;
+	//m_layout.show(value); // FIXME - either use this function or remove it from layout completely
+}
+
+bool Widget::is_showing() const
+{
+	if (m_should_show) {
+		return true;
+	} else {
+		return m_opacity > 0;
+	}
 }
 
 void Widget::add_child(Widget_Ptr&& widget, int row, int column)
@@ -22,10 +38,23 @@ void Widget::add_child(Widget_Ptr&& widget)
 	m_layout.add((Widget_Ptr&&)widget);
 }
 
-void Widget::draw(Recti parent_area, float time_delta)
+void Widget::draw(Recti parent_area, float parent_opacity, float time_delta)
 {
-	draw_impl(parent_area, time_delta);
-	m_layout.draw(parent_area, time_delta);
+	if (fade_in_out_time == 0) {
+		m_opacity = m_should_show ? 1.0f : 0.0f;
+	} else {
+		// Progress fade-in/out
+		if (m_should_show) {
+			m_opacity += (1.0f / fade_in_out_time) * time_delta;
+			m_opacity = min(m_opacity, 1.0f); // Limit to 1
+		} else {
+			m_opacity -= (1.0f / fade_in_out_time) * time_delta;
+			m_opacity = max(m_opacity, 0.0f); // Limit to 0
+		}
+	}
+
+	draw_impl(parent_area, m_opacity * parent_opacity, time_delta);
+	m_layout.draw(parent_area, m_opacity * parent_opacity, time_delta);
 }
 
 void Widget::draw_as_root(float time_delta)
@@ -35,7 +64,7 @@ void Widget::draw_as_root(float time_delta)
 		{GetScreenWidth(), GetScreenHeight()}
 	};
 
-	draw(area, time_delta);
+	draw(area, 1, time_delta);
 }
 
 void Widget::set_name(String&& name)

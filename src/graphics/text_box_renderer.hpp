@@ -11,7 +11,7 @@ class Text_Box_Renderer
 {
 public:
 	Text_Box_Renderer(const Text_Box&);
-	void draw();
+	void draw(float time_delta);
 	void load(GUI_Loader&, const String& project_root, const String& filename);
 private:
 	const Text_Box& m_text_box;

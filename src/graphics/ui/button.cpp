@@ -13,13 +13,13 @@ Button::Button(Widget_Ptr&& normal, Widget_Ptr&& focused, Layout&& layout) :
 	m_content_focused = (Widget_Ptr&&)focused;
 }
 
-void Button::draw_impl(Recti parent_area, float time_delta)
+void Button::draw_impl(Recti parent_area, float opacity, float time_delta)
 {
-	if (is_focused()) {
-		m_content_focused->draw(parent_area, time_delta);
-	} else {
-		m_content_normal->draw(parent_area, time_delta);
-	}
+	m_content_focused->show(is_focused());
+	m_content_normal->show(!is_focused());
+
+	m_content_focused->draw(parent_area, opacity, time_delta);
+	m_content_normal->draw(parent_area, opacity, time_delta);
 }
 
 Widget_Ptr Button::clone_impl(Layout&& layout) const

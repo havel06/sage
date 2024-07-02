@@ -12,7 +12,7 @@ public:
 	Sprite(const Sage_Texture&);
 	Sprite();
 
-	void draw(Rectf transform) const;
+	void draw(Rectf transform, float opacity = 1) const;
 	bool is_null() const;
 	const String& get_texture_path() const;
 private:

@@ -92,6 +92,10 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json)
 		widget->set_name(json["name"].as_string());
 	}
 
+	if (json.has("fade_in")) {
+		widget->fade_in_out_time = json["fade_in"].as_float();
+	}
+
 	return widget;
 }
 

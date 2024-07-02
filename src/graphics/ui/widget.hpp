@@ -9,13 +9,18 @@ namespace UI
 class Widget
 {
 public:
+	float fade_in_out_time = 0.0;
+
 	Widget(Layout&&);
 	virtual ~Widget() = default;
 
 	Widget_Ptr clone() const;
 	void set_name(String&&);
 
-	void draw(Recti parent_area, float time_delta);
+	void show(bool value);
+	bool is_showing() const; // Accounts for fade-in/out
+
+	void draw(Recti parent_area, float parent_opacity, float time_delta);
 	void draw_as_root(float time_delta);
 	void process_click();
 
@@ -35,11 +40,14 @@ protected:
 	bool is_focused() const { return m_focused; }
 
 private:
+	bool m_should_show = true;
+	float m_opacity = 0; // Goes from 0 to 1
+
 	bool m_focused = false;
 	String m_name = "";
 	Layout m_layout;
 
-	virtual void draw_impl(Recti parent_area, float time_delta) = 0;
+	virtual void draw_impl(Recti parent_area, float opacity, float time_delta) = 0;
 	virtual void process_click_impl() = 0;
 	virtual Widget_Ptr clone_impl(Layout&&) const = 0;
 	virtual bool is_focusable() const = 0;

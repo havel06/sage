@@ -1,4 +1,5 @@
 #include "image.hpp"
+#include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
 
 namespace UI
@@ -9,9 +10,9 @@ Image::Image(Layout&& layout) :
 {
 }
 
-void Image::draw_impl(Recti parent_area, float)
+void Image::draw_impl(Recti parent_area, float opacity, float)
 {
-	sprite.draw(parent_area);
+	sprite.draw(parent_area, opacity);
 }
 
 Widget_Ptr Image::clone_impl(Layout&& layout) const

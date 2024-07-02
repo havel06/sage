@@ -1,5 +1,6 @@
 #include "text.hpp"
 #include "raylib/raylib.h"
+#include "utils/log.hpp"
 
 namespace UI
 {
@@ -9,10 +10,11 @@ Text::Text(Layout&& layout) :
 {
 }
 
-void Text::draw_impl(Recti parent_area, float)
+void Text::draw_impl(Recti parent_area, float opacity, float)
 {
-	String wrapped_text = wrap_text(text, parent_area.size.x);
-	DrawTextEx(font, wrapped_text.data(), {(float)parent_area.position.x, (float)parent_area.position.y}, size, 0, WHITE);
+	const String wrapped_text = wrap_text(text, parent_area.size.x);
+	const Color color {255, 255, 255, (unsigned char)(255 * opacity)};
+	DrawTextEx(font, wrapped_text.data(), {(float)parent_area.position.x, (float)parent_area.position.y}, size, 0, color);
 }
 
 Array<String> Text::split_text_to_words(const String& text)

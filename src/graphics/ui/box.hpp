@@ -12,7 +12,7 @@ public:
 	Box(Layout&&);
 	Colour colour = {0, 0, 0, 0};
 private:
-	void draw_impl(Recti parent_area, float time_delta) override;
+	void draw_impl(Recti parent_area, float opacity, float time_delta) override;
 	Widget_Ptr clone_impl(Layout&&) const override;
 	bool is_focusable() const override { return false; }
 	void process_click_impl() override {}

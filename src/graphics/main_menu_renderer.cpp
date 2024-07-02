@@ -52,6 +52,7 @@ void Main_Menu_Renderer::load(GUI_Loader& loader, const String& project_root, co
 	});
 
 	m_widget->focus_first();
+	m_widget->show(true);
 }
 
 void Main_Menu_Renderer::draw(float dt)

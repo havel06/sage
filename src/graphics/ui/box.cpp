@@ -10,7 +10,7 @@ Box::Box(Layout&& layout) :
 {
 }
 
-void Box::draw_impl(Recti parent_area, float)
+void Box::draw_impl(Recti parent_area, float opacity, float)
 {
 	DrawRectangle(
 		parent_area.position.x,
@@ -21,7 +21,7 @@ void Box::draw_impl(Recti parent_area, float)
 			colour.r,
 			colour.g,
 			colour.b,
-			colour.a
+			(unsigned char)(colour.a * opacity)
 		}
 	);
 }

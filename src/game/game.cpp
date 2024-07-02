@@ -86,7 +86,7 @@ void Game::draw_frame(float time_delta)
 		process_normal_input();
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player());
 		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
-		m_text_box_renderer.draw();
+		m_text_box_renderer.draw(time_delta);
 
 		if (m_show_inventory) {
 			m_inventory_renderer.draw();
@@ -99,6 +99,8 @@ void Game::draw_frame(float time_delta)
 		m_combat_renderer.draw(time_delta);
 		m_combat_controller.draw();
 	}
+
+	//DrawFPS(10, 10);
 }
 
 void Game::process_normal_input()

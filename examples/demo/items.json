@@ -1,5 +1,15 @@
 {
 	"items": [
-
+		{
+			"id": "healing_potion",
+			"name": "Healing Potion",
+			"sprite": {
+				"texture": "textures/tiny_dungeon.png",
+				"position_x": 112,
+				"position_y": 144,
+				"size_x": 16,
+				"size_y": 16
+			}
+		}
 	]
 }

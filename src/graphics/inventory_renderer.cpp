@@ -17,7 +17,15 @@ Inventory_Renderer::Inventory_Renderer(const Item_Registry& item_registry, const
 {
 }
 
-void Inventory_Renderer::draw()
+void Inventory_Renderer::show(bool value)
+{
+	if (!m_main_widget)
+		return;
+
+	m_main_widget->show(value);
+}
+
+void Inventory_Renderer::draw(float dt)
 {
 	if (!m_main_widget || !m_slot_widget)
 		return;
@@ -46,8 +54,7 @@ void Inventory_Renderer::draw()
 		slots_widget->add_child((UI::Widget_Ptr&&)slot_widget);
 	});
 
-	// FIXME - time delta
-	m_main_widget->draw_as_root(0);
+	m_main_widget->draw_as_root(dt);
 }
 
 void Inventory_Renderer::load(GUI_Loader& loader, const String& project_root, const String& gui_filename, const String& gui_slot_filename)

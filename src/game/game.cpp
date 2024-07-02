@@ -91,9 +91,8 @@ void Game::draw_frame(float time_delta)
 		m_quest_log_renderer.show(m_show_quest_log);
 		m_quest_log_renderer.draw(time_delta);
 
-		if (m_show_inventory) {
-			m_inventory_renderer.draw();
-		}
+		m_inventory_renderer.show(m_show_inventory);
+		m_inventory_renderer.draw(time_delta);
 	} else {
 		// Combat mode
 		process_combat_input();

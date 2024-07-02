@@ -23,6 +23,12 @@
 				"name": "Visit the dungeon",
 				"description": "You have been tasked to clear out the dungeon north of the town."
 			}
+		}, {
+			"type": "give_item",
+			"parameters": {
+				"item": "healing_potion",
+				"count": 1
+			}
 		}
 	]
 }

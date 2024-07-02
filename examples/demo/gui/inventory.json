@@ -1,5 +1,6 @@
 {
 	"type": "box",
+	"fade_in": 0.1,
 	"layout": {
 		"columns": [
 			{

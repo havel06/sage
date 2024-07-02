@@ -2,20 +2,22 @@
 
 #include "utils/string.hpp"
 
+// fwd
 class Sequence;
+class Savegame_Directory_Provider;
 
 // Saves progress of sequence
 class Sequence_Saveloader
 {
 public:
-	Sequence_Saveloader(const String& project_path);
-	void set_save_directory(const String& path);
+	Sequence_Saveloader(Savegame_Directory_Provider&, const String& project_path);
 
 	void save(const Sequence&);
 	void load(Sequence&);
-
 private:
 	String get_savefile_location(const String& sequence_path);
+
+	Savegame_Directory_Provider& m_savegame_dir_provider;
 
 	String m_project_path;
 	String m_saved_sequences_dir;

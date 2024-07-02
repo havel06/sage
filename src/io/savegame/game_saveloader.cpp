@@ -1,6 +1,7 @@
 #include "game_saveloader.hpp"
 #include "io/savegame/inventory_saveloader.hpp"
 #include "io/savegame/quest_saveloader.hpp"
+#include "io/savegame/savegame_directory_provider.hpp"
 #include "item/inventory.hpp"
 #include "utils/filesystem.hpp"
 #include "utils/file.hpp"
@@ -11,22 +12,22 @@
 #include "utils/json.hpp"
 #include <stdio.h>
 
-Game_Saveloader::Game_Saveloader(const String& project_dir, Game_Facade& facade, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager) :
+Game_Saveloader::Game_Saveloader(Savegame_Directory_Provider& dir_provider, const String& project_dir, Game_Facade& facade, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager) :
 	m_game_facade{facade},
 	m_camera{camera},
 	m_inventory{inv},
 	m_quest_log{quest_log},
-	m_seq_manager{seq_manager}
+	m_seq_manager{seq_manager},
+	m_savegame_dir_provider{dir_provider}
 {
 	m_project_dir = project_dir;
 }
 
-void Game_Saveloader::set_save_directory(const String& path)
+String Game_Saveloader::get_savefile_path()
 {
-	m_savefile_path = path;
-	m_savefile_path.append("/save.json");
-
-	create_directory(path);
+	String save_file_path = m_savegame_dir_provider.get_path();
+	save_file_path.append("/save.json");
+	return save_file_path;
 }
 
 void Game_Saveloader::save()
@@ -48,18 +49,20 @@ void Game_Saveloader::save()
 	json.add("active_sequences", serialise_active_sequences());
 	
 	// Write to file
-	create_directories_for_file(m_savefile_path);
-	json.write_to_file(m_savefile_path.data());
+	String savefile_path = get_savefile_path();
+	create_directories_for_file(savefile_path);
+	json.write_to_file(savefile_path.data());
 
 	SG_INFO("Saved game state.");
 }
 
 void Game_Saveloader::load()
 {
-	if (!file_exists(m_savefile_path))
+	String savefile_path = get_savefile_path();
+	if (!file_exists(savefile_path))
 		return;
 
-	JSON::Object json = JSON::Object::from_file(m_savefile_path.data());
+	JSON::Object json = JSON::Object::from_file(savefile_path.data());
 	JSON::Object_View view = json.get_view();
 
 	const char* current_map = view["current_map"].as_string();
@@ -77,10 +80,11 @@ void Game_Saveloader::load()
 
 void Game_Saveloader::new_game()
 {
-	if (!file_exists(m_savefile_path))
+	String savefile_path = get_savefile_path();
+	if (!file_exists(savefile_path))
 		return;
 
-	String folder = remove_filename(m_savefile_path);
+	String folder = remove_filename(savefile_path);
 	remove_directory(folder);
 }
 

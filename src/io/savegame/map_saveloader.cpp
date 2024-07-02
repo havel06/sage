@@ -6,28 +6,19 @@
 #include "map/map.hpp"
 #include "utils/json.hpp"
 #include "utils/log.hpp"
-#include "stdio.h"
+#include "io/savegame/savegame_directory_provider.hpp"
 
-Map_Saveloader::Map_Saveloader(Texture_Manager& tex_mgr, const String& project_dir) :
+Map_Saveloader::Map_Saveloader(Texture_Manager& tex_mgr, Savegame_Directory_Provider& dir_provider, const String& project_dir) :
+	m_savegame_dir_provider{dir_provider},
 	m_texture_manager{tex_mgr}
 {
 	m_project_dir = project_dir;
-}
-
-void Map_Saveloader::set_save_directory(const String& path)
-{
-	// Create maps directory if needed
-	m_saved_maps_dir = path;
-	m_saved_maps_dir.append("/maps");
-
-	create_directory(m_saved_maps_dir);
 }
 
 void Map_Saveloader::save(const Map& map)
 {
 	// FIXME - refactor function
 	assert(!m_project_dir.empty());
-	assert(!m_saved_maps_dir.empty());
 
 	if (map.get_path().empty()) {
 		return;
@@ -46,7 +37,6 @@ void Map_Saveloader::save(const Map& map)
 void Map_Saveloader::load(Map& map)
 {
 	assert(!m_project_dir.empty());
-	assert(!m_saved_maps_dir.empty());
 
 	if (map.get_path().empty()) {
 		return;
@@ -67,10 +57,11 @@ void Map_Saveloader::load(Map& map)
 
 String Map_Saveloader::get_savefile_location(const String& map_path)
 {
-	String relative_path = get_relative_path(map_path, m_project_dir);
-	String save_file_path = m_saved_maps_dir;
-	save_file_path.append("/");
-	save_file_path.append(relative_path);
+	String path_relative_to_project = get_relative_path(map_path, m_project_dir);
+
+	String save_file_path = m_savegame_dir_provider.get_path();
+	save_file_path.append("/maps/");
+	save_file_path.append(path_relative_to_project);
 
 	return save_file_path;
 }

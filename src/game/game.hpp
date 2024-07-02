@@ -13,6 +13,7 @@
 #include "graphics/quest_log_renderer.hpp"
 #include "graphics/text_box_renderer.hpp"
 #include "io/resource/resource_system.hpp"
+#include "io/savegame/savegame_directory_provider.hpp"
 #include "io/sequence_loader.hpp"
 #include "io/savegame/map_saveloader.hpp"
 #include "io/savegame/sequence_saveloader.hpp"
@@ -45,6 +46,7 @@ private:
 	Game_Logic m_logic;
 	Music_Player m_music_player;
 	Combat_Controller m_combat_controller;
+	Savegame_Directory_Provider m_savegame_dir_provider;
 	Map_Saveloader m_map_saveloader;
 	Sequence_Saveloader m_sequence_saveloader;
 	Game_Saveloader m_game_saveloader;

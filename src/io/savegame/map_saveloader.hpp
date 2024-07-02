@@ -7,6 +7,7 @@ class Map;
 class Map_Entities;
 class Entity;
 class Texture_Manager;
+class Savegame_Directory_Provider;
 namespace JSON {
 	class Object_View;
 	class Array_View;
@@ -19,8 +20,7 @@ namespace JSON {
 class Map_Saveloader
 {
 public:
-	Map_Saveloader(Texture_Manager&, const String& project_dir);
-	void set_save_directory(const String& path);
+	Map_Saveloader(Texture_Manager&, Savegame_Directory_Provider&, const String& project_dir);
 
 	void save(const Map&);
 	void load(Map&);
@@ -32,8 +32,8 @@ private:
 
 	void deserialise_entites(Map_Entities&, const JSON::Array_View& entities);
 	void deserialise_entity(Entity&, const JSON::Object_View& entity_json);
-
+	
+	Savegame_Directory_Provider& m_savegame_dir_provider;
 	Texture_Manager& m_texture_manager;
 	String m_project_dir;
-	String m_saved_maps_dir;
 };

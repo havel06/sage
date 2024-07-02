@@ -49,6 +49,7 @@ src = [
   'src/io/savegame/inventory_saveloader.cpp',
   'src/io/savegame/quest_saveloader.cpp',
   'src/io/savegame/map_saveloader.cpp',
+  'src/io/savegame/savegame_directory_provider.cpp',
   'src/io/savegame/sequence_saveloader.cpp',
   'src/io/sequence_loader.cpp',
   'src/io/tmj.cpp',

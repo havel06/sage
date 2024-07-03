@@ -12,7 +12,7 @@ class Sequence_Manager : public Resource_Manager<Sequence>
 public:
 	Sequence_Manager(const String& resource_root_path, Sequence_Loader&, Sequence_Saveloader&);
 	void update(float time_delta);
-	void save();
+	void save(); // FIXME - This shouldn't be here
 
 	// Callable must take one argument, Sequence&
 	template<typename Callable>

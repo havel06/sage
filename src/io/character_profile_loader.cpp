@@ -17,6 +17,7 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 	Character_Profile profile;
 
 	profile.name = json_view["name"].as_string();
+	profile.filename = file_path;
 
 	profile.sprite_down  = JSON_Types::parse_animated_sprite(json_view["sprite_down"].as_object(),  m_texture_manager);
 	profile.sprite_up    = JSON_Types::parse_animated_sprite(json_view["sprite_up"].as_object(),    m_texture_manager);

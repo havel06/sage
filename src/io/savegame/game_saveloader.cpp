@@ -1,4 +1,7 @@
 #include "game_saveloader.hpp"
+#include "character_profile.hpp"
+#include "game/game.hpp"
+#include "io/character_profile_loader.hpp"
 #include "io/savegame/inventory_saveloader.hpp"
 #include "io/savegame/quest_saveloader.hpp"
 #include "io/savegame/savegame_directory_provider.hpp"
@@ -9,16 +12,18 @@
 #include "game/game_facade.hpp"
 #include "graphics/camera.hpp"
 #include "io/resource/sequence_manager.hpp"
+#include "game/game_logic_state_normal.hpp"
 #include "utils/json.hpp"
 #include <stdio.h>
 
-Game_Saveloader::Game_Saveloader(Savegame_Directory_Provider& dir_provider, const String& project_dir, Game_Facade& facade, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager) :
-	m_game_facade{facade},
+Game_Saveloader::Game_Saveloader(Savegame_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager) :
+	m_logic{logic},
 	m_camera{camera},
 	m_inventory{inv},
 	m_quest_log{quest_log},
 	m_seq_manager{seq_manager},
-	m_savegame_dir_provider{dir_provider}
+	m_savegame_dir_provider{dir_provider},
+	m_character_manager{character_manager}
 {
 	m_project_dir = project_dir;
 }
@@ -32,7 +37,7 @@ String Game_Saveloader::get_savefile_path()
 
 void Game_Saveloader::save()
 {
-	String map_absolute_path = m_game_facade.get_current_map_path();
+	String map_absolute_path = m_logic.get_map().get_path();
 
 	if (map_absolute_path.empty())
 		return;
@@ -47,6 +52,7 @@ void Game_Saveloader::save()
 	Quest_Saveloader quest_saveloader(m_quest_log);
 	json.add("quests", quest_saveloader.save());
 	json.add("active_sequences", serialise_active_sequences());
+	json.add("party", serialise_party());
 	
 	// Write to file
 	String savefile_path = get_savefile_path();
@@ -66,7 +72,7 @@ void Game_Saveloader::load()
 	JSON::Object_View view = json.get_view();
 
 	const char* current_map = view["current_map"].as_string();
-	m_game_facade.set_current_map(current_map);
+	m_logic.set_current_map(current_map);
 
 	m_camera.zoom = view["camera_zoom"].as_float();
 	Inventory_Saveloader inv_saveloader;
@@ -74,6 +80,7 @@ void Game_Saveloader::load()
 	Quest_Saveloader quest_saveloader(m_quest_log);
 	quest_saveloader.load(view["quests"].as_array());
 	load_active_sequences(view["active_sequences"].as_array());
+	load_party(view["party"].as_array());
 
 	SG_INFO("Loaded game state.");
 }
@@ -106,5 +113,26 @@ void Game_Saveloader::load_active_sequences(const JSON::Array_View& json)
 {
 	json.for_each([&](const JSON::Value_View& value){
 		m_seq_manager.get(value.as_string(), false).try_activate();
+	});
+}
+
+JSON::Array Game_Saveloader::serialise_party()
+{
+	JSON::Array json;
+
+	for (int i = 0; i < m_logic.party.get_character_count(); i++) {
+		const Character_Profile& profile = m_logic.party.get_character(i);
+		if (&profile != &m_logic.party.main_character())
+			json.add(profile.filename.data());
+	}
+
+	return json;
+}
+
+void Game_Saveloader::load_party(const JSON::Array_View& json)
+{
+	json.for_each([&](const JSON::Value_View& value){
+		const Character_Profile& profile = m_character_manager.get(value.as_string(), true);
+		m_logic.party.add_character(profile);
 	});
 }

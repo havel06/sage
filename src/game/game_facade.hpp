@@ -30,7 +30,6 @@ public:
 	// FIXME - maybe too many arguments
 	Game_Facade(Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&);
 	void set_current_map(const String& filename);
-	const String& get_current_map_path(); // FIXME - should this be here?
 	void teleport_player(Vec2i position);
 	void set_player_interactions_enabled(bool enabled);
 	void teleport_entity(const String& entity_name, Vec2i position);

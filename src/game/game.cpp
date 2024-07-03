@@ -21,7 +21,7 @@ Game::Game(const Project_Description& description) :
 	m_savegame_dir_provider(description.name.data()),
 	m_map_saveloader(m_resource_system.texture_manager, m_savegame_dir_provider, description.path),
 	m_sequence_saveloader(m_savegame_dir_provider, description.path),
-	m_game_saveloader(m_savegame_dir_provider, description.path, m_game_facade, m_camera, m_logic_normal.inventory, m_logic_normal.quest_log, m_resource_system.sequence_manager),
+	m_game_saveloader(m_savegame_dir_provider, description.path, m_logic_normal, m_camera, m_logic_normal.inventory, m_logic_normal.quest_log, m_resource_system.sequence_manager, m_resource_system.character_profile_manager),
 	m_camera_controller(m_camera),
 	m_text_box_renderer(m_logic_normal.text_box),
 	m_inventory_renderer(m_logic_normal.item_registry, m_logic_normal.inventory),
@@ -45,6 +45,7 @@ Game::Game(const Project_Description& description) :
 	m_combat_controller.load(gui_loader, description.path, description.gui_description.combat_menu_path, description.gui_description.combat_option_path);
 	m_main_menu.load(gui_loader, description.path, description.gui_description.main_menu_path, description.gui_description.main_menu_option_path);
 
+	// FIXME - can this be done through the constructor?
 	// Set up main character profile
 	m_logic_normal.party.main_character() = m_resource_system.character_profile_manager.get(description.default_character.data(), false);
 }
@@ -61,13 +62,13 @@ bool Game::should_exit() const
 
 void Game::draw_frame(float time_delta)
 {
+	// FIXME - refactor this function
 	if (m_logic.get_state() == Game_Logic_State::main_menu) {
 		process_main_menu_input();
 		m_main_menu.draw(time_delta);
 		return;
 	}
 
-	// FIXME - refactor this function
 	if (IsKeyPressed(KEY_F3))
 		m_dev_mode = !m_dev_mode;
 

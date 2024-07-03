@@ -40,11 +40,6 @@ void Game_Facade::set_current_map(const String& filename)
 	m_logic_normal.set_current_map(filename);
 }
 
-const String& Game_Facade::get_current_map_path()
-{
-	return m_logic_normal.get_map().get_path();
-}
-
 void Game_Facade::teleport_player(Vec2i position)
 {
 	m_logic_normal.get_player().position = position;

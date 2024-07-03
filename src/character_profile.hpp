@@ -9,6 +9,7 @@
 struct Character_Profile
 {
 	String name;
+	String filename;
 
 	Animated_Sprite sprite_down;
 	Animated_Sprite sprite_up;

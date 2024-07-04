@@ -11,7 +11,9 @@
 #include "graphics/main_menu_renderer.hpp"
 #include "graphics/map_renderer.hpp"
 #include "graphics/quest_log_renderer.hpp"
+#include "graphics/scriptable_gui.hpp"
 #include "graphics/text_box_renderer.hpp"
+#include "io/gui_loader.hpp"
 #include "io/resource/resource_system.hpp"
 #include "io/savegame/savegame_directory_provider.hpp"
 #include "io/sequence_loader.hpp"
@@ -50,6 +52,7 @@ private:
 	Map_Saveloader m_map_saveloader;
 	Sequence_Saveloader m_sequence_saveloader;
 	Game_Saveloader m_game_saveloader;
+	GUI_Loader m_gui_loader;
 
 	// Rendering
 	Game_Camera m_camera;
@@ -60,6 +63,7 @@ private:
 	Combat_Renderer m_combat_renderer;
 	Quest_Log_Renderer m_quest_log_renderer;
 	Main_Menu_Renderer m_main_menu;
+	Scriptable_GUI m_scriptable_gui;
 
 	Dev_Tools m_dev_tools;
 

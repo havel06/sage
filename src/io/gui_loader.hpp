@@ -12,8 +12,8 @@ namespace JSON {
 class GUI_Loader
 {
 public:
-	GUI_Loader(Font_Manager&, Texture_Manager&);
-	UI::Widget_Ptr load(const char* filename);
+	GUI_Loader(Font_Manager&, Texture_Manager&, const String& project_root);
+	UI::Widget_Ptr load(const String& filename);
 
 private:
 	UI::Size parse_size(const JSON::Object_View& json);
@@ -26,4 +26,5 @@ private:
 
 	Font_Manager& m_font_manager;
 	Texture_Manager& m_texture_manager;
+	String m_project_root;
 };

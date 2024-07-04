@@ -1,6 +1,9 @@
 #include "sequence_loader.hpp"
 #include "character_profile.hpp"
 #include "combat/battle_desc.hpp"
+#include "graphics/ui/layout.hpp"
+#include "io/gui_loader.hpp"
+#include "utils/move.hpp"
 #include "sequence/conditions/has_item.hpp"
 #include "sequence/conditions/not.hpp"
 #include "sequence/events/activate_sequence.hpp"
@@ -19,6 +22,8 @@
 #include "sequence/events/rotate_entity.hpp"
 #include "sequence/events/play_music.hpp"
 #include "sequence/events/play_sound.hpp"
+#include "sequence/events/show_gui.hpp"
+#include "sequence/events/hide_gui.hpp"
 #include "sequence/events/teleport_player.hpp"
 #include "sequence/events/teleport_entity.hpp"
 #include "sequence/events/enable_player_actions.hpp"
@@ -34,9 +39,10 @@
 #include "json_types.hpp"
 #include "resource/resource_system.hpp"
 
-Sequence_Loader::Sequence_Loader(Resource_System& res_system, Game_Facade& facade) :
+Sequence_Loader::Sequence_Loader(Resource_System& res_system, Game_Facade& facade, GUI_Loader& gui_loader) :
 	m_facade{facade},
-	m_resource_system{res_system}
+	m_resource_system{res_system},
+	m_gui_loader{gui_loader}
 {
 }
 
@@ -145,6 +151,11 @@ Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json)
 		loaded_event = make_own_ptr<Events::Enable_Player_Actions>(m_facade);
 	} else if (type == "disable_player_actions") {
 		loaded_event = make_own_ptr<Events::Disable_Player_Actions>(m_facade);
+	} else if (type == "show_gui") {
+		UI::Widget_Ptr widget = m_gui_loader.load(params["widget"].as_string());
+		loaded_event = make_own_ptr<Events::Show_GUI>(m_facade, move(widget));
+	} else if (type == "hide_gui") {
+		loaded_event = make_own_ptr<Events::Hide_GUI>(m_facade);
 	} else if (type == "enter_combat") {
 		const char* sequence_path = params["win_sequence"].as_string();
 		Sequence& win_sequence = m_resource_system.sequence_manager.get(sequence_path, false);

@@ -10,8 +10,8 @@
 #include <raylib/raylib.h>
 
 Game::Game(const Project_Description& description) :
-	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic),
-	m_sequence_loader(m_resource_system, m_game_facade),
+	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui),
+	m_sequence_loader(m_resource_system, m_game_facade, m_gui_loader),
 	m_resource_system(description.path, m_sequence_loader, m_sequence_saveloader),
 	m_combat(m_logic_normal.party),
 	m_logic_normal(m_resource_system.sequence_manager,m_map_saveloader, m_resource_system.map_manager, description.start_sequence),
@@ -22,6 +22,7 @@ Game::Game(const Project_Description& description) :
 	m_map_saveloader(m_resource_system.texture_manager, m_savegame_dir_provider, description.path),
 	m_sequence_saveloader(m_savegame_dir_provider, description.path),
 	m_game_saveloader(m_savegame_dir_provider, description.path, m_logic_normal, m_camera, m_logic_normal.inventory, m_logic_normal.quest_log, m_resource_system.sequence_manager, m_resource_system.character_profile_manager),
+	m_gui_loader(m_resource_system.font_manager, m_resource_system.texture_manager, description.path),
 	m_camera_controller(m_camera),
 	m_text_box_renderer(m_logic_normal.text_box),
 	m_inventory_renderer(m_logic_normal.item_registry, m_logic_normal.inventory),
@@ -38,12 +39,11 @@ Game::Game(const Project_Description& description) :
 
 	// FIXME - try to remove this block
 	// UI
-	GUI_Loader gui_loader(m_resource_system.font_manager, m_resource_system.texture_manager);
-	m_text_box_renderer.load(gui_loader, description.path, description.gui_description.textbox_path);
-	m_quest_log_renderer.load(gui_loader, description.path, description.gui_description.quest_log_path, description.gui_description.quest_path);
-	m_inventory_renderer.load(gui_loader, description.path, description.gui_description.inventory_path, description.gui_description.inventory_slot_path);
-	m_combat_controller.load(gui_loader, description.path, description.gui_description.combat_menu_path, description.gui_description.combat_option_path);
-	m_main_menu.load(gui_loader, description.path, description.gui_description.main_menu_path, description.gui_description.main_menu_option_path);
+	m_text_box_renderer.load(m_gui_loader, description.gui_description.textbox_path);
+	m_quest_log_renderer.load(m_gui_loader, description.gui_description.quest_log_path, description.gui_description.quest_path);
+	m_inventory_renderer.load(m_gui_loader, description.gui_description.inventory_path, description.gui_description.inventory_slot_path);
+	m_combat_controller.load(m_gui_loader, description.gui_description.combat_menu_path, description.gui_description.combat_option_path);
+	m_main_menu.load(m_gui_loader, description.gui_description.main_menu_path, description.gui_description.main_menu_option_path);
 
 	// FIXME - can this be done through the constructor?
 	// Set up main character profile
@@ -87,6 +87,7 @@ void Game::draw_frame(float time_delta)
 		process_normal_input();
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player());
 		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
+		m_scriptable_gui.draw(time_delta);
 		m_text_box_renderer.draw(time_delta);
 
 		m_quest_log_renderer.show(m_show_quest_log);

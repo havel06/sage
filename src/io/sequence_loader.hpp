@@ -6,6 +6,7 @@
 // fwd
 class Resource_System;
 class Game_Facade;
+class GUI_Loader;
 namespace JSON {
 	class Object_View;
 }
@@ -13,7 +14,7 @@ namespace JSON {
 class Sequence_Loader
 {
 public:
-	Sequence_Loader(Resource_System&, Game_Facade&);
+	Sequence_Loader(Resource_System&, Game_Facade&, GUI_Loader&);
 	Sequence load(const String& filename);
 private:
 	Event_Ptr parse_event(const JSON::Object_View&);
@@ -21,4 +22,5 @@ private:
 
 	Game_Facade& m_facade;
 	Resource_System& m_resource_system;
+	GUI_Loader& m_gui_loader;
 };

@@ -10,13 +10,11 @@ class GUI_Loader;
 struct Item;
 
 
-// FIXME - port to new UI system, after we have one
-
 class Inventory_Renderer
 {
 public:
 	Inventory_Renderer(const Item_Registry&, const Inventory&);
-	void load(GUI_Loader&, const String& project_root, const String& gui_filename, const String& gui_slot_filename);
+	void load(GUI_Loader&, const String& gui_filename, const String& gui_slot_filename);
 	void show(bool value);
 	void draw(float dt);
 private:

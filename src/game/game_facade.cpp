@@ -1,7 +1,9 @@
 #include "game_facade.hpp"
+#include "graphics/scriptable_gui.hpp"
 #include "character_profile.hpp"
 #include "combat/battle_desc.hpp"
 #include "game/game_logic.hpp"
+#include "utils/move.hpp"
 #include "io/savegame/map_saveloader.hpp"
 #include "io/savegame/sequence_saveloader.hpp"
 #include "io/savegame/game_saveloader.hpp"
@@ -21,14 +23,16 @@ Game_Facade::Game_Facade(
 		Camera_Controller& controller,
 		Map_Saveloader& map_saveloader,
 		Game_Saveloader& game_saveloader,
-		Game_Logic& game_logic) :
+		Game_Logic& game_logic,
+		Scriptable_GUI& scriptable_gui) :
 	m_sequence_manager{seq_mgr},
 	m_music_player{music_player},
 	m_logic_normal{logic},
 	m_camera_controller{controller},
 	m_map_saveloader{map_saveloader},
 	m_game_saveloader{game_saveloader},
-	m_game_logic{game_logic}
+	m_game_logic{game_logic},
+	m_scriptable_gui{scriptable_gui}
 {
 }
 
@@ -192,4 +196,14 @@ void Game_Facade::save_game()
 	m_game_saveloader.save();
 	m_map_saveloader.save(m_logic_normal.get_map());
 	m_sequence_manager.save();
+}
+
+void Game_Facade::show_gui(UI::Widget_Ptr&& widget)
+{
+	m_scriptable_gui.show_widget(move(widget));
+}
+
+void Game_Facade::hide_gui()
+{
+	m_scriptable_gui.hide_widget();
 }

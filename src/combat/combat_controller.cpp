@@ -17,20 +17,13 @@ Combat_Controller::Combat_Controller(Combat& combat) :
 	m_combat.add_observer(*this);
 }
 
-void Combat_Controller::load(GUI_Loader& loader, const String& project_root, const String& menu_filename, const String& option_filename)
+void Combat_Controller::load(GUI_Loader& loader, const String& menu_filename, const String& option_filename)
 {
 	if (menu_filename.empty() || option_filename.empty())
 		return;
 
-	String menu_path = project_root;
-	menu_path.append("/");
-	menu_path.append(menu_filename);
-	m_menu_widget = loader.load(menu_path.data());
-
-	String button_path = project_root;
-	button_path.append("/");
-	button_path.append(option_filename);
-	m_option_widget = loader.load(button_path.data());
+	m_menu_widget = loader.load(menu_filename);
+	m_option_widget = loader.load(option_filename);
 }
 
 void Combat_Controller::on_hero_turn_begin()

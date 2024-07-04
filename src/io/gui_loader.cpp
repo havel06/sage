@@ -11,15 +11,20 @@
 #include "graphics/ui/box.hpp"
 #include "io/resource/font_manager.hpp"
 
-GUI_Loader::GUI_Loader(Font_Manager& font_mgr, Texture_Manager& tex_mgr) :
+GUI_Loader::GUI_Loader(Font_Manager& font_mgr, Texture_Manager& tex_mgr, const String& project_root) :
 	m_font_manager{font_mgr},
 	m_texture_manager{tex_mgr}
 {
+	m_project_root = project_root;
 }
 
-UI::Widget_Ptr GUI_Loader::load(const char* filename)
+UI::Widget_Ptr GUI_Loader::load(const String& filename)
 {
-	JSON::Object json = JSON::Object::from_file(filename);
+	String path = m_project_root;
+	path.append('/');
+	path.append(filename);
+
+	JSON::Object json = JSON::Object::from_file(path.data());
 
 	return parse_widget(json.get_view());
 }

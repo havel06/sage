@@ -7,6 +7,7 @@
 #include "utils/vec2.hpp"
 #include <raylib/raylib.h>
 #include "utils/array.hpp"
+#include "graphics/ui/widget.hpp"
 
 class Map_Manager;
 class Sequence_Manager;
@@ -19,6 +20,7 @@ class Map_Saveloader;
 class Sequence_Saveloader;
 class Game_Saveloader;
 class Game_Logic;
+class Scriptable_GUI;
 
 
 // FIXME - maybe too many responsibilities
@@ -28,7 +30,7 @@ class Game_Facade
 {
 public:
 	// FIXME - maybe too many arguments
-	Game_Facade(Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&);
+	Game_Facade(Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&, Scriptable_GUI&);
 	void set_current_map(const String& filename);
 	void teleport_player(Vec2i position);
 	void set_player_interactions_enabled(bool enabled);
@@ -50,6 +52,8 @@ public:
 	void finish_quest(const String& id);
 	void zoom_camera(int amount);
 	void save_game();
+	void show_gui(UI::Widget_Ptr&& widget);
+	void hide_gui();
 private:
 
 	Sequence_Manager& m_sequence_manager;
@@ -59,4 +63,5 @@ private:
 	Map_Saveloader& m_map_saveloader;
 	Game_Saveloader& m_game_saveloader;
 	Game_Logic& m_game_logic;
+	Scriptable_GUI& m_scriptable_gui;
 };

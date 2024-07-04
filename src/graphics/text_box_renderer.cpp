@@ -9,15 +9,12 @@ Text_Box_Renderer::Text_Box_Renderer(const Text_Box& text_box) :
 {
 }
 
-void Text_Box_Renderer::load(GUI_Loader& gui_loader, const String& project_root, const String& filename)
+void Text_Box_Renderer::load(GUI_Loader& gui_loader, const String& filename)
 {
 	if (filename.empty())
 		return;
 
-	String path = project_root;
-	path.append("/");
-	path.append(filename);
-	m_widget = gui_loader.load(path.data());
+	m_widget = gui_loader.load(filename.data());
 }
 
 void Text_Box_Renderer::draw(float time_delta)

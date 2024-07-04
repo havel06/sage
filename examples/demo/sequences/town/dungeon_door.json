@@ -1,0 +1,33 @@
+{
+	"events": [
+		{
+			"type": "show_gui",
+			"parameters": {
+				"widget": "gui/map_transition.json"
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
+			}
+		},
+		{
+			"type": "change_map",
+			"parameters": {
+				"map": "maps/dungeon_1.tmj"
+			}
+		},
+		{
+			"type": "teleport_player",
+			"parameters": {
+				"x": 42,
+				"y": 78
+			}
+		},
+		{
+			"type": "hide_gui",
+			"parameters": {}
+		}
+	]
+}

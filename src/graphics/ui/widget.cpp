@@ -85,6 +85,7 @@ Widget_Ptr Widget::clone() const
 {
 	Widget_Ptr cloned = clone_impl(m_layout.clone());
 	cloned->set_name(String{m_name});
+	cloned->fade_in_out_time = this->fade_in_out_time;
 	return cloned;
 }
 

@@ -81,6 +81,23 @@
                  "width":16,
                  "x":704,
                  "y":496
+                }, 
+                {
+                 "height":16,
+                 "id":4,
+                 "name":"Dungeon entrance",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/town\/dungeon_door.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":624,
+                 "y":240
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -89,7 +106,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":4,
+ "nextobjectid":5,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.2",

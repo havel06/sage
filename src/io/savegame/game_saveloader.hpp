@@ -18,7 +18,7 @@ namespace JSON {
 class Game_Saveloader
 {
 public:
-	Game_Saveloader(Savegame_Directory_Provider&, const String& project_dir, Game_Logic_State_Normal& facade, Game_Camera&, Inventory& inventory, Quest_Log& quest_log, Sequence_Manager&, Character_Profile_Manager&);
+	Game_Saveloader(Savegame_Directory_Provider&, const String& project_dir, Game_Logic_State_Normal& logic, Game_Camera&, Inventory& inventory, Quest_Log& quest_log, Sequence_Manager&, Character_Profile_Manager&);
 
 	void save();
 	void load();

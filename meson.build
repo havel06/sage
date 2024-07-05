@@ -107,7 +107,7 @@ executable_options = []
 
 if host_machine.system() == 'windows'
   deps += meson.get_compiler('cpp').find_library('winmm')
-  executable_options = ['werror=y=on']
+  executable_options = ['werror=false', 'unity=on', 'buildtype=release']
 endif
 
 executable('out', src,

@@ -34,7 +34,7 @@
                 {
                  "height":16,
                  "id":1,
-                 "name":"Door",
+                 "name":"Door 1",
                  "properties":[
                         {
                          "name":"sequence",
@@ -51,7 +51,7 @@
                 {
                  "height":16,
                  "id":2,
-                 "name":"Door",
+                 "name":"Door 3",
                  "properties":[
                         {
                          "name":"sequence",
@@ -68,7 +68,7 @@
                 {
                  "height":16,
                  "id":3,
-                 "name":"Door",
+                 "name":"Door 2",
                  "properties":[
                         {
                          "name":"sequence",

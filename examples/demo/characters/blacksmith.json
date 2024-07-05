@@ -1,0 +1,65 @@
+{
+	"name": "Blacksmith",
+	"max_hp": 20,
+	"sprite_down": {
+		"texture": "textures/blacksmith.png",
+		"position_x": 0,
+		"position_y": 0,
+		"size_x": 16,
+		"size_y": 16
+	},
+	"sprite_up": {
+		"texture": "textures/blacksmith.png",
+		"position_x": 0,
+		"position_y": 0,
+		"size_x": 16,
+		"size_y": 16
+	},
+	"sprite_right": {
+		"frame_time": 0.8,
+		"frames": [
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 0,
+				"position_y": 0,
+				"size_x": 16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 16,
+				"position_y": 0,
+				"size_x": 16,
+				"size_y": 16
+			}
+		]
+	},
+	"sprite_left": {
+		"frame_time": 0.8,
+		"frames": [
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 0,
+				"position_y": 0,
+				"size_x": -16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 16,
+				"position_y": 0,
+				"size_x": -16,
+				"size_y": 16
+			}
+		]
+	},
+	"abilities": [
+		{
+			"name": "Punch",
+			"damage": 1
+		}, {
+			"name": "Slash",
+			"damage": 5
+		}
+	]
+}

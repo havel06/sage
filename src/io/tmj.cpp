@@ -149,26 +149,28 @@ void Map_Loader::parse_object(const JSON::Object_View& object)
 		entity.position.y -= entity.size.y;
 	}
 
-	object["properties"].as_array().for_each([&](const JSON::Value_View& value){
-		const JSON::Object_View property = value.as_object();
+	if (object.has("properties")) {
+		object["properties"].as_array().for_each([&](const JSON::Value_View& value){
+			const JSON::Object_View property = value.as_object();
 
-		const String name = property["name"].as_string();
-		if (name == "sequence") {
-			const char* sequence_name = property["value"].as_string();
-			String sequence_path = relative_to_real_path(sequence_name);
-			entity.assigned_sequence = &m_resource_system.sequence_manager.get(sequence_path.data(), true);
-		} else if (name == "character") {
-			const char* character_relative = property["value"].as_string();
-			String character_path = relative_to_real_path(character_relative);
-			entity.assigned_character = m_resource_system.character_profile_manager.get(character_path.data(), true);
-		} else if (name == "passable") {
-			entity.passable = property["value"].as_bool();
-		} else if (name == "area_trigger") {
-			entity.area_trigger = property["value"].as_bool();
-		} else {
-			SG_WARNING("Object property \"%s\" is not supported.", name.data());
-		}
-	});
+			const String name = property["name"].as_string();
+			if (name == "sequence") {
+				const char* sequence_name = property["value"].as_string();
+				String sequence_path = relative_to_real_path(sequence_name);
+				entity.assigned_sequence = &m_resource_system.sequence_manager.get(sequence_path.data(), true);
+			} else if (name == "character") {
+				const char* character_relative = property["value"].as_string();
+				String character_path = relative_to_real_path(character_relative);
+				entity.assigned_character = m_resource_system.character_profile_manager.get(character_path.data(), true);
+			} else if (name == "passable") {
+				entity.passable = property["value"].as_bool();
+			} else if (name == "area_trigger") {
+				entity.area_trigger = property["value"].as_bool();
+			} else {
+				SG_WARNING("Object property \"%s\" is not supported.", name.data());
+			}
+		});
+	}
 
 	m_map->entities.add_entity((Entity&&)entity);
 }

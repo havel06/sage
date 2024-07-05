@@ -1,0 +1,42 @@
+{
+	"events": [
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "Chest 1",
+				"sprite": {
+					"texture": "textures/tiny_dungeon.png",
+					"position_x": 96,
+					"position_y": 112,
+					"size_x": 16,
+					"size_y": 16
+				}
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.2
+			}
+		},
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "Chest 1",
+				"sprite": {
+					"texture": "textures/tiny_dungeon.png",
+					"position_x": 112,
+					"position_y": 112,
+					"size_x": 16,
+					"size_y": 16
+				}
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "You have received a _____."
+			}
+		}
+	]
+}

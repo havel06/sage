@@ -48,6 +48,28 @@
                  "width":16,
                  "x":800,
                  "y":912
+                }, 
+                {
+                 "height":16,
+                 "id":4,
+                 "name":"Battle start",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":48,
+                 "x":656,
+                 "y":768
+                }, 
+                {
+                 "height":48,
+                 "id":5,
+                 "name":"Battle 2 start",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":928,
+                 "y":544
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -68,7 +90,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":4,
+ "nextobjectid":6,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.2",

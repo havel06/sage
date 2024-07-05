@@ -1,0 +1,41 @@
+{
+	"name": "Spider",
+	"max_hp": 20,
+	"sprite_down": {
+		"texture": "textures/tiny_dungeon.png",
+		"position_x": 32,
+		"position_y": 160,
+		"size_x": 16,
+		"size_y": 16
+	},
+	"sprite_up": {
+		"texture": "textures/tiny_dungeon.png",
+		"position_x": 32,
+		"position_y": 160,
+		"size_x": 16,
+		"size_y": 16
+	},
+	"sprite_right": {
+		"texture": "textures/tiny_dungeon.png",
+		"position_x": 32,
+		"position_y": 160,
+		"size_x": 16,
+		"size_y": 16
+	},
+	"sprite_left": {
+		"texture": "textures/tiny_dungeon.png",
+		"position_x": 32,
+		"position_y": 160,
+		"size_x": 16,
+		"size_y": 16
+	},
+	"abilities": [
+		{
+			"name": "Punch",
+			"damage": 1
+		}, {
+			"name": "Slash",
+			"damage": 5
+		}
+	]
+}

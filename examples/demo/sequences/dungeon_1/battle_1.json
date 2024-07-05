@@ -1,0 +1,13 @@
+{
+	"events": [
+		{
+			"type": "enter_combat",
+			"parameters": {
+				"win_sequence": "sequences/dungeon_1/battle_1_win.json",
+				"enemies": [
+					"characters/spider.json"
+				]
+			}
+		}
+	]
+}

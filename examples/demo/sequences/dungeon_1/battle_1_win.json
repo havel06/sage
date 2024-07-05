@@ -1,0 +1,12 @@
+{
+	"events": [
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Spider",
+				"x": 9999,
+				"y": 9999
+			}
+		}
+	]
+}

@@ -51,6 +51,15 @@ Map::Map() : Map("", 0, 0)
 void Map_Entities::add_entity(Entity&& entity)
 {
 	SG_DEBUG("Adding entity \"%s\"", entity.name.data());
+	
+	// Check for duplicated name
+	for (const Own_Ptr<Entity>& e : m_entities) {
+		if (e->name == entity.name) {
+			SG_ERROR("Unable to add entity \"%s\" due to name duplication.", entity.name.data());
+			return;
+		}
+	}
+
 	m_entities.push_back((Entity&&)entity);
 }
 

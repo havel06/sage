@@ -88,9 +88,7 @@ JSON::Object Map_Saveloader::serialise_entity(const Entity& entity)
 	json.add("direction", direction_to_string(entity.get_look_direction()));
 	json.add("moving", entity.is_moving());
 
-	if (!entity.sprite.is_null()) {
-		json.add("sprite", JSON_Types::serialise_sprite(entity.sprite, m_project_dir));
-	}
+	json.add("sprite", JSON_Types::serialise_animated_sprite(entity.sprite, m_project_dir));
 
 	return json;
 }
@@ -102,7 +100,7 @@ void Map_Saveloader::deserialise_entity(Entity& entity, const JSON::Object_View&
 
 	if (entity_json.has("sprite")) {
 		const JSON::Object_View& sprite_json = entity_json["sprite"].as_object();
-		entity.sprite = JSON_Types::parse_sprite(sprite_json, m_texture_manager);
+		entity.sprite = JSON_Types::parse_animated_sprite(sprite_json, m_texture_manager);
 	}
 
 	entity.look(direction_from_string(entity_json["direction"].as_string()));

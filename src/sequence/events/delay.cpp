@@ -19,4 +19,9 @@ bool Delay::is_finished() const
 	return m_time_active >= m_delay_time;
 }
 
+void Delay::reset()
+{
+	m_time_active = 0;
+}
+
 }

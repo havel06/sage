@@ -20,7 +20,7 @@ public:
 	float move_speed = 5;
 	bool passable = false;
 	bool area_trigger = false; // Entity is triggered when a player is inside its hitbox
-	Sprite sprite;
+	Animated_Sprite sprite;
 	Optional<Character_Profile> assigned_character;
 
 	Vec2f get_subgrid_position() const;

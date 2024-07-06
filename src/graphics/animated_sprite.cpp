@@ -12,6 +12,11 @@ Animated_Sprite::Animated_Sprite(const Sprite& sprite)
 	m_frames.push_back(sprite);
 }
 
+void Animated_Sprite::reset_animation()
+{
+	m_current_frame = 0;
+}
+
 void Animated_Sprite::draw(Rectf transform, float time_delta) const
 {
 	if (m_frames.empty()) {

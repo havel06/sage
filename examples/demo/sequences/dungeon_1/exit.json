@@ -57,6 +57,36 @@
 					"size_y": 16
 				}
 			}
+		},
+		{
+			"type": "show_gui",
+			"parameters": {
+				"widget": "gui/map_transition.json"
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
+			}
+		},
+		{
+			"type": "change_map",
+			"parameters": {
+				"map": "maps/dungeon_2.tmj"
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Player",
+				"x": 49,
+				"y": 51
+			}
+		},
+		{
+			"type": "hide_gui",
+			"parameters": {}
 		}
 	]
 }

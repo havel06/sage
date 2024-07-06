@@ -82,7 +82,7 @@ void Game_Facade::remove_item(const String& id, int count)
 	m_logic_normal.inventory.remove_item(id, count);
 }
 
-void Game_Facade::set_entity_sprite(const String& entity_name, const Sprite& sprite)
+void Game_Facade::set_entity_sprite(const String& entity_name, const Animated_Sprite& sprite)
 {
 	Entity* entity = m_logic_normal.get_map().entities.get_entity(entity_name);
 
@@ -92,6 +92,7 @@ void Game_Facade::set_entity_sprite(const String& entity_name, const Sprite& spr
 	}
 
 	entity->sprite = sprite;
+	entity->sprite.reset_animation();
 }
 
 void Game_Facade::play_music(Sound music)

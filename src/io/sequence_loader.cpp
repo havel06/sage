@@ -126,7 +126,7 @@ Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json)
 		loaded_event = make_own_ptr<Events::Play_Music>(m_facade, music);
 	} else if (type == "change_sprite") {
 		const String entity = params["entity"].as_string();
-		const Sprite sprite = JSON_Types::parse_sprite(params["sprite"].as_object(), m_resource_system.texture_manager);
+		const Animated_Sprite sprite = JSON_Types::parse_animated_sprite(params["sprite"].as_object(), m_resource_system.texture_manager);
 		loaded_event = make_own_ptr<Events::Change_Sprite>(m_facade, (String&&)entity, sprite);
 	} else if (type == "activate_sequence") {
 		const char* sequence_src = params["sequence"].as_string();

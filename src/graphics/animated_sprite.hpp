@@ -10,6 +10,7 @@ public:
 	Animated_Sprite(const Sprite&);
 	Animated_Sprite() = default;
 	void draw(Rectf transform, float time_delta) const;
+	void reset_animation();
 
 	// Getters
 	const Array<Sprite>& get_frames() const { return m_frames; }

@@ -89,6 +89,6 @@ void Map_Renderer::draw_entity(const Entity& entity, float time_delta)
 			}
 		}
 	} else {
-		entity.sprite.draw(transform);
+		entity.sprite.draw(transform, time_delta);
 	}
 }

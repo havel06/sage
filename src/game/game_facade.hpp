@@ -44,7 +44,7 @@ public:
 	void give_item(const String& id, int count);
 	void remove_item(const String& id, int count);
 	int get_owned_item_count(const String& id);
-	void set_entity_sprite(const String& entity_name, const Sprite& sprite);
+	void set_entity_sprite(const String& entity_name, const Animated_Sprite& sprite);
 	void play_music(Sound);
 	void add_to_party(const Character_Profile&);
 	void enter_combat(const Battle_Description&);

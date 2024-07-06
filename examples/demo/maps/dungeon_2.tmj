@@ -51,7 +51,7 @@
                  "visible":true,
                  "width":16,
                  "x":736,
-                 "y":560
+                 "y":544
                 }, 
                 {
                  "height":16,
@@ -62,7 +62,34 @@
                  "visible":true,
                  "width":16,
                  "x":832,
-                 "y":560
+                 "y":544
+                }, 
+                {
+                 "height":16,
+                 "id":4,
+                 "name":"Battle",
+                 "properties":[
+                        {
+                         "name":"area_trigger",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"passable",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/dungeon_2\/battle.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":48,
+                 "x":768,
+                 "y":656
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -71,7 +98,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":4,
+ "nextobjectid":5,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.2",

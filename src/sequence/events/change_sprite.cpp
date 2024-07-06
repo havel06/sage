@@ -4,7 +4,7 @@
 namespace Events
 {
 
-Change_Sprite::Change_Sprite(Game_Facade& facade, String&& entity_name, const Sprite& sprite) :
+Change_Sprite::Change_Sprite(Game_Facade& facade, String&& entity_name, const Animated_Sprite& sprite) :
 	Event{facade}
 {
 	m_sprite = sprite;

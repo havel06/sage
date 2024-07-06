@@ -157,14 +157,16 @@ Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json)
 	} else if (type == "hide_gui") {
 		loaded_event = make_own_ptr<Events::Hide_GUI>(m_facade);
 	} else if (type == "enter_combat") {
-		const char* sequence_path = params["win_sequence"].as_string();
-		Sequence& win_sequence = m_resource_system.sequence_manager.get(sequence_path, false);
+		const char* win_sequence_path = params["win_sequence"].as_string();
+		const char* lose_sequence_path = params["lose_sequence"].as_string();
+		Sequence& win_sequence = m_resource_system.sequence_manager.get(win_sequence_path, false);
+		Sequence& lose_sequence = m_resource_system.sequence_manager.get(lose_sequence_path, false);
 		Array<Character_Profile> enemies;
 		params["enemies"].as_array().for_each([&](const JSON::Value_View& value){
 			Character_Profile enemy = m_resource_system.character_profile_manager.get(value.as_string(), false);
 			enemies.push_back(enemy);
 		});
-		Battle_Description battle_desc{(Array<Character_Profile>&&)enemies, win_sequence};
+		Battle_Description battle_desc{(Array<Character_Profile>&&)enemies, win_sequence, lose_sequence};
 		loaded_event = make_own_ptr<Events::Enter_Combat>(m_facade, (Battle_Description&&)battle_desc);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());

@@ -4,6 +4,7 @@
 			"type": "enter_combat",
 			"parameters": {
 				"win_sequence": "sequences/dungeon_1/battle_1_win.json",
+				"lose_sequence": "sequences/dungeon_1/battle_1_lose.json",
 				"enemies": [
 					"characters/spider.json"
 				]

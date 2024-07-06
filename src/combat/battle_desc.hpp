@@ -10,4 +10,5 @@ struct Battle_Description
 {
 	Array<Character_Profile> enemies;
 	Sequence& win_sequence;
+	Sequence& lose_sequence;
 };

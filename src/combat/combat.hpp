@@ -62,6 +62,7 @@ private:
 
 	Party& m_party;
 	Sequence* m_win_sequence;
+	Sequence* m_lose_sequence;
 
 	Array<Combat_Observer*> m_observers;
 

@@ -36,6 +36,7 @@ void Combat::remove_observer(Combat_Observer& observer)
 void Combat::start_battle(const Battle_Description& description)
 {
 	m_win_sequence = &description.win_sequence;
+	m_lose_sequence = &description.lose_sequence;
 
 	m_heroes.clear();
 	m_enemies.clear();
@@ -151,6 +152,8 @@ void Combat::update()
 
 	if (has_player_won()) {
 		m_win_sequence->try_activate();
+	} else if (has_player_lost()) {
+		m_lose_sequence->try_activate();
 	}
 }
 

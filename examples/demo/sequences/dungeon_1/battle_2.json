@@ -48,6 +48,7 @@
 			"type": "enter_combat",
 			"parameters": {
 				"win_sequence": "sequences/dungeon_1/battle_2_win.json",
+				"lose_sequence": "sequences/dungeon_1/battle_2_lose.json",
 				"enemies": [
 					"characters/cyclops.json"
 				]

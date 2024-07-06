@@ -1,0 +1,57 @@
+{
+	"events": [
+		{
+			"type": "disable_player_actions",
+			"parameters": {}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 1
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Spike 1",
+				"x": 57,
+				"y": 34
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Spike 2",
+				"x": 57,
+				"y": 35
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Spike 3",
+				"x": 57,
+				"y": 36
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 3
+			}
+		},
+		{
+			"type": "enable_player_actions",
+			"parameters": {}
+		},
+		{
+			"type": "enter_combat",
+			"parameters": {
+				"win_sequence": "sequences/dungeon_1/battle_2_win.json",
+				"enemies": [
+					"characters/cyclops.json"
+				]
+			}
+		}
+	]
+}

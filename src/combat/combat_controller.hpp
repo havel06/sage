@@ -26,7 +26,6 @@ private:
 	void on_hero_turn_begin() override;
 	void update_ability_menu();
 
-	void draw_abilities(); // FIXME - remove
 	void draw_selected_enemy();
 
 	int m_selected_ability = 0; // Set by buttons in GUI

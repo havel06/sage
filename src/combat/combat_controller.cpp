@@ -42,7 +42,6 @@ void Combat_Controller::update_ability_menu()
 	UI::Widget* options_box = (m_menu_widget->get_widget_by_name("Options"));
 	options_box->clear_children();
 
-	// FIXME - add abilities
 	for (int i = 0; i < hero.abilities.size(); i++) {
 		const Ability& ability = hero.abilities[i];
 		UI::Widget_Ptr option_widget = m_option_widget->clone();
@@ -96,16 +95,6 @@ void Combat_Controller::draw()
 		} else {
 			draw_selected_enemy();
 		}
-	}
-}
-
-void Combat_Controller::draw_abilities()
-{
-	// FIXME
-	const Character_Profile& character = m_combat.get_unit_on_turn().character;
-
-	for (int i = 0; i < character.abilities.size(); i++) {
-		//DrawText(character.abilities[i].name.data(), x, y, 20, colour);
 	}
 }
 

@@ -1,67 +1,9 @@
 {
 	"events": [
 		{
-			"type": "change_sprite",
+			"type": "activate_sequence",
 			"parameters": {
-				"entity": "Exit left",
-				"sprite": {
-					"texture": "textures/tiny_dungeon.png",
-					"position_x": 160,
-					"position_y": 32,
-					"size_x": 16,
-					"size_y": 16
-				}
-			}
-		},
-		{
-			"type": "change_sprite",
-			"parameters": {
-				"entity": "Exit right",
-				"sprite": {
-					"texture": "textures/tiny_dungeon.png",
-					"position_x": 176,
-					"position_y": 32,
-					"size_x": 16,
-					"size_y": 16
-				}
-			}
-		},
-		{
-			"type": "delay",
-			"parameters": {
-				"seconds": 0.15
-			}
-		},
-		{
-			"type": "change_sprite",
-			"parameters": {
-				"entity": "Exit left",
-				"sprite": {
-					"texture": "textures/tiny_dungeon.png",
-					"position_x": 160,
-					"position_y": 16,
-					"size_x": 16,
-					"size_y": 16
-				}
-			}
-		},
-		{
-			"type": "change_sprite",
-			"parameters": {
-				"entity": "Exit right",
-				"sprite": {
-					"texture": "textures/tiny_dungeon.png",
-					"position_x": 176,
-					"position_y": 16,
-					"size_x": 16,
-					"size_y": 16
-				}
-			}
-		},
-		{
-			"type": "show_gui",
-			"parameters": {
-				"widget": "gui/map_transition.json"
+				"sequence": "sequences/dungeon_1/exit_animation.json"
 			}
 		},
 		{
@@ -71,22 +13,10 @@
 			}
 		},
 		{
-			"type": "change_map",
+			"type": "activate_sequence",
 			"parameters": {
-				"map": "maps/dungeon_2.tmj"
+				"sequence": "sequences/dungeon_1/exit_map_change.json"
 			}
-		},
-		{
-			"type": "teleport_entity",
-			"parameters": {
-				"entity": "Player",
-				"x": 49,
-				"y": 51
-			}
-		},
-		{
-			"type": "hide_gui",
-			"parameters": {}
 		}
 	]
 }

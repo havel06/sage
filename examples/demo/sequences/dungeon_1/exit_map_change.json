@@ -2,9 +2,9 @@
 	"from_template": {
 		"template": "sequences/door.json",
 		"parameters": {
-			"map": "maps/dungeon_1.tmj",
-			"x": 42,
-			"y": 78
+			"map": "maps/dungeon_2.tmj",
+			"x": 49,
+			"y": 51
 		}
 	}
 }

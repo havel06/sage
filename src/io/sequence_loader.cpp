@@ -39,41 +39,68 @@
 #include "json_types.hpp"
 #include "resource/resource_system.hpp"
 
-Sequence_Loader::Sequence_Loader(Resource_System& res_system, Game_Facade& facade, GUI_Loader& gui_loader) :
+Sequence_Loader::Sequence_Loader(const String& resource_root_path, Resource_System& res_system, Game_Facade& facade, GUI_Loader& gui_loader) :
 	m_facade{facade},
 	m_resource_system{res_system},
 	m_gui_loader{gui_loader}
 {
+	m_resource_root_path = resource_root_path;
 }
 
 Sequence Sequence_Loader::load(const String& filename)
 {
 	SG_DEBUG("Parsing sequence %s", filename.data());
-
 	const JSON::Object json = JSON::Object::from_file(filename.data());
 	const JSON::Object_View view = json.get_view();
-	Sequence sequence(filename);
 
-	if (view.has("repeatable")) {
-		sequence.repeatable = view["repeatable"].as_bool();
+	if (view.has("from_template")) {
+		// Load sequence from template
+		JSON::Object_View template_spec = view["from_template"].as_object();
+		String template_filename = m_resource_root_path;
+		template_filename.append('/');
+		template_filename.append(template_spec["template"].as_string());
+		JSON::Object_View params = template_spec["parameters"].as_object();
+
+		JSON::Object template_json = JSON::Object::from_file(template_filename.data());
+
+		SG_DEBUG("Parsing sequence template %s", template_filename.data());
+		return load_templated_sequence(filename, template_json.get_view(), params);
+
+	} else {
+		// Load normal, non-templated sequence
+		JSON::Object empty_parameters;
+		return load_templated_sequence(filename, view, empty_parameters.get_view());
+	}
+}
+
+Sequence Sequence_Loader::load_templated_sequence(const String& final_filename,
+		const JSON::Object_View& template_json,
+		const JSON::Object_View& parameters)
+{
+	Sequence sequence(final_filename);
+
+	if (template_json.has("repeatable")) {
+		sequence.repeatable = template_json["repeatable"].as_bool();
 	}
 
 	// Events
-	view["events"].as_array().for_each([&](const JSON::Value_View& event) {
-		sequence.add_event(parse_event(event.as_object()));
+	template_json["events"].as_array().for_each([&](const JSON::Value_View& event) {
+		sequence.add_event(parse_event(event.as_object(), parameters));
 	});
 
 	// Condition
-	if (view.has("condition")) {
-		sequence.set_condition(parse_condition(view["condition"].as_object()));
+	if (template_json.has("condition")) {
+		sequence.set_condition(parse_condition(template_json["condition"].as_object()));
 	}
 
 	return sequence;
 }
 
-// TODO - refactor to an event factory?
-Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json)
+Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json,
+		const JSON::Object_View& template_params)
 {
+	// FIXME - either use resolve_value everywhere, or refactor the whole thing
+
 	const String type= json["type"].as_string();
 	const JSON::Object_View params = json["parameters"].as_object();
 	Event_Ptr loaded_event;
@@ -96,11 +123,11 @@ Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json)
 		const int count = params["count"].as_int();
 		loaded_event = make_own_ptr<Events::Remove_Item>(m_facade, (String&&)id, count);
 	} else if (type == "change_map") {
-		const String map = params["map"].as_string();
+		const String map = resolve_value(params["map"], template_params).as_string();
 		loaded_event = make_own_ptr<Events::Change_Map>(m_facade, (String&&)map);
 	} else if (type == "teleport_player") {
-		const int x = params["x"].as_int();
-		const int y = params["y"].as_int();
+		const int x = resolve_value(params["x"], template_params).as_int();
+		const int y = resolve_value(params["y"], template_params).as_int();
 		loaded_event = make_own_ptr<Events::Teleport_Player>(m_facade, Vec2i{x, y});
 	} else if (type == "teleport_entity") {
 		const String name = params["entity"].as_string();
@@ -196,4 +223,24 @@ Condition_Ptr Sequence_Loader::parse_condition(const JSON::Object_View& json)
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		return nullptr;
 	}
+}
+
+JSON::Value_View Sequence_Loader::resolve_value(const JSON::Value_View& val,
+		const JSON::Object_View& parameters)
+{
+	if (val.is_string()) {
+		const char* str_value = val.as_string();
+
+		if (strlen(str_value) > 1 && str_value[0] == '$') {
+			const char* param_name = str_value + 1;
+			if (parameters.has(param_name)) {
+				return parameters.get(param_name);
+			} else {
+				SG_ERROR("Missing sequence template parameter \"%s\"", param_name);
+				assert(false);
+			}
+		}
+	}
+
+	return val;
 }

@@ -9,17 +9,22 @@ class Game_Facade;
 class GUI_Loader;
 namespace JSON {
 	class Object_View;
+	class Value_View;
 }
 
 class Sequence_Loader
 {
 public:
-	Sequence_Loader(Resource_System&, Game_Facade&, GUI_Loader&);
+	Sequence_Loader(const String& resource_root_path, Resource_System&, Game_Facade&, GUI_Loader&);
 	Sequence load(const String& filename);
 private:
-	Event_Ptr parse_event(const JSON::Object_View&);
+	Sequence load_templated_sequence(const String& final_filename, const JSON::Object_View& template_json, const JSON::Object_View& parameters);
+	Event_Ptr parse_event(const JSON::Object_View&, const JSON::Object_View& parameters);
 	Condition_Ptr parse_condition(const JSON::Object_View&);
+	// Returns either the value of val, or value of parameter referred to by val
+	JSON::Value_View resolve_value(const JSON::Value_View& val, const JSON::Object_View& parameters);
 
+	String m_resource_root_path;
 	Game_Facade& m_facade;
 	Resource_System& m_resource_system;
 	GUI_Loader& m_gui_loader;

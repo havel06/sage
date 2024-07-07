@@ -23,7 +23,9 @@ public:
 	const char* as_string() const;
 	Array_View as_array() const;
 	Object_View as_object() const;
+
 	bool is_null() const;
+	bool is_string() const;
 private:
 	const cJSON* m_cjson;
 };

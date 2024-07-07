@@ -53,7 +53,12 @@ Object_View Value_View::as_object() const
 
 bool Value_View::is_null() const
 {
-	return m_cjson && cJSON_IsNull(m_cjson);
+	return cJSON_IsNull(m_cjson);
+}
+
+bool Value_View::is_string() const
+{
+	return cJSON_IsString(m_cjson);
 }
 
 Object_View::Object_View(const cJSON* cjson)

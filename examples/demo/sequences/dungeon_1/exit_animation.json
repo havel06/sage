@@ -1,0 +1,62 @@
+{
+	"events": [
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "Exit left",
+				"sprite": {
+					"texture": "textures/tiny_dungeon.png",
+					"position_x": 160,
+					"position_y": 32,
+					"size_x": 16,
+					"size_y": 16
+				}
+			}
+		},
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "Exit right",
+				"sprite": {
+					"texture": "textures/tiny_dungeon.png",
+					"position_x": 176,
+					"position_y": 32,
+					"size_x": 16,
+					"size_y": 16
+				}
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.15
+			}
+		},
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "Exit left",
+				"sprite": {
+					"texture": "textures/tiny_dungeon.png",
+					"position_x": 160,
+					"position_y": 16,
+					"size_x": 16,
+					"size_y": 16
+				}
+			}
+		},
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "Exit right",
+				"sprite": {
+					"texture": "textures/tiny_dungeon.png",
+					"position_x": 176,
+					"position_y": 16,
+					"size_x": 16,
+					"size_y": 16
+				}
+			}
+		}
+	]
+}

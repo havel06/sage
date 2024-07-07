@@ -155,6 +155,6 @@ void Game::process_combat_input()
 	} else if (IsKeyPressed(KEY_LEFT)) {
 		m_combat_controller.input_direction(Direction::left);
 	} else if (IsKeyPressed(KEY_ENTER)) {
-		m_combat_controller.enter();
+		m_combat_controller.input_enter();
 	}
 }

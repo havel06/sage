@@ -99,7 +99,7 @@ Combat_Unit& Combat::get_unit_on_turn()
 
 void Combat::use_ability(int ability_index, int target_index)
 {
-	SG_DEBUG("Use ability %d", ability_index);
+	//SG_DEBUG("Use ability %d", ability_index);
 
 	Combat_Unit& unit = get_unit_on_turn();
 	

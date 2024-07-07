@@ -30,7 +30,7 @@ Widget_Ptr Button::clone_impl(Layout&& layout) const
 void Button::process_click_impl()
 {
 	if (is_focused()) {
-		SG_DEBUG("Button clicked");
+		//SG_DEBUG("Button clicked");
 		on_click();
 	}
 }

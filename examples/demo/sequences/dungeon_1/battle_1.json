@@ -1,5 +1,14 @@
 {
+	"repeatable": true,
 	"events": [
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Player",
+				"x": 42,
+				"y": 44
+			}
+		},
 		{
 			"type": "enter_combat",
 			"parameters": {

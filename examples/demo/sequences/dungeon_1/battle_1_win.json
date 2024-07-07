@@ -7,6 +7,14 @@
 				"x": 9999,
 				"y": 9999
 			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Battle start",
+				"x": 9999,
+				"y": 9999
+			}
 		}
 	]
 }

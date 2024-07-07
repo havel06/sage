@@ -2,32 +2,80 @@
 	"name": "Spider",
 	"max_hp": 20,
 	"sprite_down": {
-		"texture": "textures/tiny_dungeon.png",
-		"position_x": 32,
-		"position_y": 160,
-		"size_x": 16,
-		"size_y": 16
+		"frame_time": 0.8,
+		"frames": [
+			{
+				"texture": "textures/mage.png",
+				"position_x": 0,
+				"position_y": 240,
+				"size_x": 16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/mage.png",
+				"position_x": 16,
+				"position_y": 240,
+				"size_x": 16,
+				"size_y": 16
+			}
+		]
 	},
 	"sprite_up": {
-		"texture": "textures/tiny_dungeon.png",
-		"position_x": 32,
-		"position_y": 160,
-		"size_x": 16,
-		"size_y": 16
+		"frame_time": 0.8,
+		"frames": [
+			{
+				"texture": "textures/mage.png",
+				"position_x": 0,
+				"position_y": 240,
+				"size_x": 16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/mage.png",
+				"position_x": 16,
+				"position_y": 240,
+				"size_x": 16,
+				"size_y": 16
+			}
+		]
 	},
 	"sprite_right": {
-		"texture": "textures/tiny_dungeon.png",
-		"position_x": 32,
-		"position_y": 160,
-		"size_x": 16,
-		"size_y": 16
+		"frame_time": 0.8,
+		"frames": [
+			{
+				"texture": "textures/mage.png",
+				"position_x": 0,
+				"position_y": 240,
+				"size_x": 16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/mage.png",
+				"position_x": 16,
+				"position_y": 240,
+				"size_x": 16,
+				"size_y": 16
+			}
+		]
 	},
 	"sprite_left": {
-		"texture": "textures/tiny_dungeon.png",
-		"position_x": 32,
-		"position_y": 160,
-		"size_x": 16,
-		"size_y": 16
+		"frame_time": 0.8,
+		"frames": [
+			{
+				"texture": "textures/mage.png",
+				"position_x": 0,
+				"position_y": 240,
+				"size_x": 16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/mage.png",
+				"position_x": 16,
+				"position_y": 240,
+				"size_x": 16,
+				"size_y": 16
+			}
+		]
 	},
 	"abilities": [
 		{

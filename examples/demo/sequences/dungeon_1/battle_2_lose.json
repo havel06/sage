@@ -1,3 +1,5 @@
 {
-	"events": []
+	"repeatable": true,
+	"events": [
+	]
 }

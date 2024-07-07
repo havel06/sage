@@ -1,5 +1,6 @@
 #include "tmj.hpp"
 #include "map/tile_layer.hpp"
+#include "utils/direction.hpp"
 #include "utils/string.hpp"
 #include "utils/log.hpp"
 #include "utils/file.hpp"
@@ -166,6 +167,8 @@ void Map_Loader::parse_object(const JSON::Object_View& object)
 				entity.passable = property["value"].as_bool();
 			} else if (name == "area_trigger") {
 				entity.area_trigger = property["value"].as_bool();
+			} else if (name == "direction") {
+				entity.look(direction_from_string(property["value"].as_string()));
 			} else {
 				SG_WARNING("Object property \"%s\" is not supported.", name.data());
 			}

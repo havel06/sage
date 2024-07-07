@@ -124,6 +124,11 @@
                          "name":"character",
                          "type":"file",
                          "value":"..\/characters\/cyclops.json"
+                        }, 
+                        {
+                         "name":"direction",
+                         "type":"string",
+                         "value":"left"
                         }],
                  "rotation":0,
                  "type":"",
@@ -141,6 +146,11 @@
                          "name":"character",
                          "type":"file",
                          "value":"..\/characters\/blacksmith.json"
+                        }, 
+                        {
+                         "name":"direction",
+                         "type":"string",
+                         "value":"left"
                         }],
                  "rotation":0,
                  "type":"",

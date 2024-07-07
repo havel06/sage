@@ -28,20 +28,6 @@
 		{
 			"type": "hide_gui",
 			"parameters": {}
-		},
-		{
-			"type": "rotate_entity",
-			"parameters": {
-				"entity": "Cyclops",
-				"direction": "left"
-			}
-		},
-		{
-			"type": "rotate_entity",
-			"parameters": {
-				"entity": "Blacksmith",
-				"direction": "left"
-			}
 		}
 	]
 }

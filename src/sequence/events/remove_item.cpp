@@ -4,10 +4,10 @@
 namespace Events
 {
 
-Remove_Item::Remove_Item(Game_Facade& facade, String&& id, int count) :
+Remove_Item::Remove_Item(Game_Facade& facade, const String& id, int count) :
 	Event{facade}
 {
-	m_id = (String&&)id;
+	m_id = id;
 	m_count = count;
 }
 

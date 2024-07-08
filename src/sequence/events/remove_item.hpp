@@ -9,7 +9,7 @@ namespace Events
 class Remove_Item : public Event
 {
 public:
-	Remove_Item(Game_Facade&, String&& id, int count);
+	Remove_Item(Game_Facade&, const String& id, int count);
 	void update(float time_delta) override;
 	bool is_finished() const override;
 	void reset() override;

@@ -8,30 +8,30 @@
 #include "utils/move.hpp"
 #include "sequence/conditions/has_item.hpp"
 #include "sequence/conditions/not.hpp"
-#include "sequence/events/activate_sequence.hpp"
-#include "sequence/events/add_quest.hpp"
-#include "sequence/events/finish_quest.hpp"
-#include "sequence/events/add_to_party.hpp"
-#include "sequence/events/delay.hpp"
-#include "sequence/events/change_sprite.hpp"
-#include "sequence/events/display_text.hpp"
 #include "sequence/events/dummy.hpp"
+#include "sequence/event_factories/activate_sequence.hpp"
+#include "sequence/event_factories/add_quest.hpp"
+#include "sequence/event_factories/finish_quest.hpp"
+#include "sequence/event_factories/add_to_party.hpp"
+#include "sequence/event_factories/delay.hpp"
+#include "sequence/event_factories/change_sprite.hpp"
+#include "sequence/event_factories/display_text.hpp"
 #include "sequence/event_factories/echo.hpp"
-#include "sequence/events/change_map.hpp"
-#include "sequence/events/give_item.hpp"
-#include "sequence/events/move_entity.hpp"
-#include "sequence/events/remove_item.hpp"
-#include "sequence/events/rotate_entity.hpp"
-#include "sequence/events/play_music.hpp"
-#include "sequence/events/play_sound.hpp"
-#include "sequence/events/show_gui.hpp"
-#include "sequence/events/hide_gui.hpp"
-#include "sequence/events/teleport_player.hpp"
-#include "sequence/events/teleport_entity.hpp"
-#include "sequence/events/enable_player_actions.hpp"
-#include "sequence/events/disable_player_actions.hpp"
-#include "sequence/events/enter_combat.hpp"
-#include "sequence/events/zoom_camera.hpp"
+#include "sequence/event_factories/change_map.hpp"
+#include "sequence/event_factories/give_item.hpp"
+#include "sequence/event_factories/move_entity.hpp"
+#include "sequence/event_factories/remove_item.hpp"
+#include "sequence/event_factories/rotate_entity.hpp"
+#include "sequence/event_factories/play_music.hpp"
+#include "sequence/event_factories/play_sound.hpp"
+#include "sequence/event_factories/show_gui.hpp"
+#include "sequence/event_factories/hide_gui.hpp"
+#include "sequence/event_factories/teleport_player.hpp"
+#include "sequence/event_factories/teleport_entity.hpp"
+#include "sequence/event_factories/enable_player_actions.hpp"
+#include "sequence/event_factories/disable_player_actions.hpp"
+#include "sequence/event_factories/enter_combat.hpp"
+#include "sequence/event_factories/zoom_camera.hpp"
 #include "sequence/sequence.hpp"
 #include "sequence/event_factory.hpp"
 #include "utils/direction.hpp"
@@ -110,95 +110,96 @@ Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json,
 
 	if (type == "echo") {
 		Event_Factories::Echo factory;
-		parse_event_parameters(factory, params);
+		parse_event_parameters(factory, params, template_params);
 		loaded_event = factory.make_event(m_facade);
 	} else if (type == "display_text") {
-		const String message = params["message"].as_string();
-		loaded_event = make_own_ptr<Events::Display_Text>(m_facade, (String&&)message);
+		Event_Factories::Display_Text factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "delay") {
-		const float seconds = params["seconds"].as_float();
-		loaded_event = make_own_ptr<Events::Delay>(m_facade, seconds);
+		Event_Factories::Delay factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "give_item") {
-		const String id = params["item"].as_string();
-		const int count = params["count"].as_int();
-		loaded_event = make_own_ptr<Events::Give_Item>(m_facade, (String&&)id, count);
+		Event_Factories::Give_Item factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "remove_item") {
-		const String id = params["item"].as_string();
-		const int count = params["count"].as_int();
-		loaded_event = make_own_ptr<Events::Remove_Item>(m_facade, (String&&)id, count);
+		Event_Factories::Remove_Item factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "change_map") {
-		const String map = resolve_value(params["map"], template_params).as_string();
-		loaded_event = make_own_ptr<Events::Change_Map>(m_facade, (String&&)map);
+		Event_Factories::Change_Map factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "teleport_player") {
-		const int x = resolve_value(params["x"], template_params).as_int();
-		const int y = resolve_value(params["y"], template_params).as_int();
-		loaded_event = make_own_ptr<Events::Teleport_Player>(m_facade, Vec2i{x, y});
+		Event_Factories::Teleport_Player factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "teleport_entity") {
-		const String name = params["entity"].as_string();
-		const int x = params["x"].as_int();
-		const int y = params["y"].as_int();
-		loaded_event = make_own_ptr<Events::Teleport_Entity>(m_facade, (String&&)name, Vec2i{x, y});
+		Event_Factories::Teleport_Entity factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "move_entity") {
-		const String name = params["entity"].as_string();
-		const int x = params["x"].as_int();
-		const int y = params["y"].as_int();
-		loaded_event = make_own_ptr<Events::Move_Entity>(m_facade, (String&&)name, Vec2i{x, y});
+		Event_Factories::Move_Entity factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "rotate_entity") {
-		const String name = params["entity"].as_string();
-		const Direction dir = direction_from_string(params["direction"].as_string());
-		loaded_event = make_own_ptr<Events::Rotate_Entity>(m_facade, (String&&)name, dir);
+		Event_Factories::Rotate_Entity factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "play_sound") {
-		const char* filename = params["sound"].as_string();
-		Sound sound = m_resource_system.sound_manager.get(filename, false);
-		loaded_event = make_own_ptr<Events::Play_Sound>(m_facade, sound);
+		Event_Factories::Play_Sound factory(m_resource_system.sound_manager);
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "play_music") {
-		const char* filename = params["music"].as_string();
-		Sound music = m_resource_system.sound_manager.get(filename, false);
-		loaded_event = make_own_ptr<Events::Play_Music>(m_facade, music);
+		Event_Factories::Play_Music factory(m_resource_system.sound_manager);
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "change_sprite") {
-		const String entity = params["entity"].as_string();
-		const Animated_Sprite sprite = JSON_Types::parse_animated_sprite(params["sprite"].as_object(), m_resource_system.texture_manager);
-		loaded_event = make_own_ptr<Events::Change_Sprite>(m_facade, (String&&)entity, sprite);
+		Event_Factories::Change_Sprite factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "activate_sequence") {
-		const char* sequence_src = params["sequence"].as_string();
-		Sequence& sequence = m_resource_system.sequence_manager.get(sequence_src, false);
-		loaded_event = make_own_ptr<Events::Activate_Sequence>(m_facade, sequence);
+		Event_Factories::Activate_Sequence factory(m_resource_system.sequence_manager);
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "add_to_party") {
-		const char* character_src = params["character"].as_string();
-		Character_Profile character = m_resource_system.character_profile_manager.get(character_src, false);
-		loaded_event = make_own_ptr<Events::Add_To_Party>(m_facade, character);
+		Event_Factories::Add_To_Party factory(m_resource_system.character_profile_manager);
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "add_quest") {
-		String id = params["id"].as_string();
-		String name = params["name"].as_string();
-		String desc = params["description"].as_string();
-		loaded_event = make_own_ptr<Events::Add_Quest>(m_facade, (String&&)id, (String&&)name, (String&&)desc);
+		Event_Factories::Add_Quest factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "finish_quest") {
-		String id = params["id"].as_string();
-		loaded_event = make_own_ptr<Events::Finish_Quest>(m_facade, (String&&)id);
+		Event_Factories::Finish_Quest factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "zoom_camera") {
-		const int amount = params["zoom"].as_int();
-		loaded_event = make_own_ptr<Events::Zoom_Camera>(m_facade, amount);
+		Event_Factories::Zoom_Camera factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "enable_player_actions") {
-		loaded_event = make_own_ptr<Events::Enable_Player_Actions>(m_facade);
+		Event_Factories::Enable_Player_Actions factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "disable_player_actions") {
-		loaded_event = make_own_ptr<Events::Disable_Player_Actions>(m_facade);
+		Event_Factories::Disable_Player_Actions factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "show_gui") {
-		UI::Widget_Ptr widget = m_gui_loader.load(params["widget"].as_string());
-		loaded_event = make_own_ptr<Events::Show_GUI>(m_facade, move(widget));
+		Event_Factories::Show_GUI factory(m_gui_loader);
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "hide_gui") {
-		loaded_event = make_own_ptr<Events::Hide_GUI>(m_facade);
+		Event_Factories::Hide_GUI factory;
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "enter_combat") {
-		const char* win_sequence_path = params["win_sequence"].as_string();
-		const char* lose_sequence_path = params["lose_sequence"].as_string();
-		Sequence& win_sequence = m_resource_system.sequence_manager.get(win_sequence_path, false);
-		Sequence& lose_sequence = m_resource_system.sequence_manager.get(lose_sequence_path, false);
-		Array<Character_Profile> enemies;
-		params["enemies"].as_array().for_each([&](const JSON::Value_View& value){
-			Character_Profile enemy = m_resource_system.character_profile_manager.get(value.as_string(), false);
-			enemies.push_back(enemy);
-		});
-		Battle_Description battle_desc{(Array<Character_Profile>&&)enemies, win_sequence, lose_sequence};
-		loaded_event = make_own_ptr<Events::Enter_Combat>(m_facade, (Battle_Description&&)battle_desc);
+		Event_Factories::Enter_Combat factory(m_resource_system.sequence_manager, m_resource_system.character_profile_manager);
+		parse_event_parameters(factory, params, template_params);
+		loaded_event = factory.make_event(m_facade);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		loaded_event = make_own_ptr<Events::Dummy>(m_facade);
@@ -211,7 +212,9 @@ Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json,
 	return loaded_event;
 }
 
-void Sequence_Loader::parse_event_parameters(Event_Factory& factory, const JSON::Object_View& parameters)
+void Sequence_Loader::parse_event_parameters(Event_Factory& factory,
+		const JSON::Object_View& parameters,
+		const JSON::Object_View& template_parameters)
 {
 	// FIXME - refactor
 
@@ -221,7 +224,7 @@ void Sequence_Loader::parse_event_parameters(Event_Factory& factory, const JSON:
 			assert(false);
 		}
 
-		const JSON::Value_View& parameter_json = parameters[name.data()];
+		const JSON::Value_View& parameter_json = resolve_value(parameters[name.data()], template_parameters);
 
 		class Visitor : public Event_Parameter_Visitor {
 			const JSON::Value_View& m_param_json;
@@ -244,6 +247,16 @@ void Sequence_Loader::parse_event_parameters(Event_Factory& factory, const JSON:
 
 			void visit(String_Event_Parameter& param) override {
 				param.value = m_param_json.as_string();
+			}
+
+			void visit(Direction_Event_Parameter& param) override {
+				param.value = direction_from_string(m_param_json.as_string());
+			}
+			
+			void visit(String_Array_Event_Parameter& param) override {
+				m_param_json.as_array().for_each([&](const JSON::Value_View& value){
+					param.value.push_back(value.as_string());
+				});
 			}
 
 			void visit(Sprite_Event_Parameter& param) override {

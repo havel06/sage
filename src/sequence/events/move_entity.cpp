@@ -8,10 +8,10 @@
 namespace Events
 {
 
-Move_Entity::Move_Entity(Game_Facade& facade, String&& entity_name, Vec2i position) :
+Move_Entity::Move_Entity(Game_Facade& facade, const String& entity_name, Vec2i position) :
 	Event{facade}
 {
-	m_entity_name = (String&&)entity_name;
+	m_entity_name = entity_name;
 	m_position = position;
 }
 

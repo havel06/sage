@@ -4,10 +4,10 @@
 namespace Events
 {
 
-Finish_Quest::Finish_Quest(Game_Facade& facade, String&& id) :
+Finish_Quest::Finish_Quest(Game_Facade& facade, const String& id) :
 	Event(facade)
 {
-	m_id = (String&&)id;
+	m_id = id;
 }
 
 void Finish_Quest::update(float)

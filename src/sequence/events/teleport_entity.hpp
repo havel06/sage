@@ -10,7 +10,7 @@ namespace Events
 class Teleport_Entity : public Event
 {
 public:
-	Teleport_Entity(Game_Facade&, String&& name, Vec2i position);
+	Teleport_Entity(Game_Facade&, const String& name, Vec2i position);
 	void update(float time_delta) override;
 	bool is_finished() const override;
 	void reset() override;

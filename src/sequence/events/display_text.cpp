@@ -5,10 +5,10 @@
 namespace Events
 {
 
-Display_Text::Display_Text(Game_Facade& facade, String&& message) :
+Display_Text::Display_Text(Game_Facade& facade, const String& message) :
 	Event(facade)
 {
-	m_message = (String&&)message;
+	m_message = message;
 }
 
 void Display_Text::update(float)

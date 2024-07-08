@@ -9,7 +9,7 @@ namespace Events
 class Finish_Quest : public Event
 {
 public:
-	Finish_Quest(Game_Facade&, String&& id);
+	Finish_Quest(Game_Facade&, const String& id);
 	void update(float time_delta) override;
 	bool is_finished() const override;
 	void reset() override;

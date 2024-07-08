@@ -9,7 +9,7 @@ namespace Events
 class Give_Item : public Event
 {
 public:
-	Give_Item(Game_Facade&, String&& id, int count);
+	Give_Item(Game_Facade&, const String& id, int count);
 	void update(float time_delta) override;
 	bool is_finished() const override;
 	void reset() override;

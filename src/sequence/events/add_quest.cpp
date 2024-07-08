@@ -4,12 +4,12 @@
 namespace Events
 {
 
-Add_Quest::Add_Quest(Game_Facade& facade, String&& id, String&& name, String&& description) :
+Add_Quest::Add_Quest(Game_Facade& facade, const String& id, const String& name, const String& description) :
 	Event(facade)
 {
-	m_id = (String&&)id;
-	m_name = (String&&)name;
-	m_description = (String&&)description;
+	m_id = id;
+	m_name = name;
+	m_description = description;
 }
 
 void Add_Quest::update(float)

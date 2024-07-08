@@ -4,10 +4,10 @@
 namespace Events
 {
 
-Rotate_Entity::Rotate_Entity(Game_Facade& facade, String&& entity_name, Direction direction) :
+Rotate_Entity::Rotate_Entity(Game_Facade& facade, const String& entity_name, Direction direction) :
 	Event(facade)
 {
-	m_entity_name = (String&&)entity_name;
+	m_entity_name = entity_name;
 	m_direction = direction;
 }
 

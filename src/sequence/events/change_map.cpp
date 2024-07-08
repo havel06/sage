@@ -5,10 +5,10 @@
 namespace Events
 {
 
-Change_Map::Change_Map(Game_Facade& facade, String&& new_map) :
+Change_Map::Change_Map(Game_Facade& facade, const String& new_map) :
 	Event{facade}
 {
-	m_new_map = (String&&)new_map;
+	m_new_map = new_map;
 }
 
 void Change_Map::update(float)

@@ -9,7 +9,7 @@ namespace Events
 class Echo : public Event
 {
 public:
-	Echo(Game_Facade&, String&& message);
+	Echo(Game_Facade&, const String& message);
 	void update(float time_delta) override;
 	bool is_finished() const override;
 	void reset() override;

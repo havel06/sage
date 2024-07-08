@@ -4,7 +4,7 @@
 namespace Events
 {
 
-Echo::Echo(Game_Facade& game_facade, String&& message) :
+Echo::Echo(Game_Facade& game_facade, const String& message) :
 	Event{game_facade}
 {
 	m_message = message;

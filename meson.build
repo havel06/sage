@@ -66,6 +66,8 @@ src = [
   'src/quest/quest_log.cpp',
   'src/sequence/conditions/has_item.cpp',
   'src/sequence/conditions/not.cpp',
+  'src/sequence/event_factories/echo.cpp',
+  'src/sequence/event_factory.cpp',
   'src/sequence/events/activate_sequence.cpp',
   'src/sequence/events/add_quest.cpp',
   'src/sequence/events/add_to_party.cpp',

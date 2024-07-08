@@ -3,6 +3,8 @@
 #include "combat/battle_desc.hpp"
 #include "graphics/ui/layout.hpp"
 #include "io/gui_loader.hpp"
+#include "io/resource/texture_manager.hpp"
+#include "sequence/event_parameter.hpp"
 #include "utils/move.hpp"
 #include "sequence/conditions/has_item.hpp"
 #include "sequence/conditions/not.hpp"
@@ -14,7 +16,7 @@
 #include "sequence/events/change_sprite.hpp"
 #include "sequence/events/display_text.hpp"
 #include "sequence/events/dummy.hpp"
-#include "sequence/events/echo.hpp"
+#include "sequence/event_factories/echo.hpp"
 #include "sequence/events/change_map.hpp"
 #include "sequence/events/give_item.hpp"
 #include "sequence/events/move_entity.hpp"
@@ -31,6 +33,7 @@
 #include "sequence/events/enter_combat.hpp"
 #include "sequence/events/zoom_camera.hpp"
 #include "sequence/sequence.hpp"
+#include "sequence/event_factory.hpp"
 #include "utils/direction.hpp"
 #include "utils/file.hpp"
 #include "utils/json.hpp"
@@ -106,8 +109,9 @@ Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json,
 	Event_Ptr loaded_event;
 
 	if (type == "echo") {
-		const String message = params["message"].as_string();
-		loaded_event = make_own_ptr<Events::Echo>(m_facade, (String&&)message);
+		Event_Factories::Echo factory;
+		parse_event_parameters(factory, params);
+		loaded_event = factory.make_event(m_facade);
 	} else if (type == "display_text") {
 		const String message = params["message"].as_string();
 		loaded_event = make_own_ptr<Events::Display_Text>(m_facade, (String&&)message);
@@ -205,6 +209,51 @@ Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json,
 	}
 
 	return loaded_event;
+}
+
+void Sequence_Loader::parse_event_parameters(Event_Factory& factory, const JSON::Object_View& parameters)
+{
+	// FIXME - refactor
+
+	factory.for_each_parameter([&](const String& name, Event_Parameter& parameter){
+		if (!parameters.has(name.data())) {
+			SG_ERROR("Missing event parameter \"%s\"", name.data());
+			assert(false);
+		}
+
+		const JSON::Value_View& parameter_json = parameters[name.data()];
+
+		class Visitor : public Event_Parameter_Visitor {
+			const JSON::Value_View& m_param_json;
+			Texture_Manager& m_tex_mgr;
+
+		public:
+			Visitor(const JSON::Value_View& param_json, Texture_Manager& tex_mgr) :
+				m_param_json{param_json},
+				m_tex_mgr{tex_mgr}
+			{
+			}
+
+			void visit(Int_Event_Parameter& param) override {
+				param.value = m_param_json.as_int();
+			}
+
+			void visit(Float_Event_Parameter& param) override {
+				param.value = m_param_json.as_float();
+			}
+
+			void visit(String_Event_Parameter& param) override {
+				param.value = m_param_json.as_string();
+			}
+
+			void visit(Sprite_Event_Parameter& param) override {
+				param.value = JSON_Types::parse_animated_sprite(m_param_json.as_object(), m_tex_mgr);
+			}
+		};
+
+		Visitor visitor{parameter_json, m_resource_system.texture_manager};
+		parameter.accept_visitor(visitor);
+	});
 }
 
 Condition_Ptr Sequence_Loader::parse_condition(const JSON::Object_View& json)

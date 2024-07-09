@@ -8,7 +8,6 @@
 #include "utils/move.hpp"
 #include "sequence/conditions/has_item.hpp"
 #include "sequence/conditions/not.hpp"
-#include "sequence/events/dummy.hpp"
 #include "sequence/event_factories/activate_sequence.hpp"
 #include "sequence/event_factories/add_quest.hpp"
 #include "sequence/event_factories/finish_quest.hpp"

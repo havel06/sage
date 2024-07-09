@@ -1,6 +1,6 @@
 {
 	"type": "box",
-	"parameters": {},
+	"parameters": { },
 	"layout": {
 		"columns": [
 			{
@@ -29,13 +29,29 @@
 		{
 			"row": 1,
 			"column": 1,
-			"type": "box",
+			"type": "button",
 			"parameters": {
-				"colour": {
-					"r": 0,
-					"g": 0,
-					"b": 0,
-					"a": 200
+				"normal": {
+					"type": "box",
+					"parameters": {
+						"colour": {
+							"r": 150,
+							"g": 150,
+							"b": 150,
+							"a": 200
+						}
+					}
+				},
+				"focused": {
+					"type": "box",
+					"parameters": {
+						"colour": {
+							"r": 0,
+							"g": 0,
+							"b": 0,
+							"a": 200
+						}
+					}
 				}
 			},
 			"layout": {

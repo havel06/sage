@@ -19,6 +19,7 @@ class Combat_Controller : public Combat_Observer
 {
 public:
 	Combat_Controller(Combat&);
+	~Combat_Controller();
 	void load(GUI_Loader&, const String& menu_filename, const String& option_filename);
 	void input_direction(Direction);
 	void input_enter();

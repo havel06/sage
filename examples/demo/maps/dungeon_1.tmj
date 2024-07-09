@@ -36,6 +36,12 @@
                  "height":16,
                  "id":2,
                  "name":"Chest 2",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/dungeon_1\/chest_2.json"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,

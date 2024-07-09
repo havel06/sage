@@ -8,6 +8,8 @@ void Inventory::add_item(const String& id, int count)
 	} else {
 		m_items.insert(String{id}, int{count});
 	}
+
+	notify_observers();
 }
 
 void Inventory::remove_item(const String& id, int count)
@@ -25,6 +27,8 @@ void Inventory::remove_item(const String& id, int count)
 	} else {
 		current_count -= count;
 	}
+
+	notify_observers();
 }
 
 int Inventory::get_item_count(const String& id) const
@@ -33,5 +37,27 @@ int Inventory::get_item_count(const String& id) const
 		return *m_items.get(id);
 	} else {
 		return 0;
+	}
+}
+
+void Inventory::add_observer(Inventory_Observer& observer) const
+{
+	m_observers.push_back(&observer);
+}
+
+void Inventory::remove_observer(Inventory_Observer& observer) const
+{
+	for (int i = 0; i < m_observers.size(); i++) {
+		if (m_observers[i] == &observer) {
+			m_observers.remove(i);
+			return;
+		}
+	}
+}
+
+void Inventory::notify_observers()
+{
+	for (auto* observer : m_observers) {
+		observer->on_inventory_change();
 	}
 }

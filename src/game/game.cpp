@@ -84,7 +84,11 @@ void Game::draw_frame(float time_delta)
 
 	if (m_logic.get_state() == Game_Logic_State::normal) {
 		// Normal mode
-		process_normal_input();
+		if (m_show_inventory)
+			process_inventory_input();
+		else
+			process_normal_input();
+
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player());
 		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
 		m_scriptable_gui.draw(time_delta);
@@ -126,6 +130,19 @@ void Game::process_normal_input()
 		m_logic_normal.move_player(Direction::right);
 	} else if (IsKeyDown(KEY_LEFT)) {
 		m_logic_normal.move_player(Direction::left);
+	}
+}
+
+void Game::process_inventory_input()
+{
+	if (IsKeyPressed(KEY_UP)) {
+		m_inventory_renderer.input_direction(Direction::up);
+	} else if (IsKeyPressed(KEY_DOWN)) {
+		m_inventory_renderer.input_direction(Direction::down);
+	} else if (IsKeyPressed(KEY_RIGHT)) {
+		m_inventory_renderer.input_direction(Direction::right);
+	} else if (IsKeyPressed(KEY_LEFT)) {
+		m_inventory_renderer.input_direction(Direction::left);
 	}
 }
 

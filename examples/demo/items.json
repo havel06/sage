@@ -10,6 +10,17 @@
 				"size_x": 16,
 				"size_y": 16
 			}
+		},
+		{
+			"id": "poisoning_potion",
+			"name": "Poisoning Potion",
+			"sprite": {
+				"texture": "textures/tiny_dungeon.png",
+				"position_x": 96,
+				"position_y": 144,
+				"size_x": 16,
+				"size_y": 16
+			}
 		}
 	]
 }

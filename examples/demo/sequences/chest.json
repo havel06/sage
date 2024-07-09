@@ -1,0 +1,49 @@
+{
+	"events": [
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "$entity_name",
+				"sprite": {
+					"texture": "textures/tiny_dungeon.png",
+					"position_x": 96,
+					"position_y": 112,
+					"size_x": 16,
+					"size_y": 16
+				}
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.15
+			}
+		},
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "$entity_name",
+				"sprite": {
+					"texture": "textures/tiny_dungeon.png",
+					"position_x": 112,
+					"position_y": 112,
+					"size_x": 16,
+					"size_y": 16
+				}
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "$message"
+			}
+		},
+		{
+			"type": "give_item",
+			"parameters": {
+				"item": "$item_id",
+				"count": "$item_count"
+			}
+		}
+	]
+}

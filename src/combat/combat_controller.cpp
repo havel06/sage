@@ -17,6 +17,11 @@ Combat_Controller::Combat_Controller(Combat& combat) :
 	m_combat.add_observer(*this);
 }
 
+Combat_Controller::~Combat_Controller()
+{
+	m_combat.remove_observer(*this);
+}
+
 void Combat_Controller::load(GUI_Loader& loader, const String& menu_filename, const String& option_filename)
 {
 	if (menu_filename.empty() || option_filename.empty())

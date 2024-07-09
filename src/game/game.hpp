@@ -38,6 +38,7 @@ private:
 	void process_main_menu_input();
 	void process_normal_input();
 	void process_combat_input();
+	void process_inventory_input();
 
 	Game_Facade m_game_facade;
 	Sequence_Loader m_sequence_loader;

@@ -1,5 +1,6 @@
 #include "layout.hpp"
 #include "widget.hpp"
+#include "utils/log.hpp"
 
 namespace UI
 {
@@ -216,11 +217,11 @@ bool Layout::focus_next(Direction direction, int current_row, int current_column
 			return false;
 		case Direction::left:
 			// FIXME
-			assert(false);
+			SG_DEBUG("FIXME - focus left");
 			return false;
 		case Direction::right:
 			// FIXME
-			assert(false);
+			SG_DEBUG("FIXME - focus right");
 			return false;
 	}
 }

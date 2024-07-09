@@ -1,6 +1,7 @@
 #pragma once
 
 #include <assert.h>
+#include "concepts.hpp"
 
 template<typename T>
 class Own_Ptr
@@ -82,6 +83,7 @@ private:
 };
 
 template<typename T, typename... Args>
+requires Concepts::Constructible<T, Args...>
 Own_Ptr<T> make_own_ptr(Args&&... args)
 {
 	return Own_Ptr<T>(new T((Args&&)args...));

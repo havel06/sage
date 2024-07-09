@@ -1,6 +1,7 @@
 #pragma once
 
 #include "array.hpp"
+#include "concepts.hpp"
 
 // A simple non-ordered key-value table
 template<typename Key, typename T>
@@ -15,13 +16,13 @@ public:
 	const T* get(const Key&) const;
 	bool contains(const Key&) const;
 
-	// Callback takes 2 arguments, key and value
-	template<typename Callable>
-	void for_each(Callable c);
+	template<typename Fn>
+	requires Concepts::Callable<Fn, const Key&, T&>
+	void for_each(Fn c);
 
-	// Callback takes 2 arguments, key and value
-	template<typename Callable>
-	void for_each(Callable c) const;
+	template<typename Fn>
+	requires Concepts::Callable<Fn, const Key&, const T&>
+	void for_each(Fn c) const;
 
 private:
 	struct Item
@@ -84,8 +85,9 @@ bool Table<Key, T>::contains(const Key& key) const
 }
 
 template<typename Key, typename T>
-template<typename Callable>
-void Table<Key, T>::for_each(Callable c)
+template<typename Fn>
+requires Concepts::Callable<Fn, const Key&, T&>
+void Table<Key, T>::for_each(Fn c)
 {
 	for (int i = 0; i < m_data.size(); i++)
 	{
@@ -94,8 +96,9 @@ void Table<Key, T>::for_each(Callable c)
 }
 
 template<typename Key, typename T>
-template<typename Callable>
-void Table<Key, T>::for_each(Callable c) const
+template<typename Fn>
+requires Concepts::Callable<Fn, const Key&, const T&>
+void Table<Key, T>::for_each(Fn c) const
 {
 	for (int i = 0; i < m_data.size(); i++)
 	{

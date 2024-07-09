@@ -3,6 +3,7 @@
 #include "utils/own_ptr.hpp"
 #include "utils/array.hpp"
 #include "utils/string.hpp"
+#include "utils/concepts.hpp"
 
 class Event;
 class Event_Parameter;
@@ -19,9 +20,9 @@ public:
 	virtual ~Event_Factory() = default;
 	virtual Own_Ptr<Event> make_event(Game_Facade&) = 0;
 
-	// Callable must take two arguments: const String&, Event_parameter&
-	template<typename Callable>
-	void for_each_parameter(Callable c);
+	template<typename Fn>
+	requires Concepts::Callable<Fn, const String&, Event_Parameter&>
+	void for_each_parameter(Fn c);
 
 protected:
 	// Each derived class must register all of its parameters
@@ -41,8 +42,9 @@ private:
 // Implementation
 
 
-template<typename Callable>
-void Event_Factory::for_each_parameter(Callable callback)
+template<typename Fn>
+requires Concepts::Callable<Fn, const String&, Event_Parameter&>
+void Event_Factory::for_each_parameter(Fn callback)
 {
 	for (Registered_Parameter& param : m_parameters) {
 		callback(param.mame, param.parameter);

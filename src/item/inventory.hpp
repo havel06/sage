@@ -1,6 +1,7 @@
 #pragma once
 #include "utils/string.hpp"
 #include "utils/table.hpp"
+#include "utils/concepts.hpp"
 
 class Inventory
 {
@@ -12,8 +13,9 @@ public:
 	// Callable takes two parameters:
 	// - const String& id
 	// - int count
-	template<typename Callable>
-	void for_each_entry(Callable) const;
+	template<typename Fn>
+	requires Concepts::Callable<Fn, const String&, int>
+	void for_each_entry(Fn) const;
 private:
 	// Maps id to count
 	Table<String, int> m_items;
@@ -23,8 +25,9 @@ private:
 
 // Implementation
 
-template<typename Callable>
-void Inventory::for_each_entry(Callable c) const
+template<typename Fn>
+requires Concepts::Callable<Fn, const String&, int>
+void Inventory::for_each_entry(Fn c) const
 {
 	m_items.for_each(c);
 }

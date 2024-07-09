@@ -173,10 +173,17 @@ bool Layout::focus_first()
 	return false;
 }
 
+void Layout::lose_focus()
+{
+	for (auto& element : m_elements) {
+		element.widget->lose_focus();
+	}
+}
+
 Focus_Move_Result Layout::move_focus(Direction direction)
 {
-	for (int i = 0; i < m_elements.size(); i++)	{
-		switch (m_elements[i].widget->move_focus(direction)) {
+	for (auto& element : m_elements) {
+		switch (element.widget->move_focus(direction)) {
 			case Focus_Move_Result::moved:
 				return Focus_Move_Result::moved;
 
@@ -184,8 +191,8 @@ Focus_Move_Result Layout::move_focus(Direction direction)
 				continue;
 
 			case Focus_Move_Result::out_of_bounds:
-				if (focus_next(direction, m_elements[i].row, m_elements[i].column)) {
-					m_elements[i].widget->lose_focus();
+				if (focus_next(direction, element.row, element.column)) {
+					element.widget->lose_focus();
 					return Focus_Move_Result::moved;
 				} else {
 					return Focus_Move_Result::out_of_bounds;
@@ -216,12 +223,20 @@ bool Layout::focus_next(Direction direction, int current_row, int current_column
 			}
 			return false;
 		case Direction::left:
-			// FIXME
-			SG_DEBUG("FIXME - focus left");
+			for (int column = current_column - 1; column >= 0; column--) {
+				Widget* w = get_widget_by_position(current_row, column);
+				if (w && w->focus_first()) {
+					return true;
+				}
+			}
 			return false;
 		case Direction::right:
-			// FIXME
-			SG_DEBUG("FIXME - focus right");
+			for (int column = current_column + 1; column < m_columns.size(); column++) {
+				Widget* w = get_widget_by_position(current_row, column);
+				if (w && w->focus_first()) {
+					return true;
+				}
+			}
 			return false;
 	}
 }

@@ -97,6 +97,7 @@ void Widget::clear_children()
 void Widget::lose_focus()
 {
 	m_focused = false;
+	m_layout.lose_focus();
 }
 
 bool Widget::focus_first()

@@ -55,6 +55,7 @@ public:
 	// Returns true when focus was successful.
 	bool focus_first();
 	Focus_Move_Result move_focus(Direction);
+	void lose_focus();
 	Widget* get_focused_widget();
 private:
 	// FIXME - rename

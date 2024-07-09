@@ -117,7 +117,7 @@ void Game::process_normal_input()
 		else
 			m_logic_normal.player_interact();
 	} else if (IsKeyPressed(KEY_I)) {
-		m_show_inventory = !m_show_inventory;
+		m_show_inventory = true;
 	} else if (IsKeyPressed(KEY_Q)) {
 		m_show_quest_log = !m_show_quest_log;
 	}
@@ -143,6 +143,8 @@ void Game::process_inventory_input()
 		m_inventory_renderer.input_direction(Direction::right);
 	} else if (IsKeyPressed(KEY_LEFT)) {
 		m_inventory_renderer.input_direction(Direction::left);
+	} else if (IsKeyPressed(KEY_I)) {
+		m_show_inventory = false;
 	}
 }
 

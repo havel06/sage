@@ -23,6 +23,7 @@ private:
 
 	// FIXME - move event related things to separate class
 	Event_Ptr parse_event(const JSON::Object_View&, const JSON::Object_View& parameters);
+	Own_Ptr<Event_Factory> get_factory_for_event_type(const String& type);
 	void parse_event_parameters(Event_Factory& factory,
 			const JSON::Object_View& event_parameters,
 			const JSON::Object_View& template_parameters);

@@ -87,8 +87,11 @@ Sequence Sequence_Loader::load_templated_sequence(const String& final_filename,
 	}
 
 	// Events
-	template_json["events"].as_array().for_each([&](const JSON::Value_View& event) {
-		sequence.add_event(parse_event(event.as_object(), parameters));
+	template_json["events"].as_array().for_each([&](const JSON::Value_View& event_json) {
+		Event_Ptr event = parse_event(event_json.as_object(), parameters);
+
+		if (event)
+			sequence.add_event(move(event));
 	});
 
 	// Condition
@@ -102,114 +105,77 @@ Sequence Sequence_Loader::load_templated_sequence(const String& final_filename,
 Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json,
 		const JSON::Object_View& template_params)
 {
-	// FIXME - either use resolve_value everywhere, or refactor the whole thing
-
-	const String type= json["type"].as_string();
+	const String type = json["type"].as_string();
 	const JSON::Object_View params = json["parameters"].as_object();
-	Event_Ptr loaded_event;
+	Own_Ptr<Event_Factory> factory = get_factory_for_event_type(type);
 
+	if (factory) {
+		parse_event_parameters(*factory, params, template_params);
+
+		Event_Ptr loaded_event = factory->make_event(m_facade);
+
+		if (json.has("asynchronous")) {
+			loaded_event->asynchronous = json["asynchronous"].as_bool();
+		}
+
+		return loaded_event;
+	} else {
+		return nullptr;
+	}
+}
+
+Own_Ptr<Event_Factory> Sequence_Loader::get_factory_for_event_type(const String& type)
+{
 	if (type == "echo") {
-		Event_Factories::Echo factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Echo>();
 	} else if (type == "display_text") {
-		Event_Factories::Display_Text factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Display_Text>();
 	} else if (type == "delay") {
-		Event_Factories::Delay factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Delay>();
 	} else if (type == "give_item") {
-		Event_Factories::Give_Item factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Give_Item>();
 	} else if (type == "remove_item") {
-		Event_Factories::Remove_Item factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Remove_Item>();
 	} else if (type == "change_map") {
-		Event_Factories::Change_Map factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Change_Map>();
 	} else if (type == "teleport_player") {
-		Event_Factories::Teleport_Player factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Teleport_Player>();
 	} else if (type == "teleport_entity") {
-		Event_Factories::Teleport_Entity factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Teleport_Entity>();
 	} else if (type == "move_entity") {
-		Event_Factories::Move_Entity factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Move_Entity>();
 	} else if (type == "rotate_entity") {
-		Event_Factories::Rotate_Entity factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Rotate_Entity>();
 	} else if (type == "play_sound") {
-		Event_Factories::Play_Sound factory(m_resource_system.sound_manager);
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Play_Sound>(m_resource_system.sound_manager);
 	} else if (type == "play_music") {
-		Event_Factories::Play_Music factory(m_resource_system.sound_manager);
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Play_Music>(m_resource_system.sound_manager);
 	} else if (type == "change_sprite") {
-		Event_Factories::Change_Sprite factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Change_Sprite>();
 	} else if (type == "activate_sequence") {
-		Event_Factories::Activate_Sequence factory(m_resource_system.sequence_manager);
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Activate_Sequence>(m_resource_system.sequence_manager);
 	} else if (type == "add_to_party") {
-		Event_Factories::Add_To_Party factory(m_resource_system.character_profile_manager);
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Add_To_Party>(m_resource_system.character_profile_manager);
 	} else if (type == "add_quest") {
-		Event_Factories::Add_Quest factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Add_Quest>();
 	} else if (type == "finish_quest") {
-		Event_Factories::Finish_Quest factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Finish_Quest>();
 	} else if (type == "zoom_camera") {
-		Event_Factories::Zoom_Camera factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Zoom_Camera>();
 	} else if (type == "enable_player_actions") {
-		Event_Factories::Enable_Player_Actions factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Enable_Player_Actions>();
 	} else if (type == "disable_player_actions") {
-		Event_Factories::Disable_Player_Actions factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Disable_Player_Actions>();
 	} else if (type == "show_gui") {
-		Event_Factories::Show_GUI factory(m_gui_loader);
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Show_GUI>(m_gui_loader);
 	} else if (type == "hide_gui") {
-		Event_Factories::Hide_GUI factory;
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Hide_GUI>();
 	} else if (type == "enter_combat") {
-		Event_Factories::Enter_Combat factory(m_resource_system.sequence_manager, m_resource_system.character_profile_manager);
-		parse_event_parameters(factory, params, template_params);
-		loaded_event = factory.make_event(m_facade);
+		return make_own_ptr<Event_Factories::Enter_Combat>(m_resource_system.sequence_manager, m_resource_system.character_profile_manager);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
-		loaded_event = make_own_ptr<Events::Dummy>(m_facade);
+		return nullptr;
 	}
-
-	if (json.has("asynchronous")) {
-		loaded_event->asynchronous = json["asynchronous"].as_bool();
-	}
-
-	return loaded_event;
 }
 
 void Sequence_Loader::parse_event_parameters(Event_Factory& factory,

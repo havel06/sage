@@ -1,0 +1,23 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "choose_target",
+			"parameters": {
+				"target_type": "enemy"
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.5
+			}
+		},
+		{
+			"type": "change_target_hp",
+			"parameters": {
+				"amount": -5
+			}
+		}
+	]
+}

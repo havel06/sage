@@ -15,6 +15,7 @@
 #include "graphics/camera_controller.hpp"
 #include "io/resource/map_manager.hpp"
 #include "io/resource/sequence_manager.hpp"
+#include "combat/combat.hpp"
 
 Game_Facade::Game_Facade(
 		Sequence_Manager& seq_mgr,
@@ -24,7 +25,8 @@ Game_Facade::Game_Facade(
 		Map_Saveloader& map_saveloader,
 		Game_Saveloader& game_saveloader,
 		Game_Logic& game_logic,
-		Scriptable_GUI& scriptable_gui) :
+		Scriptable_GUI& scriptable_gui,
+		Combat& combat) :
 	m_sequence_manager{seq_mgr},
 	m_music_player{music_player},
 	m_logic_normal{logic},
@@ -32,7 +34,8 @@ Game_Facade::Game_Facade(
 	m_map_saveloader{map_saveloader},
 	m_game_saveloader{game_saveloader},
 	m_game_logic{game_logic},
-	m_scriptable_gui{scriptable_gui}
+	m_scriptable_gui{scriptable_gui},
+	m_combat{combat}
 {
 }
 
@@ -170,6 +173,11 @@ void Game_Facade::add_to_party(const Character_Profile& profile)
 void Game_Facade::enter_combat(const Battle_Description& description)
 {
 	m_game_logic.enter_combat(description);
+}
+
+void Game_Facade::combat_change_target_hp(int amount)
+{
+	m_combat.change_target_hp(amount);
 }
 
 void Game_Facade::add_quest(const String& id, const String& name, const String& description)

@@ -45,6 +45,10 @@ public:
 	void start_battle(const Battle_Description&);
 	void use_ability(int ability_index, int target_index);
 
+	// Interface for abilities
+	void change_target_hp(int amount);
+
+	// Unit stuff
 	int get_enemy_count() const;
 	int get_hero_count() const;
 	const Combat_Unit& get_hero(int index) const;
@@ -72,4 +76,5 @@ private:
 	int m_current_hero_turn = 0;
 	int m_current_enemy_turn = 0;
 	Combat_Unit* m_current_target = nullptr;
+	Ability* m_current_casted_ability = nullptr;
 };

@@ -21,6 +21,7 @@ class Sequence_Saveloader;
 class Game_Saveloader;
 class Game_Logic;
 class Scriptable_GUI;
+class Combat;
 
 
 // FIXME - maybe too many responsibilities
@@ -30,7 +31,7 @@ class Game_Facade
 {
 public:
 	// FIXME - maybe too many arguments
-	Game_Facade(Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&, Scriptable_GUI&);
+	Game_Facade(Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&, Scriptable_GUI&, Combat& combat);
 	void set_current_map(const String& filename);
 	void teleport_player(Vec2i position);
 	void set_player_interactions_enabled(bool enabled);
@@ -48,6 +49,7 @@ public:
 	void play_music(Sound);
 	void add_to_party(const Character_Profile&);
 	void enter_combat(const Battle_Description&);
+	void combat_change_target_hp(int amount);
 	void add_quest(const String& id, const String& name, const String& description);
 	void finish_quest(const String& id);
 	void zoom_camera(int amount);
@@ -64,4 +66,5 @@ private:
 	Game_Saveloader& m_game_saveloader;
 	Game_Logic& m_game_logic;
 	Scriptable_GUI& m_scriptable_gui;
+	Combat& m_combat;
 };

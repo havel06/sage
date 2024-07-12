@@ -10,7 +10,7 @@
 #include <raylib/raylib.h>
 
 Game::Game(const Project_Description& description) :
-	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui),
+	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui, m_combat),
 	m_sequence_loader(description.path, m_resource_system, m_game_facade, m_gui_loader),
 	m_resource_system(description.path, m_sequence_loader, m_sequence_saveloader),
 	m_combat(m_logic_normal.party),

@@ -59,6 +59,16 @@ void Combat::start_battle(const Battle_Description& description)
 	}
 }
 
+void Combat::change_target_hp(int amount)
+{
+	if (!m_current_target) {
+		SG_ERROR("Could not change target hp: no target selected.");
+		return;
+	}
+
+	m_current_target->hp += amount;
+}
+
 int Combat::get_enemy_count() const
 {
 	return m_enemies.size();
@@ -109,10 +119,9 @@ void Combat::use_ability(int ability_index, int target_index)
 	Combat_Unit& target = m_is_hero_turn ? m_enemies[target_index] : m_heroes[target_index];
 	m_current_target = &target;
 
-	const Ability& ability = unit.character.abilities[ability_index];
+	Ability& ability = unit.character.abilities[ability_index];
 	ability.sequence.try_activate();
-
-	advance_turn();
+	m_current_casted_ability = &ability;
 }
 
 void Combat::advance_turn()
@@ -143,6 +152,16 @@ void Combat::advance_turn()
 
 void Combat::update()
 {
+	// Advance turn if current ability has finished
+	if (m_current_casted_ability) {
+		if (!m_current_casted_ability->sequence.has_finished()) {
+			return;
+		} else {
+			m_current_casted_ability = nullptr;
+			advance_turn();
+		}
+	}
+
 	if (!m_is_hero_turn) {
 		// Enemy turn
 		Combat_AI ai(*this);

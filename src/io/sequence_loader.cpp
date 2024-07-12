@@ -32,6 +32,7 @@
 #include "sequence/event_factories/enter_combat.hpp"
 #include "sequence/event_factories/zoom_camera.hpp"
 #include "sequence/event_factories/select_target.hpp"
+#include "sequence/event_factories/change_target_hp.hpp"
 #include "sequence/sequence.hpp"
 #include "sequence/event_factory.hpp"
 #include "utils/direction.hpp"
@@ -174,6 +175,8 @@ Own_Ptr<Event_Factory> Sequence_Loader::get_factory_for_event_type(const String&
 		return make_own_ptr<Event_Factories::Enter_Combat>(m_resource_system.sequence_manager, m_resource_system.character_profile_manager);
 	} else if (type == "select_target") {
 		return make_own_ptr<Event_Factories::Select_Target>();
+	} else if (type == "change_target_hp") {
+		return make_own_ptr<Event_Factories::Change_Target_HP>();
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		return nullptr;

@@ -3,6 +3,7 @@
 #include "character_profile.hpp"
 #include "combat.hpp"
 #include "utils/log.hpp"
+#include <stdlib.h>
 #include <float.h>
 
 Combat_AI::Combat_AI(const Combat& combat) :
@@ -38,20 +39,25 @@ Combat_AI_Decision Combat_AI::make_decision()
 
 float Combat_AI::evaluate_option(int ability_index, int target_index)
 {
-	const Ability& ability = m_combat.get_unit_on_turn().character.abilities[ability_index];
-	float score = 0;
+	// FIXME - design a new AI system
+	(void)ability_index;
+	(void)target_index;
+	return (float)random() / (float)RAND_MAX;
 
-	for (int i = 0; i < m_combat.get_hero_count(); i++) {
-		Combat_Unit hero_unit = m_combat.get_hero(i);
+	//const Ability& ability = m_combat.get_unit_on_turn().character.abilities[ability_index];
+	//float score = 0;
 
-		if (i == target_index) {
-			hero_unit.hp -= ability.damage;
-		}
+	//for (int i = 0; i < m_combat.get_hero_count(); i++) {
+	//	Combat_Unit hero_unit = m_combat.get_hero(i);
 
-		score += evaluate_hero_unit(hero_unit);
-	}
+	//	//if (i == target_index) {
+	//	//	hero_unit.hp -= ability.damage;
+	//	//}
 
-	return score;
+	//	score += evaluate_hero_unit(hero_unit);
+	//}
+
+	//return score;
 }
 
 float Combat_AI::evaluate_hero_unit(const Combat_Unit& hero)

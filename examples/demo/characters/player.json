@@ -212,10 +212,10 @@
 	"abilities": [
 		{
 			"name": "Punch",
-			"damage": 1
+			"sequence": "sequences/abilities/punch.json"
 		}, {
 			"name": "Slash",
-			"damage": 5
+			"sequence": "sequences/abilities/punch.json"
 		}
 	]
 }

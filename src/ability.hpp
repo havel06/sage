@@ -2,8 +2,10 @@
 
 #include "utils/string.hpp"
 
+class Sequence;
+
 struct Ability
 {
 	String name;
-	int damage = 0;
+	Sequence& sequence;
 };

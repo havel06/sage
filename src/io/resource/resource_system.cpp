@@ -6,7 +6,7 @@
 #include "io/sequence_loader.hpp"
 
 Resource_System::Resource_System(const String& resource_root_path, Sequence_Loader& seq_loader, Sequence_Saveloader& saveloader) :
-	character_profile_manager(resource_root_path, texture_manager),
+	character_profile_manager(resource_root_path, texture_manager, sequence_manager),
 	sequence_manager(resource_root_path, seq_loader, saveloader),
 	sound_manager(resource_root_path),
 	texture_manager(resource_root_path),

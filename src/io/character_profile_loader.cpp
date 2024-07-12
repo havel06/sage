@@ -1,11 +1,14 @@
 #include "character_profile_loader.hpp"
 #include "ability.hpp"
+#include "io/resource/sequence_manager.hpp"
 #include "utils/file.hpp"
 #include "utils/json.hpp"
+#include "utils/move.hpp"
 #include "json_types.hpp"
 
-Character_Profile_Loader::Character_Profile_Loader(Texture_Manager& tex_mgr) :
-	m_texture_manager{tex_mgr}
+Character_Profile_Loader::Character_Profile_Loader(Texture_Manager& tex_mgr, Sequence_Manager& seq_mgr) :
+	m_texture_manager{tex_mgr},
+	m_sequence_manager{seq_mgr}
 {
 }
 
@@ -76,8 +79,11 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 
 Ability Character_Profile_Loader::load_ability(const JSON::Object_View& ability_json)
 {
-	Ability ability;
-	ability.name = ability_json["name"].as_string();
-	ability.damage = ability_json["damage"].as_int();
-	return ability;
+	String name = ability_json["name"].as_string();
+	Sequence& sequence = m_sequence_manager.get(ability_json["sequence"].as_string(), false);
+
+	return Ability {
+		.name = move(name),
+		.sequence = sequence
+	};
 }

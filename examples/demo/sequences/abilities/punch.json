@@ -2,6 +2,12 @@
 	"repeatable": true,
 	"events": [
 		{
+			"type": "echo",
+			"parameters": {
+				"message": "Punch!"
+			}
+		},
+		{
 			"type": "select_target",
 			"parameters": {
 				"target_type": "enemy"

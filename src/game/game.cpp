@@ -15,7 +15,7 @@ Game::Game(const Project_Description& description) :
 	m_resource_system(description.path, m_sequence_loader, m_sequence_saveloader),
 	m_combat(m_logic_normal.party),
 	m_logic_normal(m_resource_system.sequence_manager,m_map_saveloader, m_resource_system.map_manager, description.start_sequence),
-	m_logic_combat(m_logic, m_combat),
+	m_logic_combat(m_logic, m_combat, m_resource_system.sequence_manager),
 	m_logic{m_game_saveloader, m_logic_normal, m_logic_combat},
 	m_combat_controller(m_combat),
 	m_savegame_dir_provider(description.name.data()),

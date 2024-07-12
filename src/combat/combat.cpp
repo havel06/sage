@@ -106,10 +106,12 @@ void Combat::use_ability(int ability_index, int target_index)
 	assert(ability_index >= 0);
 	assert(ability_index < unit.character.abilities.size());
 
-	const Ability& ability = unit.character.abilities[ability_index];
 	Combat_Unit& target = m_is_hero_turn ? m_enemies[target_index] : m_heroes[target_index];
+	m_current_target = &target;
 
-	target.hp -= ability.damage;
+	const Ability& ability = unit.character.abilities[ability_index];
+	ability.sequence.try_activate();
+
 	advance_turn();
 }
 

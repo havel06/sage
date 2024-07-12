@@ -71,4 +71,5 @@ private:
 	bool m_is_hero_turn = true;
 	int m_current_hero_turn = 0;
 	int m_current_enemy_turn = 0;
+	Combat_Unit* m_current_target = nullptr;
 };

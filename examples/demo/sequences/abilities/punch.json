@@ -2,7 +2,7 @@
 	"repeatable": true,
 	"events": [
 		{
-			"type": "choose_target",
+			"type": "select_target",
 			"parameters": {
 				"target_type": "enemy"
 			}

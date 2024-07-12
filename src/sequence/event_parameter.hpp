@@ -3,6 +3,7 @@
 #include "graphics/animated_sprite.hpp"
 #include "utils/string.hpp"
 #include "utils/direction.hpp"
+#include "combat/target_selection_type.hpp"
 
 // fwd
 class Int_Event_Parameter;
@@ -11,6 +12,7 @@ class String_Event_Parameter;
 class Direction_Event_Parameter;
 class Sprite_Event_Parameter;
 class String_Array_Event_Parameter;
+class Target_Selection_Type_Event_Parameter;
 
 // Visitor pattern for parameters
 
@@ -23,6 +25,7 @@ public:
 	virtual void visit(Direction_Event_Parameter&) = 0;
 	virtual void visit(Sprite_Event_Parameter&) = 0;
 	virtual void visit(String_Array_Event_Parameter&) = 0;
+	virtual void visit(Target_Selection_Type_Event_Parameter&) = 0;
 };
 
 // Abstract parameter class
@@ -76,5 +79,12 @@ class String_Array_Event_Parameter final : public Event_Parameter
 {
 public:
 	Array<String> value;
+	void accept_visitor(Event_Parameter_Visitor& visitor) override { visitor.visit(*this); }
+};
+
+class Target_Selection_Type_Event_Parameter final : public Event_Parameter
+{
+public:
+	Target_Selection_Type value;
 	void accept_visitor(Event_Parameter_Visitor& visitor) override { visitor.visit(*this); }
 };

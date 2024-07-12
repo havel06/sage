@@ -31,6 +31,7 @@
 #include "sequence/event_factories/disable_player_actions.hpp"
 #include "sequence/event_factories/enter_combat.hpp"
 #include "sequence/event_factories/zoom_camera.hpp"
+#include "sequence/event_factories/select_target.hpp"
 #include "sequence/sequence.hpp"
 #include "sequence/event_factory.hpp"
 #include "utils/direction.hpp"
@@ -171,6 +172,8 @@ Own_Ptr<Event_Factory> Sequence_Loader::get_factory_for_event_type(const String&
 		return make_own_ptr<Event_Factories::Hide_GUI>();
 	} else if (type == "enter_combat") {
 		return make_own_ptr<Event_Factories::Enter_Combat>(m_resource_system.sequence_manager, m_resource_system.character_profile_manager);
+	} else if (type == "select_target") {
+		return make_own_ptr<Event_Factories::Select_Target>();
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		return nullptr;
@@ -226,6 +229,10 @@ void Sequence_Loader::parse_event_parameters(Event_Factory& factory,
 
 			void visit(Sprite_Event_Parameter& param) override {
 				param.value = JSON_Types::parse_animated_sprite(m_param_json.as_object(), m_tex_mgr);
+			}
+
+			void visit(Target_Selection_Type_Event_Parameter& param) override {
+				param.value = target_selection_type_from_str(m_param_json.as_string());
 			}
 		};
 

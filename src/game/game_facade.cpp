@@ -180,6 +180,16 @@ void Game_Facade::combat_change_target_hp(int amount)
 	m_combat.change_target_hp(amount);
 }
 
+void Game_Facade::combat_enter_target_selection()
+{
+	m_combat.enter_target_selection();
+}
+
+Combat_State Game_Facade::get_combat_state() const
+{
+	return m_combat.get_state();
+}
+
 void Game_Facade::add_quest(const String& id, const String& name, const String& description)
 {
 	SG_INFO("Added quest \"%s\"", id.data());

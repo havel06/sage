@@ -26,6 +26,7 @@ public:
 	void reset();
 
 	bool is_active() const { return m_active; }
+	// Only makes sense to use for non-repeatable sequences
 	bool has_finished() const { return m_finished; }
 	int get_current_event_index() const { return m_current_event; }
 private:

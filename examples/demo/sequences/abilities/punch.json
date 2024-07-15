@@ -4,13 +4,19 @@
 		{
 			"type": "echo",
 			"parameters": {
-				"message": "Punch!"
+				"message": "Punch begins!"
 			}
 		},
 		{
 			"type": "select_target",
 			"parameters": {
 				"target_type": "enemy"
+			}
+		},
+		{
+			"type": "echo",
+			"parameters": {
+				"message": "Punch selected target!"
 			}
 		},
 		{
@@ -23,6 +29,12 @@
 			"type": "change_target_hp",
 			"parameters": {
 				"amount": -5
+			}
+		},
+		{
+			"type": "echo",
+			"parameters": {
+				"message": "Punch ended!"
 			}
 		}
 	]

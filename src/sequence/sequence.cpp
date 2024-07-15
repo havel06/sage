@@ -69,7 +69,6 @@ void Sequence::reset()
 		m_events[i]->reset();
 
 	m_current_event = 0;
-	m_finished = false;
 	m_active = false;
 }
 

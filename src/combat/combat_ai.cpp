@@ -11,6 +11,16 @@ Combat_AI::Combat_AI(const Combat& combat) :
 {
 }
 
+int Combat_AI::decide_ability()
+{
+	return make_decision().ability_index;
+}
+
+int Combat_AI::decide_target()
+{
+	return make_decision().target_index;
+}
+
 Combat_AI_Decision Combat_AI::make_decision()
 {
 	const Combat_Unit& unit = m_combat.get_unit_on_turn();

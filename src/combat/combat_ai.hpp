@@ -13,8 +13,12 @@ class Combat_AI
 {
 public:
 	Combat_AI(const Combat&);
-	Combat_AI_Decision make_decision();
+
+	int decide_ability();
+	int decide_target();
 private:
+	Combat_AI_Decision make_decision();
+
 	float evaluate_option(int ability_index, int target_index);
 	float evaluate_hero_unit(const Combat_Unit&);
 

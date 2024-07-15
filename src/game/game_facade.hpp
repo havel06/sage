@@ -2,6 +2,7 @@
 
 #include "character_profile.hpp"
 #include "combat/battle_desc.hpp"
+#include "combat/combat.hpp"
 #include "utils/direction.hpp"
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
@@ -50,6 +51,8 @@ public:
 	void add_to_party(const Character_Profile&);
 	void enter_combat(const Battle_Description&);
 	void combat_change_target_hp(int amount);
+	void combat_enter_target_selection();
+	Combat_State get_combat_state() const;
 	void add_quest(const String& id, const String& name, const String& description);
 	void finish_quest(const String& id);
 	void zoom_camera(int amount);

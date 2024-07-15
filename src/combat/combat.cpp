@@ -49,7 +49,7 @@ void Combat::start_battle(const Battle_Description& description)
 		m_enemies.push_back(Combat_Unit{enemy});
 	}
 
-	m_is_hero_turn = true;
+	m_state = Combat_State::hero_selecting_ability;
 	m_current_hero_turn = 0;
 	m_current_enemy_turn = 0;
 
@@ -67,6 +67,15 @@ void Combat::change_target_hp(int amount)
 	}
 
 	m_current_target->hp += amount;
+}
+
+void Combat::enter_target_selection()
+{
+	if (is_hero_turn()) {
+		m_state = Combat_State::hero_selecting_target;
+	} else {
+		m_state = Combat_State::enemy_selecting_target;
+	}
 }
 
 int Combat::get_enemy_count() const
@@ -89,9 +98,23 @@ const Combat_Unit& Combat::get_enemy(int index) const
 	return m_enemies[index];
 }
 
+bool Combat::is_hero_turn() const
+{
+	switch (m_state) {
+		case Combat_State::hero_selecting_ability:
+		case Combat_State::hero_selecting_target:
+		case Combat_State::hero_casting_ability:
+			return true;
+		case Combat_State::enemy_selecting_ability:
+		case Combat_State::enemy_selecting_target:
+		case Combat_State::enemy_casting_ability:
+			return false;
+	}
+}
+
 const Combat_Unit& Combat::get_unit_on_turn() const
 {
-	if (m_is_hero_turn) {
+	if (is_hero_turn()) {
 		return m_heroes[m_current_hero_turn];
 	} else {
 		return m_enemies[m_current_enemy_turn];
@@ -100,34 +123,52 @@ const Combat_Unit& Combat::get_unit_on_turn() const
 
 Combat_Unit& Combat::get_unit_on_turn()
 {
-	if (m_is_hero_turn) {
+	if (is_hero_turn()) {
 		return m_heroes[m_current_hero_turn];
 	} else {
 		return m_enemies[m_current_enemy_turn];
 	}
 }
 
-void Combat::use_ability(int ability_index, int target_index)
+void Combat::select_ability(int ability_index)
 {
-	//SG_DEBUG("Use ability %d", ability_index);
+	SG_DEBUG("Combat: Selected ability");
+
+	assert(m_state == Combat_State::hero_selecting_ability ||
+			m_state == Combat_State::enemy_selecting_ability);
 
 	Combat_Unit& unit = get_unit_on_turn();
 	
 	assert(ability_index >= 0);
 	assert(ability_index < unit.character.abilities.size());
-
-	Combat_Unit& target = m_is_hero_turn ? m_enemies[target_index] : m_heroes[target_index];
-	m_current_target = &target;
-
 	Ability& ability = unit.character.abilities[ability_index];
 	ability.sequence.try_activate();
 	m_current_casted_ability = &ability;
+
+	m_state = is_hero_turn() ? Combat_State::hero_casting_ability : Combat_State::enemy_casting_ability;
+}
+
+void Combat::select_target(int target_index)
+{
+	SG_DEBUG("Combat: Selected target");
+
+	assert(m_state == Combat_State::hero_selecting_target ||
+			m_state == Combat_State::enemy_selecting_target);
+
+	Combat_Unit& target = is_hero_turn() ? m_enemies[target_index] : m_heroes[target_index];
+	m_current_target = &target;
+
+	m_state = is_hero_turn() ? Combat_State::hero_casting_ability : Combat_State::enemy_casting_ability;
 }
 
 void Combat::advance_turn()
 {
-	if (m_is_hero_turn) {
-		m_is_hero_turn = false;
+	SG_DEBUG("Combat: advancing turn");
+	m_current_target = nullptr;
+
+	if (is_hero_turn()) {
+		m_state = Combat_State::enemy_selecting_ability;
+
 		// Advance hero
 		m_current_hero_turn++;
 
@@ -135,7 +176,8 @@ void Combat::advance_turn()
 		if (m_current_hero_turn >= m_heroes.size())
 			m_current_hero_turn = 0;
 	} else {
-		m_is_hero_turn = true;
+		m_state = Combat_State::hero_selecting_ability;
+
 		// Advance enemy
 		m_current_enemy_turn++;
 
@@ -153,20 +195,26 @@ void Combat::advance_turn()
 void Combat::update()
 {
 	// Advance turn if current ability has finished
-	if (m_current_casted_ability) {
-		if (!m_current_casted_ability->sequence.has_finished()) {
-			return;
-		} else {
+	if (m_state == Combat_State::hero_casting_ability ||
+			m_state == Combat_State::enemy_casting_ability) {
+		assert(m_current_casted_ability);
+
+		// We don't check for "finished", since the sequence can be repeatable
+		if (!m_current_casted_ability->sequence.is_active()) {
+			m_current_casted_ability->sequence.reset(); // Reset just in case
 			m_current_casted_ability = nullptr;
 			advance_turn();
+		} else {
+			return;
 		}
 	}
 
-	if (!m_is_hero_turn) {
-		// Enemy turn
-		Combat_AI ai(*this);
-		auto decision = ai.make_decision();
-		use_ability(decision.ability_index, decision.target_index);
+	// Make enemy AI decision if needed
+	Combat_AI ai(*this);
+	if (m_state == Combat_State::enemy_selecting_ability) {
+		select_ability(ai.decide_ability());
+	} else if (m_state == Combat_State::enemy_selecting_target) {
+		select_target(ai.decide_target());
 	}
 
 	check_eliminated_units();

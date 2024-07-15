@@ -17,6 +17,7 @@ public:
 	void reset() override;
 private:
 	Target_Selection_Type m_selection_type;
+	bool m_activated = false;
 };
 
 }

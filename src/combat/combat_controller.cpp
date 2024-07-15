@@ -43,7 +43,7 @@ void Combat_Controller::load(GUI_Loader& loader, const String& menu_filename, co
 		// FIXME - safe cast
 		((UI::Text*)(fight_widget->get_widget_by_name("Name")))->text = "Fight";
 		((UI::Button*)(fight_widget->get_widget_by_name("Button")))->on_click = [this](){
-			m_state = Combat_Controller_State::selecting_ability;
+			m_menu_state = Combat_Controller_Menu_State::selecting_ability;
 		};
 		((UI::Text*)(inventory_widget->get_widget_by_name("Name")))->text = "Inventory";
 		((UI::Button*)(inventory_widget->get_widget_by_name("Button")))->on_click = [](){
@@ -60,6 +60,7 @@ void Combat_Controller::load(GUI_Loader& loader, const String& menu_filename, co
 void Combat_Controller::on_hero_turn_begin()
 {
 	update_menus();
+	m_menu_state = Combat_Controller_Menu_State::selecting_action;
 }
 
 void Combat_Controller::update_menus()
@@ -82,8 +83,7 @@ void Combat_Controller::update_menus()
 		// FIXME - safe cast
 		((UI::Text*)(option_widget->get_widget_by_name("Name")))->text = ability.name;
 		((UI::Button*)(option_widget->get_widget_by_name("Button")))->on_click = [this, i](){
-			m_selected_ability = i;
-			m_state = Combat_Controller_State::selecting_enemy;
+			m_combat.select_ability(i);
 		};
 
 		options_box->add_child((UI::Widget_Ptr&&)option_widget);
@@ -96,28 +96,37 @@ void Combat_Controller::update_menus()
 
 void Combat_Controller::input_direction(Direction direction)
 {
-	if (!m_combat.is_hero_turn())
-		return;
-
-	if (m_state == Combat_Controller_State::selecting_action) {
-		m_action_menu_widget->move_focus(direction);
-	} else if (m_state == Combat_Controller_State::selecting_ability) {
-		m_ability_menu_widget->move_focus(direction);
+	switch (m_combat.get_state()) {
+		case Combat_State::hero_selecting_ability:
+			if (m_menu_state == Combat_Controller_Menu_State::selecting_action) {
+				m_action_menu_widget->move_focus(direction);
+			} else {
+				m_ability_menu_widget->move_focus(direction);
+			}
+			break;
+		case Combat_State::hero_selecting_target:
+			// FIXME - enemy selection
+			break;
+		default:
+			return;
 	}
 }
 
 void Combat_Controller::input_enter()
 {
-	if (!m_combat.is_hero_turn())
-		return;
-
-	if (m_state == Combat_Controller_State::selecting_action) {
-		m_action_menu_widget->process_click();
-	} else if (m_state == Combat_Controller_State::selecting_ability) {
-		m_ability_menu_widget->process_click();
-	} else {
-		m_combat.use_ability(m_selected_ability, m_selected_enemy);
-		m_state = Combat_Controller_State::selecting_action;
+	switch (m_combat.get_state()) {
+		case Combat_State::hero_selecting_ability:
+			if (m_menu_state == Combat_Controller_Menu_State::selecting_action) {
+				m_action_menu_widget->process_click();
+			} else {
+				m_ability_menu_widget->process_click();
+			}
+			break;
+		case Combat_State::hero_selecting_target:
+			m_combat.select_target(m_selected_enemy);
+			break;
+		default:
+			return;
 	}
 }
 
@@ -126,14 +135,19 @@ void Combat_Controller::draw()
 	if (!m_action_menu_widget || !m_ability_menu_widget || !m_option_widget)
 		return;
 
-	if (m_combat.is_hero_turn()) {
-		if (m_state == Combat_Controller_State::selecting_action) {
-			m_action_menu_widget->draw_as_root(0); // FIXME - time delta
-		} else if (m_state == Combat_Controller_State::selecting_ability) {
-			m_ability_menu_widget->draw_as_root(0); // FIXME - time delta
-		} else {
+	switch (m_combat.get_state()) {
+		case Combat_State::hero_selecting_ability:
+			if (m_menu_state == Combat_Controller_Menu_State::selecting_action) {
+				m_action_menu_widget->draw_as_root(0); // FIXME - time delta
+			} else {
+				m_ability_menu_widget->draw_as_root(0); // FIXME - time delta
+			}
+			break;
+		case Combat_State::hero_selecting_target:
 			draw_selected_enemy();
-		}
+			break;
+		default:
+			return;
 	}
 }
 

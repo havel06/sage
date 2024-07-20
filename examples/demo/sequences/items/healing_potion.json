@@ -1,0 +1,18 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "echo",
+			"parameters": {
+				"message": "TODO - healing potion"
+			}
+		},
+		{
+			"type": "remove_item",
+			"parameters": {
+				"item": "healing_potion",
+				"count": 1
+			}
+		}
+	]
+}

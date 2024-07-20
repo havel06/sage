@@ -34,7 +34,7 @@ Game::Game(const Project_Description& description) :
 	// FIXME - make the constructor smaller by injecting into member classes via their constructors
 
 	// Item registry
-	Item_Registry_Loader item_registry_loader(m_resource_system.texture_manager);
+	Item_Registry_Loader item_registry_loader(m_resource_system.texture_manager, m_resource_system.sequence_manager);
 	item_registry_loader.load(m_logic_normal.item_registry, description.path);
 
 	// FIXME - try to remove this block
@@ -145,6 +145,8 @@ void Game::process_inventory_input()
 		m_inventory_renderer.input_direction(Direction::left);
 	} else if (IsKeyPressed(KEY_I)) {
 		m_show_inventory = false;
+	} else if (IsKeyPressed(KEY_ENTER)) {
+		m_inventory_renderer.input_click();
 	}
 }
 

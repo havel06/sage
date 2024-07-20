@@ -2,6 +2,7 @@
 #include "graphics/ui/image.hpp"
 #include "graphics/ui/widget.hpp"
 #include "graphics/ui/text.hpp"
+#include "graphics/ui/button.hpp"
 #include "raylib/raylib.h"
 #include "utils/log.hpp"
 #include "utils/string.hpp"
@@ -12,8 +13,9 @@
 #include "item/item_registry.hpp"
 #include "io/gui_loader.hpp"
 #include "graphics/ui/box.hpp"
+#include "sequence/sequence.hpp"
 
-Inventory_Renderer::Inventory_Renderer(const Item_Registry& item_registry, const Inventory& inventory) :
+Inventory_Renderer::Inventory_Renderer(Item_Registry& item_registry, Inventory& inventory) :
 	m_item_registry{item_registry},
 	m_inventory{inventory}
 {
@@ -49,7 +51,7 @@ void Inventory_Renderer::on_inventory_change()
 		if (count == 0)
 			return;
 
-		const Item& item = m_item_registry.get_item(id);
+		Item& item = m_item_registry.get_item(id);
 
 		UI::Widget_Ptr slot_widget = m_slot_widget->clone();
 
@@ -60,6 +62,14 @@ void Inventory_Renderer::on_inventory_change()
 		// Count
 		// FIXME - safe cast
 		((UI::Text*)(slot_widget->get_widget_by_name("Count")))->text = String::from_int(count);
+
+		// Button
+		// FIXME - safe cast
+		((UI::Button*)(slot_widget->get_widget_by_name("Button")))->on_click = [&](){
+			if (item.assigned_sequence) {
+				item.assigned_sequence->try_activate();
+			}
+		};
 
 		slots_widget->add_child(move(slot_widget));
 	});
@@ -87,4 +97,9 @@ void Inventory_Renderer::load(GUI_Loader& loader, const String& gui_filename, co
 void Inventory_Renderer::input_direction(Direction direction)
 {
 	m_main_widget->move_focus(direction);
+}
+
+void Inventory_Renderer::input_click()
+{
+	m_main_widget->process_click();
 }

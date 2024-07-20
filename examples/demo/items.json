@@ -3,6 +3,7 @@
 		{
 			"id": "healing_potion",
 			"name": "Healing Potion",
+			"sequence": "sequences/items/healing_potion.json",
 			"sprite": {
 				"texture": "textures/tiny_dungeon.png",
 				"position_x": 112,

@@ -30,6 +30,7 @@
 			"row": 1,
 			"column": 1,
 			"type": "button",
+			"name": "Button",
 			"parameters": {
 				"normal": {
 					"type": "box",

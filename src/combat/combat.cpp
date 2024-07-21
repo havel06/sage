@@ -7,10 +7,10 @@
 #include "sequence/sequence.hpp"
 #include "utils/log.hpp"
 
-Combat_Unit::Combat_Unit(Character_Profile p)
+Combat_Unit::Combat_Unit(Resource_Handle<Character_Profile> p) :
+	character{p}
 {
-	character = p;
-	hp = character.max_hp;
+	hp = character.get().max_hp;
 }
 
 Combat::Combat(Party& party) :
@@ -35,8 +35,8 @@ void Combat::remove_observer(Combat_Observer& observer)
 
 void Combat::start_battle(const Battle_Description& description)
 {
-	m_win_sequence = &description.win_sequence;
-	m_lose_sequence = &description.lose_sequence;
+	m_win_sequence = description.win_sequence;
+	m_lose_sequence = description.lose_sequence;
 
 	m_heroes.clear();
 	m_enemies.clear();
@@ -45,7 +45,7 @@ void Combat::start_battle(const Battle_Description& description)
 		m_heroes.push_back(Combat_Unit{m_party.get_character(i)});
 	}
 
-	for (const Character_Profile& enemy : description.enemies) {
+	for (Resource_Handle<Character_Profile> enemy : description.enemies) {
 		m_enemies.push_back(Combat_Unit{enemy});
 	}
 
@@ -140,9 +140,9 @@ void Combat::select_ability(int ability_index)
 	Combat_Unit& unit = get_unit_on_turn();
 	
 	assert(ability_index >= 0);
-	assert(ability_index < unit.character.abilities.size());
-	Ability& ability = unit.character.abilities[ability_index];
-	ability.sequence.try_activate();
+	assert(ability_index < unit.character.get().abilities.size());
+	Ability& ability = unit.character.get().abilities[ability_index];
+	ability.sequence.get().try_activate();
 	m_current_casted_ability = &ability;
 
 	m_state = is_hero_turn() ? Combat_State::hero_casting_ability : Combat_State::enemy_casting_ability;
@@ -200,8 +200,8 @@ void Combat::update()
 		assert(m_current_casted_ability);
 
 		// We don't check for "finished", since the sequence can be repeatable
-		if (!m_current_casted_ability->sequence.is_active()) {
-			m_current_casted_ability->sequence.reset(); // Reset just in case
+		if (!m_current_casted_ability->sequence.get().is_active()) {
+			m_current_casted_ability->sequence.get().reset(); // Reset just in case
 			m_current_casted_ability = nullptr;
 			advance_turn();
 		} else {
@@ -220,9 +220,9 @@ void Combat::update()
 	check_eliminated_units();
 
 	if (has_player_won()) {
-		m_win_sequence->try_activate();
+		m_win_sequence.value().get().try_activate();
 	} else if (has_player_lost()) {
-		m_lose_sequence->try_activate();
+		m_lose_sequence.value().get().try_activate();
 	}
 }
 

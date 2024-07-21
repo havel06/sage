@@ -80,7 +80,7 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 Ability Character_Profile_Loader::load_ability(const JSON::Object_View& ability_json)
 {
 	String name = ability_json["name"].as_string();
-	Sequence& sequence = m_sequence_manager.get(ability_json["sequence"].as_string(), false);
+	Resource_Handle<Sequence> sequence = m_sequence_manager.get(ability_json["sequence"].as_string(), false);
 
 	return Ability {
 		.name = move(name),

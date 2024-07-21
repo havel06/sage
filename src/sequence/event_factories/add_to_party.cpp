@@ -13,7 +13,7 @@ Add_To_Party::Add_To_Party(Character_Profile_Manager& mgr) :
 
 Own_Ptr<Event> Add_To_Party::make_event(Game_Facade& facade)
 {
-	const Character_Profile& profile = m_profile_manager.get(m_profile_filename.value, false);
+	const Resource_Handle<Character_Profile> profile = m_profile_manager.get(m_profile_filename.value, false);
 	return make_own_ptr<Events::Add_To_Party>(facade, profile);
 }
 

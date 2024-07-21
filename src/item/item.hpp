@@ -10,5 +10,5 @@ struct Item
 	String id;
 	String name;
 	Sprite sprite;
-	Sequence* assigned_sequence = nullptr;
+	Optional<Resource_Handle<Sequence>> assigned_sequence;
 };

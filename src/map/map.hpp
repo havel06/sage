@@ -5,6 +5,7 @@
 #include "tile_layers.hpp"
 #include "entity.hpp"
 #include "utils/own_ptr.hpp"
+#include "io/resource/resource_handle.hpp"
 
 class Map_Entities
 {
@@ -26,14 +27,14 @@ private:
 class Map
 {
 public:
-	Sequence* assigned_sequence = nullptr;
+	Optional<Resource_Handle<Sequence>> assigned_sequence;
 	Tile_Layers layers;
 	Map_Entities entities;
 
 	Map(const String& path, int width, int height);
 	Map();
 	Map(const Map&) = delete;
-	Map(Map&&) = delete;
+	Map(Map&&) = default;
 
 	void resize(int width, int height);
 

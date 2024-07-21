@@ -9,8 +9,8 @@ Map_Manager::Map_Manager(const String& resource_root_path, Resource_System& res_
 {
 }
 
-Own_Ptr<Map> Map_Manager::load_resource(const String& filename)
+Own_Ptr<Resource<Map>> Map_Manager::load_resource(const String& filename)
 {
 	TMJ::Map_Loader loader(m_res_system, filename);
-	return loader.retrieve_map();
+	return make_own_ptr<Resource<Map>>(move(*loader.retrieve_map()));
 }

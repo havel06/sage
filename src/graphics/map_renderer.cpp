@@ -52,7 +52,7 @@ void Map_Renderer::draw_entity(const Entity& entity, float time_delta)
 	Direction look_direction = entity.get_look_direction();
 
 	if (entity.assigned_character.has_value()) {
-		const Character_Profile& character = entity.assigned_character.value();
+		const Character_Profile& character = entity.assigned_character.value().get();
 
 		transform.size = character.size;
 		transform.position.y -= character.size.y - 1; //Adjust foot position

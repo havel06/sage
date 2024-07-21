@@ -8,6 +8,8 @@
 #include "party.hpp"
 #include "text_box.hpp"
 #include "quest/quest_log.hpp"
+#include "io/resource/resource_handle.hpp"
+#include "utils/optional.hpp"
 
 // fwd
 class Sequence;
@@ -19,13 +21,12 @@ class Game_Logic_State_Normal
 {
 public:
 	Text_Box text_box; // TODO - shouldn't this be private?
-	Party party; // TODO - make private?
 	Item_Registry item_registry;
 	Inventory inventory;
 	Quest_Log quest_log;
 	bool player_actions_disabled = false;
 
-	Game_Logic_State_Normal(Sequence_Manager&, Map_Saveloader&, Map_Manager&, const String& start_sequence);
+	Game_Logic_State_Normal(Party&, Sequence_Manager&, Map_Saveloader&, Map_Manager&, const String& start_sequence);
 
 	Map& get_map(); // FIXME - should this be here?
 	void set_current_map(const String& filename);
@@ -39,8 +40,9 @@ private:
 	Sequence_Manager& m_sequence_manager;
 	Map_Saveloader& m_map_saveloader;
 	Map_Manager& m_map_manager;
+	Party& m_party;
 
 	String m_start_sequence;
-	Map* m_map = nullptr;
+	Optional<Resource_Handle<Map>> m_map;
 	Map m_empty_map;
 };

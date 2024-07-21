@@ -4,10 +4,10 @@
 namespace Events
 {
 
-Add_To_Party::Add_To_Party(Game_Facade& facade, const Character_Profile& profile) :
-	Event{facade}
+Add_To_Party::Add_To_Party(Game_Facade& facade, Resource_Handle<Character_Profile> profile) :
+	Event{facade},
+	m_profile{profile}
 {
-	m_profile = profile;
 }
 
 void Add_To_Party::update(float)

@@ -138,11 +138,11 @@ UI::Widget_Ptr GUI_Loader::parse_box(UI::Layout&& layout, const JSON::Object_Vie
 
 UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const JSON::Object_View& params)
 {
-	Own_Ptr<UI::Text> widget = make_own_ptr<UI::Text>((UI::Layout&&)layout);
+	Resource_Handle<Font> font = m_font_manager.get(params["font"].as_string(), false);
+	Own_Ptr<UI::Text> widget = make_own_ptr<UI::Text>(font, (UI::Layout&&)layout);
 
 	widget->text = params["text"].as_string();
 	widget->size = params["size"].as_int();
-	widget->font = m_font_manager.get(params["font"].as_string(), false);
 
 	return widget;
 }

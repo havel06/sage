@@ -35,7 +35,7 @@ void Combat_Renderer::draw_party(float dt)
 
 		const Combat_Unit& unit = m_combat.get_hero(i);
 
-		unit.character.sprite_right.draw(transform, dt);
+		unit.character.get().sprite_right.draw(transform, dt);
 		draw_hp_bar({x, y}, size, unit);
 
 		y += size + margin;
@@ -58,7 +58,7 @@ void Combat_Renderer::draw_enemies(float dt)
 
 		const Combat_Unit& unit = m_combat.get_enemy(i);
 
-		unit.character.sprite_right.draw(transform, dt);
+		unit.character.get().sprite_right.draw(transform, dt);
 		draw_hp_bar({x, y}, size, unit);
 
 		y += size + margin;
@@ -74,7 +74,7 @@ void Combat_Renderer::draw_hp_bar(const Vec2i unit_pos, const int unit_size, con
 	const int height = 14;
 	DrawRectangle(bar_x, bar_y, unit_size, height, BLACK);
 
-	float hp_portion = (float)unit.hp / unit.character.max_hp;
+	float hp_portion = (float)unit.hp / unit.character.get().max_hp;
 
 	DrawRectangle(bar_x + padding, bar_y + padding, (unit_size - 2*padding) * hp_portion, height - 2 * padding, RED);
 

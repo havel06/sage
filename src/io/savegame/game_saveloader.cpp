@@ -16,14 +16,15 @@
 #include "utils/json.hpp"
 #include <stdio.h>
 
-Game_Saveloader::Game_Saveloader(Savegame_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager) :
+Game_Saveloader::Game_Saveloader(Savegame_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager, Party& party) :
 	m_logic{logic},
 	m_camera{camera},
 	m_inventory{inv},
 	m_quest_log{quest_log},
 	m_seq_manager{seq_manager},
 	m_savegame_dir_provider{dir_provider},
-	m_character_manager{character_manager}
+	m_character_manager{character_manager},
+	m_party{party}
 {
 	m_project_dir = project_dir;
 }
@@ -112,7 +113,7 @@ JSON::Array Game_Saveloader::serialise_active_sequences()
 void Game_Saveloader::load_active_sequences(const JSON::Array_View& json)
 {
 	json.for_each([&](const JSON::Value_View& value){
-		m_seq_manager.get(value.as_string(), false).try_activate();
+		m_seq_manager.get(value.as_string(), false).get().try_activate();
 	});
 }
 
@@ -120,9 +121,9 @@ JSON::Array Game_Saveloader::serialise_party()
 {
 	JSON::Array json;
 
-	for (int i = 0; i < m_logic.party.get_character_count(); i++) {
-		const Character_Profile& profile = m_logic.party.get_character(i);
-		if (&profile != &m_logic.party.main_character())
+	for (int i = 0; i < m_party.get_character_count(); i++) {
+		const Character_Profile& profile = m_party.get_character(i).get();
+		if (&profile != &m_party.main_character().get())
 			json.add(profile.filename.data());
 	}
 
@@ -132,7 +133,7 @@ JSON::Array Game_Saveloader::serialise_party()
 void Game_Saveloader::load_party(const JSON::Array_View& json)
 {
 	json.for_each([&](const JSON::Value_View& value){
-		const Character_Profile& profile = m_character_manager.get(value.as_string(), true);
-		m_logic.party.add_character(profile);
+		auto profile = m_character_manager.get(value.as_string(), true);
+		m_party.add_character(profile);
 	});
 }

@@ -8,7 +8,7 @@ class Sequence;
 
 struct Battle_Description
 {
-	Array<Character_Profile> enemies;
-	Sequence& win_sequence;
-	Sequence& lose_sequence;
+	Array<Resource_Handle<Character_Profile>> enemies;
+	Resource_Handle<Sequence> win_sequence;
+	Resource_Handle<Sequence> lose_sequence;
 };

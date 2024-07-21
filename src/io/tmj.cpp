@@ -10,7 +10,7 @@
 namespace TMJ
 {
 
-Tileset::Tileset(Vec2i tile_size, int columns, int count, const Sage_Texture& texture)
+Tileset::Tileset(Vec2i tile_size, int columns, int count, Resource_Handle<Sage_Texture> texture)
 {
 	m_tiles.resize(count);
 	for (int i = 0; i < count; i++) {
@@ -158,7 +158,7 @@ void Map_Loader::parse_object(const JSON::Object_View& object)
 			if (name == "sequence") {
 				const char* sequence_name = property["value"].as_string();
 				String sequence_path = relative_to_real_path(sequence_name);
-				entity.assigned_sequence = &m_resource_system.sequence_manager.get(sequence_path.data(), true);
+				entity.assigned_sequence = m_resource_system.sequence_manager.get(sequence_path.data(), true);
 			} else if (name == "character") {
 				const char* character_relative = property["value"].as_string();
 				String character_path = relative_to_real_path(character_relative);
@@ -209,7 +209,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 			// Tileset from one image
 			const char* image_relative = view["image"].as_string();
 			String image_path = relative_to_real_path(image_relative);
-			Sage_Texture texture = m_resource_system.texture_manager.get(image_path.data(), true);
+			Resource_Handle<Sage_Texture> texture = m_resource_system.texture_manager.get(image_path.data(), true);
 			return Tileset{
 				Vec2i{tile_width, tile_height},
 				columns,
@@ -229,7 +229,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 			if (tileset.is_image_collection()) {
 				const char* image_relative = tile["image"].as_string();
 				String image_path = relative_to_real_path(image_relative);
-				Sage_Texture texture = m_resource_system.texture_manager.get(image_path.data(), true);
+				Resource_Handle<Sage_Texture> texture = m_resource_system.texture_manager.get(image_path.data(), true);
 				Sprite sprite{texture};
 				tileset.add_tile(Tile{sprite});
 			}

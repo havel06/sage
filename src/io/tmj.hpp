@@ -18,7 +18,7 @@ namespace TMJ
 class Tileset
 {
 public:
-	Tileset(Vec2i tile_size, int columns, int count, const Sage_Texture&);
+	Tileset(Vec2i tile_size, int columns, int count, Resource_Handle<Sage_Texture>);
 	Tileset();
 	bool is_image_collection() const { return m_is_image_collection; }
 	void add_tile(Tile);

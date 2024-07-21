@@ -2,6 +2,7 @@
 
 #include "widget.hpp"
 #include "utils/string.hpp"
+#include "io/resource/resource_handle.hpp"
 #include <raylib/raylib.h>
 
 namespace UI
@@ -10,8 +11,7 @@ namespace UI
 class Text : public Widget
 {
 public:
-	Text(Layout&&);
-	Font font = GetFontDefault();
+	Text(Resource_Handle<Font>, Layout&&);
 	String text = "";
 	int size = 10;
 private:
@@ -21,6 +21,8 @@ private:
 	String wrap_text(const String& text, int width);
 	bool is_focusable() const override { return false; }
 	void process_click_impl() override {}
+
+	Resource_Handle<Font> m_font;
 };
 
 }

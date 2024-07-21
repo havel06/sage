@@ -26,7 +26,8 @@ Game_Facade::Game_Facade(
 		Game_Saveloader& game_saveloader,
 		Game_Logic& game_logic,
 		Scriptable_GUI& scriptable_gui,
-		Combat& combat) :
+		Combat& combat,
+		Party& party) :
 	m_sequence_manager{seq_mgr},
 	m_music_player{music_player},
 	m_logic_normal{logic},
@@ -35,7 +36,8 @@ Game_Facade::Game_Facade(
 	m_game_saveloader{game_saveloader},
 	m_game_logic{game_logic},
 	m_scriptable_gui{scriptable_gui},
-	m_combat{combat}
+	m_combat{combat},
+	m_party{party}
 {
 }
 
@@ -165,9 +167,9 @@ void Game_Facade::set_player_interactions_enabled(bool enabled)
 	m_logic_normal.player_actions_disabled = !enabled;
 }
 
-void Game_Facade::add_to_party(const Character_Profile& profile)
+void Game_Facade::add_to_party(Resource_Handle<Character_Profile> profile)
 {
-	m_logic_normal.party.add_character(profile);
+	m_party.add_character(profile);
 }
 
 void Game_Facade::enter_combat(const Battle_Description& description)

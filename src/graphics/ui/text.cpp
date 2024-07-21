@@ -5,8 +5,9 @@
 namespace UI
 {
 
-Text::Text(Layout&& layout) :
-	Widget((Layout&&)layout)
+Text::Text(Resource_Handle<Font> font, Layout&& layout) :
+	Widget((Layout&&)layout),
+	m_font{font}
 {
 }
 
@@ -14,7 +15,7 @@ void Text::draw_impl(Recti parent_area, float opacity, float)
 {
 	const String wrapped_text = wrap_text(text, parent_area.size.x);
 	const Color color {255, 255, 255, (unsigned char)(255 * opacity)};
-	DrawTextEx(font, wrapped_text.data(), {(float)parent_area.position.x, (float)parent_area.position.y}, size, 0, color);
+	DrawTextEx(m_font.get(), wrapped_text.data(), {(float)parent_area.position.x, (float)parent_area.position.y}, size, 0, color);
 }
 
 Array<String> Text::split_text_to_words(const String& text)
@@ -65,7 +66,7 @@ String Text::wrap_text(const String& text, int width)
 			continue;
 		}
 
-		auto space_left = width - MeasureTextEx(font, line.data(), size, 0).x;
+		auto space_left = width - MeasureTextEx(m_font.get(), line.data(), size, 0).x;
 
 		const auto word_width = MeasureText((words[i]).data(), size);
 		if (word_width <= space_left) {
@@ -90,9 +91,8 @@ String Text::wrap_text(const String& text, int width)
 
 Widget_Ptr Text::clone_impl(Layout&& layout) const
 {
-	Own_Ptr<Text> cloned = make_own_ptr<Text>((Layout&&)layout);
+	Own_Ptr<Text> cloned = make_own_ptr<Text>(m_font, (Layout&&)layout);
 	cloned->text = text;
-	cloned->font = font;
 	cloned->size = size;
 	return cloned;
 }

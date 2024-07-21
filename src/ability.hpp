@@ -1,11 +1,12 @@
 #pragma once
 
 #include "utils/string.hpp"
+#include "io/resource/resource_handle.hpp"
 
 class Sequence;
 
 struct Ability
 {
 	String name;
-	Sequence& sequence;
+	Resource_Handle<Sequence> sequence;
 };

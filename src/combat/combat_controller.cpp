@@ -67,7 +67,7 @@ void Combat_Controller::update_menus()
 {
 	// FIXME - check that widgets got by name exist
 
-	const Character_Profile& hero = m_combat.get_unit_on_turn().character;
+	const Character_Profile& hero = m_combat.get_unit_on_turn().character.get();
 
 	// FIXME - safe cast
 	((UI::Text*)(m_action_menu_widget->get_widget_by_name("Title")))->text = hero.name;
@@ -153,7 +153,7 @@ void Combat_Controller::draw()
 
 void Combat_Controller::draw_selected_enemy()
 {
-	const Character_Profile& enemy = m_combat.get_enemy(m_selected_enemy).character;
+	const Character_Profile& enemy = m_combat.get_enemy(m_selected_enemy).character.get();
 
 	// FIXME - safe cast
 	((UI::Text*)(m_ability_menu_widget->get_widget_by_name("Title")))->text = enemy.name;

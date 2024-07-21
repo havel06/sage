@@ -11,7 +11,7 @@ Sprite parse_sprite(const JSON::Object_View& json, Texture_Manager& texture_mana
 {
 	// FIXME - error handling
 	const char* texture_name = json["texture"].as_string();
-	const Sage_Texture texture = texture_manager.get(texture_name, false);
+	const Resource_Handle<Sage_Texture> texture = texture_manager.get(texture_name, false);
 
 	Sprite sprite(texture);
 	sprite.texture_clip.position.x = json["position_x"].as_int();

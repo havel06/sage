@@ -6,9 +6,10 @@
 #include "utils/direction.hpp"
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
-#include <raylib/raylib.h>
 #include "utils/array.hpp"
 #include "graphics/ui/widget.hpp"
+#include "io/resource/resource_handle.hpp"
+#include <raylib/raylib.h>
 
 class Map_Manager;
 class Sequence_Manager;
@@ -32,7 +33,7 @@ class Game_Facade
 {
 public:
 	// FIXME - maybe too many arguments
-	Game_Facade(Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&, Scriptable_GUI&, Combat& combat);
+	Game_Facade(Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&, Scriptable_GUI&, Combat& combat, Party& party);
 	void set_current_map(const String& filename);
 	void teleport_player(Vec2i position);
 	void set_player_interactions_enabled(bool enabled);
@@ -48,7 +49,7 @@ public:
 	int get_owned_item_count(const String& id);
 	void set_entity_sprite(const String& entity_name, const Animated_Sprite& sprite);
 	void play_music(Sound);
-	void add_to_party(const Character_Profile&);
+	void add_to_party(Resource_Handle<Character_Profile>);
 	void enter_combat(const Battle_Description&);
 	void combat_change_target_hp(int amount);
 	void combat_enter_target_selection();
@@ -70,4 +71,5 @@ private:
 	Game_Logic& m_game_logic;
 	Scriptable_GUI& m_scriptable_gui;
 	Combat& m_combat;
+	Party& m_party;
 };

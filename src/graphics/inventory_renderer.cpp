@@ -66,8 +66,8 @@ void Inventory_Renderer::on_inventory_change()
 		// Button
 		// FIXME - safe cast
 		((UI::Button*)(slot_widget->get_widget_by_name("Button")))->on_click = [&](){
-			if (item.assigned_sequence) {
-				item.assigned_sequence->try_activate();
+			if (item.assigned_sequence.has_value()) {
+				item.assigned_sequence.value().get().try_activate();
 			}
 		};
 

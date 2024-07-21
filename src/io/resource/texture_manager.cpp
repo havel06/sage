@@ -7,7 +7,7 @@ Texture_Manager::Texture_Manager(const String& resource_root_path) :
 {
 }
 
-Own_Ptr<Sage_Texture> Texture_Manager::load_resource(const String& filename)
+Own_Ptr<Resource<Sage_Texture>> Texture_Manager::load_resource(const String& filename)
 {
-	return make_own_ptr<Sage_Texture>(Sage_Texture{LoadTexture(filename.data()), filename});
+	return make_own_ptr<Resource<Sage_Texture>>(Sage_Texture{LoadTexture(filename.data()), filename});
 }

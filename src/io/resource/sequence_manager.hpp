@@ -23,7 +23,7 @@ public:
 	requires Concepts::Callable<Fn, Sequence&>
 	void for_each(Fn c);
 private:
-	Own_Ptr<Sequence> load_resource(const String& filename) override;
+	Own_Ptr<Resource<Sequence>> load_resource(const String& filename) override;
 
 	Sequence_Loader& m_loader;
 	Sequence_Saveloader& m_saveloader;

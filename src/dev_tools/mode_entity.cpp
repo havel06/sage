@@ -29,7 +29,7 @@ void Dev_Tools_Mode_Entity::draw_entity_edit()
 	ImGui::DragScalarN("Position", ImGuiDataType_S32, &m_selected_entity->position, 2, 0.2);
 
 	float* move_speed = m_selected_entity->assigned_character.has_value() ?
-		&m_selected_entity->assigned_character.value().move_speed : &m_selected_entity->move_speed;
+		&m_selected_entity->assigned_character.value().get().move_speed : &m_selected_entity->move_speed;
 
 	ImGui::DragFloat("Move speed", move_speed, 0.1, 0, 100, "%.2f");
 

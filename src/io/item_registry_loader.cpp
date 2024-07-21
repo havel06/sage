@@ -29,9 +29,9 @@ void Item_Registry_Loader::load(Item_Registry& registry, const String& project_r
 		const String name = item["name"].as_string();
 		Sprite sprite = JSON_Types::parse_sprite(item["sprite"].as_object(), m_texture_manager);
 
-		Sequence* sequence = nullptr;
+		Optional<Resource_Handle<Sequence>> sequence;
 		if (item.has("sequence")) {
-			sequence = &m_sequence_manager.get(item.get("sequence").as_string(), false);
+			sequence = m_sequence_manager.get(item.get("sequence").as_string(), false);
 		}
 
 		registry.add_item(Item{

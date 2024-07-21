@@ -12,7 +12,8 @@ class Sequence;
 class Entity
 {
 public:
-	Sequence* assigned_sequence = nullptr;
+	Optional<Resource_Handle<Sequence>> assigned_sequence;
+	Optional<Resource_Handle<Character_Profile>> assigned_character;
 
 	String name;
 	Vec2i position = {0, 0};
@@ -21,7 +22,6 @@ public:
 	bool passable = false;
 	bool area_trigger = false; // Entity is triggered when a player is inside its hitbox
 	Animated_Sprite sprite;
-	Optional<Character_Profile> assigned_character;
 
 	Vec2f get_subgrid_position() const;
 	void update(float time_delta);

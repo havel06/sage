@@ -30,7 +30,7 @@ Combat_AI_Decision Combat_AI::make_decision()
 	float best_option_score = -FLT_MAX;
 
 	// Find best option
-	for (int ability = 0; ability < unit.character.abilities.size(); ability++) {
+	for (int ability = 0; ability < unit.character.get().abilities.size(); ability++) {
 		for (int target = 0; target < m_combat.get_hero_count(); target++) {
 			float score = evaluate_option(ability, target);
 			if (score > best_option_score) {
@@ -77,5 +77,5 @@ float Combat_AI::evaluate_hero_unit(const Combat_Unit& hero)
 		return 1;
 
 	// Bigger HP portion left is worse
-	return -(float)hero.hp / hero.character.max_hp;
+	return -(float)hero.hp / hero.character.get().max_hp;
 }

@@ -12,10 +12,10 @@ class Sequence;
 class Combat_Unit
 {
 public:
-	Character_Profile character;
+	Resource_Handle<Character_Profile> character;
 	int hp;
 
-	Combat_Unit(Character_Profile);
+	Combat_Unit(Resource_Handle<Character_Profile>);
 };
 
 enum class Combat_Result
@@ -89,8 +89,8 @@ private:
 	Combat_State m_state = Combat_State::hero_selecting_ability;
 
 	Array<Combat_Observer*> m_observers;
-	Sequence* m_win_sequence;
-	Sequence* m_lose_sequence;
+	Optional<Resource_Handle<Sequence>> m_win_sequence;
+	Optional<Resource_Handle<Sequence>> m_lose_sequence;
 
 	Array<Combat_Unit> m_heroes;
 	Array<Combat_Unit> m_enemies;

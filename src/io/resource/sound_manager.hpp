@@ -8,5 +8,5 @@ class Sound_Manager : public Resource_Manager<Sound>
 public:
 	Sound_Manager(const String& resource_root_path);
 private:
-	Own_Ptr<Sound> load_resource(const String& filename) override;
+	Own_Ptr<Resource<Sound>> load_resource(const String& filename) override;
 };

@@ -11,7 +11,7 @@ Font_Manager::Font_Manager(const String& resource_root_path) :
 	m_resource_root = resource_root_path;
 }
 
-Own_Ptr<Font> Font_Manager::load_resource(const String& filename)
+Own_Ptr<Resource<Font>> Font_Manager::load_resource(const String& filename)
 {
 	// FIXME - error handling
 	JSON::Object json = JSON::Object::from_file(filename.data());
@@ -30,5 +30,5 @@ Own_Ptr<Font> Font_Manager::load_resource(const String& filename)
 		SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
 	}
 
-	return make_own_ptr<Font>(font);
+	return make_own_ptr<Resource<Font>>(move(font));
 }

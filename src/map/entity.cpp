@@ -9,7 +9,7 @@ void Entity::update(float time_delta)
 	if (m_moving) {
 		auto get_move_speed = [this](){
 			if (assigned_character.has_value())
-				return assigned_character.value().move_speed;
+				return assigned_character.value().get().move_speed;
 			else
 				return move_speed;
 		};

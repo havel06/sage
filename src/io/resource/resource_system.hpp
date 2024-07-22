@@ -11,12 +11,12 @@
 class Resource_System
 {
 public:
-	Character_Profile_Manager character_profile_manager;
-	Sequence_Manager sequence_manager;
-	Sound_Manager sound_manager;
 	Texture_Manager texture_manager;
-	Map_Manager map_manager;
 	Font_Manager font_manager;
+	Sound_Manager sound_manager;
+	Sequence_Manager sequence_manager;
+	Character_Profile_Manager character_profile_manager;
+	Map_Manager map_manager;
 
 	Resource_System(const String& resource_root_path, Sequence_Loader&, Sequence_Saveloader&);
 	void unload_free_resources();

@@ -87,7 +87,8 @@ Array_View::Array_View(const cJSON* cjson)
 
 Object::~Object()
 {
-	delete m_cjson;
+	if (m_cjson)
+		cJSON_Delete(m_cjson);
 }
 
 Object::Object()

@@ -6,12 +6,12 @@
 #include "io/sequence_loader.hpp"
 
 Resource_System::Resource_System(const String& resource_root_path, Sequence_Loader& seq_loader, Sequence_Saveloader& saveloader) :
-	character_profile_manager(resource_root_path, texture_manager, sequence_manager),
-	sequence_manager(resource_root_path, seq_loader, saveloader),
-	sound_manager(resource_root_path),
 	texture_manager(resource_root_path),
-	map_manager(resource_root_path, *this),
-	font_manager(resource_root_path)
+	font_manager(resource_root_path),
+	sound_manager(resource_root_path),
+	sequence_manager(resource_root_path, seq_loader, saveloader),
+	character_profile_manager(resource_root_path, texture_manager, sequence_manager),
+	map_manager(resource_root_path, *this)
 {
 }
 

@@ -3,11 +3,15 @@
 #include "game/game_logic_state_combat.hpp"
 #include "combat/battle_desc.hpp"
 #include "io/savegame/game_saveloader.hpp"
+#include "io/resource/sequence_manager.hpp"
+#include "utils/log.hpp"
 
-Game_Logic::Game_Logic(Game_Saveloader& saveloader, Game_Logic_State_Normal& normal, Game_Logic_State_Combat& combat) :
+Game_Logic::Game_Logic(Game_Saveloader& saveloader, Sequence_Manager& seq_mgr, Game_Logic_State_Normal& normal, Game_Logic_State_Combat& combat, const String& start_sequence) :
 	m_saveloader{saveloader},
+	m_sequence_manager{seq_mgr},
 	m_state_normal{normal},
-	m_state_combat{combat}
+	m_state_combat{combat},
+	m_start_sequence{start_sequence}
 {
 }
 
@@ -41,6 +45,11 @@ void Game_Logic::continue_game()
 void Game_Logic::new_game()
 {
 	m_saveloader.new_game();
+
+	// Activate starting sequence
+	m_sequence_manager.get(m_start_sequence, false).get().try_activate();
+	SG_DEBUG("Activated start sequence.");
+
 	m_state = Game_Logic_State::normal;
 }
 

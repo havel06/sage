@@ -9,6 +9,7 @@ class Table
 {
 public:
 	T& insert(Key&&, T&&);
+	void remove(const Key&);
 	void clear();
 	int size() const { return m_data.size(); }
 
@@ -42,6 +43,18 @@ T& Table<Key, T>::insert(Key&& key, T&& value)
 	assert(!contains(key));
 	m_data.push_back(Item{(Key&&)key, (T&&)value});
 	return m_data.back().value;
+}
+
+template<typename Key, typename T>
+void Table<Key, T>::remove(const Key& key)
+{
+	for (int i = 0; i < m_data.size(); i++) {
+		const Item& item = m_data[i];
+		if (item.key == key) {
+			m_data.remove(i);
+			return;
+		}
+	}
 }
 
 template<typename Key, typename T>

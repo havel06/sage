@@ -29,3 +29,13 @@ void Sequence_Manager::save()
 		m_saveloader.save(sequence);
 	});
 }
+
+bool Sequence_Manager::can_unload_resource(const Sequence& sequence) const
+{
+	return !sequence.is_active();
+}
+
+void Sequence_Manager::unload_resource(Sequence& sequence)
+{
+	m_saveloader.save(sequence);
+}

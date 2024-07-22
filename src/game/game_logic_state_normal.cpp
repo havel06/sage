@@ -9,21 +9,17 @@
 #include "io/savegame/map_saveloader.hpp"
 #include "io/resource/map_manager.hpp"
 
-Game_Logic_State_Normal::Game_Logic_State_Normal(Party& party, Sequence_Manager& seq_mgr, Map_Saveloader& map_saveloader, Map_Manager& map_mgr, const String& start_sequence) :
+Game_Logic_State_Normal::Game_Logic_State_Normal(Party& party, Sequence_Manager& seq_mgr, Map_Saveloader& map_saveloader, Map_Manager& map_mgr) :
 	m_sequence_manager{seq_mgr},
 	m_map_saveloader{map_saveloader},
 	m_map_manager{map_mgr},
 	m_party{party}
 {
-	m_start_sequence = start_sequence;
 	spawn_player();
 }
 
 void Game_Logic_State_Normal::update(float time_delta)
 {
-	// Activate starting sequence (NOTE - could be optimised)
-	m_sequence_manager.get(m_start_sequence.data(), false).get().try_activate();
-
 	text_box.update(time_delta);
 	
 	m_sequence_manager.update(time_delta);
@@ -85,7 +81,7 @@ void Game_Logic_State_Normal::spawn_player()
 
 Entity& Game_Logic_State_Normal::get_player()
 {
-	Entity* player_ptr = m_map.value().get().entities.get_entity(m_party.main_character().get().name);
+	Entity* player_ptr = get_map().entities.get_entity(m_party.main_character().get().name);
 	assert(player_ptr);
 	return *player_ptr;
 }
@@ -97,7 +93,7 @@ void Game_Logic_State_Normal::player_interact()
 
 	Entity& player = get_player();
 	Vec2i target = player.position + direction_to_vec2i(player.get_look_direction());
-	Entity* target_entity = m_map.value().get().entities.get_entity(target);
+	Entity* target_entity = get_map().entities.get_entity(target);
 
 	if (!target_entity)
 		return;
@@ -116,18 +112,18 @@ void Game_Logic_State_Normal::move_player(Direction direction)
 	if (player_actions_disabled)
 		return;
 
+	Map& map = get_map();
 	Entity& player = get_player();
 	player.look(direction);
 	auto new_pos = player.position + direction_to_vec2i(direction);
 
-	assert(m_map.has_value());
 	// Check for tile collision
-	if (!m_map.value().get().is_position_valid(new_pos) || !m_map.value().get().layers.is_passable(new_pos))
+	if (!map.is_position_valid(new_pos) || !map.layers.is_passable(new_pos))
 		return;
 
 	// Check for entity collision
-	for (int i = 0; i < m_map.value().get().entities.get_entity_count(); i++) {
-		const Entity& entity = m_map.value().get().entities.get_entity(i);
+	for (int i = 0; i < map.entities.get_entity_count(); i++) {
+		const Entity& entity = map.entities.get_entity(i);
 		if (!entity.passable && entity.get_bounding_box().contains(new_pos))
 			return;
 	}

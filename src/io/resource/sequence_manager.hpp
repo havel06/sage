@@ -24,6 +24,8 @@ public:
 	void for_each(Fn c);
 private:
 	Own_Ptr<Resource<Sequence>> load_resource(const String& filename) override;
+	void unload_resource(Sequence&) override;
+	bool can_unload_resource(const Sequence&) const override;
 
 	Sequence_Loader& m_loader;
 	Sequence_Saveloader& m_saveloader;

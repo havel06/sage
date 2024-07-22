@@ -4,6 +4,7 @@
 #include "utils/string.hpp"
 
 // TODO - use RAII to automatically free raylib textures?
+// FIXME - can we move path to the resource class and remove this class completely?
 class Sage_Texture
 {
 public:

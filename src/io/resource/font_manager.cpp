@@ -32,3 +32,8 @@ Own_Ptr<Resource<Font>> Font_Manager::load_resource(const String& filename)
 
 	return make_own_ptr<Resource<Font>>(move(font));
 }
+
+void Font_Manager::unload_resource(Font& font)
+{
+	UnloadFont(font);
+}

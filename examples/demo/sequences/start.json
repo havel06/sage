@@ -29,6 +29,11 @@
 				"item": "healing_potion",
 				"count": 1
 			}
+		}, {
+			"type": "echo",
+			"parameters": {
+				"message": "Finished start sequence"
+			}
 		}
 	]
 }

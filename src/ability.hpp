@@ -2,8 +2,7 @@
 
 #include "utils/string.hpp"
 #include "io/resource/resource_handle.hpp"
-
-class Sequence;
+#include "sequence/sequence.hpp"
 
 struct Ability
 {

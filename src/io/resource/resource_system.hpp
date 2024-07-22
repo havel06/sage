@@ -19,4 +19,5 @@ public:
 	Font_Manager font_manager;
 
 	Resource_System(const String& resource_root_path, Sequence_Loader&, Sequence_Saveloader&);
+	void unload_free_resources();
 };

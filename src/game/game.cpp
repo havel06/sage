@@ -60,6 +60,10 @@ bool Game::should_exit() const
 void Game::draw_frame(float time_delta)
 {
 	// FIXME - refactor this function
+
+	m_resource_system.unload_free_resources();
+	m_music_player.update();
+
 	if (m_logic.get_state() == Game_Logic_State::main_menu) {
 		process_main_menu_input();
 		m_main_menu.draw(time_delta);
@@ -76,7 +80,6 @@ void Game::draw_frame(float time_delta)
 		return;
 	}
 
-	m_music_player.update();
 	m_logic.update(time_delta);
 
 	if (m_logic.get_state() == Game_Logic_State::normal) {

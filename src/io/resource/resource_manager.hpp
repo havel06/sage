@@ -4,6 +4,7 @@
 #include "utils/filesystem.hpp"
 #include "utils/table.hpp"
 #include "utils/concepts.hpp"
+#include "utils/log.hpp"
 #include "resource.hpp"
 #include "resource_handle.hpp"
 
@@ -13,6 +14,7 @@ class Resource_Manager
 public:
 	Resource_Manager(const String& resource_root_path);
 	Resource_Handle<Resource_Type> get(const String& file_path, bool absolute_path);
+	void unload_free_resources();
 protected:
 	// Callback must take in one argument, Resource_Type&
 	template<typename Fn>
@@ -34,6 +36,18 @@ template<typename Resource_Type>
 Resource_Manager<Resource_Type>::Resource_Manager(const String& resource_root_path)
 {
 	m_resource_root_path = resource_root_path;
+}
+
+template<typename Resource_Type>
+void Resource_Manager<Resource_Type>::unload_free_resources()
+{
+	m_resources.for_each([](const String& name, Resource_Ptr& resource){
+		if (resource->get_reference_count() == 0) {
+			(void)name;
+			// FIXME
+			//SG_DEBUG("Resource \"%s\" has 0 references.", name.data());
+		}
+	});
 }
 
 template<typename Resource_Type>

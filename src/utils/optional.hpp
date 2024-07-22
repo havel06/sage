@@ -1,5 +1,6 @@
 #pragma once
 
+#include "utils/concepts.hpp"
 #include <string.h>
 #include <assert.h>
 #include <new>
@@ -55,7 +56,10 @@ template<typename T>
 Optional<T>::Optional(Optional&& other)
 {
 	if (other.has_value()) {
-		emplace((T&&)other.value());
+		if constexpr (Concepts::Move_Constructible<T>)
+			emplace((T&&)other.value());
+		else
+			emplace(other.value());
 	}
 
 	other.clear();
@@ -75,7 +79,10 @@ Optional<T>& Optional<T>::operator=(Optional&& other)
 	clear();
 	
 	if (other.has_value()) {
-		emplace((T&&)other.value());
+		if constexpr (Concepts::Move_Constructible<T>)
+			emplace((T&&)other.value());
+		else
+			emplace(other.value());
 	}
 
 	other.clear();

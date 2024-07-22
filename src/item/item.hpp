@@ -2,8 +2,7 @@
 
 #include "graphics/sprite.hpp"
 #include "utils/string.hpp"
-
-class Sequence;
+#include "sequence/sequence.hpp"
 
 struct Item
 {

@@ -15,4 +15,7 @@ concept Constructible = requires(C c, Params&&... params)
 	new C((Params&&)params...);
 };
 
+template<typename T>
+concept Move_Constructible = Constructible<T, T&&>;
+
 }

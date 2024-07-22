@@ -14,3 +14,13 @@ Resource_System::Resource_System(const String& resource_root_path, Sequence_Load
 	font_manager(resource_root_path)
 {
 }
+
+void Resource_System::unload_free_resources()
+{
+	character_profile_manager.unload_free_resources();
+	sequence_manager.unload_free_resources();
+	sound_manager.unload_free_resources();
+	texture_manager.unload_free_resources();
+	map_manager.unload_free_resources();
+	font_manager.unload_free_resources();
+}

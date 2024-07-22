@@ -4,23 +4,23 @@
 namespace Events
 {
 
-Play_Sound::Play_Sound(Game_Facade& facade, Sound sound) :
-	Event{facade}
+Play_Sound::Play_Sound(Game_Facade& facade, Resource_Handle<Sound> sound) :
+	Event{facade},
+	m_sound{sound}
 {
-	m_sound = sound;
 }
 
 void Play_Sound::update(float)
 {
 	if (!m_activated) {
-		PlaySound(m_sound);
+		PlaySound(m_sound.get());
 		m_activated = true;
 	}
 }
 
 bool Play_Sound::is_finished() const
 {
-	return m_activated && !IsSoundPlaying(m_sound);
+	return m_activated && !IsSoundPlaying(m_sound.get());
 }
 
 void Play_Sound::reset()

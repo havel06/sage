@@ -67,11 +67,11 @@ void Game_Logic_State_Normal::set_current_map(const String& filename)
 
 void Game_Logic_State_Normal::spawn_player()
 {
-	assert(m_map.has_value());
+	Map& map = get_map();
 	Resource_Handle<Character_Profile> character = m_party.main_character();
 
 	// Check if player already exists
-	if (m_map.value().get().entities.get_entity(character.get().name))
+	if (map.entities.get_entity(character.get().name))
 		return;
 
 	Entity player;
@@ -79,7 +79,7 @@ void Game_Logic_State_Normal::spawn_player()
 	player.name = character.get().name;
 	player.assigned_character = character;
 
-	m_map.value().get().entities.add_entity((Entity&&)player);
+	map.entities.add_entity((Entity&&)player);
 }
 
 

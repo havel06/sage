@@ -43,6 +43,10 @@ private:
 	Game_Facade m_game_facade;
 	Sequence_Loader m_sequence_loader;
 	Resource_System m_resource_system;
+	Savegame_Directory_Provider m_savegame_dir_provider;
+	Map_Saveloader m_map_saveloader;
+	Sequence_Saveloader m_sequence_saveloader;
+	Game_Saveloader m_game_saveloader;
 	Party m_party;
 	Combat m_combat;
 	Game_Logic_State_Normal m_logic_normal;
@@ -50,10 +54,6 @@ private:
 	Game_Logic m_logic;
 	Music_Player m_music_player;
 	Combat_Controller m_combat_controller;
-	Savegame_Directory_Provider m_savegame_dir_provider;
-	Map_Saveloader m_map_saveloader;
-	Sequence_Saveloader m_sequence_saveloader;
-	Game_Saveloader m_game_saveloader;
 	GUI_Loader m_gui_loader;
 
 	// Rendering

@@ -5,7 +5,7 @@
 namespace Events
 {
 
-Activate_Sequence::Activate_Sequence(Game_Facade& facade, Sequence& sequence) :
+Activate_Sequence::Activate_Sequence(Game_Facade& facade, Resource_Handle<Sequence> sequence) :
 	Event{facade},
 	m_sequence{sequence}
 {
@@ -14,7 +14,7 @@ Activate_Sequence::Activate_Sequence(Game_Facade& facade, Sequence& sequence) :
 void Activate_Sequence::update(float)
 {
 	if (!m_activated) {
-		m_sequence.try_activate();
+		m_sequence.get().try_activate();
 		m_activated = true;
 	}
 }

@@ -48,7 +48,7 @@ public:
 	void remove_item(const String& id, int count);
 	int get_owned_item_count(const String& id);
 	void set_entity_sprite(const String& entity_name, const Animated_Sprite& sprite);
-	void play_music(Sound);
+	void play_music(Resource_Handle<Sound>);
 	void add_to_party(Resource_Handle<Character_Profile>);
 	void enter_combat(const Battle_Description&);
 	void combat_change_target_hp(int amount);

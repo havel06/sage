@@ -100,7 +100,7 @@ void Game_Facade::set_entity_sprite(const String& entity_name, const Animated_Sp
 	entity->sprite.reset_animation();
 }
 
-void Game_Facade::play_music(Sound music)
+void Game_Facade::play_music(Resource_Handle<Sound> music)
 {
 	m_music_player.play(music);
 }

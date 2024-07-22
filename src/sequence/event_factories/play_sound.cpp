@@ -13,7 +13,7 @@ Play_Sound::Play_Sound(Sound_Manager& sound_mgr) :
 
 Own_Ptr<Event> Play_Sound::make_event(Game_Facade& facade)
 {
-	Sound sound = m_sound_manager.get(m_sound_filename.value, false);
+	auto sound = m_sound_manager.get(m_sound_filename.value, false);
 	return make_own_ptr<Events::Play_Sound>(facade, sound);
 }
 

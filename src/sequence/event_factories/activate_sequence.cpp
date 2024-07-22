@@ -13,7 +13,7 @@ Activate_Sequence::Activate_Sequence(Sequence_Manager& seq_mgr) :
 
 Own_Ptr<Event> Activate_Sequence::make_event(Game_Facade& facade)
 {
-	Sequence& sequence = m_sequence_manager.get(m_filename.value, false);
+	Resource_Handle<Sequence> sequence = m_sequence_manager.get(m_filename.value, false);
 	return make_own_ptr<Events::Activate_Sequence>(facade, sequence);
 }
 

@@ -4,10 +4,10 @@
 namespace Events
 {
 
-Play_Music::Play_Music(Game_Facade& facade, Sound music) :
-	Event{facade}
+Play_Music::Play_Music(Game_Facade& facade, Resource_Handle<Sound> music) :
+	Event{facade},
+	m_music{music}
 {
-	m_music = music;
 }
 
 void Play_Music::update(float)

@@ -1,5 +1,6 @@
 #include "enter_combat.hpp"
 #include "combat/battle_desc.hpp"
+#include "io/resource/resource_handle.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/move.hpp"
 #include "io/resource/character_profile_manager.hpp"
@@ -19,13 +20,13 @@ Enter_Combat::Enter_Combat(Sequence_Manager& seq_mgr, Character_Profile_Manager&
 
 Own_Ptr<Event> Enter_Combat::make_event(Game_Facade& facade)
 {
-	Array<Character_Profile> enemy_profiles;
+	Array<Resource_Handle<Character_Profile>> enemy_profiles;
 	for (const String& filename : m_enemy_filenames.value) {
 		enemy_profiles.push_back(m_character_profile_manager.get(filename, false));
 	}
 
-	Sequence& win_sequence = m_sequence_manager.get(m_win_sequence_filename.value, false);
-	Sequence& lose_sequence = m_sequence_manager.get(m_lose_sequence_filename.value, false);
+	auto win_sequence = m_sequence_manager.get(m_win_sequence_filename.value, false);
+	auto lose_sequence = m_sequence_manager.get(m_lose_sequence_filename.value, false);
 
 	Battle_Description description {
 		.enemies = move(enemy_profiles),

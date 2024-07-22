@@ -2,6 +2,7 @@
 
 #include <string.h>
 #include <assert.h>
+#include <new>
 
 template<typename T>
 class Optional

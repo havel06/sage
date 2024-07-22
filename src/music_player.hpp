@@ -1,12 +1,14 @@
 #pragma once
 
+#include "io/resource/resource_handle.hpp"
+#include "utils/optional.hpp"
 #include "raylib/raylib.h"
 
 class Music_Player
 {
 public:
-	void play(Sound);
+	void play(Resource_Handle<Sound>);
 	void update();
 private:
-	Sound m_current_music;
+	Optional<Resource_Handle<Sound>> m_current_music;
 };

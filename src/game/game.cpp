@@ -22,7 +22,7 @@ Game::Game(const Project_Description& description) :
 	m_logic_normal(m_party, m_resource_system.sequence_manager,m_map_saveloader, m_resource_system.map_manager),
 	m_logic_combat(m_logic, m_combat, m_resource_system.sequence_manager),
 	m_logic{m_game_saveloader, m_resource_system.sequence_manager, m_logic_normal, m_logic_combat, description.start_sequence},
-	m_combat_controller(m_combat),
+	m_combat_controller(m_combat, m_inventory_renderer),
 	m_gui_loader(m_resource_system.font_manager, m_resource_system.texture_manager, description.path),
 	m_camera_controller(m_camera),
 	m_text_box_renderer(m_logic_normal.text_box),
@@ -98,13 +98,14 @@ void Game::draw_frame(float time_delta)
 		m_quest_log_renderer.draw(time_delta);
 
 		m_inventory_renderer.show(m_show_inventory);
-		m_inventory_renderer.draw(time_delta);
 	} else {
 		// Combat mode
 		process_combat_input();
 		m_combat_renderer.draw(time_delta);
-		m_combat_controller.draw();
+		m_combat_controller.draw(time_delta);
 	}
+
+	m_inventory_renderer.draw(time_delta);
 
 	//DrawFPS(10, 10);
 }

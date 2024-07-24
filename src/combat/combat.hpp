@@ -66,6 +66,7 @@ public:
 	// Interface for abilities
 	void enter_target_selection();
 	void change_target_hp(int amount);
+	void change_current_unit_hp(int amount);
 
 	// Unit stuff
 	int get_enemy_count() const;

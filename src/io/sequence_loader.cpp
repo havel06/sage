@@ -8,6 +8,7 @@
 #include "utils/move.hpp"
 #include "sequence/conditions/has_item.hpp"
 #include "sequence/conditions/not.hpp"
+#include "sequence/conditions/is_in_combat.hpp"
 #include "sequence/event_factories/activate_sequence.hpp"
 #include "sequence/event_factories/add_quest.hpp"
 #include "sequence/event_factories/finish_quest.hpp"
@@ -33,6 +34,7 @@
 #include "sequence/event_factories/zoom_camera.hpp"
 #include "sequence/event_factories/select_target.hpp"
 #include "sequence/event_factories/change_target_hp.hpp"
+#include "sequence/event_factories/change_current_unit_hp.hpp"
 #include "sequence/sequence.hpp"
 #include "sequence/event_factory.hpp"
 #include "utils/direction.hpp"
@@ -177,6 +179,8 @@ Own_Ptr<Event_Factory> Sequence_Loader::get_factory_for_event_type(const String&
 		return make_own_ptr<Event_Factories::Select_Target>();
 	} else if (type == "change_target_hp") {
 		return make_own_ptr<Event_Factories::Change_Target_HP>();
+	} else if (type == "change_current_unit_hp") {
+		return make_own_ptr<Event_Factories::Change_Current_Unit_HP>();
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		return nullptr;
@@ -256,6 +260,8 @@ Condition_Ptr Sequence_Loader::parse_condition(const JSON::Object_View& json)
 	} else if (type == "not") {
 		Condition_Ptr sub_condition = parse_condition(params["condition"].as_object());
 		return make_own_ptr<Conditions::Not>(m_facade, (Condition_Ptr&&)sub_condition);
+	} else if (type == "is_in_combat") {
+		return make_own_ptr<Conditions::Is_In_Combat>(m_facade);
 	} else {
 		SG_WARNING("Invalid event type \"%s\"", type.data());
 		return nullptr;

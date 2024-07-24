@@ -16,5 +16,5 @@ private:
 
 	Sequence_Manager& m_sequence_manager;
 	String m_resource_root;
-	Sequence* m_selected_sequence = nullptr;
+	Sequence* m_selected_sequence = nullptr; // FIXME - use resource handle
 };

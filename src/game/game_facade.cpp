@@ -177,9 +177,19 @@ void Game_Facade::enter_combat(const Battle_Description& description)
 	m_game_logic.enter_combat(description);
 }
 
+bool Game_Facade::is_in_combat() const
+{
+	return m_game_logic.get_state() == Game_Logic_State::combat;
+}
+
 void Game_Facade::combat_change_target_hp(int amount)
 {
 	m_combat.change_target_hp(amount);
+}
+
+void Game_Facade::combat_change_current_unit_hp(int amount)
+{
+	m_combat.change_current_unit_hp(amount);
 }
 
 void Game_Facade::combat_enter_target_selection()

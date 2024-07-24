@@ -5,9 +5,10 @@
 #include "rlImGui.h"
 #include "map/map.hpp"
 
-Dev_Tools::Dev_Tools(Game_Facade& facade, Sequence_Manager& seq_mgr, const String& project_root) :
+Dev_Tools::Dev_Tools(Game_Facade& facade, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
 	m_general(facade, project_root),
-	m_sequence(seq_mgr, project_root)
+	m_sequence(seq_mgr, project_root),
+	m_items(item_reg, inv)
 {
 	rlImGuiSetup(true);
 }
@@ -32,6 +33,9 @@ void Dev_Tools::draw(Map& map)
 			break;
 		case Dev_Tools_Mode::entities:
 			m_entity.draw(map.entities);
+			break;
+		case Dev_Tools_Mode::items:
+			m_items.draw();
 			break;
 	}
 
@@ -71,6 +75,9 @@ void Dev_Tools::draw_main_menu()
 		}
 		if (ImGui::MenuItem("Sequence")) {
 			m_mode = Dev_Tools_Mode::sequence;
+		}
+		if (ImGui::MenuItem("Items")) {
+			m_mode = Dev_Tools_Mode::items;
 		}
 		ImGui::EndMainMenuBar();
 	}

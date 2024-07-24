@@ -69,6 +69,11 @@ void Combat::change_target_hp(int amount)
 	m_current_target->hp += amount;
 }
 
+void Combat::change_current_unit_hp(int amount)
+{
+	get_unit_on_turn().hp += amount;
+}
+
 void Combat::enter_target_selection()
 {
 	if (is_hero_turn()) {

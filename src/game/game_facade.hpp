@@ -51,7 +51,9 @@ public:
 	void play_music(Resource_Handle<Sound>);
 	void add_to_party(Resource_Handle<Character_Profile>);
 	void enter_combat(const Battle_Description&);
+	bool is_in_combat() const;
 	void combat_change_target_hp(int amount);
+	void combat_change_current_unit_hp(int amount);
 	void combat_enter_target_selection();
 	Combat_State get_combat_state() const;
 	void add_quest(const String& id, const String& name, const String& description);

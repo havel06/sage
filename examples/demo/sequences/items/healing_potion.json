@@ -1,10 +1,14 @@
 {
 	"repeatable": true,
+	"condition": {
+		"type": "is_in_combat",
+		"parameters": {}
+	},
 	"events": [
 		{
-			"type": "echo",
+			"type": "change_current_unit_hp",
 			"parameters": {
-				"message": "TODO - healing potion"
+				"amount": 5
 			}
 		},
 		{

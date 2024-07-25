@@ -59,7 +59,7 @@ void Combat_Controller::load(GUI_Loader& loader, const String& menu_filename, co
 	}
 }
 
-void Combat_Controller::on_hero_turn_begin()
+void Combat_Controller::on_hero_ability_selecting_begin()
 {
 	update_menus();
 	m_menu_state = Combat_Controller_Menu_State::selecting_action;

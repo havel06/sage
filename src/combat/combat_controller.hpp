@@ -27,7 +27,7 @@ public:
 	void input_enter();
 	void draw(float time_delta);
 private:
-	void on_hero_turn_begin() override;
+	void on_hero_ability_selecting_begin() override;
 	void update_menus();
 
 	void draw_selected_enemy();

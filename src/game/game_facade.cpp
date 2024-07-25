@@ -197,6 +197,11 @@ void Game_Facade::combat_enter_target_selection()
 	m_combat.enter_target_selection();
 }
 
+void Game_Facade::combat_end_turn()
+{
+	m_combat.advance_turn();
+}
+
 Combat_State Game_Facade::get_combat_state() const
 {
 	return m_combat.get_state();

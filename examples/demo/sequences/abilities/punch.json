@@ -36,6 +36,10 @@
 			"parameters": {
 				"message": "Punch ended!"
 			}
+		},
+		{
+			"type": "end_turn",
+			"parameters": {}
 		}
 	]
 }

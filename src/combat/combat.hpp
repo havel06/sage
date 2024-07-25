@@ -29,7 +29,7 @@ enum class Combat_Result
 class Combat_Observer
 {
 public:
-	virtual void on_hero_turn_begin() = 0;
+	virtual void on_hero_ability_selecting_begin() = 0;
 };
 
 enum class Combat_State
@@ -67,6 +67,7 @@ public:
 	void enter_target_selection();
 	void change_target_hp(int amount);
 	void change_current_unit_hp(int amount);
+	void advance_turn();
 
 	// Unit stuff
 	int get_enemy_count() const;
@@ -80,7 +81,6 @@ public:
 
 private:
 	bool is_hero_turn() const;
-	void advance_turn();
 	void check_eliminated_units();
 	bool has_player_won() const;
 	bool has_player_lost() const;

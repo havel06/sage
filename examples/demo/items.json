@@ -15,6 +15,7 @@
 		{
 			"id": "poisoning_potion",
 			"name": "Poisoning Potion",
+			"sequence": "sequences/items/poisoning_potion.json",
 			"sprite": {
 				"texture": "textures/tiny_dungeon.png",
 				"position_x": 96,

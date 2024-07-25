@@ -55,7 +55,7 @@ void Combat::start_battle(const Battle_Description& description)
 
 	// Notify observers
 	for (int i = 0; i < m_observers.size(); i++) {
-		m_observers[i]->on_hero_turn_begin();
+		m_observers[i]->on_hero_ability_selecting_begin();
 	}
 }
 
@@ -192,7 +192,7 @@ void Combat::advance_turn()
 
 		// Notify observers
 		for (int i = 0; i < m_observers.size(); i++) {
-			m_observers[i]->on_hero_turn_begin();
+			m_observers[i]->on_hero_ability_selecting_begin();
 		}
 	}
 }
@@ -208,7 +208,12 @@ void Combat::update()
 		if (!m_current_casted_ability->sequence.get().is_active()) {
 			m_current_casted_ability->sequence.get().reset(); // Reset just in case
 			m_current_casted_ability = nullptr;
-			advance_turn();
+			m_state = is_hero_turn() ? Combat_State::hero_selecting_ability : Combat_State::enemy_selecting_ability;
+
+			// Notify observers
+			for (int i = 0; i < m_observers.size(); i++) {
+				m_observers[i]->on_hero_ability_selecting_begin();
+			}
 		} else {
 			return;
 		}

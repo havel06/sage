@@ -1,0 +1,28 @@
+{
+	"repeatable": true,
+	"condition": {
+		"type": "is_in_combat",
+		"parameters": {}
+	},
+	"events": [
+		{
+			"type": "select_target",
+			"parameters": {
+				"target_type": "enemy"
+			}
+		},
+		{
+			"type": "change_target_hp",
+			"parameters": {
+				"amount": -5
+			}
+		},
+		{
+			"type": "remove_item",
+			"parameters": {
+				"item": "poisoning_potion",
+				"count": 1
+			}
+		}
+	]
+}

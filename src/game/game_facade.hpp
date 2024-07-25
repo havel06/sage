@@ -55,6 +55,7 @@ public:
 	void combat_change_target_hp(int amount);
 	void combat_change_current_unit_hp(int amount);
 	void combat_enter_target_selection();
+	void combat_end_turn();
 	Combat_State get_combat_state() const;
 	void add_quest(const String& id, const String& name, const String& description);
 	void finish_quest(const String& id);

@@ -5,8 +5,8 @@
 #include "rlImGui.h"
 #include "map/map.hpp"
 
-Dev_Tools::Dev_Tools(Game_Facade& facade, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
-	m_general(facade, project_root),
+Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
+	m_general(facade, logic, project_root),
 	m_sequence(seq_mgr, project_root),
 	m_items(item_reg, inv)
 {

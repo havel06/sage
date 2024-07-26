@@ -17,7 +17,7 @@ class Dev_Tools
 {
 public:
 	// FIXME - use DI
-	Dev_Tools(Game_Facade& facade, Sequence_Manager& seq_mgr, const Item_Registry&, Inventory&, const String& project_root);
+	Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const Item_Registry&, Inventory&, const String& project_root);
 	~Dev_Tools();
 	void draw(Map&);
 private:

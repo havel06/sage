@@ -1,0 +1,10 @@
+{
+	"from_template": {
+		"template": "sequences/dungeon_1/battle_2_spike.json",
+		"parameters": {
+			"x": 57,
+			"y": 36,
+			"entity": "Spike 3"
+		}
+	}
+}

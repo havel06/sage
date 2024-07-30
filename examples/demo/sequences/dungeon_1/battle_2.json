@@ -11,27 +11,21 @@
 			}
 		},
 		{
-			"type": "teleport_entity",
+			"type": "activate_sequence",
 			"parameters": {
-				"entity": "Spike 1",
-				"x": 57,
-				"y": 34
+				"sequence": "sequences/dungeon_1/battle_2_spike_1.json"
 			}
 		},
 		{
-			"type": "teleport_entity",
+			"type": "activate_sequence",
 			"parameters": {
-				"entity": "Spike 2",
-				"x": 57,
-				"y": 35
+				"sequence": "sequences/dungeon_1/battle_2_spike_2.json"
 			}
 		},
 		{
-			"type": "teleport_entity",
+			"type": "activate_sequence",
 			"parameters": {
-				"entity": "Spike 3",
-				"x": 57,
-				"y": 36
+				"sequence": "sequences/dungeon_1/battle_2_spike_3.json"
 			}
 		},
 		{

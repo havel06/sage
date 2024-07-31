@@ -25,13 +25,20 @@ void Item_Registry_Loader::load(Item_Registry& registry, const String& project_r
 
 	items.for_each([&](const JSON::Value_View& value) {
 		JSON::Object_View item = value.as_object();
-		const String id = item["id"].deprecated_as_string();
-		const String name = item["name"].deprecated_as_string();
+
+		const String id = item["id"].as_string(nullptr);
+		if (id.empty()) {
+			SG_ERROR("Unable to load item: item ID missing.");
+			return;
+		}
+
+		const String name = item["name"].as_string("Unknown");
 		Sprite sprite = JSON_Types::parse_sprite(item["sprite"].as_object(), m_texture_manager);
 
 		Optional<Resource_Handle<Sequence>> sequence;
 		if (item.has("sequence")) {
-			sequence = m_sequence_manager.get(item.get("sequence").deprecated_as_string(), false);
+			const char* sequence_filename = item.get("sequence").as_string("");
+			sequence = m_sequence_manager.get(sequence_filename, false);
 		}
 
 		registry.add_item(Item{

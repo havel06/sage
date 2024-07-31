@@ -1,6 +1,7 @@
 #include "inventory_saveloader.hpp"
 #include "item/inventory.hpp"
 #include "utils/json.hpp"
+#include "utils/log.hpp"
 #include <assert.h>
 
 JSON::Array Inventory_Saveloader::save(const Inventory& inventory)
@@ -18,8 +19,14 @@ void Inventory_Saveloader::load(Inventory& inventory, const JSON::Array_View& js
 {
 	json.for_each([&](const JSON::Value_View& value){
 		JSON::Object_View item_stack_json = value.as_object();
-		const char* id = item_stack_json["id"].deprecated_as_string();
-		const int count = item_stack_json["count"].deprecated_as_int();
+
+		const char* id = item_stack_json["id"].as_string(nullptr);
+		if (!id) {
+			SG_ERROR("Unable to load inventory item: item id missing.");
+			return;
+		}
+
+		const int count = item_stack_json["count"].as_int(0);
 		inventory.add_item(id, count);
 	});
 }

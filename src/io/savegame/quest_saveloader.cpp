@@ -1,6 +1,7 @@
 #include "quest_saveloader.hpp"
 #include "quest/quest_log.hpp"
 #include "utils/json.hpp"
+#include "utils/log.hpp"
 
 Quest_Saveloader::Quest_Saveloader(Quest_Log& quest_log) :
 	m_quest_log{quest_log}
@@ -30,9 +31,15 @@ void Quest_Saveloader::load(const JSON::Array_View& json)
 	json.for_each([&](const JSON::Value_View& value){
 		JSON::Object_View quest_json = value.as_object();
 		Quest quest;
-		quest.id = quest_json["id"].deprecated_as_string();
-		quest.name = quest_json["name"].deprecated_as_string();
-		quest.description = quest_json["description"].deprecated_as_string();
+		quest.id = quest_json["id"].as_string(nullptr);
+
+		if (quest.id.empty()) {
+			SG_ERROR("Unable to load quest - quest id missing.");
+			return;
+		}
+
+		quest.name = quest_json["name"].as_string("Unknown");
+		quest.description = quest_json["description"].as_string("");
 		m_quest_log.add_quest((Quest&&)quest);
 	});
 }

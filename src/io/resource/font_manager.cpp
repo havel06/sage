@@ -4,6 +4,7 @@
 #include "utils/own_ptr.hpp"
 #include "utils/log.hpp"
 #include "utils/json.hpp"
+#include <string.h>
 
 Font_Manager::Font_Manager(const String& resource_root_path) :
 	Resource_Manager(resource_root_path)
@@ -19,9 +20,15 @@ Own_Ptr<Resource<Font>> Font_Manager::load_resource(const String& filename)
 
 	String font_filename = m_resource_root;
 	font_filename.append("/");
-	font_filename.append(json_view["file"].deprecated_as_string());
 
-	const int font_size = json_view["size"].deprecated_as_int();
+	const char* file_str = json_view["file"].as_string("");
+	if (strlen(file_str) == 0) {
+		SG_ERROR("Font file missing.");
+	}
+
+	font_filename.append(file_str);
+
+	const int font_size = json_view["size"].as_int(32);
 
 	Font font = LoadFontEx(font_filename.data(), font_size, nullptr, 0);
 
@@ -29,7 +36,7 @@ Own_Ptr<Resource<Font>> Font_Manager::load_resource(const String& filename)
 		SG_ERROR("Unable to load font file \"%s\".", font_filename.data());
 	}
 
-	bool filter = json_view["filter"].deprecated_as_bool();
+	bool filter = json_view["filter"].as_bool(false);
 	if (filter) {
 		SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
 	}

@@ -6,6 +6,9 @@
 #include "graphics/animated_sprite.hpp"
 #include "utils/vec2.hpp"
 
+const float CHARACTER_DEFAULT_HP = 20;
+const float CHARACTER_DEFAULT_SPEED = 20;
+
 struct Character_Profile
 {
 	String name;
@@ -25,6 +28,6 @@ struct Character_Profile
 
 	Array<Ability> abilities;
 
-	int max_hp = 0;
-	float move_speed = 5;
+	int max_hp = CHARACTER_DEFAULT_HP;
+	float move_speed = CHARACTER_DEFAULT_SPEED;
 };

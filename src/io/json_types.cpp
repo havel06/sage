@@ -10,14 +10,18 @@ namespace JSON_Types
 Sprite parse_sprite(const JSON::Object_View& json, Texture_Manager& texture_manager)
 {
 	// FIXME - error handling
-	const char* texture_name = json["texture"].deprecated_as_string();
+	const char* texture_name = json["texture"].as_string("");
+
+	if (strlen(texture_name) == 0)
+		SG_ERROR("Error when parsing sprite - texture name missing.");
+
 	const Resource_Handle<Sage_Texture> texture = texture_manager.get(texture_name, false);
 
 	Sprite sprite(texture);
-	sprite.texture_clip.position.x = json["position_x"].deprecated_as_int();
-	sprite.texture_clip.position.y = json["position_y"].deprecated_as_int();
-	sprite.texture_clip.size.x = json["size_x"].deprecated_as_int();
-	sprite.texture_clip.size.y = json["size_y"].deprecated_as_int();
+	sprite.texture_clip.position.x = json["position_x"].as_int(0);
+	sprite.texture_clip.position.y = json["position_y"].as_int(0);
+	sprite.texture_clip.size.x = json["size_x"].as_int(texture.get().ray_texture.width);
+	sprite.texture_clip.size.y = json["size_y"].as_int(texture.get().ray_texture.height);
 
 	return sprite;
 }
@@ -51,7 +55,7 @@ Animated_Sprite parse_animated_sprite(const JSON::Object_View& json, Texture_Man
 		frames.push_back(parse_sprite(value.as_object(), tex_mgr));
 	});
 
-	const float frame_time = json["frame_time"].deprecated_as_float();
+	const float frame_time = json["frame_time"].as_float(1);
 
 	return Animated_Sprite{frames, frame_time};
 }

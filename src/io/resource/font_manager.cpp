@@ -25,6 +25,10 @@ Own_Ptr<Resource<Font>> Font_Manager::load_resource(const String& filename)
 
 	Font font = LoadFontEx(font_filename.data(), font_size, nullptr, 0);
 
+	if (font.texture.id == GetFontDefault().texture.id) {
+		SG_ERROR("Unable to load font file \"%s\".", font_filename.data());
+	}
+
 	bool filter = json_view["filter"].as_bool();
 	if (filter) {
 		SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);

@@ -23,9 +23,7 @@ public:
 	float as_float(float fallback_value) const;
 	const char* as_string(const char* fallback_value) const;
 
-	// FIXME - Return empty array on error
 	Array_View as_array() const;
-	// FIXME - Return empty object on error
 	Object_View as_object() const;
 
 	bool is_null() const;

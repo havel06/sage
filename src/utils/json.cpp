@@ -11,7 +11,6 @@ namespace JSON
 
 Value_View::Value_View(const cJSON* cjson)
 {
-	assert(cjson);
 	m_cjson = cjson;
 }
 
@@ -57,14 +56,22 @@ const char* Value_View::as_string(const char* fallback_value) const
 
 Array_View Value_View::as_array() const
 {
-	assert(cJSON_IsArray(m_cjson));
-	return Array_View(m_cjson);
+	if (cJSON_IsArray(m_cjson)) {
+		return Array_View{m_cjson};
+	} else {
+		SG_ERROR("JSON: Expected an array.");
+		return Array_View{nullptr};
+	}
 }
 
 Object_View Value_View::as_object() const
 {
-	assert(cJSON_IsObject(m_cjson));
-	return Object_View(m_cjson);
+	if (cJSON_IsObject(m_cjson)) {
+		return Object_View{m_cjson};
+	} else {
+		SG_ERROR("JSON: Expected an object.");
+		return Object_View{nullptr};
+	}
 }
 
 bool Value_View::is_null() const
@@ -79,8 +86,9 @@ bool Value_View::is_string() const
 
 Object_View::Object_View(const cJSON* cjson)
 {
-	assert(cjson);
-	assert(cJSON_IsObject(cjson));
+	if (cjson)
+		assert(cJSON_IsObject(cjson));
+
 	m_cjson = cjson;
 }
 
@@ -91,13 +99,18 @@ bool Object_View::has(const char* key) const
 
 Value_View Object_View::get(const char* key) const
 {
-	return Value_View(cJSON_GetObjectItem(m_cjson, key));
+	cJSON* item = cJSON_GetObjectItem(m_cjson, key);
+	if (!item) {
+		SG_ERROR("JSON: Missing object key \"%s\".", key);
+	}
+	return Value_View(item);
 }
 
 Array_View::Array_View(const cJSON* cjson)
 {
-	assert(cjson);
-	assert(cJSON_IsArray(cjson));
+	if (cjson)
+		assert(cJSON_IsArray(cjson));
+
 	m_cjson = cjson;
 }
 

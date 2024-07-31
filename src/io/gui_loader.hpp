@@ -27,4 +27,6 @@ private:
 	Font_Manager& m_font_manager;
 	Texture_Manager& m_texture_manager;
 	String m_project_root;
+
+	UI::Widget_Ptr m_fallback_widget;
 };

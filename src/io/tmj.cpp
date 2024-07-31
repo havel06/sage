@@ -54,10 +54,10 @@ Map_Loader::Map_Loader(Resource_System& res_system, const String& path) :
 	JSON::Object json = JSON::Object::from_file(m_path.data());
 	JSON::Object_View view = json.get_view();
 
-	const int width = view["width"].deprecated_as_int();
-	const int height = view["height"].deprecated_as_int();
-	m_tile_width = view["tilewidth"].deprecated_as_int();
-	m_tile_height = view["tileheight"].deprecated_as_int();
+	const int width = view["width"].as_int(0);
+	const int height = view["height"].as_int(0);
+	m_tile_width = view["tilewidth"].as_int(1);
+	m_tile_height = view["tileheight"].as_int(1);
 
 	m_map = make_own_ptr<Map>();
 	m_map->resize(width, height);
@@ -84,7 +84,7 @@ void Map_Loader::parse_layer(const JSON::Object_View& layer_json)
 {
 	//SG_DEBUG("Parsing TMJ layer...");
 
-	const String type = layer_json["type"].deprecated_as_string();
+	const String type = layer_json["type"].as_string("");
 
 	if (type == "tilelayer") {
 		parse_tile_layer(layer_json);
@@ -92,8 +92,10 @@ void Map_Loader::parse_layer(const JSON::Object_View& layer_json)
 		parse_object_layer(layer_json);
 	} else if (type == "group") {
 		parse_layer_array(layer_json["layers"].as_array());
+	} else if (type == "imagelayer") {
+		SG_ERROR("Image layers are not supported.");
 	} else {
-		SG_WARNING("Image layers are not supported.");
+		SG_ERROR("Unknown layer type \"%s\"", type.data());
 	}
 }
 
@@ -106,12 +108,12 @@ void Map_Loader::parse_tile_layer(const JSON::Object_View& layer_json)
 		int y = position_index / m_map->get_width();
 		int x = position_index % m_map->get_width();
 
-		if (index.deprecated_as_int() == 0) {
+		if (index.as_int(0) == 0) {
 			Tile empty_tile;
 			empty_tile.passable = true;
 			layer.set_tile({x, y}, empty_tile);
 		} else {
-			Tile tile = resolve_tile(index.deprecated_as_int());
+			Tile tile = resolve_tile(index.as_int(0));
 			layer.set_tile({x, y}, tile);
 		}
 
@@ -132,19 +134,19 @@ void Map_Loader::parse_object(const JSON::Object_View& object)
 {
 	Entity entity;
 
-	entity.name = object["name"].deprecated_as_string();
+	entity.name = object["name"].as_string("");
 	if (entity.name.empty()) {
 		SG_ERROR("All entities must have a name.");
 		assert(false);
 	}
-	entity.position.x = round(object["x"].deprecated_as_float() / m_tile_width);
-	entity.position.y = round(object["y"].deprecated_as_float() / m_tile_height);
-	entity.size.x = object["width"].deprecated_as_int() / m_tile_width;
-	entity.size.y = object["height"].deprecated_as_int() / m_tile_height;
+	entity.position.x = round(object["x"].as_float(0) / m_tile_width);
+	entity.position.y = round(object["y"].as_float(0) / m_tile_height);
+	entity.size.x = object["width"].as_int(1) / m_tile_width;
+	entity.size.y = object["height"].as_int(1) / m_tile_height;
 
 	if (object.has("gid")) {
 		// Tile object
-		Tile tile = resolve_tile(object["gid"].deprecated_as_int());
+		Tile tile = resolve_tile(object["gid"].as_int(0));
 		entity.sprite = tile.sprite;
 		// NOTE - For some reason, tile objects have origin in the bottom left corner.
 		entity.position.y -= entity.size.y;
@@ -154,21 +156,21 @@ void Map_Loader::parse_object(const JSON::Object_View& object)
 		object["properties"].as_array().for_each([&](const JSON::Value_View& value){
 			const JSON::Object_View property = value.as_object();
 
-			const String name = property["name"].deprecated_as_string();
+			const String name = property["name"].as_string("");
 			if (name == "sequence") {
-				const char* sequence_name = property["value"].deprecated_as_string();
+				const char* sequence_name = property["value"].as_string("");
 				String sequence_path = relative_to_real_path(sequence_name);
 				entity.assigned_sequence = m_resource_system.sequence_manager.get(sequence_path.data(), true);
 			} else if (name == "character") {
-				const char* character_relative = property["value"].deprecated_as_string();
+				const char* character_relative = property["value"].as_string("");
 				String character_path = relative_to_real_path(character_relative);
 				entity.assigned_character = m_resource_system.character_profile_manager.get(character_path.data(), true);
 			} else if (name == "passable") {
-				entity.passable = property["value"].deprecated_as_bool();
+				entity.passable = property["value"].as_bool(false);
 			} else if (name == "area_trigger") {
-				entity.area_trigger = property["value"].deprecated_as_bool();
+				entity.area_trigger = property["value"].as_bool(false);
 			} else if (name == "direction") {
-				entity.look(direction_from_string(property["value"].deprecated_as_string()));
+				entity.look(direction_from_string(property["value"].as_string("down")));
 			} else {
 				SG_WARNING("Object property \"%s\" is not supported.", name.data());
 			}
@@ -181,8 +183,8 @@ void Map_Loader::parse_object(const JSON::Object_View& object)
 void Map_Loader::parse_tilesets(const JSON::Array_View& tilesets)
 {
 	tilesets.for_each([&](const JSON::Value_View& tileset){
-		const int first_id = tileset.as_object()["firstgid"].deprecated_as_int();
-		const char* src = tileset.as_object()["source"].deprecated_as_string();
+		const int first_id = tileset.as_object()["firstgid"].as_int(0);
+		const char* src = tileset.as_object()["source"].as_string("");
 		m_tilesets.push_back(Tileset_In_Map{
 			.first_id = first_id,
 			.tileset = parse_tileset(src)
@@ -199,15 +201,15 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 	JSON::Object json = JSON::Object::from_file(tileset_path.data());
 	JSON::Object_View view = json.get_view();
 
-	const int columns = view["columns"].deprecated_as_int();
-	const int tilecount = view["tilecount"].deprecated_as_int();
-	const int tile_width = view["tilewidth"].deprecated_as_int();
-	const int tile_height = view["tileheight"].deprecated_as_int();
+	const int columns = view["columns"].as_int(0);
+	const int tilecount = view["tilecount"].as_int(0);
+	const int tile_width = view["tilewidth"].as_int(0);
+	const int tile_height = view["tileheight"].as_int(0);
 
 	Tileset tileset = [&](){
 		if (view.has("image")) {
 			// Tileset from one image
-			const char* image_relative = view["image"].deprecated_as_string();
+			const char* image_relative = view["image"].as_string("");
 			String image_path = relative_to_real_path(image_relative);
 			Resource_Handle<Sage_Texture> texture = m_resource_system.texture_manager.get(image_path.data(), true);
 			return Tileset{
@@ -227,7 +229,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 			JSON::Object_View tile = value.as_object();
 
 			if (tileset.is_image_collection()) {
-				const char* image_relative = tile["image"].deprecated_as_string();
+				const char* image_relative = tile["image"].as_string("");
 				String image_path = relative_to_real_path(image_relative);
 				Resource_Handle<Sage_Texture> texture = m_resource_system.texture_manager.get(image_path.data(), true);
 				Sprite sprite{texture};
@@ -235,7 +237,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 			}
 
 			if (tile.has("properties")) {
-				const int id = tile["id"].deprecated_as_int();
+				const int id = tile["id"].as_int(0);
 				parse_tile_properties(tile["properties"].as_array(), id, tileset);
 			}
 		});
@@ -248,9 +250,9 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 void Map_Loader::parse_tile_properties(const JSON::Array_View& properties, int id, Tileset& tileset)
 {
 	properties.for_each([&](const JSON::Value_View& property){
-		String name = property.as_object()["name"].deprecated_as_string();
+		String name = property.as_object()["name"].as_string("");
 		if (name == "passable") {
-			const bool value = property.as_object()["value"].deprecated_as_bool();
+			const bool value = property.as_object()["value"].as_bool(false);
 			tileset.set_passable(id, value);
 		} else {
 			SG_WARNING("Tile property \"%s\" is not supported.", name.data());

@@ -18,13 +18,9 @@ class Value_View
 public:
 	Value_View(const cJSON*);
 
-	int deprecated_as_int() const;
 	int as_int(int fallback_value) const;
-	bool deprecated_as_bool() const;
 	bool as_bool(bool fallback_value) const;
-	float deprecated_as_float() const;
 	float as_float(float fallback_value) const;
-	const char* deprecated_as_string() const;
 	const char* as_string(const char* fallback_value) const;
 
 	// FIXME - Return empty array on error

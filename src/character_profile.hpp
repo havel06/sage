@@ -7,7 +7,7 @@
 #include "utils/vec2.hpp"
 
 const float CHARACTER_DEFAULT_HP = 20;
-const float CHARACTER_DEFAULT_SPEED = 20;
+const float CHARACTER_DEFAULT_SPEED = 5;
 
 struct Character_Profile
 {

@@ -19,7 +19,7 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 
 	Character_Profile profile;
 
-	profile.name = json_view["name"].as_string();
+	profile.name = json_view["name"].deprecated_as_string();
 	profile.filename = file_path;
 
 	profile.sprite_down  = JSON_Types::parse_animated_sprite(json_view["sprite_down"].as_object(),  m_texture_manager);
@@ -57,12 +57,12 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 
 	if (json_view.has("size")) {
 		const JSON::Object_View character_size = json_view["size"].as_object();
-		profile.size.x = character_size["x"].as_float();
-		profile.size.y = character_size["y"].as_float();
+		profile.size.x = character_size["x"].deprecated_as_float();
+		profile.size.y = character_size["y"].deprecated_as_float();
 	}
 
 	if (json_view.has("move_speed")) {
-		profile.move_speed = json_view["move_speed"].as_float();
+		profile.move_speed = json_view["move_speed"].deprecated_as_float();
 	}
 
 	if (json_view.has("abilities")) {
@@ -72,15 +72,15 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 		});
 	}
 
-	profile.max_hp = json_view["max_hp"].as_int();
+	profile.max_hp = json_view["max_hp"].deprecated_as_int();
 
 	return profile;
 }
 
 Ability Character_Profile_Loader::load_ability(const JSON::Object_View& ability_json)
 {
-	String name = ability_json["name"].as_string();
-	Resource_Handle<Sequence> sequence = m_sequence_manager.get(ability_json["sequence"].as_string(), false);
+	String name = ability_json["name"].deprecated_as_string();
+	Resource_Handle<Sequence> sequence = m_sequence_manager.get(ability_json["sequence"].deprecated_as_string(), false);
 
 	return Ability {
 		.name = move(name),

@@ -19,9 +19,9 @@ Own_Ptr<Resource<Font>> Font_Manager::load_resource(const String& filename)
 
 	String font_filename = m_resource_root;
 	font_filename.append("/");
-	font_filename.append(json_view["file"].as_string());
+	font_filename.append(json_view["file"].deprecated_as_string());
 
-	const int font_size = json_view["size"].as_int();
+	const int font_size = json_view["size"].deprecated_as_int();
 
 	Font font = LoadFontEx(font_filename.data(), font_size, nullptr, 0);
 
@@ -29,7 +29,7 @@ Own_Ptr<Resource<Font>> Font_Manager::load_resource(const String& filename)
 		SG_ERROR("Unable to load font file \"%s\".", font_filename.data());
 	}
 
-	bool filter = json_view["filter"].as_bool();
+	bool filter = json_view["filter"].deprecated_as_bool();
 	if (filter) {
 		SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
 	}

@@ -18,8 +18,8 @@ void Inventory_Saveloader::load(Inventory& inventory, const JSON::Array_View& js
 {
 	json.for_each([&](const JSON::Value_View& value){
 		JSON::Object_View item_stack_json = value.as_object();
-		const char* id = item_stack_json["id"].as_string();
-		const int count = item_stack_json["count"].as_int();
+		const char* id = item_stack_json["id"].deprecated_as_string();
+		const int count = item_stack_json["count"].deprecated_as_int();
 		inventory.add_item(id, count);
 	});
 }

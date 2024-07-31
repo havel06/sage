@@ -95,17 +95,17 @@ JSON::Object Map_Saveloader::serialise_entity(const Entity& entity)
 
 void Map_Saveloader::deserialise_entity(Entity& entity, const JSON::Object_View& entity_json)
 {
-	entity.position.x = entity_json["x"].as_int();
-	entity.position.y = entity_json["y"].as_int();
+	entity.position.x = entity_json["x"].deprecated_as_int();
+	entity.position.y = entity_json["y"].deprecated_as_int();
 
 	if (entity_json.has("sprite")) {
 		const JSON::Object_View& sprite_json = entity_json["sprite"].as_object();
 		entity.sprite = JSON_Types::parse_animated_sprite(sprite_json, m_texture_manager);
 	}
 
-	entity.look(direction_from_string(entity_json["direction"].as_string()));
+	entity.look(direction_from_string(entity_json["direction"].deprecated_as_string()));
 
-	if (entity_json["moving"].as_bool()) {
+	if (entity_json["moving"].deprecated_as_bool()) {
 		entity.move(entity.get_look_direction());
 	}
 }
@@ -115,7 +115,7 @@ void Map_Saveloader::deserialise_entites(Map_Entities& entities, const JSON::Arr
 	json.for_each([&](const JSON::Value_View& value){
 		const JSON::Object_View entity_json = value.as_object();
 
-		const char* name = entity_json["name"].as_string();
+		const char* name = entity_json["name"].deprecated_as_string();
 		Entity* entity = entities.get_entity(name);
 
 		if (entity) {

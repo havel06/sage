@@ -72,10 +72,10 @@ void Game_Saveloader::load()
 	JSON::Object json = JSON::Object::from_file(savefile_path.data());
 	JSON::Object_View view = json.get_view();
 
-	const char* current_map = view["current_map"].as_string();
+	const char* current_map = view["current_map"].deprecated_as_string();
 	m_logic.set_current_map(current_map);
 
-	m_camera.zoom = view["camera_zoom"].as_float();
+	m_camera.zoom = view["camera_zoom"].deprecated_as_float();
 	Inventory_Saveloader inv_saveloader;
 	inv_saveloader.load(m_inventory, view["inventory"].as_array());
 	Quest_Saveloader quest_saveloader(m_quest_log);
@@ -113,7 +113,7 @@ JSON::Array Game_Saveloader::serialise_active_sequences()
 void Game_Saveloader::load_active_sequences(const JSON::Array_View& json)
 {
 	json.for_each([&](const JSON::Value_View& value){
-		m_seq_manager.get(value.as_string(), false).get().try_activate();
+		m_seq_manager.get(value.deprecated_as_string(), false).get().try_activate();
 	});
 }
 
@@ -133,7 +133,7 @@ JSON::Array Game_Saveloader::serialise_party()
 void Game_Saveloader::load_party(const JSON::Array_View& json)
 {
 	json.for_each([&](const JSON::Value_View& value){
-		auto profile = m_character_manager.get(value.as_string(), true);
+		auto profile = m_character_manager.get(value.deprecated_as_string(), true);
 		m_party.add_character(profile);
 	});
 }

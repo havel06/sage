@@ -34,20 +34,20 @@ UI::Size GUI_Loader::parse_size(const JSON::Object_View& json)
 	UI::Size size;
 
 	if (json.has("automatic")) {
-		size.automatic = json["automatic"].as_bool();
+		size.automatic = json["automatic"].deprecated_as_bool();
 		return size; // We can return immediately, since other values are ignored
 	}
 
 	if (json.has("parent_width")) {
-		size.parent_width = json["parent_width"].as_float();
+		size.parent_width = json["parent_width"].deprecated_as_float();
 	}
 
 	if (json.has("parent_height")) {
-		size.parent_height = json["parent_height"].as_float();
+		size.parent_height = json["parent_height"].deprecated_as_float();
 	}
 
 	if (json.has("pixels")) {
-		size.pixels = json["pixels"].as_int();
+		size.pixels = json["pixels"].deprecated_as_int();
 	}
 
 	return size;
@@ -55,7 +55,7 @@ UI::Size GUI_Loader::parse_size(const JSON::Object_View& json)
 
 UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json)
 {
-	String type = json["type"].as_string();
+	String type = json["type"].deprecated_as_string();
 	JSON::Object_View params = json["parameters"].as_object();
 
 	// Layout
@@ -67,8 +67,8 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json)
 		json["children"].as_array().for_each([&](const JSON::Value_View& value){
 			JSON::Object_View child = value.as_object();
 			if (child.has("row") && child.has("column")) {
-				const int row = child["row"].as_int();
-				const int column = child["column"].as_int();
+				const int row = child["row"].deprecated_as_int();
+				const int column = child["column"].deprecated_as_int();
 				layout.add(parse_widget(child), row, column);
 			} else {
 				layout.add(parse_widget(child));
@@ -94,11 +94,11 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json)
 
 	// Name
 	if (json.has("name")) {
-		widget->set_name(json["name"].as_string());
+		widget->set_name(json["name"].deprecated_as_string());
 	}
 
 	if (json.has("fade_in")) {
-		widget->fade_in_out_time = json["fade_in"].as_float();
+		widget->fade_in_out_time = json["fade_in"].deprecated_as_float();
 	}
 
 	return widget;
@@ -127,10 +127,10 @@ UI::Widget_Ptr GUI_Loader::parse_box(UI::Layout&& layout, const JSON::Object_Vie
 
 	if (params.has("colour")) {
 		JSON::Object_View colour_json = params["colour"].as_object();
-		widget->colour.r = colour_json["r"].as_int();
-		widget->colour.g = colour_json["g"].as_int();
-		widget->colour.b = colour_json["b"].as_int();
-		widget->colour.a = colour_json["a"].as_int();
+		widget->colour.r = colour_json["r"].deprecated_as_int();
+		widget->colour.g = colour_json["g"].deprecated_as_int();
+		widget->colour.b = colour_json["b"].deprecated_as_int();
+		widget->colour.a = colour_json["a"].deprecated_as_int();
 	}
 
 	return widget;
@@ -138,11 +138,11 @@ UI::Widget_Ptr GUI_Loader::parse_box(UI::Layout&& layout, const JSON::Object_Vie
 
 UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const JSON::Object_View& params)
 {
-	Resource_Handle<Font> font = m_font_manager.get(params["font"].as_string(), false);
+	Resource_Handle<Font> font = m_font_manager.get(params["font"].deprecated_as_string(), false);
 	Own_Ptr<UI::Text> widget = make_own_ptr<UI::Text>(font, (UI::Layout&&)layout);
 
-	widget->text = params["text"].as_string();
-	widget->size = params["size"].as_int();
+	widget->text = params["text"].deprecated_as_string();
+	widget->size = params["size"].deprecated_as_int();
 
 	return widget;
 }

@@ -34,7 +34,7 @@ void Sequence_Saveloader::load(Sequence& sequence)
 
 	JSON::Object json = JSON::Object::from_file(savefile_path.data());
 	JSON::Object_View view = json.get_view();
-	sequence.set_current_event(view["current_event"].as_int());
+	sequence.set_current_event(view["current_event"].deprecated_as_int());
 
 	//SG_DEBUG("Loaded state of sequence \"%s\".", savefile_path.data());
 }

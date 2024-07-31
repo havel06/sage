@@ -65,7 +65,7 @@ Sequence Sequence_Loader::load(const String& filename)
 		JSON::Object_View template_spec = view["from_template"].as_object();
 		String template_filename = m_resource_root_path;
 		template_filename.append('/');
-		template_filename.append(template_spec["template"].as_string());
+		template_filename.append(template_spec["template"].deprecated_as_string());
 		JSON::Object_View params = template_spec["parameters"].as_object();
 
 		JSON::Object template_json = JSON::Object::from_file(template_filename.data());
@@ -87,7 +87,7 @@ Sequence Sequence_Loader::load_templated_sequence(const String& final_filename,
 	Sequence sequence(final_filename);
 
 	if (template_json.has("repeatable")) {
-		sequence.repeatable = template_json["repeatable"].as_bool();
+		sequence.repeatable = template_json["repeatable"].deprecated_as_bool();
 	}
 
 	// Events
@@ -109,7 +109,7 @@ Sequence Sequence_Loader::load_templated_sequence(const String& final_filename,
 Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json,
 		const JSON::Object_View& template_params)
 {
-	const String type = json["type"].as_string();
+	const String type = json["type"].deprecated_as_string();
 	const JSON::Object_View params = json["parameters"].as_object();
 	Own_Ptr<Event_Factory> factory = get_factory_for_event_type(type);
 
@@ -119,7 +119,7 @@ Event_Ptr Sequence_Loader::parse_event(const JSON::Object_View& json,
 		Event_Ptr loaded_event = factory->make_event(m_facade);
 
 		if (json.has("asynchronous")) {
-			loaded_event->asynchronous = json["asynchronous"].as_bool();
+			loaded_event->asynchronous = json["asynchronous"].deprecated_as_bool();
 		}
 
 		return loaded_event;
@@ -216,24 +216,24 @@ void Sequence_Loader::parse_event_parameters(Event_Factory& factory,
 			}
 
 			void visit(Int_Event_Parameter& param) override {
-				param.value = m_param_json.as_int();
+				param.value = m_param_json.deprecated_as_int();
 			}
 
 			void visit(Float_Event_Parameter& param) override {
-				param.value = m_param_json.as_float();
+				param.value = m_param_json.deprecated_as_float();
 			}
 
 			void visit(String_Event_Parameter& param) override {
-				param.value = m_param_json.as_string();
+				param.value = m_param_json.deprecated_as_string();
 			}
 
 			void visit(Direction_Event_Parameter& param) override {
-				param.value = direction_from_string(m_param_json.as_string());
+				param.value = direction_from_string(m_param_json.deprecated_as_string());
 			}
 			
 			void visit(String_Array_Event_Parameter& param) override {
 				m_param_json.as_array().for_each([&](const JSON::Value_View& value){
-					param.value.push_back(value.as_string());
+					param.value.push_back(value.deprecated_as_string());
 				});
 			}
 
@@ -242,7 +242,7 @@ void Sequence_Loader::parse_event_parameters(Event_Factory& factory,
 			}
 
 			void visit(Target_Selection_Type_Event_Parameter& param) override {
-				param.value = target_selection_type_from_str(m_param_json.as_string());
+				param.value = target_selection_type_from_str(m_param_json.deprecated_as_string());
 			}
 		};
 
@@ -253,12 +253,12 @@ void Sequence_Loader::parse_event_parameters(Event_Factory& factory,
 
 Condition_Ptr Sequence_Loader::parse_condition(const JSON::Object_View& json)
 {
-	const String type = json["type"].as_string();
+	const String type = json["type"].deprecated_as_string();
 	const JSON::Object_View params = json["parameters"].as_object();
 
 	if (type == "has_item") {
-		String item = params["item"].as_string();
-		const int count = params["count"].as_int();
+		String item = params["item"].deprecated_as_string();
+		const int count = params["count"].deprecated_as_int();
 		return make_own_ptr<Conditions::Has_Item>(m_facade, (String&&)item, count);
 	} else if (type == "not") {
 		Condition_Ptr sub_condition = parse_condition(params["condition"].as_object());
@@ -275,7 +275,7 @@ JSON::Value_View Sequence_Loader::resolve_value(const JSON::Value_View& val,
 		const JSON::Object_View& parameters)
 {
 	if (val.is_string()) {
-		const char* str_value = val.as_string();
+		const char* str_value = val.deprecated_as_string();
 
 		if (strlen(str_value) > 1 && str_value[0] == '$') {
 			const char* param_name = str_value + 1;

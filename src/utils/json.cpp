@@ -15,28 +15,68 @@ Value_View::Value_View(const cJSON* cjson)
 	m_cjson = cjson;
 }
 
-int Value_View::as_int() const
+int Value_View::deprecated_as_int() const
 {
 	assert(cJSON_IsNumber(m_cjson));
 	return m_cjson->valueint;
 }
 
-bool Value_View::as_bool() const
+int Value_View::as_int(int fallback_value) const
+{
+	if (cJSON_IsNumber(m_cjson)) {
+		return m_cjson->valueint;
+	} else {
+		SG_ERROR("JSON: Expected an integer.");
+		return fallback_value;
+	}
+}
+
+bool Value_View::deprecated_as_bool() const
 {
 	assert(cJSON_IsBool(m_cjson));
 	return m_cjson->valueint;
 }
 
-float Value_View::as_float() const
+bool Value_View::as_bool(bool fallback_value) const
+{
+	if (cJSON_IsBool(m_cjson)) {
+		return m_cjson->valueint;
+	} else {
+		SG_ERROR("JSON: Expected a boolean.");
+		return fallback_value;
+	}
+}
+
+float Value_View::deprecated_as_float() const
 {
 	assert(cJSON_IsNumber(m_cjson));
 	return m_cjson->valuedouble;
 }
 
-const char* Value_View::as_string() const
+float Value_View::as_float(float fallback_value) const
+{
+	if (cJSON_IsNumber(m_cjson)) {
+		return m_cjson->valuedouble;
+	} else {
+		SG_ERROR("JSON: Expected a number.");
+		return fallback_value;
+	}
+}
+
+const char* Value_View::deprecated_as_string() const
 {
 	assert(cJSON_IsString(m_cjson));
 	return m_cjson->valuestring;
+}
+
+const char* Value_View::as_string(const char* fallback_value) const
+{
+	if (cJSON_IsString(m_cjson)) {
+		return m_cjson->valuestring;
+	} else {
+		SG_ERROR("JSON: Expected a string.");
+		return fallback_value;
+	}
 }
 
 Array_View Value_View::as_array() const

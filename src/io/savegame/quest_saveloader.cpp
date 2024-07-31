@@ -30,9 +30,9 @@ void Quest_Saveloader::load(const JSON::Array_View& json)
 	json.for_each([&](const JSON::Value_View& value){
 		JSON::Object_View quest_json = value.as_object();
 		Quest quest;
-		quest.id = quest_json["id"].as_string();
-		quest.name = quest_json["name"].as_string();
-		quest.description = quest_json["description"].as_string();
+		quest.id = quest_json["id"].deprecated_as_string();
+		quest.name = quest_json["name"].deprecated_as_string();
+		quest.description = quest_json["description"].deprecated_as_string();
 		m_quest_log.add_quest((Quest&&)quest);
 	});
 }

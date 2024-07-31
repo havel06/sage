@@ -25,13 +25,13 @@ void Item_Registry_Loader::load(Item_Registry& registry, const String& project_r
 
 	items.for_each([&](const JSON::Value_View& value) {
 		JSON::Object_View item = value.as_object();
-		const String id = item["id"].as_string();
-		const String name = item["name"].as_string();
+		const String id = item["id"].deprecated_as_string();
+		const String name = item["name"].deprecated_as_string();
 		Sprite sprite = JSON_Types::parse_sprite(item["sprite"].as_object(), m_texture_manager);
 
 		Optional<Resource_Handle<Sequence>> sequence;
 		if (item.has("sequence")) {
-			sequence = m_sequence_manager.get(item.get("sequence").as_string(), false);
+			sequence = m_sequence_manager.get(item.get("sequence").deprecated_as_string(), false);
 		}
 
 		registry.add_item(Item{

@@ -1,6 +1,38 @@
 #include "filesystem.hpp"
 #include <filesystem>
 
+String remove_filename(const String& path)
+{
+#ifdef _WIN32
+	const char separator = '\\';
+#else
+	const char separator = '/';
+#endif
+
+	bool slash_found = false;
+	int slash_position = 0;
+
+	// Find the slash
+	for (int i = 0; i < path.length(); i++) {
+		if (path[i] == separator) {
+			slash_found = true;
+			slash_position = i;
+		}
+	}
+
+	if (!slash_found)
+		return path;
+
+	// Reconstruct filename
+	String result;
+	for (int i = 0; i < slash_position; i++) {
+		result.append(path[i]);
+	}
+
+	return result;
+}
+
+
 String get_canonical_path(const String& str)
 {
 	return get_canonical_path(str.data());
@@ -49,6 +81,14 @@ void remove_directory(const String& path)
 String get_relative_path(const String& path, const String& base)
 {
 	return std::filesystem::relative(path.data(), base.data()).string().data();
+}
+
+String resolve_relative_path(const String& path, const String& base)
+{
+	String result = remove_filename(base);
+	result.append('/');
+	result.append(path);
+	return get_canonical_path(result);
 }
 
 void create_directories_for_file(const String& path)

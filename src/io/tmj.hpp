@@ -52,8 +52,6 @@ private:
 	void parse_tile_properties(const JSON::Array_View& properties, int id, Tileset& tileset);
 	Tile resolve_tile(int tile_index);
 
-	String relative_to_real_path(const char* relative_path);
-
 	String m_path;
 	Resource_System& m_resource_system;
 	Own_Ptr<Map> m_map;

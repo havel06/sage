@@ -5,6 +5,7 @@
 #include "utils/log.hpp"
 #include "utils/file.hpp"
 #include "utils/json.hpp"
+#include "utils/filesystem.hpp"
 #include "resource/resource_system.hpp"
 
 namespace TMJ
@@ -159,11 +160,11 @@ void Map_Loader::parse_object(const JSON::Object_View& object)
 			const String name = property["name"].as_string("");
 			if (name == "sequence") {
 				const char* sequence_name = property["value"].as_string("");
-				String sequence_path = relative_to_real_path(sequence_name);
+				String sequence_path = resolve_relative_path(sequence_name, m_path);
 				entity.assigned_sequence = m_resource_system.sequence_manager.get(sequence_path.data(), true);
 			} else if (name == "character") {
 				const char* character_relative = property["value"].as_string("");
-				String character_path = relative_to_real_path(character_relative);
+				String character_path = resolve_relative_path(character_relative, m_path);
 				entity.assigned_character = m_resource_system.character_profile_manager.get(character_path.data(), true);
 			} else if (name == "passable") {
 				entity.passable = property["value"].as_bool(false);
@@ -197,7 +198,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 	// FIXME - refactor this function a bit
 
 	SG_DEBUG("Parsing TMJ tileset \"%s\"", tileset_filename_relative);
-	String tileset_path = relative_to_real_path(tileset_filename_relative);
+	String tileset_path = resolve_relative_path(tileset_filename_relative, m_path);
 	JSON::Object json = JSON::Object::from_file(tileset_path.data());
 	JSON::Object_View view = json.get_view();
 
@@ -210,7 +211,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 		if (view.has("image")) {
 			// Tileset from one image
 			const char* image_relative = view["image"].as_string("");
-			String image_path = relative_to_real_path(image_relative);
+			String image_path = resolve_relative_path(image_relative, tileset_path);
 			Resource_Handle<Sage_Texture> texture = m_resource_system.texture_manager.get(image_path.data(), true);
 			return Tileset{
 				Vec2i{tile_width, tile_height},
@@ -230,7 +231,7 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 
 			if (tileset.is_image_collection()) {
 				const char* image_relative = tile["image"].as_string("");
-				String image_path = relative_to_real_path(image_relative);
+				String image_path = resolve_relative_path(image_relative, tileset_path);
 				Resource_Handle<Sage_Texture> texture = m_resource_system.texture_manager.get(image_path.data(), true);
 				Sprite sprite{texture};
 				tileset.add_tile(Tile{sprite});
@@ -258,14 +259,6 @@ void Map_Loader::parse_tile_properties(const JSON::Array_View& properties, int i
 			SG_WARNING("Tile property \"%s\" is not supported.", name.data());
 		}
 	});
-}
-
-String Map_Loader::relative_to_real_path(const char* relative_path)
-{
-	String result = remove_filename(m_path); // Containing folder
-	result.append('/');
-	result.append(relative_path);
-	return result;
 }
 
 Tile Map_Loader::resolve_tile(int index)

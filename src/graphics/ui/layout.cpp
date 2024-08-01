@@ -7,6 +7,9 @@ namespace UI
 
 Layout::Layout(const Array<Size>& rows, const Array<Size>& columns)
 {
+	assert(rows.size() > 0);
+	assert(columns.size() > 0);
+
 	m_rows = rows;
 	m_columns = columns;
 }

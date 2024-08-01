@@ -29,7 +29,7 @@ Game::Game(const Project_Description& description) :
 	m_inventory_renderer(m_logic_normal.item_registry, m_logic_normal.inventory),
 	m_combat_renderer(m_party, m_combat),
 	m_quest_log_renderer(m_logic_normal.quest_log),
-	m_main_menu(m_logic),
+	m_main_menu(m_logic, m_resource_system.font_manager.get_default_font()),
 	m_dev_tools(m_game_facade, m_logic, m_resource_system.sequence_manager, m_logic_normal.item_registry, m_logic_normal.inventory, description.path)
 {
 	// FIXME - make the constructor smaller by injecting into member classes via their constructors

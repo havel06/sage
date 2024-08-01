@@ -9,7 +9,6 @@ namespace JSON_Types
 
 Sprite parse_sprite(const JSON::Object_View& json, Texture_Manager& texture_manager)
 {
-	// FIXME - error handling
 	const char* texture_name = json["texture"].as_string("");
 
 	if (strlen(texture_name) == 0)

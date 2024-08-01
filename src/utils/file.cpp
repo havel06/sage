@@ -40,7 +40,7 @@ String read_file_to_str(const char* filename)
 
 	if (!file) {
 		SG_ERROR("Cannot open file %s\n", filename);
-		assert(false);
+		return "";
 	}
 
 	String result;

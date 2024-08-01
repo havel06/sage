@@ -71,7 +71,7 @@ public:
 	Array(const Array& other);
 	Array(Array&& other);
 	Array& operator=(const Array& other);
-	Array& operator=(Array&& other); // FIXME - implement
+	Array& operator=(Array&& other);
 	~Array();
 
 	const T* data() const;

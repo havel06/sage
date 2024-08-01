@@ -145,11 +145,16 @@ Object Object::from_file(const char* filename)
 	String file_content = read_file_to_str(filename);
 	cJSON* cjson = cJSON_Parse(file_content.data());
 
-	if (!cjson) {
+	if (cJSON_IsObject(cjson)) {
+		return Object{cjson};
+	} else {
 		SG_ERROR("Error when parsing JSON file \"%s\"", filename);
-	}
 
-	return Object{cjson};
+		if (cjson)
+			cJSON_Delete(cjson);
+
+		return Object{};
+	}
 }
 
 void Object::write_to_file(const char* filename)

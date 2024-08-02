@@ -5,6 +5,8 @@
 namespace UI
 {
 
+class Widget_Visitor;
+
 // FIXME - consider refactoring
 class Widget
 {
@@ -35,6 +37,8 @@ public:
 	void add_child(Widget_Ptr&&);
 	void clear_children();
 	Widget* get_widget_by_name(const String&);
+
+	virtual void accept_visitor(Widget_Visitor&) = 0;
 
 protected:
 	bool is_focused() const { return m_focused; }

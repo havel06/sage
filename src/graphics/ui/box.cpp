@@ -1,6 +1,7 @@
 #include "box.hpp"
 #include "raylib/raylib.h"
 #include "utils/log.hpp"
+#include "widget_visitor.hpp"
 
 namespace UI
 {
@@ -31,6 +32,11 @@ Widget_Ptr Box::clone_impl(Layout&& layout) const
 	Own_Ptr<Box> cloned = make_own_ptr<Box>((Layout&&)layout);
 	cloned->colour = colour;
 	return cloned;
+}
+
+void Box::accept_visitor(Widget_Visitor& visitor)
+{
+	visitor.visit_box(*this);
 }
 
 }

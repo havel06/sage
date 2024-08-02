@@ -12,6 +12,7 @@ public:
 	Function_Wrapper<void()> on_click;
 
 	Button(Widget_Ptr&& normal, Widget_Ptr&& focused, Layout&&);
+	void accept_visitor(Widget_Visitor&) override;
 private:
 	Widget_Ptr m_content_normal;
 	Widget_Ptr m_content_focused;

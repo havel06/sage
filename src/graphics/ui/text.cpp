@@ -1,6 +1,7 @@
 #include "text.hpp"
 #include "raylib/raylib.h"
 #include "utils/log.hpp"
+#include "widget_visitor.hpp"
 
 namespace UI
 {
@@ -95,6 +96,11 @@ Widget_Ptr Text::clone_impl(Layout&& layout) const
 	cloned->text = text;
 	cloned->size = size;
 	return cloned;
+}
+
+void Text::accept_visitor(Widget_Visitor& visitor)
+{
+	visitor.visit_text(*this);
 }
 
 }

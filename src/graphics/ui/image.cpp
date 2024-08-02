@@ -1,6 +1,7 @@
 #include "image.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
+#include "widget_visitor.hpp"
 
 namespace UI
 {
@@ -20,6 +21,11 @@ Widget_Ptr Image::clone_impl(Layout&& layout) const
 	Own_Ptr<Image> cloned = make_own_ptr<Image>((Layout&&)layout);
 	cloned->sprite = this->sprite;
 	return cloned;
+}
+
+void Image::accept_visitor(Widget_Visitor& visitor)
+{
+	visitor.visit_image(*this);
 }
 
 }

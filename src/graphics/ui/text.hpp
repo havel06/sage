@@ -11,9 +11,10 @@ namespace UI
 class Text : public Widget
 {
 public:
-	Text(Resource_Handle<Font>, Layout&&);
 	String text = "";
 	int size = 10;
+	Text(Resource_Handle<Font>, Layout&&);
+	void accept_visitor(Widget_Visitor&) override;
 private:
 	void draw_impl(Recti parent_area, float opacity, float time_delta) override;
 	Widget_Ptr clone_impl(Layout&&) const override;

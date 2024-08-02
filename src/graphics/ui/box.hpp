@@ -11,6 +11,7 @@ class Box : public Widget
 public:
 	Box(Layout&&);
 	Colour colour = {0, 0, 0, 0};
+	void accept_visitor(Widget_Visitor&) override;
 private:
 	void draw_impl(Recti parent_area, float opacity, float time_delta) override;
 	Widget_Ptr clone_impl(Layout&&) const override;

@@ -1,6 +1,7 @@
 #include "button.hpp"
 #include "graphics/ui/widget.hpp"
 #include "utils/log.hpp"
+#include "widget_visitor.hpp"
 
 namespace UI
 {
@@ -35,5 +36,9 @@ void Button::process_click_impl()
 	}
 }
 
+void Button::accept_visitor(Widget_Visitor& visitor)
+{
+	visitor.visit_button(*this);
+}
 
 }

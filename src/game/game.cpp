@@ -107,7 +107,7 @@ void Game::draw_frame(float time_delta)
 
 	m_inventory_renderer.draw(time_delta);
 
-	//DrawFPS(10, 10);
+	DrawFPS(10, 10);
 }
 
 void Game::process_normal_input()

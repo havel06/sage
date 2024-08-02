@@ -8,3 +8,17 @@ Camera2D Game_Camera::to_ray_cam() const
 
 	return {{-x, -y}, {0, 0}, 0, zoom};
 }
+
+Rectf Game_Camera::get_frustrum() const
+{
+	return Rectf{
+		.position = Vec2f{
+			.x = position.x - (float)GetScreenWidth() / 2 / zoom,
+			.y = position.y - (float)GetScreenHeight() / 2 / zoom
+		},
+		.size = Vec2f{
+			.x = (float)GetScreenWidth() / zoom,
+			.y = (float)GetScreenHeight() / zoom
+		}
+	};
+}

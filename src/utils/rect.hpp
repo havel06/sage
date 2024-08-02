@@ -22,11 +22,11 @@ struct Rect
 	bool overlaps(Rect<T> other) const
 	{
 		//one is to the left of the other
-		if (position.x + size.x - 1 < other.position.x || other.position.x + other.size.x - 1 < position.x) {
+		if (position.x + size.x < other.position.x || other.position.x + other.size.x < position.x) {
 			return false;
 		}
-		//one is above another
-		if (position.y + size.y - 1 < other.position.y || other.position.y + other.size.y - 1 < position.y) {
+		//one is above the other
+		if (position.y + size.y < other.position.y || other.position.y + other.size.y < position.y) {
 			return false;
 		}
 		return true;

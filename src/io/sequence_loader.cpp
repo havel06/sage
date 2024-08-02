@@ -190,7 +190,7 @@ Own_Ptr<Event_Factory> Sequence_Loader::get_factory_for_event_type(const String&
 	} else if (type == "end_turn") {
 		return make_own_ptr<Event_Factories::End_Turn>();
 	} else {
-		SG_WARNING("Invalid event type \"%s\"", type.data());
+		SG_ERROR("Invalid event type \"%s\"", type.data());
 		return nullptr;
 	}
 }

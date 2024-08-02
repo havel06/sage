@@ -7,13 +7,14 @@
 #include "sprite.hpp"
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
+#include "utils/minmax.hpp"
 
 void Map_Renderer::draw(const Map& map, const Game_Camera& camera, float dt)
 {
 	BeginMode2D(camera.to_ray_cam());
 
 	for (int i = 0; i < map.layers.get_layer_count(); i++) {
-		draw_layer(map.layers.get_layer(i));
+		draw_layer(map.layers.get_layer(i), camera);
 	}
 
 	for (int i = 0; i < map.entities.get_entity_count(); i++) {
@@ -23,10 +24,17 @@ void Map_Renderer::draw(const Map& map, const Game_Camera& camera, float dt)
 	EndMode2D();
 }
 
-void Map_Renderer::draw_layer(const Tile_Layer& layer)
+void Map_Renderer::draw_layer(const Tile_Layer& layer, const Game_Camera& camera)
 {
-	for (int y = 0; y < layer.get_height(); y++) {
-		for (int x = 0; x < layer.get_width(); x++) {
+	// Optimization - only draw the tiles that are visible by the camera
+	const Rectf frustrum = camera.get_frustrum();
+	const int min_x = max(frustrum.position.x, 0.0f);
+	const int min_y = max(frustrum.position.y, 0.0f);
+	const int max_x = min(frustrum.position.x + frustrum.size.x, layer.get_width() - 1);
+	const int max_y = min(frustrum.position.y + frustrum.size.y, layer.get_height() - 1);
+
+	for (int y = min_y; y <= max_y; y++) {
+		for (int x = min_x; x <= max_x; x++) {
 			draw_tile(layer.get_tile({x, y}), {x, y});
 		}
 	}

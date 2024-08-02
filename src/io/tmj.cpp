@@ -6,6 +6,7 @@
 #include "utils/file.hpp"
 #include "utils/json.hpp"
 #include "utils/filesystem.hpp"
+#include "utils/profiler.hpp"
 #include "resource/resource_system.hpp"
 
 namespace TMJ
@@ -52,7 +53,11 @@ Map_Loader::Map_Loader(Resource_System& res_system, const String& path) :
 	SG_DEBUG("Parsing map \"%s\"", path.data());
 	m_path = path;
 
-	JSON::Object json = JSON::Object::from_file(m_path.data());
+	JSON::Object json = [&](){
+		SG_PROFILE_SCOPE("TMJ JSON parse");
+		return JSON::Object::from_file(m_path.data());
+	}();
+
 	JSON::Object_View view = json.get_view();
 
 	const int width = view["width"].as_int(0);

@@ -2,6 +2,7 @@
 #include "graphics/ui/box.hpp"
 #include "graphics/ui/layout.hpp"
 #include "graphics/ui/size.hpp"
+#include "graphics/ui/widget_visitor.hpp"
 #include "ui/widget.hpp"
 #include "ui/text.hpp"
 #include "ui/button.hpp"
@@ -50,16 +51,32 @@ void Main_Menu_Renderer::init_widgets(UI::Widget_Ptr&& main_widget, UI::Widget_P
 	m_widget = move(main_widget);
 
 	UI::Widget* options_box = (m_widget->get_widget_by_name("Options"));
+	if (!options_box)
+		return;
+
 	options_box->clear_children();
 
 	auto add_option = [&](const String& name, auto callback) {
-		UI::Widget_Ptr button_widget = option_widget->clone();
+		UI::Widget_Ptr new_widget = option_widget->clone();
 
-		// FIXME - safe cast
-		((UI::Text*)(button_widget->get_widget_by_name("Name")))->text = name;
-		((UI::Button*)(button_widget->get_widget_by_name("Button")))->on_click = callback;
+		UI::Widget* name_widget = new_widget->get_widget_by_name("Name");
+		UI::Widget* button_widget = new_widget->get_widget_by_name("Button");
 
-		options_box->add_child((UI::Widget_Ptr&&)button_widget);
+		if (!name_widget || !button_widget)
+			return;
+
+		UI::Text_Widget_Visitor name_visitor{[&](UI::Text& text){
+			text.text = name;
+		}};
+
+		UI::Button_Widget_Visitor button_visitor{[&](UI::Button& button){
+			button.on_click = callback;
+		}};
+
+		name_widget->accept_visitor(name_visitor);
+		button_widget->accept_visitor(button_visitor);
+
+		options_box->add_child((UI::Widget_Ptr&&)new_widget);
 	};
 
 	add_option("Continue", [this](){

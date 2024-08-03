@@ -14,6 +14,7 @@
 #include "io/gui_loader.hpp"
 #include "graphics/ui/box.hpp"
 #include "sequence/sequence.hpp"
+#include "ui/widget_visitor.hpp"
 
 Inventory_Renderer::Inventory_Renderer(Item_Registry& item_registry, Inventory& inventory) :
 	m_item_registry{item_registry},
@@ -38,12 +39,14 @@ void Inventory_Renderer::show(bool value)
 void Inventory_Renderer::on_inventory_change()
 {
 	SG_DEBUG("update inventory content");
-	// Update content
+
 	if (!m_main_widget || !m_slot_widget)
 		return;
 
-	// FIXME - safe cast
-	UI::Box* slots_widget = (UI::Box*)m_main_widget->get_widget_by_name("Slots");
+	UI::Widget* slots_widget = m_main_widget->get_widget_by_name("Slots");
+
+	if (!slots_widget)
+		return;
 
 	slots_widget->clear_children();
 
@@ -52,24 +55,38 @@ void Inventory_Renderer::on_inventory_change()
 			return;
 
 		Item& item = m_item_registry.get_item(id);
-
 		UI::Widget_Ptr slot_widget = m_slot_widget->clone();
 
 		// Image
-		// FIXME - safe cast
-		((UI::Image*)(slot_widget->get_widget_by_name("Image")))->sprite = item.sprite;
+		UI::Widget* image_widget = slot_widget->get_widget_by_name("Image");
+		if (image_widget) {
+			UI::Image_Widget_Visitor image_visitor{[&](UI::Image& image){
+				image.sprite = item.sprite;
+			}};
+			image_widget->accept_visitor(image_visitor);
+		}
 
 		// Count
-		// FIXME - safe cast
-		((UI::Text*)(slot_widget->get_widget_by_name("Count")))->text = String::from_int(count);
+		UI::Widget* count_widget = slot_widget->get_widget_by_name("Count");
+		if (count_widget) {
+			UI::Text_Widget_Visitor count_visitor{[&](UI::Text& text){
+				text.text = String::from_int(count);
+			}};
+			count_widget->accept_visitor(count_visitor);
+		}
 
 		// Button
-		// FIXME - safe cast
-		((UI::Button*)(slot_widget->get_widget_by_name("Button")))->on_click = [&](){
-			if (item.assigned_sequence.has_value()) {
-				item.assigned_sequence.value().get().try_activate();
-			}
-		};
+		UI::Widget* button_widget = slot_widget->get_widget_by_name("Button");
+		if (button_widget) {
+			UI::Button_Widget_Visitor button_visitor{[&](UI::Button& button){
+				button.on_click = [&](){
+					if (item.assigned_sequence.has_value()) {
+						item.assigned_sequence.value().get().try_activate();
+					}
+				};
+			}};
+			button_widget->accept_visitor(button_visitor);
+		}
 
 		slots_widget->add_child(move(slot_widget));
 	});

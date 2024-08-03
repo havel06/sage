@@ -1,4 +1,5 @@
 #include "quest_log_renderer.hpp"
+#include "graphics/ui/widget_visitor.hpp"
 #include "quest/quest_log.hpp"
 #include "io/gui_loader.hpp"
 #include "ui/box.hpp"
@@ -32,22 +33,31 @@ void Quest_Log_Renderer::draw(float dt)
 	if (!m_log_widget || !m_quest_widget)
 		return;
 
-	// FIXME - do this cast safely
-	UI::Box* quests_box_widget = (UI::Box*)m_log_widget->get_widget_by_name("Quests");
-	assert(quests_box_widget);
+	UI::Widget* quests_box_widget = m_log_widget->get_widget_by_name("Quests");
+	if (!quests_box_widget)
+		return;
 
 	// Put the quests in
 	quests_box_widget->clear_children();
 	for (int i = 0; i < m_quest_log.get_quest_count(); i++) {
 		UI::Widget_Ptr new_quest_widget = m_quest_widget->clone();
-		// FIXME - do this cast safely
-		UI::Text* quest_name = (UI::Text*)new_quest_widget->get_widget_by_name("Name");
-		UI::Text* quest_desc = (UI::Text*)new_quest_widget->get_widget_by_name("Description");
 
-		assert(quest_name);
-		assert(quest_desc);
-		quest_name->text = m_quest_log.get_quest(i).name;
-		quest_desc->text = m_quest_log.get_quest(i).description;
+		UI::Widget* quest_name = new_quest_widget->get_widget_by_name("Name");
+		UI::Widget* quest_desc = new_quest_widget->get_widget_by_name("Description");
+
+		if (!quest_name || !quest_desc)
+			continue;
+
+		UI::Text_Widget_Visitor name_visitor{[&](UI::Text& text){
+			text.text = m_quest_log.get_quest(i).name;;
+		}};
+
+		UI::Text_Widget_Visitor description_visitor{[&](UI::Text& text){
+			text.text = m_quest_log.get_quest(i).description;;
+		}};
+
+		quest_name->accept_visitor(name_visitor);
+		quest_desc->accept_visitor(description_visitor);
 
 		quests_box_widget->add_child((UI::Widget_Ptr&&)new_quest_widget);
 	}

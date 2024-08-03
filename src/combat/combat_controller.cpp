@@ -7,6 +7,7 @@
 #include "graphics/ui/button.hpp"
 #include "graphics/ui/text.hpp"
 #include "graphics/ui/widget.hpp"
+#include "graphics/ui/widget_visitor.hpp"
 #include "io/gui_loader.hpp"
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
@@ -36,21 +37,44 @@ void Combat_Controller::load(GUI_Loader& loader, const String& menu_filename, co
 		m_ability_menu_widget = m_action_menu_widget->clone();
 
 		// Set up action menu
-		// FIXME - safe cast
-		UI::Widget* options_box = (m_action_menu_widget->get_widget_by_name("Options"));
-		
 		UI::Widget_Ptr fight_widget = m_option_widget->clone();
 		UI::Widget_Ptr inventory_widget = m_option_widget->clone();
 
-		// FIXME - safe cast
-		((UI::Text*)(fight_widget->get_widget_by_name("Name")))->text = "Fight";
-		((UI::Button*)(fight_widget->get_widget_by_name("Button")))->on_click = [this](){
-			m_menu_state = Combat_Controller_Menu_State::selecting_ability;
-		};
-		((UI::Text*)(inventory_widget->get_widget_by_name("Name")))->text = "Inventory";
-		((UI::Button*)(inventory_widget->get_widget_by_name("Button")))->on_click = [this](){
-			m_menu_state = Combat_Controller_Menu_State::inventory;
-		};
+		UI::Widget* options_box = (m_action_menu_widget->get_widget_by_name("Options"));
+
+		UI::Widget* fight_widget_name = fight_widget->get_widget_by_name("Name");
+		UI::Widget* fight_widget_button = fight_widget->get_widget_by_name("Button");
+		if (fight_widget_name && fight_widget_button) {
+			UI::Text_Widget_Visitor name_visitor{[&](UI::Text& text){
+				text.text = "Fight";
+			}};
+
+			UI::Button_Widget_Visitor button_visitor{[&](UI::Button& button){
+				button.on_click = [this](){
+					m_menu_state = Combat_Controller_Menu_State::selecting_ability;
+				};
+			}};
+
+			fight_widget_name->accept_visitor(name_visitor);
+			fight_widget_button->accept_visitor(button_visitor);
+		}
+
+		UI::Widget* inventory_widget_name = inventory_widget->get_widget_by_name("Name");
+		UI::Widget* inventory_widget_button = inventory_widget->get_widget_by_name("Button");
+		if (inventory_widget_name && inventory_widget_button) {
+			UI::Text_Widget_Visitor name_visitor{[&](UI::Text& text){
+				text.text = "Inventory";
+			}};
+
+			UI::Button_Widget_Visitor button_visitor{[&](UI::Button& button){
+				button.on_click = [this](){
+					m_menu_state = Combat_Controller_Menu_State::inventory;
+				};
+			}};
+
+			inventory_widget_name->accept_visitor(name_visitor);
+			inventory_widget_button->accept_visitor(button_visitor);
+		}
 
 		options_box->add_child((UI::Widget_Ptr&&)fight_widget);
 		options_box->add_child((UI::Widget_Ptr&&)inventory_widget);
@@ -67,31 +91,50 @@ void Combat_Controller::on_hero_ability_selecting_begin()
 
 void Combat_Controller::update_menus()
 {
-	// FIXME - check that widgets got by name exist
-
 	const Character_Profile& hero = m_combat.get_unit_on_turn().character.get();
 
-	// FIXME - safe cast
-	((UI::Text*)(m_action_menu_widget->get_widget_by_name("Title")))->text = hero.name;
-	((UI::Text*)(m_ability_menu_widget->get_widget_by_name("Title")))->text = hero.name;
-
-	UI::Widget* options_box = (m_ability_menu_widget->get_widget_by_name("Options"));
-	options_box->clear_children();
-
-	for (int i = 0; i < hero.abilities.size(); i++) {
-		const Ability& ability = hero.abilities[i];
-		UI::Widget_Ptr option_widget = m_option_widget->clone();
-
-		// FIXME - safe cast
-		((UI::Text*)(option_widget->get_widget_by_name("Name")))->text = ability.name;
-		((UI::Button*)(option_widget->get_widget_by_name("Button")))->on_click = [this, i](){
-			m_combat.select_ability(i);
-		};
-
-		options_box->add_child((UI::Widget_Ptr&&)option_widget);
+	UI::Widget* action_menu_title = m_action_menu_widget->get_widget_by_name("Title");
+	UI::Widget* ability_menu_title = m_ability_menu_widget->get_widget_by_name("Title");
+	if (action_menu_title && ability_menu_title) {
+		UI::Text_Widget_Visitor visitor{[&](UI::Text& text){
+			text.text = hero.name;
+		}};
+		action_menu_title->accept_visitor(visitor);
+		ability_menu_title->accept_visitor(visitor);
 	}
 
-	options_box->focus_first();
+	UI::Widget* options_box = (m_ability_menu_widget->get_widget_by_name("Options"));
+	if (options_box) {
+		options_box->clear_children();
+
+		for (int i = 0; i < hero.abilities.size(); i++) {
+			const Ability& ability = hero.abilities[i];
+			UI::Widget_Ptr option_widget = m_option_widget->clone();
+
+			// FIXME - safe cast
+			UI::Widget* name_widget = option_widget->get_widget_by_name("Name");
+			UI::Widget* button_widget = option_widget->get_widget_by_name("Button");
+
+			if (name_widget && button_widget) {
+				UI::Text_Widget_Visitor name_visitor{[&](UI::Text& text){
+					text.text = ability.name;
+				}};
+
+				UI::Button_Widget_Visitor button_visitor{[&](UI::Button& button){
+					button.on_click = [this, i](){
+						m_combat.select_ability(i);
+					};
+				}};
+
+				name_widget->accept_visitor(name_visitor);
+				button_widget->accept_visitor(button_visitor);
+			}
+
+			options_box->add_child((UI::Widget_Ptr&&)option_widget);
+		}
+
+		options_box->focus_first();
+	}
 
 	SG_DEBUG("Updated combat GUI");
 }
@@ -169,9 +212,16 @@ void Combat_Controller::draw_selected_enemy()
 {
 	const Character_Profile& enemy = m_combat.get_enemy(m_selected_enemy).character.get();
 
-	// FIXME - safe cast
-	((UI::Text*)(m_ability_menu_widget->get_widget_by_name("Title")))->text = enemy.name;
-	(m_ability_menu_widget->get_widget_by_name("Options"))->clear_children();
+	UI::Widget* title_widget = m_ability_menu_widget->get_widget_by_name("Title");
+	UI::Widget* options_widget = m_ability_menu_widget->get_widget_by_name("Options");
+
+	if (title_widget && options_widget) {
+		UI::Text_Widget_Visitor visitor{[&](UI::Text& text){
+			text.text = enemy.name;
+		}};
+		title_widget->accept_visitor(visitor);
+		options_widget->clear_children();
+	}
 
 	m_ability_menu_widget->draw_as_root(0); // FIXME - time delta
 }

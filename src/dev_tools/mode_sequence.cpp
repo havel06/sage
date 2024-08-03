@@ -15,17 +15,17 @@ void Dev_Tools_Mode_Sequence::draw()
 	ImGui::Begin("Sequences");
 
 	m_sequence_manager.for_each([&](Sequence& sequence){
-		const bool is_selected = m_selected_sequence == &sequence;
+		const bool is_selected = m_selected_sequence.has_value() && &m_selected_sequence.value().get() == &sequence;
 		const String relative_path = get_relative_path(sequence.get_path(), m_resource_root);
 		if (ImGui::Selectable(relative_path.data(), is_selected)) {
-			m_selected_sequence = &sequence;
+			m_selected_sequence = m_sequence_manager.get(sequence.get_path(), true);
 		}
 	});
 
 	ImGui::End();
 
-	if (m_selected_sequence) {
-		draw_sequence_edit(*m_selected_sequence);
+	if (m_selected_sequence.has_value()) {
+		draw_sequence_edit(m_selected_sequence.value().get());
 	}
 }
 

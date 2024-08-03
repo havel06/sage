@@ -1,5 +1,7 @@
 #pragma once
+#include "io/resource/resource_handle.hpp"
 #include "utils/string.hpp"
+#include "utils/optional.hpp"
 
 // fwd
 class Sequence_Manager;
@@ -16,5 +18,6 @@ private:
 
 	Sequence_Manager& m_sequence_manager;
 	String m_resource_root;
-	Sequence* m_selected_sequence = nullptr; // FIXME - use resource handle
+
+	Optional<Resource_Handle<Sequence>> m_selected_sequence;
 };

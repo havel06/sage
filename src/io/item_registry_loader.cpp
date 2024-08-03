@@ -15,7 +15,6 @@ Item_Registry_Loader::Item_Registry_Loader(Texture_Manager& tex_mgr, Sequence_Ma
 
 void Item_Registry_Loader::load(Item_Registry& registry, const String& project_root)
 {
-	// FIXME - error handling
 	String filename = project_root;
 	filename.append("/items.json");
 	JSON::Object json = JSON::Object::from_file(filename.data());

@@ -70,6 +70,7 @@ void Sequence::reset()
 
 	m_current_event = 0;
 	m_active = false;
+	m_finished = false;
 }
 
 void Sequence::try_activate()

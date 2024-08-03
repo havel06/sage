@@ -15,7 +15,6 @@ Font_Manager::Font_Manager(const String& resource_root_path) :
 
 Own_Ptr<Resource<Font>> Font_Manager::load_resource(const String& filename)
 {
-	// FIXME - error handling
 	JSON::Object json = JSON::Object::from_file(filename.data());
 	JSON::Object_View json_view = json.get_view();
 

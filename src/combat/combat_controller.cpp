@@ -111,7 +111,6 @@ void Combat_Controller::update_menus()
 			const Ability& ability = hero.abilities[i];
 			UI::Widget_Ptr option_widget = m_option_widget->clone();
 
-			// FIXME - safe cast
 			UI::Widget* name_widget = option_widget->get_widget_by_name("Name");
 			UI::Widget* button_widget = option_widget->get_widget_by_name("Button");
 

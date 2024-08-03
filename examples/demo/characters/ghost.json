@@ -1,0 +1,13 @@
+{
+	"name": "Ghost",
+	"max_hp": 20,
+	"abilities": [
+		{
+			"name": "Punch",
+			"sequence": "sequences/abilities/punch.json"
+		}, {
+			"name": "Slash",
+			"sequence": "sequences/abilities/punch.json"
+		}
+	]
+}

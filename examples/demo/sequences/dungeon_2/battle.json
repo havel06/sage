@@ -1,108 +1,33 @@
 {
 	"events": [
 		{
-			"type": "change_sprite",
-			"parameters": {
-				"entity": "Ghost 1",
-				"sprite": {
-					"frame_time": 0.15,
-					"frames": [
-						{
-							"texture": "textures/ghost.png",
-							"position_x": 0,
-							"position_y": 16,
-							"size_x": 16,
-							"size_y": 16
-						},
-						{
-							"texture": "textures/ghost.png",
-							"position_x": 16,
-							"position_y": 16,
-							"size_x": 16,
-							"size_y": 16
-						},
-						{
-							"texture": "textures/ghost.png",
-							"position_x": 32,
-							"position_y": 16,
-							"size_x": 16,
-							"size_y": 16
-						},
-						{
-							"texture": "textures/ghost.png",
-							"position_x": 48,
-							"position_y": 16,
-							"size_x": 16,
-							"size_y": 16
-						},
-						{
-							"texture": "textures/ghost.png",
-							"position_x": 64,
-							"position_y": 16,
-							"size_x": 16,
-							"size_y": 16
-						},
-						{
-							"texture": "textures/ghost.png",
-							"position_x": 80,
-							"position_y": 16,
-							"size_x": 16,
-							"size_y": 16
-						},
-						{
-							"texture": "textures/ghost.png",
-							"position_x": 96,
-							"position_y": 16,
-							"size_x": 16,
-							"size_y": 16
-						}
-					]
-				}
-			}
-		},
-		{
 			"type": "delay",
 			"parameters": {
-				"seconds": 1.05
+				"seconds": 3
 			}
 		},
 		{
-			"type": "change_sprite",
+			"type": "activate_sequence",
 			"parameters": {
-				"entity": "Ghost 1",
-				"sprite": {
-					"frame_time": 0.15,
-					"frames": [
-						{
-							"texture": "textures/ghost.png",
-							"position_x": 0,
-							"position_y": 0,
-							"size_x": 16,
-							"size_y": 16
-						},
-						{
-							"texture": "textures/ghost.png",
-							"position_x": 16,
-							"position_y": 0,
-							"size_x": 16,
-							"size_y": 16
-						},
-						{
-							"texture": "textures/ghost.png",
-							"position_x": 32,
-							"position_y": 0,
-							"size_x": 16,
-							"size_y": 16
-						},
-						{
-							"texture": "textures/ghost.png",
-							"position_x": 48,
-							"position_y": 0,
-							"size_x": 16,
-							"size_y": 16
-						}
-					]
-				}
+				"sequence": "sequences/dungeon_2/ghost_1.json"
+			}
+		},
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/dungeon_2/ghost_2.json"
+			}
+		},
+		{
+			"type": "enter_combat",
+			"parameters": {
+				"win_sequence": "sequences/dungeon_2/battle_win.json",
+				"lose_sequence": "sequences/dungeon_2/battle_lose.json",
+				"enemies": [
+					"characters/ghost.json",
+					"characters/mage.json",
+					"characters/ghost.json"
+				]
 			}
 		}
 	]

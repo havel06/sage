@@ -1,0 +1,8 @@
+{
+	"from_template": {
+		"template": "sequences/ghost.json",
+		"parameters": {
+			"entity": "Ghost 2"
+		}
+	}
+}

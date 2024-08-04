@@ -245,3 +245,13 @@ void Game_Facade::hide_gui()
 {
 	m_scriptable_gui.hide_widget();
 }
+
+void Game_Facade::move_camera(Vec2f position)
+{
+	return m_camera_controller.set_fixed_target(position);
+}
+
+Vec2f Game_Facade::get_camera_position() const
+{
+	return m_camera_controller.get_camera_position();
+}

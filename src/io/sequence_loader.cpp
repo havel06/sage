@@ -10,6 +10,7 @@
 #include "sequence/conditions/not.hpp"
 #include "sequence/conditions/is_in_combat.hpp"
 #include "sequence/event_factories/activate_sequence.hpp"
+#include "sequence/event_factories/move_camera.hpp"
 #include "sequence/event_factories/add_quest.hpp"
 #include "sequence/event_factories/finish_quest.hpp"
 #include "sequence/event_factories/add_to_party.hpp"
@@ -192,6 +193,8 @@ Own_Ptr<Event_Factory> Sequence_Loader::get_factory_for_event_type(const String&
 		return make_own_ptr<Event_Factories::Change_Current_Unit_HP>();
 	} else if (type == "end_turn") {
 		return make_own_ptr<Event_Factories::End_Turn>();
+	} else if (type == "move_camera") {
+		return make_own_ptr<Event_Factories::Move_Camera>();
 	} else {
 		SG_ERROR("Invalid event type \"%s\"", type.data());
 		return nullptr;

@@ -10,10 +10,36 @@ Camera_Controller::Camera_Controller(Game_Camera& cam) :
 {
 }
 
-void Camera_Controller::update(const Map& map, const Entity& player)
+Vec2f Camera_Controller::get_camera_position() const
+{
+	return m_camera.position;
+}
+
+void Camera_Controller::update(const Map& map, const Entity& player, float dt)
+{
+	if (m_mode == Camera_Controller_Mode::follow_player)
+		update_follow_player(map, player);
+	else
+		update_fixed(dt);
+}
+
+void Camera_Controller::update_follow_player(const Map& map, const Entity& player)
 {
 	m_camera.position = player.get_subgrid_position() + Vec2f{0.5, 1};
 	fix_camera_out_of_bounds({map.get_width(), map.get_height()});
+}
+
+void Camera_Controller::update_fixed(float dt)
+{
+	const float move_speed = 5;
+	Vec2f position_diff = m_fixed_target - m_camera.position;
+	m_camera.position += position_diff * dt * move_speed;
+}
+
+void Camera_Controller::set_fixed_target(Vec2f pos)
+{
+	m_mode = Camera_Controller_Mode::fixed;
+	m_fixed_target = pos;
 }
 
 void Camera_Controller::fix_camera_out_of_bounds(Vec2i map_size)

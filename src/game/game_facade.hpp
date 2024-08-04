@@ -63,6 +63,8 @@ public:
 	void save_game();
 	void show_gui(UI::Widget_Ptr&& widget);
 	void hide_gui();
+	void move_camera(Vec2f position);
+	Vec2f get_camera_position() const;
 private:
 
 	Sequence_Manager& m_sequence_manager;

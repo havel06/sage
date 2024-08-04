@@ -74,7 +74,7 @@ void Game::draw_frame(float time_delta)
 		m_dev_mode = !m_dev_mode;
 
 	if (m_dev_mode) {
-		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player());
+		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
 		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
 		m_dev_tools.draw(m_logic_normal.get_map());
 		return;
@@ -89,7 +89,7 @@ void Game::draw_frame(float time_delta)
 		else
 			process_normal_input();
 
-		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player());
+		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
 		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
 		m_scriptable_gui.draw(time_delta);
 		m_text_box_renderer.draw(time_delta);

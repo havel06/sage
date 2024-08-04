@@ -30,7 +30,7 @@ private:
 	void on_hero_ability_selecting_begin() override;
 	void update_menus();
 
-	void draw_selected_enemy();
+	void draw_selected_enemy(float dt);
 
 	int m_selected_enemy = 0;
 	Combat_Controller_Menu_State m_menu_state = Combat_Controller_Menu_State::selecting_action;

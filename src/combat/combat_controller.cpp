@@ -200,14 +200,14 @@ void Combat_Controller::draw(float time_delta)
 			}
 			break;
 		case Combat_State::hero_selecting_target:
-			draw_selected_enemy();
+			draw_selected_enemy(time_delta);
 			break;
 		default:
 			return;
 	}
 }
 
-void Combat_Controller::draw_selected_enemy()
+void Combat_Controller::draw_selected_enemy(float dt)
 {
 	const Character_Profile& enemy = m_combat.get_enemy(m_selected_enemy).character.get();
 
@@ -222,5 +222,5 @@ void Combat_Controller::draw_selected_enemy()
 		options_widget->clear_children();
 	}
 
-	m_ability_menu_widget->draw_as_root(0); // FIXME - time delta
+	m_ability_menu_widget->draw_as_root(dt);
 }

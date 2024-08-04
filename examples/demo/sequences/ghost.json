@@ -1,4 +1,5 @@
 {
+	"repeatable": true,
 	"events": [
 		{
 			"type": "change_sprite",

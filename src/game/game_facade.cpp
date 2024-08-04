@@ -98,6 +98,7 @@ void Game_Facade::set_entity_sprite(const String& entity_name, const Animated_Sp
 
 	entity->sprite = sprite;
 	entity->sprite.reset_animation();
+	SG_DEBUG("Changed sprite of entity \"%s\"", entity_name.data());
 }
 
 void Game_Facade::play_music(Resource_Handle<Sound> music)

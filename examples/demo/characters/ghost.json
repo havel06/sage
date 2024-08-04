@@ -1,6 +1,6 @@
 {
 	"name": "Ghost",
-	"max_hp": 20,
+	"max_hp": 1,
 	"abilities": [
 		{
 			"name": "Punch",

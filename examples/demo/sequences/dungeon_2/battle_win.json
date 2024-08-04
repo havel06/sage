@@ -1,3 +1,36 @@
 {
-	"events": []
+	"events": [
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Mage",
+				"x": 9999,
+				"y": 9999
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Ghost 1",
+				"x": 9999,
+				"y": 9999
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Ghost 2",
+				"x": 9999,
+				"y": 9999
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Battle",
+				"x": 9999,
+				"y": 9999
+			}
+		}
+	]
 }

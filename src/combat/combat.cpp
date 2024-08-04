@@ -199,7 +199,11 @@ void Combat::advance_turn()
 
 void Combat::update()
 {
-	// Advance turn if current ability has finished
+	// Fix current unit index
+	m_current_hero_turn %= m_heroes.size();
+	m_current_enemy_turn %= m_enemies.size();
+	
+	// Advance state if current ability has finished
 	if (m_state == Combat_State::hero_casting_ability ||
 			m_state == Combat_State::enemy_casting_ability) {
 		assert(m_current_casted_ability);

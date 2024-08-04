@@ -1,9 +1,10 @@
 {
+	"repeatable": true,
 	"events": [
 		{
 			"type": "delay",
 			"parameters": {
-				"seconds": 3
+				"seconds": 2
 			}
 		},
 		{
@@ -16,6 +17,12 @@
 			"type": "activate_sequence",
 			"parameters": {
 				"sequence": "sequences/dungeon_2/ghost_2.json"
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 3
 			}
 		},
 		{

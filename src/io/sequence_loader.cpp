@@ -21,6 +21,7 @@
 #include "sequence/event_factories/give_item.hpp"
 #include "sequence/event_factories/move_entity.hpp"
 #include "sequence/event_factories/remove_item.hpp"
+#include "sequence/event_factories/remove_sprite.hpp"
 #include "sequence/event_factories/rotate_entity.hpp"
 #include "sequence/event_factories/play_music.hpp"
 #include "sequence/event_factories/play_sound.hpp"
@@ -145,6 +146,8 @@ Own_Ptr<Event_Factory> Sequence_Loader::get_factory_for_event_type(const String&
 		return make_own_ptr<Event_Factories::Give_Item>();
 	} else if (type == "remove_item") {
 		return make_own_ptr<Event_Factories::Remove_Item>();
+	} else if (type == "remove_sprite") {
+		return make_own_ptr<Event_Factories::Remove_Sprite>();
 	} else if (type == "change_map") {
 		return make_own_ptr<Event_Factories::Change_Map>();
 	} else if (type == "teleport_player") {

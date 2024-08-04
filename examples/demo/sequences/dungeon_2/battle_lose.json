@@ -9,13 +9,13 @@
 			}
 		},
 		{
-			"type": "remove_entity_sprite",
+			"type": "remove_sprite",
 			"parameters": {
 				"entity": "Ghost 1"
 			}
 		},
 		{
-			"type": "remove_entity_sprite",
+			"type": "remove_sprite",
 			"parameters": {
 				"entity": "Ghost 2"
 			}

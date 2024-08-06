@@ -40,6 +40,18 @@ private:
 	void process_combat_input();
 	void process_inventory_input();
 
+	bool is_action_down_up();
+	bool is_action_down_down();
+	bool is_action_down_left();
+	bool is_action_down_right();
+	bool is_action_pressed_up();
+	bool is_action_pressed_down();
+	bool is_action_pressed_left();
+	bool is_action_pressed_right();
+	bool is_action_pressed_accept();
+	bool is_action_pressed_inventory();
+	bool is_action_pressed_questlog();
+
 	Game_Facade m_game_facade;
 	Sequence_Loader m_sequence_loader;
 	Resource_System m_resource_system;

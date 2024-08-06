@@ -112,71 +112,126 @@ void Game::draw_frame(float time_delta)
 
 void Game::process_normal_input()
 {
-	if (IsKeyPressed(KEY_ENTER)) {
+	if (is_action_pressed_accept()) {
 		if (m_logic_normal.text_box.contains_message())
 			m_logic_normal.text_box.advance();
 		else
 			m_logic_normal.player_interact();
-	} else if (IsKeyPressed(KEY_I)) {
+	} else if (is_action_pressed_inventory()) {
 		m_show_inventory = true;
-	} else if (IsKeyPressed(KEY_Q)) {
+	} else if (is_action_pressed_questlog()) {
 		m_show_quest_log = !m_show_quest_log;
 	}
 
-	if (IsKeyDown(KEY_UP)) {
+	if (is_action_down_up()) {
 		m_logic_normal.move_player(Direction::up);
-	} else if (IsKeyDown(KEY_DOWN)) {
+	} else if (is_action_down_down()) {
 		m_logic_normal.move_player(Direction::down);
-	} else if (IsKeyDown(KEY_RIGHT)) {
+	} else if (is_action_down_right()) {
 		m_logic_normal.move_player(Direction::right);
-	} else if (IsKeyDown(KEY_LEFT)) {
+	} else if (is_action_down_left()) {
 		m_logic_normal.move_player(Direction::left);
 	}
 }
 
 void Game::process_inventory_input()
 {
-	if (IsKeyPressed(KEY_UP)) {
+	if (is_action_pressed_up()) {
 		m_inventory_renderer.input_direction(Direction::up);
-	} else if (IsKeyPressed(KEY_DOWN)) {
+	} else if (is_action_pressed_down()) {
 		m_inventory_renderer.input_direction(Direction::down);
-	} else if (IsKeyPressed(KEY_RIGHT)) {
+	} else if (is_action_pressed_right()) {
 		m_inventory_renderer.input_direction(Direction::right);
-	} else if (IsKeyPressed(KEY_LEFT)) {
+	} else if (is_action_pressed_left()) {
 		m_inventory_renderer.input_direction(Direction::left);
-	} else if (IsKeyPressed(KEY_I)) {
+	} else if (is_action_pressed_inventory()) {
 		m_show_inventory = false;
-	} else if (IsKeyPressed(KEY_ENTER)) {
+	} else if (is_action_pressed_accept()) {
 		m_inventory_renderer.input_click();
 	}
 }
 
 void Game::process_main_menu_input()
 {
-	if (IsKeyPressed(KEY_UP)) {
+	if (is_action_pressed_up()) {
 		m_main_menu.input_direction(Direction::up);
-	} else if (IsKeyPressed(KEY_DOWN)) {
+	} else if (is_action_pressed_down()) {
 		m_main_menu.input_direction(Direction::down);
-	} else if (IsKeyPressed(KEY_RIGHT)) {
+	} else if (is_action_pressed_right()) {
 		m_main_menu.input_direction(Direction::right);
-	} else if (IsKeyPressed(KEY_LEFT)) {
+	} else if (is_action_pressed_left()) {
 		m_main_menu.input_direction(Direction::left);
-	} else if (IsKeyPressed(KEY_ENTER)) {
+	} else if (is_action_pressed_accept()) {
 		m_main_menu.enter();
 	}
 }
 
 void Game::process_combat_input()
 {
-	if (IsKeyPressed(KEY_UP)) {
+	if (is_action_pressed_up()) {
 		m_combat_controller.input_direction(Direction::up);
-	} else if (IsKeyPressed(KEY_DOWN)) {
+	} else if (is_action_pressed_down()) {
 		m_combat_controller.input_direction(Direction::down);
-	} else if (IsKeyPressed(KEY_RIGHT)) {
+	} else if (is_action_pressed_right()) {
 		m_combat_controller.input_direction(Direction::right);
-	} else if (IsKeyPressed(KEY_LEFT)) {
+	} else if (is_action_pressed_left()) {
 		m_combat_controller.input_direction(Direction::left);
-	} else if (IsKeyPressed(KEY_ENTER)) {
+	} else if (is_action_pressed_accept()) {
 		m_combat_controller.input_enter();
 	}
+}
+
+bool Game::is_action_pressed_up()
+{
+	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_UP) || IsKeyPressed(KEY_UP);
+}
+
+bool Game::is_action_pressed_down()
+{
+	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN) || IsKeyPressed(KEY_DOWN);
+}
+
+bool Game::is_action_pressed_left()
+{
+	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT) || IsKeyPressed(KEY_LEFT);
+}
+
+bool Game::is_action_pressed_right()
+{
+	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT) || IsKeyPressed(KEY_RIGHT);
+}
+
+bool Game::is_action_down_up()
+{
+	return IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP) || IsKeyDown(KEY_UP);
+}
+
+bool Game::is_action_down_down()
+{
+	return IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN) || IsKeyDown(KEY_DOWN);
+}
+
+bool Game::is_action_down_left()
+{
+	return IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT) || IsKeyDown(KEY_LEFT);
+}
+
+bool Game::is_action_down_right()
+{
+	return IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT) || IsKeyDown(KEY_RIGHT);
+}
+
+bool Game::is_action_pressed_accept()
+{
+	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) || IsKeyPressed(KEY_ENTER);
+}
+
+bool Game::is_action_pressed_inventory()
+{
+	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT) || IsKeyPressed(KEY_I);
+}
+
+bool Game::is_action_pressed_questlog()
+{
+	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_UP) || IsKeyPressed(KEY_Q);
 }

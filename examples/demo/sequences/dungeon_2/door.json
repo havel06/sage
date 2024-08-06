@@ -1,0 +1,17 @@
+{
+	"events": [
+		{
+			"type": "change_map",
+			"parameters": {
+				"map": "maps/town.tmj"
+			}
+		},
+		{
+			"type": "teleport_player",
+			"parameters": {
+				"x": 39,
+				"y": 16
+			}
+		}
+	]
+}

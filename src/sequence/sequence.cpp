@@ -21,6 +21,9 @@ void Sequence::set_current_event(int index)
 {
 	if (index > m_events.size()) {
 		end_or_reset();
+	} else {
+		// We don't want an unfinished sequence marked as finished!
+		m_finished = false;
 	}
 
 	m_current_event = index;

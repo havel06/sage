@@ -17,6 +17,7 @@ public:
 	// NOTE - saving sequences is handled by this class,
 	// since it also loads the sequence state
 	void save();
+	void reload_sequences(); // Load savefiles for all loaded sequences
 
 	// Callable must take one argument, Sequence&
 	template<typename Fn>

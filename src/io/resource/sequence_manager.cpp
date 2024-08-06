@@ -39,3 +39,10 @@ void Sequence_Manager::unload_resource(Sequence& sequence)
 {
 	m_saveloader.save(sequence);
 }
+
+void Sequence_Manager::reload_sequences()
+{
+	for_each_resource([&](Sequence& sequence){
+		m_saveloader.load(sequence);
+	});
+}

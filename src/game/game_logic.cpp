@@ -39,6 +39,7 @@ void Game_Logic::exit_game()
 void Game_Logic::continue_game()
 {
 	m_saveloader.load();
+	m_sequence_manager.reload_sequences();
 	m_state = Game_Logic_State::normal;
 }
 

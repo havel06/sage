@@ -30,7 +30,7 @@ struct Project_Description;
 class Game
 {
 public:
-	Game(const Project_Description&);
+	Game(const Project_Description&, bool display_fps);
 	~Game();
 	void draw_frame(float time_delta);
 	bool should_exit() const;
@@ -84,4 +84,5 @@ private:
 	bool m_dev_mode = false;
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;
+	bool m_display_fps = false;
 };

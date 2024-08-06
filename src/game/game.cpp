@@ -9,7 +9,7 @@
 #include "utils/log.hpp"
 #include <raylib/raylib.h>
 
-Game::Game(const Project_Description& description) :
+Game::Game(const Project_Description& description, bool display_fps) :
 	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui, m_combat, m_party),
 	m_sequence_loader(description.path, m_resource_system, m_game_facade, m_gui_loader),
 	m_resource_system(description.path, m_sequence_loader, m_sequence_saveloader),
@@ -30,7 +30,8 @@ Game::Game(const Project_Description& description) :
 	m_combat_renderer(m_party, m_combat),
 	m_quest_log_renderer(m_logic_normal.quest_log),
 	m_main_menu(m_logic, m_resource_system.font_manager.get_default_font()),
-	m_dev_tools(m_game_facade, m_logic, m_resource_system.sequence_manager, m_logic_normal.item_registry, m_logic_normal.inventory, description.path)
+	m_dev_tools(m_game_facade, m_logic, m_resource_system.sequence_manager, m_logic_normal.item_registry, m_logic_normal.inventory, description.path),
+	m_display_fps{display_fps}
 {
 	// FIXME - make the constructor smaller by injecting into member classes via their constructors
 
@@ -107,7 +108,8 @@ void Game::draw_frame(float time_delta)
 
 	m_inventory_renderer.draw(time_delta);
 
-	//DrawFPS(10, 10);
+	if (m_display_fps)
+		DrawFPS(10, 10);
 }
 
 void Game::process_normal_input()

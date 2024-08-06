@@ -1,10 +1,17 @@
 {
-	"from_template": {
-		"template": "sequences/door.json",
+	"condition": {
+		"type": "has_item",
 		"parameters": {
-			"map": "maps/dungeon_1.tmj",
-			"x": 42,
-			"y": 78
+			"item": "dungeon_key",
+			"count": 1
 		}
-	}
+	},
+	"events": [
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/town/dungeon_door_open.json"
+			}
+		}
+	]
 }

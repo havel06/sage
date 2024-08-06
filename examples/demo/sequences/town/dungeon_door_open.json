@@ -1,0 +1,10 @@
+{
+	"from_template": {
+		"template": "sequences/door.json",
+		"parameters": {
+			"map": "maps/dungeon_1.tmj",
+			"x": 42,
+			"y": 78
+		}
+	}
+}

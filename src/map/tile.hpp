@@ -1,8 +1,8 @@
 #pragma once
-#include "graphics/sprite.hpp"
+#include "graphics/animated_sprite.hpp"
 
 struct Tile
 {
-	Sprite sprite;
+	Animated_Sprite sprite;
 	bool passable = false;
 };

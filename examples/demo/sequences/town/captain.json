@@ -1,0 +1,41 @@
+{
+	"events": [
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Hello, traveller! I assume that you've come to test your luck in the dungeon nearby."
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "There is a dark mage residing inside, who has been causing us trouble for quite some time. We have managed to lock him up, but not for long..."
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "If you manage to defeat the mage, you will be rewarded with plenty of gold!"
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Here is the key. You will need it to get inside."
+			}
+		},
+		{
+			"type": "give_item",
+			"parameters": {
+				"item": "dungeon_key",
+				"count": 1
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Good luck..."
+			}
+		}
+	]
+}

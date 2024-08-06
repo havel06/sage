@@ -23,6 +23,17 @@
 				"size_x": 16,
 				"size_y": 16
 			}
+		},
+		{
+			"id": "dungeon_key",
+			"name": "Dungeon Key",
+			"sprite": {
+				"texture": "textures/tiny_town.png",
+				"position_x": 144,
+				"position_y": 144,
+				"size_x": 16,
+				"size_y": 16
+			}
 		}
 	]
 }

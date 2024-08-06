@@ -1,4 +1,5 @@
 #include "tmj.hpp"
+#include "graphics/animated_sprite.hpp"
 #include "map/tile_layer.hpp"
 #include "utils/direction.hpp"
 #include "utils/string.hpp"
@@ -12,14 +13,15 @@
 namespace TMJ
 {
 
-Tileset::Tileset(Vec2i tile_size, int columns, int count, Resource_Handle<Sage_Texture> texture)
+Tileset::Tileset(Vec2i tile_size, int columns, int count, Resource_Handle<Sage_Texture> texture) :
+	m_columns{columns},
+	m_tile_size{tile_size},
+	m_texture{texture}
 {
+
 	m_tiles.resize(count);
 	for (int i = 0; i < count; i++) {
-		m_tiles[i].sprite = Sprite {texture};
-		m_tiles[i].sprite.texture_clip.position.x = (i % columns) * tile_size.x;
-		m_tiles[i].sprite.texture_clip.position.y = (i / columns) * tile_size.y;
-		m_tiles[i].sprite.texture_clip.size = tile_size;
+		m_tiles[i].sprite = create_sprite_from_tile_id(i);
 	}
 
 	m_is_image_collection = false;
@@ -45,6 +47,31 @@ void Tileset::set_passable(int index, bool value)
 	assert(index >= 0);
 	assert(index < m_tiles.size());
 	m_tiles[index].passable = value;
+}
+
+void Tileset::set_animation(int index, const Array<int>& frame_ids, float frame_time)
+{
+	assert(index >= 0);
+	assert(index < m_tiles.size());
+
+	Array<Sprite> frames;
+
+	for (int frame_id : frame_ids) {
+		frames.push_back(create_sprite_from_tile_id(frame_id));
+	}
+
+	m_tiles[index].sprite = Animated_Sprite{frames, frame_time};
+}
+
+Sprite Tileset::create_sprite_from_tile_id(int id)
+{
+	assert(m_texture.has_value());
+
+	Sprite sprite(m_texture.value());
+	sprite.texture_clip.position.x = (id % m_columns) * m_tile_size.x;
+	sprite.texture_clip.position.y = (id / m_columns) * m_tile_size.y;
+	sprite.texture_clip.size = m_tile_size;
+	return sprite;
 }
 
 Map_Loader::Map_Loader(Resource_System& res_system, const String& path) :
@@ -246,6 +273,11 @@ Tileset Map_Loader::parse_tileset(const char* tileset_filename_relative)
 				const int id = tile["id"].as_int(0);
 				parse_tile_properties(tile["properties"].as_array(), id, tileset);
 			}
+
+			if (tile.has("animation")) {
+				const int id = tile["id"].as_int(0);
+				parse_tile_animation(tile["animation"].as_array(), id, tileset);
+			}
 		});
 	}
 	
@@ -264,6 +296,20 @@ void Map_Loader::parse_tile_properties(const JSON::Array_View& properties, int i
 			SG_WARNING("Tile property \"%s\" is not supported.", name.data());
 		}
 	});
+}
+
+void Map_Loader::parse_tile_animation(const JSON::Array_View& frames, int id, Tileset& tileset)
+{
+	int frame_time_ms = 0;
+	Array<int> frame_tile_ids;
+
+	frames.for_each([&](const JSON::Value_View& value){
+		JSON::Object_View frame = value.as_object();
+		frame_time_ms = frame["duration"].as_int(1000);
+		frame_tile_ids.push_back(frame["tileid"].as_int(0));
+	});
+
+	tileset.set_animation(id, frame_tile_ids, (float)frame_time_ms / 1000);
 }
 
 Tile Map_Loader::resolve_tile(int index)

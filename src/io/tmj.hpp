@@ -1,8 +1,10 @@
 #pragma once
 
+#include "graphics/texture.hpp"
 #include "map/map.hpp"
 #include "utils/string.hpp"
 #include "raylib/raylib.h"
+#include "utils/vec2.hpp"
 
 //fwd
 struct cJSON;
@@ -24,9 +26,15 @@ public:
 	void add_tile(Tile);
 	Tile get_tile(int index) const;
 	void set_passable(int index, bool value);
+	void set_animation(int index, const Array<int>& frame_ids, float frame_time);
 private:
+	Sprite create_sprite_from_tile_id(int id);
+
 	bool m_is_image_collection;
+	int m_columns = 1;
+	Vec2i m_tile_size;
 	Array<Tile> m_tiles;
+	Optional<Resource_Handle<Sage_Texture>> m_texture; // Only used for single-image tilesets
 };
 
 struct Tileset_In_Map
@@ -50,6 +58,7 @@ private:
 	void parse_tilesets(const JSON::Array_View& tilesets);
 	Tileset parse_tileset(const char* tileset_filename);
 	void parse_tile_properties(const JSON::Array_View& properties, int id, Tileset& tileset);
+	void parse_tile_animation(const JSON::Array_View& frames, int id, Tileset& tileset);
 	Tile resolve_tile(int tile_index);
 
 	String m_path;

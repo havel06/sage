@@ -14,7 +14,7 @@ void Map_Renderer::draw(const Map& map, const Game_Camera& camera, float dt)
 	BeginMode2D(camera.to_ray_cam());
 
 	for (int i = 0; i < map.layers.get_layer_count(); i++) {
-		draw_layer(map.layers.get_layer(i), camera);
+		draw_layer(map.layers.get_layer(i), camera, dt);
 	}
 
 	for (int i = 0; i < map.entities.get_entity_count(); i++) {
@@ -24,7 +24,7 @@ void Map_Renderer::draw(const Map& map, const Game_Camera& camera, float dt)
 	EndMode2D();
 }
 
-void Map_Renderer::draw_layer(const Tile_Layer& layer, const Game_Camera& camera)
+void Map_Renderer::draw_layer(const Tile_Layer& layer, const Game_Camera& camera, float time_delta)
 {
 	// Optimization - only draw the tiles that are visible by the camera
 	const Rectf frustrum = camera.get_frustrum();
@@ -35,19 +35,19 @@ void Map_Renderer::draw_layer(const Tile_Layer& layer, const Game_Camera& camera
 
 	for (int y = min_y; y <= max_y; y++) {
 		for (int x = min_x; x <= max_x; x++) {
-			draw_tile(layer.get_tile({x, y}), {x, y});
+			draw_tile(layer.get_tile({x, y}), {x, y}, time_delta);
 		}
 	}
 }
 
-void Map_Renderer::draw_tile(const Tile& tile, Vec2i position)
+void Map_Renderer::draw_tile(const Tile& tile, Vec2i position, float time_delta)
 {
 	Rectf transform = Rectf{
 		.position = position,
 		.size = {1, 1}
 	};
 
-	tile.sprite.draw(transform);
+	tile.sprite.draw(transform, time_delta);
 }
 
 void Map_Renderer::draw_entity(const Entity& entity, float time_delta)

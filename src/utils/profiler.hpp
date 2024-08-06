@@ -14,7 +14,7 @@ public:
 	~Profiling_Timer()
 	{
 		const float diff = GetTime() - m_time_begin;
-		SG_DEBUG("PROFILE: \"%s\" took %f ms.", m_name, diff * 1000);
+		SG_DEBUG("PROFILE: \"%s\" took %.2f ms.", m_name, diff * 1000);
 	}
 private:
 	const char* m_name;

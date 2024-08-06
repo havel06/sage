@@ -1,6 +1,7 @@
 #include "application.hpp"
 #include "io/project_loader.hpp"
 #include "utils/log.hpp"
+#include "utils/profiler.hpp"
 #include <raylib/raylib.h>
 
 Application::Application()
@@ -25,7 +26,10 @@ void Application::run(int argc, const char* argv[])
 	SG_INFO("Loaded project \"%s\"", description.name.data());
 	SetWindowTitle(description.name.data());
 
-	Game game(description);
+	Game game = [&](){
+		SG_PROFILE_SCOPE("Game initialisation");
+		return Game{description};
+	}();
 
 	while (!WindowShouldClose() && !game.should_exit()) {
 		BeginDrawing();

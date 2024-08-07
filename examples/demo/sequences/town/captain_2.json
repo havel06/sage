@@ -1,0 +1,30 @@
+{
+	"condition": {
+		"type": "has_item",
+		"parameters": {
+			"item": "magic_staff",
+			"count": 1
+		}
+	},
+	"events": [
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Look at that! You've brought the staff!"
+			}
+		},
+		{
+			"type": "remove_item",
+			"parameters": {
+				"item": "magic_staff",
+				"count": 1
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "You have proven your abilities, traveller. Now, as I promised, here is your reward."
+			}
+		}
+	]
+}

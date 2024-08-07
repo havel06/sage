@@ -1,16 +1,47 @@
 {
 	"events": [
 		{
-			"type": "change_map",
+			"type": "change_sprite",
 			"parameters": {
-				"map": "maps/town.tmj"
+				"entity": "Door",
+				"sprite": {
+					"texture": "textures/tiny_dungeon.png",
+					"position_x": 144,
+					"position_y": 32,
+					"size_x": 16,
+					"size_y": 16
+				}
 			}
 		},
 		{
-			"type": "teleport_player",
+			"type": "delay",
 			"parameters": {
-				"x": 39,
-				"y": 16
+				"seconds": 0.15
+			}
+		},
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "Door",
+				"sprite": {
+					"texture": "textures/tiny_dungeon.png",
+					"position_x": 144,
+					"position_y": 16,
+					"size_x": 16,
+					"size_y": 16
+				}
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
+			}
+		},
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/dungeon_2/door_map_change.json"
 			}
 		}
 	]

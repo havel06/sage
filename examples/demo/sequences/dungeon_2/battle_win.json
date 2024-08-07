@@ -45,6 +45,13 @@
 				"name": "Return to the town",
 				"description": "Return to the town and talk to the captain."
 			}
+		},
+		{
+			"type": "give_item",
+			"parameters": {
+				"item": "magic_staff",
+				"count": 1
+			}
 		}
 	]
 }

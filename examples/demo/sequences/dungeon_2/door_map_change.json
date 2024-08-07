@@ -1,0 +1,10 @@
+{
+	"from_template": {
+		"template": "sequences/door.json",
+		"parameters": {
+			"map": "maps/town.tmj",
+			"x": 39,
+			"y": 16
+		}
+	}
+}

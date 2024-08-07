@@ -34,6 +34,17 @@
 				"size_x": 16,
 				"size_y": 16
 			}
+		},
+		{
+			"id": "magic_staff",
+			"name": "Magic Staff",
+			"sprite": {
+				"texture": "textures/tiny_dungeon.png",
+				"position_x": 160,
+				"position_y": 160,
+				"size_x": 16,
+				"size_y": 16
+			}
 		}
 	]
 }

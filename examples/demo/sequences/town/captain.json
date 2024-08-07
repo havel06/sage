@@ -1,54 +1,15 @@
 {
 	"events": [
 		{
-			"type": "display_text",
+			"type": "activate_sequence",
 			"parameters": {
-				"message": "Hello, traveller! I assume that you've come to test your luck in the dungeon nearby."
+				"sequence": "sequences/town/captain_1.json"
 			}
 		},
 		{
-			"type": "display_text",
+			"type": "activate_sequence",
 			"parameters": {
-				"message": "There is an evil mage residing inside, who has been causing us trouble for quite some time. We have managed to lock him up, but not for long..."
-			}
-		},
-		{
-			"type": "display_text",
-			"parameters": {
-				"message": "If you manage to defeat the mage, you will be rewarded with plenty of gold!"
-			}
-		},
-		{
-			"type": "display_text",
-			"parameters": {
-				"message": "Here is the key. You will need it to get inside."
-			}
-		},
-		{
-			"type": "give_item",
-			"parameters": {
-				"item": "dungeon_key",
-				"count": 1
-			}
-		},
-		{
-			"type": "display_text",
-			"parameters": {
-				"message": "Good luck..."
-			}
-		},
-		{
-			"type": "finish_quest",
-			"parameters": {
-				"id": "visit_captain"
-			}
-		},
-		{
-			"type": "add_quest",
-			"parameters": {
-				"id": "visit_dungeon",
-				"name": "Visit the dungeon",
-				"description": "You have been tasked to visit the dungeon north of the town."
+				"sequence": "sequences/town/captain_2.json"
 			}
 		}
 	]

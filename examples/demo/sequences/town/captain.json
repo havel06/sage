@@ -9,7 +9,7 @@
 		{
 			"type": "display_text",
 			"parameters": {
-				"message": "There is a dark mage residing inside, who has been causing us trouble for quite some time. We have managed to lock him up, but not for long..."
+				"message": "There is an evil mage residing inside, who has been causing us trouble for quite some time. We have managed to lock him up, but not for long..."
 			}
 		},
 		{
@@ -35,6 +35,20 @@
 			"type": "display_text",
 			"parameters": {
 				"message": "Good luck..."
+			}
+		},
+		{
+			"type": "finish_quest",
+			"parameters": {
+				"id": "visit_captain"
+			}
+		},
+		{
+			"type": "add_quest",
+			"parameters": {
+				"id": "visit_dungeon",
+				"name": "Visit the dungeon",
+				"description": "You have been tasked to visit the dungeon north of the town."
 			}
 		}
 	]

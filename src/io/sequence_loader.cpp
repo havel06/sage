@@ -38,6 +38,7 @@
 #include "sequence/event_factories/change_target_hp.hpp"
 #include "sequence/event_factories/change_current_unit_hp.hpp"
 #include "sequence/event_factories/end_turn.hpp"
+#include "sequence/event_factories/teleport_camera_to_player.hpp"
 #include "sequence/sequence.hpp"
 #include "sequence/event_factory.hpp"
 #include "utils/direction.hpp"
@@ -195,6 +196,8 @@ Own_Ptr<Event_Factory> Sequence_Loader::get_factory_for_event_type(const String&
 		return make_own_ptr<Event_Factories::End_Turn>();
 	} else if (type == "move_camera") {
 		return make_own_ptr<Event_Factories::Move_Camera>();
+	} else if (type == "teleport_camera_to_player") {
+		return make_own_ptr<Event_Factories::Teleport_Camera_To_Player>();
 	} else {
 		SG_ERROR("Invalid event type \"%s\"", type.data());
 		return nullptr;

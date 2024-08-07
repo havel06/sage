@@ -256,3 +256,14 @@ Vec2f Game_Facade::get_camera_position() const
 {
 	return m_camera_controller.get_camera_position();
 }
+
+void Game_Facade::camera_follow_player()
+{
+	m_camera_controller.follow_player();
+}
+
+void Game_Facade::teleport_camera_to_player()
+{
+	m_camera_controller.follow_player();
+	m_camera_controller.teleport_to(m_logic_normal.get_player().position);
+}

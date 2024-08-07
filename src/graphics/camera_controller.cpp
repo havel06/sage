@@ -86,6 +86,11 @@ void Camera_Controller::fix_camera_out_of_bounds_vertical(Vec2i map_size)
 	}
 }
 
+void Camera_Controller::follow_player()
+{
+	m_mode = Camera_Controller_Mode::follow_player;
+}
+
 void Camera_Controller::set_zoom(int amount)
 {
 	m_camera.zoom = amount;
@@ -99,4 +104,9 @@ int Camera_Controller::get_camera_view_world_width()
 int Camera_Controller::get_camera_view_world_height()
 {
 	return GetScreenHeight() / m_camera.zoom;
+}
+
+void Camera_Controller::teleport_to(Vec2f pos)
+{
+	m_camera.position = pos;
 }

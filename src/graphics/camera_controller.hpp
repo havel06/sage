@@ -22,6 +22,8 @@ public:
 	void update(const Map& map, const Entity& player, float dt); // Call every frame
 	void set_zoom(int amount);
 	void set_fixed_target(Vec2f pos);
+	void follow_player();
+	void teleport_to(Vec2f pos);
 private:
 	void update_follow_player(const Map&, const Entity& player);
 	void update_fixed(float dt);

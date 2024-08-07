@@ -12,6 +12,20 @@
 			"parameters": {
 				"sequence": "sequences/town/dungeon_door_open.json"
 			}
+		},
+		{
+			"type": "finish_quest",
+			"parameters": {
+				"id": "visit_dungeon"
+			}
+		},
+		{
+			"type": "add_quest",
+			"parameters": {
+				"id": "search_dungeon",
+				"name": "Search the dungeon",
+				"description": "Search the dungeon. Try to find the evil mage."
+			}
 		}
 	]
 }

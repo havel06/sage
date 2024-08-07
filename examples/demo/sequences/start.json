@@ -16,14 +16,16 @@
 			"parameters": {
 				"zoom": 64
 			}
-		}, {
+		},
+		{
 			"type": "add_quest",
 			"parameters": {
-				"id": "visit_dungeon",
-				"name": "Visit the dungeon",
-				"description": "You have been tasked to clear out the dungeon north of the town."
+				"id": "visit_captain",
+				"name": "Talk to the captain",
+				"description": "Talk to the captain. He is located on the town's training ground."
 			}
-		}, {
+		},
+		{
 			"type": "give_item",
 			"parameters": {
 				"item": "healing_potion",

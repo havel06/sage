@@ -1,4 +1,5 @@
 #include "string.hpp"
+#include "utils/log.hpp"
 #include <cstdio>
 #include <string.h>
 #include <stdlib.h>
@@ -7,7 +8,7 @@
 String String::from_int(int value)
 {
 	char str[32];
-	sprintf(str, "%d", value);
+	snprintf(str, sizeof(str), "%d", value);
 	return String{str};
 }
 

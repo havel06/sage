@@ -8,7 +8,7 @@
 
 Font_Manager::Font_Manager(const String& resource_root_path) :
 	Resource_Manager(resource_root_path),
-	m_default_font(GetFontDefault())
+	m_default_font{add_internal_resource(make_own_ptr<Resource<Font>>("", GetFontDefault()))}
 {
 	m_resource_root = resource_root_path;
 }
@@ -41,7 +41,7 @@ Own_Ptr<Resource<Font>> Font_Manager::load_resource(const String& filename)
 		SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
 	}
 
-	return make_own_ptr<Resource<Font>>(move(font));
+	return make_own_ptr<Resource<Font>>(filename, move(font));
 }
 
 void Font_Manager::unload_resource(Font& font)
@@ -51,5 +51,5 @@ void Font_Manager::unload_resource(Font& font)
 
 Resource_Handle<Font> Font_Manager::get_default_font()
 {
-	return Resource_Handle<Font>{m_default_font};
+	return m_default_font;
 }

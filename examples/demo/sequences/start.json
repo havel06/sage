@@ -31,10 +31,11 @@
 				"item": "healing_potion",
 				"count": 1
 			}
-		}, {
-			"type": "echo",
+		},
+		{
+			"type": "display_text",
 			"parameters": {
-				"message": "Finished start sequence"
+				"message": "A new quest has been added to your quest log."
 			}
 		}
 	]

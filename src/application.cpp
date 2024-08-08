@@ -1,6 +1,7 @@
 #include "application.hpp"
 #include "argument_parser.hpp"
 #include "io/project_loader.hpp"
+#include "io/resource/resource_system.hpp"
 #include "utils/log.hpp"
 #include "utils/profiler.hpp"
 #include <raylib/raylib.h>

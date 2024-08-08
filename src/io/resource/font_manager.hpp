@@ -1,5 +1,6 @@
 #pragma once
 
+#include "io/resource/resource_handle.hpp"
 #include "resource_manager.hpp"
 #include <raylib/raylib.h>
 
@@ -14,5 +15,5 @@ private:
 	bool can_unload_resource(const Font&) const override { return true; }
 	String m_resource_root;
 
-	Resource<Font> m_default_font;
+	Resource_Handle<Font> m_default_font;
 };

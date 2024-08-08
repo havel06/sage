@@ -24,6 +24,7 @@ private:
 	Array<Own_Ptr<Entity>> m_entities;
 };
 
+// FIXME - don't store path inside the map itself, since it is stored in the resource
 class Map
 {
 public:

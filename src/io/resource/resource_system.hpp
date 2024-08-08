@@ -18,6 +18,8 @@ public:
 	Character_Profile_Manager character_profile_manager;
 	Map_Manager map_manager;
 
+	~Resource_System();
+
 	Resource_System(const String& resource_root_path, Sequence_Loader&, Sequence_Saveloader&);
 	void unload_free_resources();
 };

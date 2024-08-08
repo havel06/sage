@@ -1,12 +1,14 @@
 #pragma once
 
 #include "utils/move.hpp"
+#include "utils/string.hpp"
 
 template <typename Resource_Type>
 class Resource
 {
 public:
-	Resource(Resource_Type&&);
+	Resource(const String& path, Resource_Type&&);
+	const String& get_path() const { return m_path; }
 	const Resource_Type& get() const;
 	Resource_Type& get();
 
@@ -16,6 +18,7 @@ public:
 	int get_reference_count() const;
 private:
 	int m_reference_count = 0;
+	String m_path;
 	Resource_Type m_data;
 };
 
@@ -24,7 +27,8 @@ private:
 // IMPLEMENTATION
 
 template <typename Resource_Type>
-Resource<Resource_Type>::Resource(Resource_Type&& res) :
+Resource<Resource_Type>::Resource(const String& path, Resource_Type&& res) :
+	m_path{move(path)},
 	m_data{move(res)}
 {
 }

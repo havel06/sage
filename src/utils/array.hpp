@@ -179,12 +179,10 @@ Array<T>& Array<T>::operator=(Array&& other)
 template<typename T>
 void Array<T>::clear()
 {
-	for (int i = 0; i < m_size; i++)
-	{
+	for (int i = m_size - 1; i >= 0; i--) {
+		m_size = i;
 		(m_data[i]).~T();
 	}
-
-	m_size = 0;
 }
 
 template<typename T>

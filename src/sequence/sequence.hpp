@@ -8,6 +8,7 @@
 
 using Event_Ptr = Own_Ptr<Event>;
 
+// FIXME - don't store path inside sequence itself, since it is stored in the resource
 class Sequence
 {
 public:

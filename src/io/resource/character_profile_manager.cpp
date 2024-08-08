@@ -9,5 +9,5 @@ Character_Profile_Manager::Character_Profile_Manager(const String& resource_root
 
 Own_Ptr<Resource<Character_Profile>> Character_Profile_Manager::load_resource(const String& filename)
 {
-	return make_own_ptr<Resource<Character_Profile>>(m_loader.load(filename.data()));
+	return make_own_ptr<Resource<Character_Profile>>(filename, m_loader.load(filename.data()));
 }

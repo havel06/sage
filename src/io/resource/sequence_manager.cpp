@@ -11,7 +11,7 @@ Sequence_Manager::Sequence_Manager(const String& resource_root_path, Sequence_Lo
 
 Own_Ptr<Resource<Sequence>> Sequence_Manager::load_resource(const String& filename)
 {
-	Own_Ptr<Resource<Sequence>> seq = make_own_ptr<Resource<Sequence>>(m_loader.load(filename));
+	Own_Ptr<Resource<Sequence>> seq = make_own_ptr<Resource<Sequence>>(filename, m_loader.load(filename));
 	m_saveloader.load(seq->get());
 	return seq;
 }

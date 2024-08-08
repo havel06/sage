@@ -14,7 +14,7 @@ Own_Ptr<Resource<Sound>> Sound_Manager::load_resource(const String& filename)
 		SG_ERROR("Unable to load sound \"%s\".", filename.data());
 	}
 
-	return make_own_ptr<Resource<Sound>>(move(sound));
+	return make_own_ptr<Resource<Sound>>(filename, move(sound));
 }
 
 bool Sound_Manager::can_unload_resource(const Sound& sound) const

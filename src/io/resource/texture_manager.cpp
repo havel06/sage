@@ -7,7 +7,7 @@
 
 Texture_Manager::Texture_Manager(const String& resource_root_path) :
 	Resource_Manager(resource_root_path),
-	m_fallback_texture{create_fallback_texture()}
+	m_fallback_texture{"", create_fallback_texture()}
 {
 }
 
@@ -20,7 +20,7 @@ Own_Ptr<Resource<Sage_Texture>> Texture_Manager::load_resource(const String& fil
 		return make_own_ptr<Resource<Sage_Texture>>(m_fallback_texture);
 	}
 
-	return make_own_ptr<Resource<Sage_Texture>>(Sage_Texture{texture, filename});
+	return make_own_ptr<Resource<Sage_Texture>>(filename, Sage_Texture{texture, filename});
 }
 
 void Texture_Manager::unload_resource(Sage_Texture& texture)

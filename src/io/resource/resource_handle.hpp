@@ -112,6 +112,9 @@ template<typename Resource_Type>
 void Resource_Handle<Resource_Type>::unref()
 {
 	Resource<Resource_Type>* res = m_manager.get_by_id(m_id);
-	assert(res);
-	res->unreference();
+
+	// During program shutdown, the resource may get destroyed sooner than the handle,
+	// since resources can hold handles to other resources.
+	if (res)
+		res->unreference();
 }

@@ -4,8 +4,10 @@
 #include "utils/array.hpp"
 #include "battle_desc.hpp"
 
+// fwd
 class Party;
 class Sequence;
+struct Item;
 
 // FIXME - separate some parts of this file
 
@@ -13,9 +15,12 @@ class Combat_Unit
 {
 public:
 	Resource_Handle<Character_Profile> character;
-	int hp;
+	int get_hp() const { return m_hp; }
+	void change_hp(int amount);
 
 	Combat_Unit(Resource_Handle<Character_Profile>);
+private:
+	int m_hp;
 };
 
 enum class Combat_Result
@@ -61,6 +66,7 @@ public:
 
 	// For controller
 	void select_ability(int ability_index);
+	void select_item(Item& item);
 	void select_target(int target_index);
 
 	// Interface for abilities
@@ -100,5 +106,5 @@ private:
 	int m_current_enemy_turn = 0;
 
 	Combat_Unit* m_current_target = nullptr;
-	Ability* m_current_casted_ability = nullptr;
+	Optional<Resource_Handle<Sequence>> m_current_casted_sequence; // Ability or item
 };

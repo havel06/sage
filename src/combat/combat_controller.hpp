@@ -2,10 +2,10 @@
 #include "utils/string.hpp"
 #include "graphics/ui/widget.hpp"
 #include "combat.hpp"
+#include "graphics/inventory_renderer.hpp"
 
 // fwd
 class GUI_Loader;
-class Inventory_Renderer;
 
 enum class Combat_Controller_Menu_State
 {
@@ -17,7 +17,7 @@ enum class Combat_Controller_Menu_State
 
 // FIXME - move some rendering (future effects and such) into cobmat_renderer
 
-class Combat_Controller : public Combat_Observer
+class Combat_Controller : public Combat_Observer, public Inventory_Renderer_Observer
 {
 public:
 	Combat_Controller(Combat&, Inventory_Renderer&);
@@ -27,7 +27,9 @@ public:
 	void input_enter();
 	void draw(float time_delta);
 private:
-	void on_hero_ability_selecting_begin() override;
+	void on_hero_ability_selecting_begin() override; // Combat observer
+	void on_item_activate(Item& item) override; // Inventory renderer observer
+
 	void update_menus();
 
 	void draw_selected_enemy(float dt);

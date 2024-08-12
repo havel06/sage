@@ -26,13 +26,6 @@
 			}
 		},
 		{
-			"type": "give_item",
-			"parameters": {
-				"item": "healing_potion",
-				"count": 1
-			}
-		},
-		{
 			"type": "display_text",
 			"parameters": {
 				"message": "A new quest has been added to your quest log."

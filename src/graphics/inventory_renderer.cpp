@@ -36,6 +36,11 @@ void Inventory_Renderer::show(bool value)
 	m_main_widget->show(value);
 }
 
+void Inventory_Renderer::add_observer(Inventory_Renderer_Observer& observer)
+{
+	m_observers.push_back(&observer);
+}
+
 void Inventory_Renderer::on_inventory_change()
 {
 	SG_DEBUG("update inventory content");
@@ -82,6 +87,11 @@ void Inventory_Renderer::on_inventory_change()
 				button.on_click = [&](){
 					if (item.assigned_sequence.has_value()) {
 						item.assigned_sequence.value().get().try_activate();
+					}
+
+					// Notify observers
+					for (auto* observer : m_observers) {
+						observer->on_item_activate(item);
 					}
 				};
 			}};

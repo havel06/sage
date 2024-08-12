@@ -65,7 +65,6 @@ private:
 	Game_Logic_State_Combat m_logic_combat;
 	Game_Logic m_logic;
 	Music_Player m_music_player;
-	Combat_Controller m_combat_controller;
 	GUI_Loader m_gui_loader;
 
 	// Rendering
@@ -74,6 +73,7 @@ private:
 	Camera_Controller m_camera_controller;
 	Text_Box_Renderer m_text_box_renderer;
 	Inventory_Renderer m_inventory_renderer;
+	Combat_Controller m_combat_controller;
 	Combat_Renderer m_combat_renderer;
 	Quest_Log_Renderer m_quest_log_renderer;
 	Main_Menu_Renderer m_main_menu;

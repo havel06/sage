@@ -73,9 +73,9 @@ float Combat_AI::evaluate_option(int ability_index, int target_index)
 float Combat_AI::evaluate_hero_unit(const Combat_Unit& hero)
 {
 	// Eliminated - positive score
-	if (hero.hp <= 0)
+	if (hero.get_hp() <= 0)
 		return 1;
 
 	// Bigger HP portion left is worse
-	return -(float)hero.hp / hero.character.get().max_hp;
+	return -(float)hero.get_hp() / hero.character.get().max_hp;
 }

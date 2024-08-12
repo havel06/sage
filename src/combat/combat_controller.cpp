@@ -11,6 +11,7 @@
 #include "io/gui_loader.hpp"
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
+#include "item/item.hpp"
 #include <raylib/raylib.h>
 
 Combat_Controller::Combat_Controller(Combat& combat, Inventory_Renderer& inv_rend) :
@@ -18,6 +19,7 @@ Combat_Controller::Combat_Controller(Combat& combat, Inventory_Renderer& inv_ren
 	m_inventory_renderer{inv_rend}
 {
 	m_combat.add_observer(*this);
+	m_inventory_renderer.add_observer(*this);
 }
 
 Combat_Controller::~Combat_Controller()
@@ -87,6 +89,14 @@ void Combat_Controller::on_hero_ability_selecting_begin()
 {
 	update_menus();
 	m_menu_state = Combat_Controller_Menu_State::selecting_action;
+}
+
+void Combat_Controller::on_item_activate(Item& item)
+{
+	if (item.assigned_sequence.has_value()) {
+		m_combat.select_item(item);
+		m_menu_state = Combat_Controller_Menu_State::selecting_action;
+	}
 }
 
 void Combat_Controller::update_menus()
@@ -166,7 +176,6 @@ void Combat_Controller::input_enter()
 				m_action_menu_widget->process_click();
 			} else if (m_menu_state == Combat_Controller_Menu_State::inventory) {
 				m_inventory_renderer.input_click();
-				m_menu_state = Combat_Controller_Menu_State::selecting_action;
 			} else {
 				m_ability_menu_widget->process_click();
 			}

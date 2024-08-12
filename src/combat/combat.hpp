@@ -84,6 +84,7 @@ private:
 	void check_eliminated_units();
 	bool has_player_won() const;
 	bool has_player_lost() const;
+	void reset_all_ability_sequences();
 
 	Party& m_party;
 

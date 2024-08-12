@@ -52,6 +52,8 @@ void Combat::start_battle(const Battle_Description& description)
 	m_state = Combat_State::hero_selecting_ability;
 	m_current_hero_turn = 0;
 	m_current_enemy_turn = 0;
+	m_current_target = nullptr;
+	m_current_casted_ability = nullptr;
 
 	// Notify observers
 	for (int i = 0; i < m_observers.size(); i++) {
@@ -171,6 +173,10 @@ void Combat::advance_turn()
 	SG_DEBUG("Combat: advancing turn");
 	m_current_target = nullptr;
 
+	assert(m_current_casted_ability);
+	m_current_casted_ability->sequence.get().reset(); // Reset just in case
+	m_current_casted_ability = nullptr;
+
 	if (is_hero_turn()) {
 		m_state = Combat_State::enemy_selecting_ability;
 
@@ -231,12 +237,33 @@ void Combat::update()
 		select_target(ai.decide_target());
 	}
 
+	// Check eliminated units
 	check_eliminated_units();
 
+	// Check win condition
 	if (has_player_won()) {
 		m_win_sequence.value().get().try_activate();
+		reset_all_ability_sequences();
 	} else if (has_player_lost()) {
 		m_lose_sequence.value().get().try_activate();
+		reset_all_ability_sequences();
+	}
+}
+
+void Combat::reset_all_ability_sequences()
+{
+	auto reset_abilities_for_unit = [&](Combat_Unit& unit) {
+		for (Ability& ability : unit.character.get().abilities) {
+			ability.sequence.get().reset();
+		}
+	};
+
+	for (Combat_Unit& unit : m_heroes) {
+		reset_abilities_for_unit(unit);
+	}
+	
+	for (Combat_Unit& unit : m_enemies) {
+		reset_abilities_for_unit(unit);
 	}
 }
 

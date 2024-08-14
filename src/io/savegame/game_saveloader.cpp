@@ -38,7 +38,7 @@ String Game_Saveloader::get_savefile_path()
 
 void Game_Saveloader::save()
 {
-	String map_absolute_path = m_logic.get_map().get_path();
+	String map_absolute_path = m_logic.get_map_filename();
 
 	if (map_absolute_path.empty())
 		return;
@@ -72,7 +72,7 @@ void Game_Saveloader::load()
 	JSON::Object json = JSON::Object::from_file(savefile_path.data());
 	JSON::Object_View view = json.get_view();
 
-	const char* current_map = view["current_map"].as_string(m_logic.get_map().get_path().data());
+	const char* current_map = view["current_map"].as_string(m_logic.get_map_filename().data());
 	m_logic.set_current_map(current_map);
 
 	m_camera.zoom = view["camera_zoom"].as_float(m_camera.zoom);

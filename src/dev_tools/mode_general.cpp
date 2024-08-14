@@ -12,13 +12,13 @@ Dev_Tools_Mode_General::Dev_Tools_Mode_General(Game_Facade& facade, Game_Logic& 
 	m_project_root = project_root;
 }
 
-void Dev_Tools_Mode_General::draw(const Map& map)
+void Dev_Tools_Mode_General::draw(const String& map_filename)
 {
 	ImGui::Begin("General", nullptr, ImGuiWindowFlags_NoCollapse);
 
 	char requested_map[512] = {0};
-	if (!map.get_path().empty())
-		strcpy(requested_map, get_relative_path(map.get_path(), m_project_root).data());
+	if (!map_filename.empty())
+		strcpy(requested_map, get_relative_path(map_filename, m_project_root).data());
 
 	if (ImGui::InputText("Current map", requested_map, sizeof(requested_map), ImGuiInputTextFlags_EnterReturnsTrue)) {
 		m_game_facade.set_current_map(requested_map);

@@ -15,34 +15,32 @@ Map_Saveloader::Map_Saveloader(Texture_Manager& tex_mgr, Savegame_Directory_Prov
 	m_project_dir = project_dir;
 }
 
-void Map_Saveloader::save(const Map& map)
+void Map_Saveloader::save(const Map& map, const String& path)
 {
+	if (path.empty())
+		return;
+
 	// FIXME - refactor function
 	assert(!m_project_dir.empty());
-
-	if (map.get_path().empty()) {
-		return;
-	}
 
 	JSON::Object json;
 	json.add("entities", serialise_entities(map.entities));
 
-	String savefile_path = get_savefile_location(map.get_path());
+	String savefile_path = get_savefile_location(path);
 	create_directories_for_file(savefile_path);
 	json.write_to_file(savefile_path.data());
 
-	SG_INFO("Saved state of map \"%s\".", map.get_path().data());
+	SG_INFO("Saved state of map \"%s\".", path.data());
 }
 
-void Map_Saveloader::load(Map& map)
+void Map_Saveloader::load(Map& map, const String& path)
 {
+	if (path.empty())
+		return;
+
 	assert(!m_project_dir.empty());
 
-	if (map.get_path().empty()) {
-		return;
-	}
-
-	String savefile_path = get_savefile_location(map.get_path());
+	String savefile_path = get_savefile_location(path);
 
 	if (!file_exists(savefile_path)) {
 		return;
@@ -52,7 +50,7 @@ void Map_Saveloader::load(Map& map)
 	JSON::Object_View view = json.get_view();
 	deserialise_entites(map.entities, view["entities"].as_array());
 
-	SG_INFO("Loaded state of map \"%s\".", map.get_path().data());
+	SG_INFO("Loaded state of map \"%s\".", path.data());
 }
 
 String Map_Saveloader::get_savefile_location(const String& map_path)

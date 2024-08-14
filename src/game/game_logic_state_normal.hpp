@@ -29,6 +29,7 @@ public:
 	Game_Logic_State_Normal(Party&, Sequence_Manager&, Map_Saveloader&, Map_Manager&);
 
 	Map& get_map(); // FIXME - should this be here?
+	String get_map_filename(); // FIXME - should this be here?
 	void set_current_map(const String& filename);
 	void update(float time_delta); // Should only be called by Game_Logic
 	Entity& get_player();

@@ -233,7 +233,7 @@ void Game_Facade::save_game()
 {
 	// FIXME - should this happend in game_logic instead?
 	m_game_saveloader.save();
-	m_map_saveloader.save(m_logic_normal.get_map());
+	m_map_saveloader.save(m_logic_normal.get_map(), m_logic_normal.get_map_filename());
 	m_sequence_manager.save();
 }
 

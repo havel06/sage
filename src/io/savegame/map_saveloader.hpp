@@ -22,8 +22,8 @@ class Map_Saveloader
 public:
 	Map_Saveloader(Texture_Manager&, Savegame_Directory_Provider&, const String& project_dir);
 
-	void save(const Map&);
-	void load(Map&);
+	void save(const Map&, const String& path);
+	void load(Map&, const String& path);
 private:
 	String get_savefile_location(const String& map_path);
 

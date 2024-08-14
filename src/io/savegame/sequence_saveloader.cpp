@@ -15,6 +15,9 @@ Sequence_Saveloader::Sequence_Saveloader(Savegame_Directory_Provider& dir_provid
 
 void Sequence_Saveloader::save(const Sequence& sequence, const String& path)
 {
+	if (path.empty())
+		return;
+
 	String savefile_path = get_savefile_location(path);
 	create_directories_for_file(savefile_path);
 
@@ -27,6 +30,9 @@ void Sequence_Saveloader::save(const Sequence& sequence, const String& path)
 
 void Sequence_Saveloader::load(Sequence& sequence, const String& path)
 {
+	if (path.empty())
+		return;
+
 	String savefile_path = get_savefile_location(path);
 
 	if (!file_exists(savefile_path))

@@ -48,12 +48,20 @@ Map& Game_Logic_State_Normal::get_map()
 		return m_empty_map;
 }
 
+String Game_Logic_State_Normal::get_map_filename()
+{
+	if (m_map.has_value())
+		return m_map.value().get_path();
+	else
+		return "";
+}
+
 void Game_Logic_State_Normal::set_current_map(const String& filename)
 {
 	m_map = m_map_manager.get(filename, false);
 	spawn_player();
 	// NOTE - map loading has to happen here, because we need the player entity to be present.
-	m_map_saveloader.load(m_map.value().get()); // Load progress
+	m_map_saveloader.load(m_map.value().get(), m_map.value().get_path()); // Load progress
 
 	if (m_map.value().get().assigned_sequence.has_value())
 		m_map.value().get().assigned_sequence.value().get().try_activate();

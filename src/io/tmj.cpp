@@ -94,7 +94,6 @@ Map_Loader::Map_Loader(Resource_System& res_system, const String& path) :
 
 	m_map = make_own_ptr<Map>();
 	m_map->resize(width, height);
-	m_map->set_path(path);
 
 	//parse_properties(cJSON_GetObjectItem(json, "properties"));
 	parse_tilesets(view["tilesets"].as_array());

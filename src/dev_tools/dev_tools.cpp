@@ -18,7 +18,7 @@ Dev_Tools::~Dev_Tools()
 	rlImGuiShutdown();
 }
 
-void Dev_Tools::draw(Map& map)
+void Dev_Tools::draw(Map& map, const String& map_filename)
 {
 	rlImGuiBegin();
 
@@ -26,7 +26,7 @@ void Dev_Tools::draw(Map& map)
 
 	switch (m_mode) {
 		case Dev_Tools_Mode::general:
-			m_general.draw(map);
+			m_general.draw(map_filename);
 			break;
 		case Dev_Tools_Mode::sequence:
 			m_sequence.draw();

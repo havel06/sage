@@ -24,7 +24,6 @@ private:
 	Array<Own_Ptr<Entity>> m_entities;
 };
 
-// FIXME - don't store path inside the map itself, since it is stored in the resource
 class Map
 {
 public:
@@ -32,7 +31,7 @@ public:
 	Tile_Layers layers;
 	Map_Entities entities;
 
-	Map(const String& path, int width, int height);
+	Map(int width, int height);
 	Map();
 	Map(const Map&) = delete;
 	Map(Map&&) = default;
@@ -42,12 +41,7 @@ public:
 	int get_width() const { return m_width; }
 	int get_height() const { return m_height; }
 	bool is_position_valid(Vec2i pos) const;
-
-	void set_path(const String& path) { m_path = path; }
-	const String& get_path() const { return m_path; }
 private:
-	String m_path;
-
 	int m_width;
 	int m_height;
 };

@@ -22,10 +22,9 @@ Map_Entities& Map_Entities::operator=(const Map_Entities& other)
 	return *this;
 }
 
-Map::Map(const String& path, int width, int height) :
+Map::Map(int width, int height) :
 	layers{width, height}
 {
-	m_path = path;
 	m_width = width;
 	m_height = height;
 }
@@ -44,7 +43,7 @@ bool Map::is_position_valid(Vec2i pos) const
 	return (pos.x >= 0 && pos.x < m_width && pos.y >= 0 && pos.y < m_height);
 }
 
-Map::Map() : Map("", 0, 0)
+Map::Map() : Map(0, 0)
 {
 }
 

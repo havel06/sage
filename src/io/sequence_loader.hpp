@@ -19,7 +19,7 @@ public:
 	Sequence_Loader(const String& resource_root_path, Resource_System&, Game_Facade&, GUI_Loader&);
 	Sequence load(const String& filename);
 private:
-	Sequence load_templated_sequence(const String& final_filename, const JSON::Object_View& template_json, const JSON::Object_View& parameters);
+	Sequence load_templated_sequence(const JSON::Object_View& template_json, const JSON::Object_View& parameters);
 
 	// FIXME - move event related things to separate class
 	Event_Ptr parse_event(const JSON::Object_View&, const JSON::Object_View& parameters);

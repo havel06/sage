@@ -22,7 +22,7 @@ bool Sound_Manager::can_unload_resource(const Sound& sound) const
 	return !IsSoundPlaying(sound);
 }
 
-void Sound_Manager::unload_resource(Sound& sound)
+void Sound_Manager::unload_resource(Sound& sound, const String&)
 {
 	UnloadSound(sound);
 }

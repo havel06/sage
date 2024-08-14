@@ -74,20 +74,20 @@ Sequence Sequence_Loader::load(const String& filename)
 		JSON::Object template_json = JSON::Object::from_file(template_filename.data());
 
 		SG_DEBUG("Parsing sequence template %s", template_filename.data());
-		return load_templated_sequence(filename, template_json.get_view(), params);
+		return load_templated_sequence(template_json.get_view(), params);
 
 	} else {
 		// Load normal, non-templated sequence
 		JSON::Object empty_parameters;
-		return load_templated_sequence(filename, view, empty_parameters.get_view());
+		return load_templated_sequence(view, empty_parameters.get_view());
 	}
 }
 
-Sequence Sequence_Loader::load_templated_sequence(const String& final_filename,
+Sequence Sequence_Loader::load_templated_sequence(
 		const JSON::Object_View& template_json,
 		const JSON::Object_View& parameters)
 {
-	Sequence sequence(final_filename);
+	Sequence sequence;
 
 	if (template_json.has("repeatable")) {
 		sequence.repeatable = template_json["repeatable"].as_bool(false);

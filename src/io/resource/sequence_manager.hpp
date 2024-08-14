@@ -19,13 +19,13 @@ public:
 	void save();
 	void reload_sequences(); // Load savefiles for all loaded sequences
 
-	// Callable must take one argument, Sequence&
+	// Callable must take two arguments, const String& (path) and Sequence&
 	template<typename Fn>
-	requires Concepts::Callable<Fn, Sequence&>
+	requires Concepts::Callable<Fn, const String&, Sequence&>
 	void for_each(Fn c);
 private:
 	Own_Ptr<Resource<Sequence>> load_resource(const String& filename) override;
-	void unload_resource(Sequence&) override;
+	void unload_resource(Sequence&, const String& path) override;
 	bool can_unload_resource(const Sequence&) const override;
 
 	Sequence_Loader& m_loader;
@@ -34,8 +34,10 @@ private:
 
 
 template<typename Fn>
-requires Concepts::Callable<Fn, Sequence&>
+requires Concepts::Callable<Fn, const String&, Sequence&>
 void Sequence_Manager::for_each(Fn c)
 {
-	for_each_resource(c);
+	for_each_resource([&](Resource<Sequence>& res){
+		c(res.get_path(), res.get());
+	});
 }

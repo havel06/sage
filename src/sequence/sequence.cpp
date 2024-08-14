@@ -2,11 +2,6 @@
 #include "game/game_facade.hpp"
 #include "utils/log.hpp"
 
-Sequence::Sequence(const String& path)
-{
-	m_path = path;
-}
-
 void Sequence::add_event(Event_Ptr&& event)
 {
 	m_events.push_back((Event_Ptr&&)event);

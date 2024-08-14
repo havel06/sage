@@ -100,10 +100,10 @@ JSON::Array Game_Saveloader::serialise_active_sequences()
 {
 	JSON::Array json;
 
-	m_seq_manager.for_each([&](const Sequence& sequence){
+	m_seq_manager.for_each([&](const String& path, const Sequence& sequence){
 		if (sequence.is_active()) {
-			String path = get_relative_path(sequence.get_path().data(), m_project_dir);
-			json.add(path.data());
+			String rel_path = get_relative_path(path.data(), m_project_dir);
+			json.add(rel_path.data());
 		}
 	});
 

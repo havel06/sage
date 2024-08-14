@@ -8,15 +8,10 @@
 
 using Event_Ptr = Own_Ptr<Event>;
 
-// FIXME - don't store path inside sequence itself, since it is stored in the resource
 class Sequence
 {
 public:
 	bool repeatable = false;
-
-	Sequence(const String& path);
-
-	const String& get_path() const { return m_path; }
 
 	void set_condition(Condition_Ptr&&);
 	void add_event(Event_Ptr&&);
@@ -33,7 +28,6 @@ public:
 private:
 	void end_or_reset();
 
-	String m_path;
 	bool m_active = false;
 	bool m_finished = false;
 	int m_current_event = 0;

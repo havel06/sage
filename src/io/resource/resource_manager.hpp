@@ -21,9 +21,9 @@ public:
 protected:
 	using Resource_Ptr = Own_Ptr<Resource<Resource_Type>>;
 
-	// Callback must take in one argument, Resource_Type&
+	// Callback must take in one argument, Resource<Resource_Type>&
 	template<typename Fn>
-	requires Concepts::Callable<Fn, Resource_Type&>
+	requires Concepts::Callable<Fn, Resource<Resource_Type>&>
 	void for_each_resource(Fn c);
 
 	// Adds a resource that is not loaded from a file.
@@ -32,7 +32,7 @@ private:
 	String get_full_resource_path(const String& relative_filename);
 
 	virtual Resource_Ptr load_resource(const String& path) = 0;
-	virtual void unload_resource(Resource_Type&) = 0;
+	virtual void unload_resource(Resource_Type&, const String& path) = 0;
 	virtual bool can_unload_resource(const Resource_Type&) const = 0;
 
 	String m_resource_root_path;
@@ -56,7 +56,7 @@ void Resource_Manager<Resource_Type>::unload_free_resources()
 
 	m_resources.for_each([&](const int& id, Resource_Ptr& resource){
 		if (resource->get_reference_count() == 0 && can_unload_resource(resource->get())) {
-			unload_resource(resource->get());
+			unload_resource(resource->get(), resource->get_path());
 			should_remove.push_back(id);
 		}
 	});
@@ -127,12 +127,12 @@ String Resource_Manager<Resource_Type>::get_full_resource_path(const String& rel
 
 template<typename Resource_Type>
 template<typename Fn>
-requires Concepts::Callable<Fn, Resource_Type&>
+requires Concepts::Callable<Fn, Resource<Resource_Type>&>
 void Resource_Manager<Resource_Type>::for_each_resource(Fn c)
 {
 	m_resources.for_each([&](const auto& key, Resource_Ptr& value){
 		(void)key;
 		Resource<Resource_Type>& res = *value;
-		c(res.get());
+		c(res);
 	});
 }

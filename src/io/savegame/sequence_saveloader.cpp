@@ -13,9 +13,9 @@ Sequence_Saveloader::Sequence_Saveloader(Savegame_Directory_Provider& dir_provid
 	m_project_path = project_path;
 }
 
-void Sequence_Saveloader::save(const Sequence& sequence)
+void Sequence_Saveloader::save(const Sequence& sequence, const String& path)
 {
-	String savefile_path = get_savefile_location(sequence.get_path());
+	String savefile_path = get_savefile_location(path);
 	create_directories_for_file(savefile_path);
 
 	JSON::Object json;
@@ -25,9 +25,9 @@ void Sequence_Saveloader::save(const Sequence& sequence)
 	//SG_DEBUG("Saved state of sequence \"%s\".", savefile_path.data());
 }
 
-void Sequence_Saveloader::load(Sequence& sequence)
+void Sequence_Saveloader::load(Sequence& sequence, const String& path)
 {
-	String savefile_path = get_savefile_location(sequence.get_path());
+	String savefile_path = get_savefile_location(path);
 
 	if (!file_exists(savefile_path))
 		return;

@@ -23,7 +23,7 @@ Own_Ptr<Resource<Sage_Texture>> Texture_Manager::load_resource(const String& fil
 	return make_own_ptr<Resource<Sage_Texture>>(filename, Sage_Texture{texture});
 }
 
-void Texture_Manager::unload_resource(Sage_Texture& texture)
+void Texture_Manager::unload_resource(Sage_Texture& texture, const String&)
 {
 	UnloadTexture(texture.ray_texture);
 }

@@ -20,7 +20,7 @@ Own_Ptr<Resource<Sage_Texture>> Texture_Manager::load_resource(const String& fil
 		return make_own_ptr<Resource<Sage_Texture>>(m_fallback_texture);
 	}
 
-	return make_own_ptr<Resource<Sage_Texture>>(filename, Sage_Texture{texture, filename});
+	return make_own_ptr<Resource<Sage_Texture>>(filename, Sage_Texture{texture});
 }
 
 void Texture_Manager::unload_resource(Sage_Texture& texture)
@@ -33,7 +33,6 @@ Sage_Texture Texture_Manager::create_fallback_texture()
 	Image image = GenImageChecked(2, 2, 1, 1, MAGENTA, BLACK);
 
 	return Sage_Texture {
-		.ray_texture = LoadTextureFromImage(image),
-		.path = ""
+		LoadTextureFromImage(image)
 	};
 }

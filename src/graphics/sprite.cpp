@@ -46,5 +46,5 @@ void Sprite::draw(Rectf transform, float opacity) const
 const String& Sprite::get_texture_path() const
 {
 	assert(m_texture.has_value());
-	return m_texture.value().get().path;
+	return m_texture.value().get_path();
 }

@@ -23,6 +23,7 @@ public:
 
 	const Resource_Type& get() const;
 	Resource_Type& get();
+	const String& get_path() const;
 private:
 	void ref();
 	void unref();
@@ -98,6 +99,14 @@ Resource_Type& Resource_Handle<Resource_Type>::get()
 	Resource<Resource_Type>* ptr = m_manager.get_by_id(m_id);
 	assert(ptr);
 	return ptr->get();
+}
+
+template<typename Resource_Type>
+const String& Resource_Handle<Resource_Type>::get_path() const
+{
+	Resource<Resource_Type>* ptr = m_manager.get_by_id(m_id);
+	assert(ptr);
+	return ptr->get_path();
 }
 
 template<typename Resource_Type>

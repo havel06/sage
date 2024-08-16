@@ -71,51 +71,51 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json)
 	}
 
 	JSON::Object_View params = json["parameters"].as_object();
-
 	// Layout
 	UI::Layout layout = json.has("layout") ? parse_layout(json["layout"].as_object()) : UI::Layout{};
-
 	// Children
-	// FIXME - refactor this code block to a function
-	if (json.has("children")) {
-		json["children"].as_array().for_each([&](const JSON::Value_View& value){
-			JSON::Object_View child = value.as_object();
-			if (child.has("row") && child.has("column")) {
-				const int row = child["row"].as_int(0);
-				const int column = child["column"].as_int(0);
-				layout.add(parse_widget(child), row, column);
-			} else {
-				layout.add(parse_widget(child));
-			}
-		});
-	}
+	if (json.has("children"))
+		parse_widget_children(json["children"].as_array(), layout);
 
-	// FIXME - refactor this code block to a function
-	UI::Widget_Ptr widget;
-	if (type == "box") {
-		widget = parse_box((UI::Layout&&)layout, params);
-	} else if (type == "text") {
-		widget = parse_text((UI::Layout&&)layout, params);
-	} else if (type == "image") {
-		widget = parse_image((UI::Layout&&)layout, params);
-	} else if (type == "button") {
-		widget = parse_button((UI::Layout&&)layout, params);
-	} else {
-		SG_ERROR("Invalid widget type \"%s\"", type.data());
-		// FIXME - recover
-		assert(false);
-	}
-
+	UI::Widget_Ptr widget = create_widget_from_type_name(type, move(layout), params);
 	// Name
-	if (json.has("name")) {
+	if (json.has("name"))
 		widget->set_name(json["name"].as_string(""));
-	}
-
-	if (json.has("fade_in")) {
+	// Fade in
+	if (json.has("fade_in"))
 		widget->fade_in_out_time = json["fade_in"].as_float(1);
-	}
 
 	return widget;
+}
+
+void GUI_Loader::parse_widget_children(const JSON::Array_View& children, UI::Layout& layout)
+{
+	children.for_each([&](const JSON::Value_View& value){
+		JSON::Object_View child = value.as_object();
+		if (child.has("row") && child.has("column")) {
+			const int row = child["row"].as_int(0);
+			const int column = child["column"].as_int(0);
+			layout.add(parse_widget(child), row, column);
+		} else {
+			layout.add(parse_widget(child));
+		}
+	});
+}
+
+UI::Widget_Ptr GUI_Loader::create_widget_from_type_name(const String& type_name, UI::Layout&& layout, const JSON::Object_View& params)
+{
+	if (type_name == "box") {
+		return parse_box((UI::Layout&&)layout, params);
+	} else if (type_name == "text") {
+		return parse_text((UI::Layout&&)layout, params);
+	} else if (type_name == "image") {
+		return parse_image((UI::Layout&&)layout, params);
+	} else if (type_name == "button") {
+		return parse_button((UI::Layout&&)layout, params);
+	} else {
+		SG_ERROR("Invalid widget type \"%s\"", type_name.data());
+		return make_own_ptr<UI::Box>(UI::Layout{});
+	}
 }
 
 UI::Layout GUI_Loader::parse_layout(const JSON::Object_View& json)

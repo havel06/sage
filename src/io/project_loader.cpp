@@ -45,9 +45,7 @@ Project_Description load_project_description(String project_root)
 		return description;
 	}
 
-	// FIXME - do this unconditionally
-	if (view.has("gui"))
-		description.gui_description = load_gui_description(view["gui"].as_object());
+	description.gui_description = load_gui_description(view["gui"].as_object());
 
 	return description;
 }

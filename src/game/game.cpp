@@ -9,8 +9,8 @@
 #include "utils/log.hpp"
 #include <raylib/raylib.h>
 
-Game::Game(const Project_Description& description, bool display_fps) :
-	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui, m_combat, m_party),
+Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save) :
+	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui, m_combat, m_party, no_auto_save),
 	m_sequence_loader(description.path, m_resource_system, m_game_facade, m_gui_loader),
 	m_resource_system(description.path, m_sequence_loader, m_sequence_saveloader),
 	m_savegame_dir_provider(description.name.data()),
@@ -33,13 +33,10 @@ Game::Game(const Project_Description& description, bool display_fps) :
 	m_dev_tools(m_game_facade, m_logic, m_resource_system.sequence_manager, m_logic_normal.item_registry, m_logic_normal.inventory, description.path),
 	m_display_fps{display_fps}
 {
-	// FIXME - make the constructor smaller by injecting into member classes via their constructors
-
 	// Item registry
 	Item_Registry_Loader item_registry_loader(m_resource_system.texture_manager, m_resource_system.sequence_manager);
 	item_registry_loader.load(m_logic_normal.item_registry, description.path);
 
-	// FIXME - try to remove this block
 	// UI
 	m_text_box_renderer.load(m_gui_loader, description.gui_description.textbox_path);
 	m_quest_log_renderer.load(m_gui_loader, description.gui_description.quest_log_path, description.gui_description.quest_path);

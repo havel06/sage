@@ -30,7 +30,7 @@ struct Project_Description;
 class Game
 {
 public:
-	Game(const Project_Description&, bool display_fps);
+	Game(const Project_Description&, bool display_fps, bool no_auto_save);
 	~Game();
 	void draw_frame(float time_delta);
 	bool should_exit() const;

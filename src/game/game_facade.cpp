@@ -27,7 +27,8 @@ Game_Facade::Game_Facade(
 		Game_Logic& game_logic,
 		Scriptable_GUI& scriptable_gui,
 		Combat& combat,
-		Party& party) :
+		Party& party,
+		bool no_auto_save) :
 	m_sequence_manager{seq_mgr},
 	m_music_player{music_player},
 	m_logic_normal{logic},
@@ -37,15 +38,16 @@ Game_Facade::Game_Facade(
 	m_game_logic{game_logic},
 	m_scriptable_gui{scriptable_gui},
 	m_combat{combat},
-	m_party{party}
+	m_party{party},
+	m_no_auto_save{no_auto_save}
 {
 }
 
 void Game_Facade::set_current_map(const String& filename)
 {
-	// FIXME - make this behavior optional
 	// FIXME - wouldn't time-based periodic saves be better?
-	save_game(); // Save everything, because why not
+	if (!m_no_auto_save)
+		save_game(); // Save everything
 
 	m_logic_normal.set_current_map(filename);
 }

@@ -22,7 +22,9 @@ void Application::run(int argc, const char* argv[])
 	if (!arguments.has_value())
 		return;
 
+	// Command line flags
 	const bool display_fps = arguments.value().flags.contains("fps");
+	const bool no_auto_save = arguments.value().flags.contains("noautosave");
 
 	Project_Description description = load_project_description(arguments.value().directory);
 	SG_INFO("Loaded project \"%s\"", description.name.data());
@@ -30,7 +32,7 @@ void Application::run(int argc, const char* argv[])
 
 	Game game = [&](){
 		SG_PROFILE_SCOPE("Game initialisation");
-		return Game{description, display_fps};
+		return Game{description, display_fps, no_auto_save};
 	}();
 
 	while (!WindowShouldClose() && !game.should_exit()) {

@@ -16,7 +16,7 @@ Combat_Unit::Combat_Unit(Resource_Handle<Character_Profile> p) :
 
 void Combat_Unit::change_hp(int amount)
 {
-	m_hp = amount;
+	m_hp += amount;
 
 	// Clamp to max hp
 	const int max_hp = character.get().max_hp;
@@ -268,9 +268,11 @@ void Combat::update()
 
 	// Check win condition
 	if (has_player_won()) {
+		SG_DEBUG("Battle has been won");
 		m_win_sequence.value().get().try_activate();
 		reset_all_ability_sequences();
 	} else if (has_player_lost()) {
+		SG_DEBUG("Battle has been lost");
 		m_lose_sequence.value().get().try_activate();
 		reset_all_ability_sequences();
 	}

@@ -5,15 +5,7 @@
 #include "utils/log.hpp"
 #include "utils/profiler.hpp"
 #include <raylib/raylib.h>
-
-Application::Application()
-{
-	SetTraceLogLevel(LOG_ERROR);
-	InitWindow(1280, 720, "Sage");
-	SetTargetFPS(60);
-	SetExitKey(0);
-	InitAudioDevice();
-}
+#include <stdio.h>
 
 void Application::run(int argc, const char* argv[])
 {
@@ -23,6 +15,18 @@ void Application::run(int argc, const char* argv[])
 		return;
 
 	// Command line flags
+	const bool cmd_help = arguments.value().flags.contains("help");
+
+	if (cmd_help) {
+		puts("Supported flags:");
+		puts("  --help");
+		puts("  --fps");
+		puts("  --noautosave");
+		return;
+	}
+
+	init_window();
+
 	const bool display_fps = arguments.value().flags.contains("fps");
 	const bool no_auto_save = arguments.value().flags.contains("noautosave");
 
@@ -41,4 +45,13 @@ void Application::run(int argc, const char* argv[])
 		game.draw_frame(GetFrameTime());
 		EndDrawing();
 	}
+}
+
+void Application::init_window()
+{
+	SetTraceLogLevel(LOG_ERROR);
+	InitWindow(1280, 720, "Sage");
+	SetTargetFPS(60);
+	SetExitKey(0);
+	InitAudioDevice();
 }

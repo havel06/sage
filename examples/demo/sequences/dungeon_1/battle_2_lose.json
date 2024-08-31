@@ -1,5 +1,37 @@
 {
 	"repeatable": true,
 	"events": [
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Player",
+				"x": 54,
+				"y": 35
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Spike 1",
+				"x": 60,
+				"y": 10
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Spike 2",
+				"x": 60,
+				"y": 11
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Spike 3",
+				"x": 60,
+				"y": 12
+			}
+		}
 	]
 }

@@ -1,0 +1,15 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "echo",
+			"parameters": {
+				"message": "Pass ability"
+			}
+		},
+		{
+			"type": "end_turn",
+			"parameters": {}
+		}
+	]
+}

@@ -1,6 +1,6 @@
 {
 	"name": "Cyclops",
-	"max_hp": 5,
+	"max_hp": 20,
 	"sprite_down": {
 		"texture": "textures/cyclops.png",
 		"position_x": 0,

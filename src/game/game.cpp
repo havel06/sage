@@ -30,6 +30,7 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	m_combat_renderer(m_party, m_combat),
 	m_quest_log_renderer(m_logic_normal.quest_log),
 	m_main_menu(m_logic, m_resource_system.font_manager.get_default_font()),
+	m_debug_entity_renderer{m_camera},
 	m_dev_tools(m_game_facade, m_logic, m_resource_system.sequence_manager, m_logic_normal.item_registry, m_logic_normal.inventory, description.path),
 	m_display_fps{display_fps}
 {
@@ -74,6 +75,7 @@ void Game::draw_frame(float time_delta)
 	if (m_dev_mode) {
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
 		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
+		m_debug_entity_renderer.draw(m_logic_normal.get_map().entities);
 		m_dev_tools.draw(m_logic_normal.get_map(), m_logic_normal.get_map_filename());
 		return;
 	}

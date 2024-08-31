@@ -7,6 +7,7 @@
 #include "graphics/camera.hpp"
 #include "graphics/camera_controller.hpp"
 #include "graphics/combat_renderer.hpp"
+#include "graphics/debug_entity_renderer.hpp"
 #include "graphics/inventory_renderer.hpp"
 #include "graphics/main_menu_renderer.hpp"
 #include "graphics/map_renderer.hpp"
@@ -78,6 +79,7 @@ private:
 	Quest_Log_Renderer m_quest_log_renderer;
 	Main_Menu_Renderer m_main_menu;
 	Scriptable_GUI m_scriptable_gui;
+	Debug_Entity_Renderer m_debug_entity_renderer;
 
 	Dev_Tools m_dev_tools;
 

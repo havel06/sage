@@ -1,4 +1,5 @@
 #include "camera.hpp"
+#include "game/game.hpp"
 #include "raylib/raylib.h"
 
 Camera2D Game_Camera::to_ray_cam() const
@@ -21,4 +22,11 @@ Rectf Game_Camera::get_frustrum() const
 			.y = (float)GetScreenHeight() / zoom
 		}
 	};
+}
+
+Vec2i Game_Camera::unproject(Vec2f coord) const
+{
+	const int x = GetScreenWidth() / 2 + (int)((coord.x - position.x) * zoom);
+	const int y = GetScreenHeight() / 2 + (int)((coord.y - position.y) * zoom);
+	return {x, y};
 }

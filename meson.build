@@ -22,6 +22,7 @@ src = [
   'src/graphics/camera.cpp',
   'src/graphics/camera_controller.cpp',
   'src/graphics/combat_renderer.cpp',
+  'src/graphics/debug_entity_renderer.cpp',
   'src/graphics/inventory_renderer.cpp',
   'src/graphics/main_menu_renderer.cpp',
   'src/graphics/map_renderer.cpp',

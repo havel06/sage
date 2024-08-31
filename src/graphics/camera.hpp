@@ -11,4 +11,5 @@ public:
 	float zoom = 32;
 	Rectf get_frustrum() const;
 	Camera2D to_ray_cam() const;
+	Vec2i unproject(Vec2f coord) const;
 };

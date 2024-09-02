@@ -1,0 +1,8 @@
+{
+	"from_template": {
+		"template": "sequences/replenish_item.json",
+		"parameters": {
+			"item": "healing_potion"
+		}
+	}
+}

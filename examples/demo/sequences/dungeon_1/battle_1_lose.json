@@ -8,6 +8,18 @@
 				"x": 42,
 				"y": 54
 			}
+		},
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/dungeon_1/replenish_healing_potion.json"
+			}
+		},
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/dungeon_1/replenish_poisoning_potion.json"
+			}
 		}
 	]
 }

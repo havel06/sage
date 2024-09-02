@@ -1,0 +1,24 @@
+{
+	"repeatable": true,
+	"condition": {
+		"type": "not",
+		"parameters": {
+			"condition": {
+				"type": "has_item",
+				"parameters": {
+					"item": "$item",
+					"count": 1
+				}
+			}
+		}
+	},
+	"events": [
+		{
+			"type": "give_item",
+			"parameters": {
+				"item": "$item",
+				"count": 1
+			}
+		}
+	]
+}

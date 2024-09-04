@@ -120,6 +120,9 @@ void Game_Logic_State_Normal::move_player(Direction direction)
 	if (player_actions_disabled)
 		return;
 
+	if (text_box.contains_message())
+		return;
+
 	Map& map = get_map();
 	Entity& player = get_player();
 	player.look(direction);

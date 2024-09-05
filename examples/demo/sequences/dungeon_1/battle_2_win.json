@@ -1,6 +1,17 @@
 {
 	"events": [
 		{
+			"type": "disable_player_actions",
+			"parameters": {}
+		},
+		{
+			"type": "teleport_player",
+			"parameters": {
+				"x": 61,
+				"y": 25
+			}
+		},
+		{
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Cyclops",
@@ -15,6 +26,86 @@
 				"x": 9999,
 				"y": 9999
 			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Hey, wait there!"
+			}
+		},
+		{
+			"type": "move_entity",
+			"parameters": {
+				"entity": "Blacksmith",
+				"x": 63,
+				"y": 35
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Thanks for saving me."
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "If you want to defeat the dark mage, you will need help. Let me join you."
+			}
+		},
+		{
+			"type": "add_to_party",
+			"parameters": {
+				"character": "characters/blacksmith.json"
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Blacksmith has joined your party."
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Also, take this. You might find it useful."
+			}
+		},
+		{
+			"type": "give_item",
+			"parameters": {
+				"item": "bomb",
+				"count": "1"
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "You have been given a bomb."
+			}
+		},
+		{
+			"type": "give_item",
+			"parameters": {
+				"item": "healing_potion",
+				"count": "1"
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "You have been given a Healing Potion."
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Now, let's go fight!"
+			}
+		},
+		{
+			"type": "enable_player_actions",
+			"parameters": {}
 		}
 	]
 }

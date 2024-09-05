@@ -37,6 +37,9 @@ void Dev_Tools_Mode_Sequence::draw_sequence_edit(Sequence& sequence)
 	if (ImGui::Button("Reset sequence")) {
 		sequence.reset();
 	}
+	if (ImGui::Button("Activate sequence")) {
+		sequence.try_activate();
+	}
 
 	ImGui::End();
 }

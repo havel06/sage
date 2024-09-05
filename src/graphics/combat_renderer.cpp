@@ -58,7 +58,7 @@ void Combat_Renderer::draw_enemies(float dt)
 
 		const Combat_Unit& unit = m_combat.get_enemy(i);
 
-		unit.character.get().sprite_right.draw(transform, dt);
+		unit.character.get().sprite_left.draw(transform, dt);
 		draw_hp_bar({x, y}, size, unit);
 
 		y += size + margin;

@@ -35,6 +35,12 @@
                  "height":16,
                  "id":1,
                  "name":"Mage",
+                 "properties":[
+                        {
+                         "name":"character",
+                         "type":"file",
+                         "value":"..\/characters\/mage.json"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,

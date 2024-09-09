@@ -2,6 +2,23 @@
 	"repeatable": true,
 	"events": [
 		{
+			"type": "disable_player_actions",
+			"parameters": {}
+		},
+		{
+			"type": "move_camera",
+			"parameters": {
+				"x": 42.5,
+				"y": 41.5
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 1
+			}
+		},
+		{
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Player",
@@ -18,6 +35,10 @@
 					"characters/spider.json"
 				]
 			}
+		},
+		{
+			"type": "enable_player_actions",
+			"parameters": {}
 		}
 	]
 }

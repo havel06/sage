@@ -19,6 +19,18 @@
 			}
 		},
 		{
+			"type": "show_gui",
+			"parameters": {
+				"widget": "gui/map_transition.json"
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.5
+			}
+		},
+		{
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Player",
@@ -35,6 +47,10 @@
 					"characters/spider.json"
 				]
 			}
+		},
+		{
+			"type": "hide_gui",
+			"parameters": {}
 		},
 		{
 			"type": "enable_player_actions",

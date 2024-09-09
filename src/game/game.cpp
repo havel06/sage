@@ -103,6 +103,7 @@ void Game::draw_frame(float time_delta)
 		process_combat_input();
 		m_combat_renderer.draw(time_delta);
 		m_combat_controller.draw(time_delta);
+		m_scriptable_gui.draw(time_delta);
 	}
 
 	m_inventory_renderer.draw(time_delta);

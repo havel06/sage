@@ -73,6 +73,7 @@ public:
 	void enter_target_selection();
 	void change_target_hp(int amount);
 	void change_current_unit_hp(int amount);
+	void change_all_enemy_units_hp(int amount);
 	void advance_turn();
 
 	// Unit stuff

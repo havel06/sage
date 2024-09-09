@@ -53,6 +53,7 @@ public:
 	void enter_combat(const Battle_Description&);
 	bool is_in_combat() const;
 	void combat_change_target_hp(int amount);
+	void combat_change_all_enemy_units_hp(int amount);
 	void combat_change_current_unit_hp(int amount);
 	void combat_enter_target_selection();
 	void combat_end_turn();

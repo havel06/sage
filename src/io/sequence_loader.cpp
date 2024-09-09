@@ -37,6 +37,7 @@
 #include "sequence/event_factories/select_target.hpp"
 #include "sequence/event_factories/change_target_hp.hpp"
 #include "sequence/event_factories/change_current_unit_hp.hpp"
+#include "sequence/event_factories/change_all_enemy_units_hp.hpp"
 #include "sequence/event_factories/end_turn.hpp"
 #include "sequence/event_factories/teleport_camera_to_player.hpp"
 #include "sequence/sequence.hpp"
@@ -192,6 +193,8 @@ Own_Ptr<Event_Factory> Sequence_Loader::get_factory_for_event_type(const String&
 		return make_own_ptr<Event_Factories::Change_Target_HP>();
 	} else if (type == "change_current_unit_hp") {
 		return make_own_ptr<Event_Factories::Change_Current_Unit_HP>();
+	} else if (type == "change_all_enemy_units_hp") {
+		return make_own_ptr<Event_Factories::Change_All_Enemy_Units_HP>();
 	} else if (type == "end_turn") {
 		return make_own_ptr<Event_Factories::End_Turn>();
 	} else if (type == "move_camera") {

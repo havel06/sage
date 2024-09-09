@@ -1,0 +1,22 @@
+{
+	"repeatable": true,
+	"condition": {
+		"type": "is_in_combat",
+		"parameters": {}
+	},
+	"events": [
+		{
+			"type": "change_all_enemy_units_hp",
+			"parameters": {
+				"amount": -2
+			}
+		},
+		{
+			"type": "remove_item",
+			"parameters": {
+				"item": "bomb",
+				"count": 1
+			}
+		}
+	]
+}

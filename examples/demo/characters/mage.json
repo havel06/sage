@@ -1,6 +1,6 @@
 {
 	"name": "Mage",
-	"max_hp": 1,
+	"max_hp": 10,
 	"sprite_down": {
 		"frame_time": 0.8,
 		"frames": [

@@ -191,6 +191,11 @@ void Game_Facade::combat_change_target_hp(int amount)
 	m_combat.change_target_hp(amount);
 }
 
+void Game_Facade::combat_change_all_enemy_units_hp(int amount)
+{
+	m_combat.change_all_enemy_units_hp(amount);
+}
+
 void Game_Facade::combat_change_current_unit_hp(int amount)
 {
 	m_combat.change_current_unit_hp(amount);

@@ -2,19 +2,25 @@
 
 #include "utils/move.hpp"
 #include "utils/string.hpp"
+#include "utils/passkey.hpp"
+
+// fwd
+template<typename Resource_Type>
+class Resource_Handle;
 
 template <typename Resource_Type>
 class Resource
 {
 public:
+	using Handle = Resource_Handle<Resource_Type>;
+
 	Resource(const String& path, Resource_Type&&);
 	const String& get_path() const { return m_path; }
 	const Resource_Type& get() const;
 	Resource_Type& get();
 
-	// FIXME - use passkey idiom to only allow handle to ref and unref?
-	void reference(); // Add to reference count
-	void unreference(); // Subtract from reference count
+	void reference(Passkey<Handle>); // Add to reference count
+	void unreference(Passkey<Handle>); // Subtract from reference count
 	int get_reference_count() const;
 private:
 	int m_reference_count = 0;
@@ -46,13 +52,13 @@ Resource_Type& Resource<Resource_Type>::get()
 }
 
 template <typename Resource_Type>
-void Resource<Resource_Type>::reference()
+void Resource<Resource_Type>::reference(Passkey<Handle>)
 {
 	m_reference_count++;
 }
 
 template <typename Resource_Type>
-void Resource<Resource_Type>::unreference()
+void Resource<Resource_Type>::unreference(Passkey<Handle>)
 {
 	m_reference_count--;
 }

@@ -11,6 +11,8 @@ template<typename Resource_Type>
 class Resource_Handle
 {
 public:
+	using Self = Resource_Handle<Resource_Type>;
+
 	Resource_Handle(int id, Resource_Manager<Resource_Type>&);
 
 	Resource_Handle() = delete;
@@ -114,7 +116,7 @@ void Resource_Handle<Resource_Type>::ref()
 {
 	Resource<Resource_Type>* res = m_manager.get_by_id(m_id);
 	assert(res);
-	res->reference();
+	res->reference(Passkey<Self>{});
 }
 
 template<typename Resource_Type>
@@ -125,5 +127,5 @@ void Resource_Handle<Resource_Type>::unref()
 	// During program shutdown, the resource may get destroyed sooner than the handle,
 	// since resources can hold handles to other resources.
 	if (res)
-		res->unreference();
+		res->unreference(Passkey<Self>{});
 }

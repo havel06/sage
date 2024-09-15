@@ -1,0 +1,21 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "show_gui",
+			"parameters": {
+				"widget": "gui/losing_screen.json"
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 2.0
+			}
+		},
+		{
+			"type": "hide_gui",
+			"parameters": {}
+		}
+	]
+}

@@ -31,6 +31,10 @@
 			}
 		},
 		{
+			"type": "teleport_camera_to_player",
+			"parameters": {}
+		},
+		{
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Player",

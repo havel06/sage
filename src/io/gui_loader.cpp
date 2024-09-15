@@ -31,10 +31,13 @@ UI::Widget_Ptr GUI_Loader::load(const String& filename)
 
 	UI::Widget_Ptr loaded_widget = parse_widget(json.get_view());
 
-	if (loaded_widget)
+	if (loaded_widget) {
+		SG_INFO("Loaded GUI widget \"%s\"", filename.data());
 		return loaded_widget;
-	else
+	} else {
+		SG_ERROR("Couldn't load GUI widget \"%s\", using fallback instead", filename.data());
 		return m_fallback_widget->clone();
+	}
 }
 
 UI::Size GUI_Loader::parse_size(const JSON::Object_View& json)

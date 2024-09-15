@@ -2,6 +2,12 @@
 	"repeatable": true,
 	"events": [
 		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/losing_screen.json"
+			}
+		},
+		{
 			"type": "teleport_player",
 			"parameters": {
 				"x": 49,

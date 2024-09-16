@@ -45,8 +45,6 @@ public:
 	Widget* get_widget_by_position(int row, int column);
 
 	// Should only be called by parent widget
-	void show(bool value);
-	// Should only be called by parent widget
 	void draw(Recti parent_area, float parent_opacity, float time_delta);
 	// Should only be called by parent widget
 	void process_click();

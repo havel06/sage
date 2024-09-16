@@ -16,7 +16,6 @@ Widget::Widget(Layout&& layout) :
 void Widget::show(bool value)
 {
 	m_should_show = value;
-	//m_layout.show(value); // FIXME - either use this function or remove it from layout completely
 }
 
 bool Widget::is_showing() const

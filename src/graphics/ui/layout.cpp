@@ -99,13 +99,6 @@ Array<int> Layout::calculate_rows_or_columns(const Array<Size>& rows_or_columns,
 	return result;
 }
 
-void Layout::show(bool value)
-{
-	for (Layout_Element& element : m_elements) {
-		element.widget->show(value);
-	}
-}
-
 void Layout::draw(Recti parent_area, float parent_opacity, float time_delta)
 {
 	// FIXME - refactor?

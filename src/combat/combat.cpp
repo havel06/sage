@@ -47,6 +47,7 @@ void Combat::remove_observer(Combat_Observer& observer)
 
 void Combat::start_battle(const Battle_Description& description)
 {
+	SG_DEBUG("Combat: Start battle");
 	m_win_sequence = description.win_sequence;
 	m_lose_sequence = description.lose_sequence;
 
@@ -69,6 +70,7 @@ void Combat::start_battle(const Battle_Description& description)
 
 	// Notify observers
 	for (int i = 0; i < m_observers.size(); i++) {
+		m_observers[i]->on_battle_begin();
 		m_observers[i]->on_hero_ability_selecting_begin();
 	}
 }

@@ -28,6 +28,7 @@ public:
 	void draw(float time_delta);
 private:
 	void on_hero_ability_selecting_begin() override; // Combat observer
+	void on_battle_begin() override {} // Combat observer
 	void on_item_activate(Item& item) override; // Inventory renderer observer
 
 	void update_menus();

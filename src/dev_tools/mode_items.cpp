@@ -21,6 +21,10 @@ void Dev_Tools_Mode_Items::draw()
 		}
 	});
 
+	if (ImGui::Button("Clear inventory")) {
+		m_inventory.clear();
+	}
+
 	if (ImGui::Button("Add to inventory")) {
 		if (!m_selected_item.empty()) {
 			m_inventory.add_item(m_selected_item, 1);

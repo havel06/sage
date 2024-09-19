@@ -27,6 +27,8 @@ public:
 	void show(bool value);
 	void draw(float dt);
 
+	bool is_inventory_empty() const;
+
 	void input_direction(Direction direction);
 	void input_click();
 

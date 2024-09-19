@@ -70,7 +70,8 @@ void Combat_Controller::load(GUI_Loader& loader, const String& menu_filename, co
 
 			UI::Button_Widget_Visitor button_visitor{[&](UI::Button& button){
 				button.on_click = [this](){
-					m_menu_state = Combat_Controller_Menu_State::inventory;
+					if (!m_inventory_renderer.is_inventory_empty())
+						m_menu_state = Combat_Controller_Menu_State::inventory;
 				};
 			}};
 

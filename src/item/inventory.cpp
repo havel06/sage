@@ -61,3 +61,13 @@ void Inventory::notify_observers()
 		observer->on_inventory_change();
 	}
 }
+
+void Inventory::clear()
+{
+	m_items.clear();
+}
+
+bool Inventory::is_empty() const
+{
+	return m_items.size() == 0;
+}

@@ -16,6 +16,8 @@ public:
 	void add_item(const String& id, int count);
 	void remove_item(const String& id, int count);
 	int get_item_count(const String& id) const;
+	void clear();
+	bool is_empty() const;
 
 	void add_observer(Inventory_Observer&) const;
 	void remove_observer(Inventory_Observer&) const;

@@ -130,3 +130,8 @@ void Inventory_Renderer::input_click()
 {
 	m_main_widget->process_click();
 }
+
+bool Inventory_Renderer::is_inventory_empty() const
+{
+	return m_inventory.is_empty();
+}

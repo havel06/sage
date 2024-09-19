@@ -40,6 +40,7 @@ public:
 
 enum class Combat_State
 {
+	inactive,
 	hero_selecting_ability,
 	hero_selecting_target,
 	hero_casting_ability,
@@ -62,6 +63,7 @@ public:
 	void update();
 
 	Combat_State get_state() const { return m_state; }
+	bool is_active() const;
 
 	void start_battle(const Battle_Description&);
 
@@ -96,7 +98,7 @@ private:
 
 	Party& m_party;
 
-	Combat_State m_state = Combat_State::hero_selecting_ability;
+	Combat_State m_state = Combat_State::inactive;
 
 	Array<Combat_Observer*> m_observers;
 	Optional<Resource_Handle<Sequence>> m_win_sequence;

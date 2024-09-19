@@ -93,6 +93,10 @@ void Combat_Controller::on_hero_ability_selecting_begin()
 
 void Combat_Controller::on_item_activate(Item& item)
 {
+	if (!m_combat.is_active()) {
+		return;
+	}
+
 	if (item.assigned_sequence.has_value()) {
 		m_combat.select_item(item);
 		m_menu_state = Combat_Controller_Menu_State::selecting_action;

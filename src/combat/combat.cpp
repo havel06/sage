@@ -138,6 +138,7 @@ bool Combat::is_hero_turn() const
 		case Combat_State::enemy_selecting_ability:
 		case Combat_State::enemy_selecting_target:
 		case Combat_State::enemy_casting_ability:
+		case Combat_State::inactive:
 			return false;
 	}
 }
@@ -282,10 +283,12 @@ void Combat::update()
 		SG_DEBUG("Battle has been won");
 		m_win_sequence.value().get().try_activate();
 		reset_all_ability_sequences();
+		m_state = Combat_State::inactive;
 	} else if (has_player_lost()) {
 		SG_DEBUG("Battle has been lost");
 		m_lose_sequence.value().get().try_activate();
 		reset_all_ability_sequences();
+		m_state = Combat_State::inactive;
 	}
 }
 
@@ -339,4 +342,9 @@ bool Combat::has_player_won() const
 bool Combat::has_player_lost() const
 {
 	return m_heroes.empty();
+}
+
+bool Combat::is_active() const
+{
+	return m_state != Combat_State::inactive;
 }

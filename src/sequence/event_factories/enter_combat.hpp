@@ -20,6 +20,7 @@ private:
 	String_Array_Event_Parameter m_enemy_filenames;
 	String_Event_Parameter m_win_sequence_filename;
 	String_Event_Parameter m_lose_sequence_filename;
+	Sprite_Event_Parameter m_background;
 };
 
 }

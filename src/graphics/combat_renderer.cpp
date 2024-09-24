@@ -14,11 +14,27 @@ Combat_Renderer::Combat_Renderer(const Party& party, Combat& combat) :
 
 void Combat_Renderer::draw(float dt)
 {
+	draw_background(dt);
 	draw_party(dt);
 	draw_enemies(dt);
+}
 
-	ClearBackground(SKYBLUE);
-	DrawText("combat!", 100, 100, 50, WHITE);
+void Combat_Renderer::draw_background(float dt)
+{
+	// Render sprite to cover screen
+	const float texture_size_x = m_background.get_current_frame().texture_clip.size.x;
+	const float texture_size_y = m_background.get_current_frame().texture_clip.size.y;
+
+	const float scale_x = GetScreenWidth() / texture_size_x;
+	const float scale_y = GetScreenHeight() / texture_size_y;
+
+	if (scale_x > scale_y) {
+		// Sprite needs to stretch horizontally
+		m_background.draw({{0, 0}, {texture_size_x * scale_x, texture_size_y * scale_x}}, dt);
+	} else {
+		// Sprite needs to stretch vertically
+		m_background.draw({{0, 0}, {texture_size_x * scale_y, texture_size_y * scale_y}}, dt);
+	}
 }
 
 void Combat_Renderer::draw_party(float dt)
@@ -97,6 +113,7 @@ void Combat_Renderer::draw_hp_bar(const Vec2i unit_pos, const int unit_size, con
 void Combat_Renderer::on_battle_begin()
 {
 	SG_DEBUG("Combat renderer - battle begins");
+	m_background = m_combat.get_background();
 	m_heroes.clear();
 	m_enemies.clear();
 

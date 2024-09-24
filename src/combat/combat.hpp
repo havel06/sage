@@ -66,6 +66,7 @@ public:
 	bool is_active() const;
 
 	void start_battle(const Battle_Description&);
+	Animated_Sprite get_background() const { return m_background; }
 
 	// For controller
 	void select_ability(int ability_index);
@@ -103,6 +104,7 @@ private:
 	Array<Combat_Observer*> m_observers;
 	Optional<Resource_Handle<Sequence>> m_win_sequence;
 	Optional<Resource_Handle<Sequence>> m_lose_sequence;
+	Animated_Sprite m_background;
 
 	Array<Combat_Unit> m_heroes;
 	Array<Combat_Unit> m_enemies;

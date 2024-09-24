@@ -50,6 +50,7 @@ void Combat::start_battle(const Battle_Description& description)
 	SG_DEBUG("Combat: Start battle");
 	m_win_sequence = description.win_sequence;
 	m_lose_sequence = description.lose_sequence;
+	m_background = description.background;
 
 	m_heroes.clear();
 	m_enemies.clear();

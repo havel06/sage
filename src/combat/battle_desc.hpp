@@ -1,5 +1,6 @@
 #pragma once
 
+#include "graphics/sprite.hpp"
 #include "utils/array.hpp"
 #include "character_profile.hpp"
 
@@ -11,4 +12,5 @@ struct Battle_Description
 	Array<Resource_Handle<Character_Profile>> enemies;
 	Resource_Handle<Sequence> win_sequence;
 	Resource_Handle<Sequence> lose_sequence;
+	Animated_Sprite background;
 };

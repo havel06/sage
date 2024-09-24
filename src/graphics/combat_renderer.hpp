@@ -1,5 +1,6 @@
 #pragma once
 
+#include "graphics/animated_sprite.hpp"
 #include "utils/vec2.hpp"
 #include "combat/combat.hpp"
 
@@ -20,6 +21,7 @@ public:
 	void draw(float dt);
 
 private:
+	void draw_background(float dt);
 	void draw_party(float dt);
 	void draw_enemies(float dt);
 	void draw_hp_bar(const Vec2i unit_pos, const int unit_size, const Combat_Unit&, Combat_Renderer_Unit&, float dt);
@@ -27,6 +29,7 @@ private:
 	void on_hero_ability_selecting_begin() override {};
 	void on_battle_begin() override;
 
+	Animated_Sprite m_background;
 	Array<Combat_Renderer_Unit> m_heroes;
 	Array<Combat_Renderer_Unit> m_enemies;
 

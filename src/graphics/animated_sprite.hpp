@@ -13,6 +13,7 @@ public:
 	void reset_animation();
 
 	// Getters
+	const Sprite& get_current_frame() const { return m_frames[m_current_frame]; }
 	const Array<Sprite>& get_frames() const { return m_frames; }
 	float get_frame_time() const { return m_frame_time; }
 private:

@@ -45,7 +45,14 @@
 					"characters/ghost.json",
 					"characters/mage.json",
 					"characters/ghost.json"
-				]
+				],
+				"background": {
+					"texture": "textures/combat_bg_1.png",
+					"position_x": 0,
+					"position_y": 0,
+					"size_x": 320,
+					"size_y": 208
+				}
 			}
 		},
 		{

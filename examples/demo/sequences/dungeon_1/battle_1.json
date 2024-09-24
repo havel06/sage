@@ -49,7 +49,14 @@
 				"lose_sequence": "sequences/dungeon_1/battle_1_lose.json",
 				"enemies": [
 					"characters/spider.json"
-				]
+				],
+				"background": {
+					"texture": "textures/combat_bg_1.png",
+					"position_x": 0,
+					"position_y": 0,
+					"size_x": 320,
+					"size_y": 208
+				}
 			}
 		},
 		{

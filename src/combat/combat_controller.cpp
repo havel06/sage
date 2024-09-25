@@ -166,7 +166,20 @@ void Combat_Controller::input_direction(Direction direction)
 			}
 			break;
 		case Combat_State::hero_selecting_target:
-			// FIXME - enemy selection
+			switch (direction) {
+				case Direction::up:
+					m_selected_enemy--;
+					if (m_selected_enemy < 0) {
+						m_selected_enemy = m_combat.get_enemy_count() - 1;
+					}
+					break;
+				case Direction::down:
+					m_selected_enemy++;
+					m_selected_enemy = m_selected_enemy % m_combat.get_enemy_count();
+					break;
+				default:
+					break;
+			}
 			break;
 		default:
 			return;

@@ -212,9 +212,10 @@ void Combat::advance_turn()
 	SG_DEBUG("Combat: advancing turn");
 	m_current_target = nullptr;
 
-	assert(m_current_casted_sequence.has_value());
-	m_current_casted_sequence.value().get().reset(); // Reset just in case
-	m_current_casted_sequence = {};
+	if (m_current_casted_sequence.has_value()) {
+		m_current_casted_sequence.value().get().reset(); // Reset just in case
+		m_current_casted_sequence = {};
+	}
 
 	if (is_hero_turn()) {
 		m_state = Combat_State::enemy_selecting_ability;

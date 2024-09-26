@@ -4,6 +4,7 @@
 #include "raylib/raylib.h"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
+#include "utils/profiler.hpp"
 
 Texture_Manager::Texture_Manager(const String& resource_root_path) :
 	Resource_Manager(resource_root_path),
@@ -13,6 +14,7 @@ Texture_Manager::Texture_Manager(const String& resource_root_path) :
 
 Own_Ptr<Resource<Sage_Texture>> Texture_Manager::load_resource(const String& filename)
 {
+	SG_PROFILE_SCOPE("Texture load");
 	Texture texture = LoadTexture(filename.data());
 
 	if (texture.id <= 0) {

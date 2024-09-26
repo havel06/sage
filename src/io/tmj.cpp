@@ -77,6 +77,7 @@ Sprite Tileset::create_sprite_from_tile_id(int id)
 Map_Loader::Map_Loader(Resource_System& res_system, const String& path) :
 	m_resource_system{res_system}
 {
+	SG_PROFILE_SCOPE("TMJ Map load");
 	SG_DEBUG("Parsing map \"%s\"", path.data());
 	m_path = path;
 
@@ -133,6 +134,7 @@ void Map_Loader::parse_layer(const JSON::Object_View& layer_json)
 
 void Map_Loader::parse_tile_layer(const JSON::Object_View& layer_json)
 {
+	SG_PROFILE_SCOPE("TMJ Tile layer load");
 	int position_index = 0;
 	Tile_Layer layer(m_map->get_width(), m_map->get_height());
 
@@ -157,6 +159,7 @@ void Map_Loader::parse_tile_layer(const JSON::Object_View& layer_json)
 
 void Map_Loader::parse_object_layer(const JSON::Object_View& layer_json)
 {
+	SG_PROFILE_SCOPE("TMJ Object layer load");
 	layer_json["objects"].as_array().for_each([&](const JSON::Value_View& object_json){
 		parse_object(object_json.as_object());
 	});

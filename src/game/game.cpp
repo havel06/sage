@@ -7,6 +7,7 @@
 #include "sequence/event.hpp"
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
+#include "utils/profiler.hpp"
 #include <raylib/raylib.h>
 
 Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save) :
@@ -34,16 +35,22 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	m_dev_tools(m_game_facade, m_logic, m_resource_system.sequence_manager, m_logic_normal.item_registry, m_logic_normal.inventory, description.path),
 	m_display_fps{display_fps}
 {
-	// Item registry
-	Item_Registry_Loader item_registry_loader(m_resource_system.texture_manager, m_resource_system.sequence_manager);
-	item_registry_loader.load(m_logic_normal.item_registry, description.path);
+	{
+		SG_PROFILE_SCOPE("Item registry loading");
+		// Item registry
+		Item_Registry_Loader item_registry_loader(m_resource_system.texture_manager, m_resource_system.sequence_manager);
+		item_registry_loader.load(m_logic_normal.item_registry, description.path);
+	}
 
-	// UI
-	m_text_box_renderer.load(m_gui_loader, description.gui_description.textbox_path);
-	m_quest_log_renderer.load(m_gui_loader, description.gui_description.quest_log_path, description.gui_description.quest_path);
-	m_inventory_renderer.load(m_gui_loader, description.gui_description.inventory_path, description.gui_description.inventory_slot_path);
-	m_combat_controller.load(m_gui_loader, description.gui_description.combat_menu_path, description.gui_description.combat_option_path);
-	m_main_menu.load(m_gui_loader, description.gui_description.main_menu_path, description.gui_description.main_menu_option_path);
+	{
+		SG_PROFILE_SCOPE("GUI loading");
+		// UI
+		m_text_box_renderer.load(m_gui_loader, description.gui_description.textbox_path);
+		m_quest_log_renderer.load(m_gui_loader, description.gui_description.quest_log_path, description.gui_description.quest_path);
+		m_inventory_renderer.load(m_gui_loader, description.gui_description.inventory_path, description.gui_description.inventory_slot_path);
+		m_combat_controller.load(m_gui_loader, description.gui_description.combat_menu_path, description.gui_description.combat_option_path);
+		m_main_menu.load(m_gui_loader, description.gui_description.main_menu_path, description.gui_description.main_menu_option_path);
+	}
 }
 
 Game::~Game()

@@ -1,0 +1,11 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "It is rumored that if you throw a coin into the well, you'll be granted a wish..."
+			}
+		}
+	]
+}

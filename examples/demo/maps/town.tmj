@@ -100,7 +100,7 @@
                  "y":240
                 }, 
                 {
-                 "gid":266,
+                 "gid":265,
                  "height":16,
                  "id":6,
                  "name":"Captain",
@@ -116,6 +116,23 @@
                  "width":16,
                  "x":512,
                  "y":496
+                }, 
+                {
+                 "height":16,
+                 "id":7,
+                 "name":"Well",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/town\/well.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":752,
+                 "y":576
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -124,7 +141,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":7,
+ "nextobjectid":8,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.2",
@@ -139,7 +156,7 @@
          "source":"..\/tilesets\/Dungeon.tsj"
         }, 
         {
-         "firstgid":266,
+         "firstgid":265,
          "source":"..\/tilesets\/Captain.tsj"
         }],
  "tilewidth":16,

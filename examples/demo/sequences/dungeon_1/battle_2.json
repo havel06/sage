@@ -36,6 +36,18 @@
 			}
 		},
 		{
+			"type": "show_gui",
+			"parameters": {
+				"widget": "gui/map_transition.json"
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.5
+			}
+		},
+		{
 			"type": "enable_player_actions",
 			"parameters": {}
 		},
@@ -55,6 +67,10 @@
 					"size_y": 208
 				}
 			}
+		},
+		{
+			"type": "hide_gui",
+			"parameters": {}
 		}
 	]
 }

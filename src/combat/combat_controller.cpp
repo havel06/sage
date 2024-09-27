@@ -206,6 +206,21 @@ void Combat_Controller::input_enter()
 	}
 }
 
+void Combat_Controller::input_escape()
+{
+	if (m_combat.get_state() != Combat_State::hero_selecting_ability)
+		return;
+
+	switch (m_menu_state) {
+		case Combat_Controller_Menu_State::inventory:
+		case Combat_Controller_Menu_State::selecting_ability:
+			m_menu_state = Combat_Controller_Menu_State::selecting_action;
+			break;
+		default:
+			break;
+	}
+}
+
 void Combat_Controller::draw(float time_delta)
 {
 	if (!m_action_menu_widget || !m_ability_menu_widget || !m_option_widget)

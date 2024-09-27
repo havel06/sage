@@ -187,6 +187,8 @@ void Game::process_combat_input()
 		m_combat_controller.input_direction(Direction::left);
 	} else if (is_action_pressed_accept()) {
 		m_combat_controller.input_enter();
+	} else if (is_action_pressed_escape()) {
+		m_combat_controller.input_escape();
 	}
 }
 
@@ -233,6 +235,11 @@ bool Game::is_action_down_right()
 bool Game::is_action_pressed_accept()
 {
 	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) || IsKeyPressed(KEY_ENTER);
+}
+
+bool Game::is_action_pressed_escape()
+{
+	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) || IsKeyPressed(KEY_ESCAPE);
 }
 
 bool Game::is_action_pressed_inventory()

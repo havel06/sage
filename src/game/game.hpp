@@ -50,6 +50,7 @@ private:
 	bool is_action_pressed_left();
 	bool is_action_pressed_right();
 	bool is_action_pressed_accept();
+	bool is_action_pressed_escape();
 	bool is_action_pressed_inventory();
 	bool is_action_pressed_questlog();
 

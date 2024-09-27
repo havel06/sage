@@ -25,6 +25,7 @@ public:
 	void load(GUI_Loader&, const String& menu_filename, const String& option_filename);
 	void input_direction(Direction);
 	void input_enter();
+	void input_escape();
 	void draw(float time_delta);
 private:
 	void on_hero_ability_selecting_begin() override; // Combat observer

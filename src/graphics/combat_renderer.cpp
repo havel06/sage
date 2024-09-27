@@ -39,7 +39,7 @@ void Combat_Renderer::draw_background(float dt)
 
 void Combat_Renderer::draw_party(float dt)
 {
-	const int size = GetScreenHeight() / 8;
+	const int size = GetScreenWidth() / 13;
 
 	for (int i = 0; i < m_party.get_character_count(); i++) {
 		const Combat_Unit& unit = m_combat.get_hero(i);
@@ -60,7 +60,7 @@ void Combat_Renderer::draw_party(float dt)
 
 void Combat_Renderer::draw_enemies(float dt)
 {
-	const int size = GetScreenHeight() / 8;
+	const int size = GetScreenWidth() / 13;
 
 	for (int i = 0; i < m_combat.get_enemy_count(); i++) {
 		const Combat_Unit& unit = m_combat.get_enemy(i);
@@ -119,7 +119,7 @@ void Combat_Renderer::on_battle_begin()
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
 			.pos_x = { .parent_width = 0.2 },
-			.pos_y = { .parent_height = 0.15f + i * 0.05f }
+			.pos_y = get_hero_position_y(i)
 		});
 	}
 
@@ -129,7 +129,17 @@ void Combat_Renderer::on_battle_begin()
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
 			.pos_x = { .parent_width = 0.675 },
-			.pos_y = { .parent_height = 0.15f + i * 0.05f }
+			.pos_y = get_enemy_position_y(i)
 		});
 	}
+}
+
+UI::Size Combat_Renderer::get_hero_position_y(int index)
+{
+	return { .parent_height = 0.15f + index * 0.05f };
+}
+
+UI::Size Combat_Renderer::get_enemy_position_y(int index)
+{
+	return { .parent_height = 0.15f + index * 0.05f };
 }

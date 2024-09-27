@@ -29,6 +29,9 @@ private:
 	void draw_enemies(float dt);
 	void draw_hp_bar(const Vec2i unit_pos, const int unit_size, const Combat_Unit&, Combat_Renderer_Unit&, float dt);
 
+	UI::Size get_hero_position_y(int index);
+	UI::Size get_enemy_position_y(int index);
+
 	void on_hero_ability_selecting_begin() override {};
 	void on_battle_begin() override;
 

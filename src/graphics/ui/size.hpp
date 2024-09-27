@@ -14,6 +14,7 @@ struct Size
 	float parent_height = 0;
 
 	int to_pixels(Vec2i parent_size) const;
+	Size lerp(const Size& other, float amount);
 };
 
 

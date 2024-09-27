@@ -33,7 +33,6 @@ private:
 	void on_item_activate(Item& item) override; // Inventory renderer observer
 
 	void update_menus();
-
 	void draw_selected_enemy(float dt);
 
 	int m_selected_enemy = 0;

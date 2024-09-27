@@ -3,6 +3,7 @@
 #include "graphics/animated_sprite.hpp"
 #include "utils/vec2.hpp"
 #include "combat/combat.hpp"
+#include "ui/size.hpp"
 
 class Party;
 class Combat;
@@ -12,6 +13,8 @@ struct Combat_Renderer_Unit
 {
 	float hp_shown_old;
 	float hp_shown_current;
+	UI::Size pos_x;
+	UI::Size pos_y;
 };
 
 class Combat_Renderer : public Combat_Observer

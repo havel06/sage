@@ -36,8 +36,8 @@ private:
 	void on_battle_begin() override;
 
 	Animated_Sprite m_background;
-	Array<Combat_Renderer_Unit> m_heroes;
-	Array<Combat_Renderer_Unit> m_enemies;
+	Table<int /*id*/, Combat_Renderer_Unit> m_heroes;
+	Table<int /*id*/, Combat_Renderer_Unit> m_enemies;
 
 	const Party& m_party;
 	const Combat& m_combat;

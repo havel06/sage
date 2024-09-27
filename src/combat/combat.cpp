@@ -8,8 +8,10 @@
 #include "utils/log.hpp"
 #include "item/item.hpp"
 
-Combat_Unit::Combat_Unit(Resource_Handle<Character_Profile> p) :
-	character{p}
+Combat_Unit::Combat_Unit(int id, Resource_Handle<Character_Profile> p, bool is_hero) :
+	character{p},
+	m_id{id},
+	m_is_hero{is_hero}
 {
 	m_hp = character.get().max_hp;
 }
@@ -56,11 +58,11 @@ void Combat::start_battle(const Battle_Description& description)
 	m_enemies.clear();
 
 	for (int i = 0; i < m_party.get_character_count(); i++) {
-		m_heroes.push_back(Combat_Unit{m_party.get_character(i)});
+		m_heroes.push_back(Combat_Unit{m_last_assigned_id++, m_party.get_character(i), true});
 	}
 
 	for (Resource_Handle<Character_Profile> enemy : description.enemies) {
-		m_enemies.push_back(Combat_Unit{enemy});
+		m_enemies.push_back(Combat_Unit{m_last_assigned_id++, enemy, false});
 	}
 
 	m_state = Combat_State::hero_selecting_ability;

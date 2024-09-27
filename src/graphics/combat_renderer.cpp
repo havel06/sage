@@ -42,19 +42,22 @@ void Combat_Renderer::draw_party(float dt)
 	const int size = GetScreenWidth() / 13;
 
 	for (int i = 0; i < m_party.get_character_count(); i++) {
-		const Combat_Unit& unit = m_combat.get_hero(i);
+		const Combat_Unit& combat_unit = m_combat.get_hero(i);
+		Combat_Renderer_Unit* renderer_unit = m_heroes.get(combat_unit.get_id());
+		assert(renderer_unit);
+
 		Vec2i screen_size = {GetScreenWidth(), GetScreenHeight()};
-		const int pos_x = m_heroes[i].pos_x.to_pixels(screen_size);
-		const int pos_y = m_heroes[i].pos_y.to_pixels(screen_size);
+		const int pos_x = renderer_unit->pos_x.to_pixels(screen_size);
+		const int pos_y = renderer_unit->pos_y.to_pixels(screen_size);
 
 		Rectf transform = {
 			.position = Vec2f{(float)pos_x, (float)pos_y},
 			.size = Vec2f{(float)size, (float)size}
 		};
 
-		unit.character.get().sprite_right.draw(transform, dt);
+		combat_unit.character.get().sprite_right.draw(transform, dt);
 
-		draw_hp_bar({pos_x, pos_y}, size, unit, m_heroes[i], dt);
+		draw_hp_bar({pos_x, pos_y}, size, combat_unit, *renderer_unit, dt);
 	}
 }
 
@@ -63,19 +66,22 @@ void Combat_Renderer::draw_enemies(float dt)
 	const int size = GetScreenWidth() / 13;
 
 	for (int i = 0; i < m_combat.get_enemy_count(); i++) {
-		const Combat_Unit& unit = m_combat.get_enemy(i);
+		const Combat_Unit& combat_unit = m_combat.get_enemy(i);
+		Combat_Renderer_Unit* renderer_unit = m_enemies.get(combat_unit.get_id());
+		assert(renderer_unit);
+
 		Vec2i screen_size = {GetScreenWidth(), GetScreenHeight()};
-		const int pos_x = m_enemies[i].pos_x.to_pixels(screen_size);
-		const int pos_y = m_enemies[i].pos_y.to_pixels(screen_size);
+		const int pos_x = renderer_unit->pos_x.to_pixels(screen_size);
+		const int pos_y = renderer_unit->pos_y.to_pixels(screen_size);
 
 		Rectf transform = {
 			.position = Vec2f{(float)pos_x, (float)pos_y},
 			.size = Vec2f{(float)size, (float)size}
 		};
 
-		unit.character.get().sprite_left.draw(transform, dt);
+		combat_unit.character.get().sprite_left.draw(transform, dt);
 
-		draw_hp_bar({pos_x, pos_y}, size, unit, m_enemies[i], dt);
+		draw_hp_bar({pos_x, pos_y}, size, combat_unit, *renderer_unit, dt);
 	}
 }
 
@@ -115,7 +121,7 @@ void Combat_Renderer::on_battle_begin()
 
 	for (int i = 0; i < m_combat.get_hero_count(); i++) {
 		const Combat_Unit& unit = m_combat.get_hero(i);
-		m_heroes.push_back(Combat_Renderer_Unit{
+		m_heroes.insert(unit.get_id(), Combat_Renderer_Unit{
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
 			.pos_x = { .parent_width = 0.2 },
@@ -125,7 +131,7 @@ void Combat_Renderer::on_battle_begin()
 
 	for (int i = 0; i < m_combat.get_enemy_count(); i++) {
 		const Combat_Unit& unit = m_combat.get_enemy(i);
-		m_enemies.push_back(Combat_Renderer_Unit{
+		m_enemies.insert(unit.get_id(), Combat_Renderer_Unit{
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
 			.pos_x = { .parent_width = 0.675 },
@@ -141,5 +147,8 @@ UI::Size Combat_Renderer::get_hero_position_y(int index)
 
 UI::Size Combat_Renderer::get_enemy_position_y(int index)
 {
-	return { .parent_height = 0.15f + index * 0.05f };
+	return {
+		.parent_width = index * 0.1f,
+		.parent_height = 0.15f,
+	};
 }

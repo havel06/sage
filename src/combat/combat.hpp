@@ -15,12 +15,17 @@ class Combat_Unit
 {
 public:
 	Resource_Handle<Character_Profile> character;
+	int get_id() const { return m_id; }
 	int get_hp() const { return m_hp; }
+	bool is_hero() const { return m_is_hero; }
+	bool is_enemy() const { return !m_is_hero; }
 	void change_hp(int amount);
 
-	Combat_Unit(Resource_Handle<Character_Profile>);
+	Combat_Unit(int id, Resource_Handle<Character_Profile>, bool is_hero);
 private:
+	int m_id;
 	int m_hp;
+	bool m_is_hero;
 };
 
 enum class Combat_Result
@@ -100,6 +105,7 @@ private:
 	Party& m_party;
 
 	Combat_State m_state = Combat_State::inactive;
+	int m_last_assigned_id = 0;
 
 	Array<Combat_Observer*> m_observers;
 	Optional<Resource_Handle<Sequence>> m_win_sequence;

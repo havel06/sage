@@ -250,6 +250,11 @@ void Combat::update()
 	// Fix current unit index
 	m_current_hero_turn %= m_heroes.size();
 	m_current_enemy_turn %= m_enemies.size();
+
+	// If there is only one enemy, we can skip target selection and select it
+	if (m_state == Combat_State::hero_selecting_target && m_enemies.size() == 1) {
+		select_target(0);
+	}
 	
 	// Advance state if current ability has finished
 	if (m_state == Combat_State::hero_casting_ability ||

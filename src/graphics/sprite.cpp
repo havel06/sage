@@ -20,6 +20,11 @@ bool Sprite::is_null() const
 
 void Sprite::draw(Rectf transform, float opacity) const
 {
+	draw_with_tint(transform, {255, 255, 255, (unsigned char)(opacity * 255)});
+}
+
+void Sprite::draw_with_tint(Rectf transform, Colour tint) const
+{
 	if (!m_texture.has_value())
 		return;
 	//SG_DEBUG("Sprite texture id: %d", m_texture.id);
@@ -39,8 +44,8 @@ void Sprite::draw(Rectf transform, float opacity) const
 		transform.size.y,
 	};
 
-	Color colour = Color{255, 255, 255, (unsigned char)(255 * opacity)};
-	DrawTexturePro(m_texture.value().get().ray_texture, source, dest, {}, 0, colour);
+	Color ray_colour = Color{tint.r, tint.g, tint.b, tint.a};
+	DrawTexturePro(m_texture.value().get().ray_texture, source, dest, {}, 0, ray_colour);
 }
 
 const String& Sprite::get_texture_path() const

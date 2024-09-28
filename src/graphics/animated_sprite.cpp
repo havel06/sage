@@ -19,6 +19,11 @@ void Animated_Sprite::reset_animation()
 
 void Animated_Sprite::draw(Rectf transform, float time_delta) const
 {
+	draw_with_tint(transform, time_delta, Colour{255, 255, 255, 255});
+}
+
+void Animated_Sprite::draw_with_tint(Rectf transform, float time_delta, Colour tint) const
+{
 	if (m_frames.empty()) {
 		return;
 	}
@@ -30,5 +35,5 @@ void Animated_Sprite::draw(Rectf transform, float time_delta) const
 		m_current_frame = (m_current_frame + 1) % m_frames.size();
 	}
 
-	m_frames[m_current_frame].draw(transform);
+	m_frames[m_current_frame].draw_with_tint(transform, tint);
 }

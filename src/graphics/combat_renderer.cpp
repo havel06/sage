@@ -79,6 +79,7 @@ void Combat_Renderer::draw_enemies(float dt)
 			.size = Vec2f{(float)size, (float)size}
 		};
 
+		// FIXME - draw highlight on selected enemy
 		combat_unit.character.get().sprite_left.draw(transform, dt);
 
 		draw_hp_bar({pos_x, pos_y}, size, combat_unit, *renderer_unit, dt);

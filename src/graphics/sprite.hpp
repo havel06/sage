@@ -1,5 +1,6 @@
 #pragma once
 
+#include "utils/colour.hpp"
 #include "utils/rect.hpp"
 #include "utils/string.hpp"
 #include "utils/optional.hpp"
@@ -15,6 +16,7 @@ public:
 	Sprite() = default;
 
 	void draw(Rectf transform, float opacity = 1) const;
+	void draw_with_tint(Rectf transform, Colour tint) const;
 	bool is_null() const;
 	const String& get_texture_path() const;
 private:

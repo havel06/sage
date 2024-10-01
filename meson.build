@@ -1,4 +1,4 @@
-project('sage', ['cpp', 'c'], default_options : ['cpp_std=c++2a', 'buildtype=debug', 'warning_level=3', 'werror=true'])
+project('sage', ['cpp', 'c'], default_options : ['cpp_std=c++2a', 'buildtype=release'])
 
 subdir('vendor')
 
@@ -146,17 +146,28 @@ deps = [
   raylib_lib,
 ]
 
-# Custom options for Windows builds
-executable_options = []
+# Custom options
+build_options = []
 
+# Custom options for Windows cross-compiling
 if host_machine.system() == 'windows'
   deps += meson.get_compiler('cpp').find_library('winmm')
-  executable_options = ['werror=false', 'unity=on', 'buildtype=release']
+  build_options = ['werror=false', 'unity=on', 'buildtype=release']
+endif
+
+# Custom options for release builds
+if get_option('buildtype') == 'release'
+  build_options = ['werror=false', 'unity=on', 'warning_level=0']
+endif
+
+# Custom options for debug builds
+if get_option('buildtype') == 'debug'
+  build_options = ['werror=true', 'unity=off', 'warning_level=3']
 endif
 
 executable('out', src,
   dependencies : deps,
   include_directories : [vendor_inc, 'src'],
-  override_options : executable_options,
+  override_options : build_options,
   link_with : vendor_lib
 )

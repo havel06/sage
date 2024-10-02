@@ -55,6 +55,7 @@ src = [
   'src/io/savegame/map_saveloader.cpp',
   'src/io/savegame/savegame_directory_provider.cpp',
   'src/io/savegame/sequence_saveloader.cpp',
+  'src/io/sequence/condition_parser.cpp',
   'src/io/sequence/sequence_loader.cpp',
   'src/io/sequence/event_parameter_parser.cpp',
   'src/io/sequence/event_parser.cpp',

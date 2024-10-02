@@ -3,13 +3,13 @@
 #include "utils/log.hpp"
 #include "../json_types.hpp"
 #include "sequence/event_parameter.hpp"
-#include "sequence_loader.hpp"
+#include "condition_parser.hpp"
 #include <string.h>
 #include <assert.h>
 
 
-Event_Parameter_Parser::Event_Parameter_Parser(Sequence_Loader& sequence_loader, Texture_Manager& texture_manager) :
-	m_sequence_loader{sequence_loader},
+Event_Parameter_Parser::Event_Parameter_Parser(Condition_Parser& cond_parser, Texture_Manager& texture_manager) :
+	m_condition_parser{cond_parser},
 	m_texture_manager{texture_manager}
 {
 }
@@ -23,18 +23,18 @@ void Event_Parameter_Parser::parse(Event_Parameter& parameter, const JSON::Value
 		const JSON::Value_View& m_param_json;
 		const JSON::Object_View& m_template_params;
 		Texture_Manager& m_tex_mgr;
-		Sequence_Loader& m_seq_loader;
+		Condition_Parser& m_condition_parser;
 
 	public:
 		Visitor(
 				const JSON::Value_View& param_json,
 				Texture_Manager& tex_mgr,
-				Sequence_Loader& seq_loader,
+				Condition_Parser& cond_parser,
 				const JSON::Object_View& template_params) :
 			m_param_json{param_json},
 			m_template_params{template_params},
 			m_tex_mgr{tex_mgr},
-			m_seq_loader{seq_loader}
+			m_condition_parser{cond_parser}
 		{
 		}
 
@@ -69,11 +69,11 @@ void Event_Parameter_Parser::parse(Event_Parameter& parameter, const JSON::Value
 		}
 
 		void visit(Condition_Event_Parameter& param) override {
-			param.value = m_seq_loader.parse_condition(m_param_json.as_object(), m_template_params);
+			param.value = m_condition_parser.parse_condition(m_param_json.as_object(), m_template_params);
 		}
 	};
 
-	Visitor visitor{resolved_value_json, m_texture_manager, m_sequence_loader, template_parameters};
+	Visitor visitor{resolved_value_json, m_texture_manager, m_condition_parser, template_parameters};
 	parameter.accept_visitor(visitor);
 }
 

@@ -6,12 +6,6 @@
 #include "io/resource/texture_manager.hpp"
 #include "sequence/event_parameter.hpp"
 #include "utils/move.hpp"
-#include "sequence/conditions/has_item.hpp"
-#include "sequence/conditions/not.hpp"
-#include "sequence/conditions/is_in_combat.hpp"
-#include "sequence/condition_factories/not.hpp"
-#include "sequence/condition_factories/has_item.hpp"
-#include "sequence/condition_factories/is_in_combat.hpp"
 #include "sequence/sequence.hpp"
 #include "sequence/event_factory.hpp"
 #include "utils/direction.hpp"
@@ -23,8 +17,9 @@
 #include "../resource/resource_system.hpp"
 
 Sequence_Loader::Sequence_Loader(const String& resource_root_path, Resource_System& res_system, Game_Facade& facade, GUI_Loader& gui_loader) :
-	m_event_parameter_parser(*this, res_system.texture_manager),
+	m_event_parameter_parser(m_condition_parser, res_system.texture_manager),
 	m_event_parser{m_event_parameter_parser, res_system, gui_loader, facade},
+	m_condition_parser{m_event_parameter_parser, facade},
 	m_facade{facade},
 	m_resource_system{res_system},
 	m_gui_loader{gui_loader}
@@ -78,60 +73,12 @@ Sequence Sequence_Loader::load_templated_sequence(
 
 	// Condition
 	if (template_json.has("condition")) {
-		sequence.set_condition(parse_condition(template_json["condition"].as_object(), parameters));
+		sequence.set_condition(
+			m_condition_parser.parse_condition(
+				template_json["condition"].as_object(),
+				parameters));
 	}
 
 	return sequence;
 }
 
-
-
-void Sequence_Loader::parse_condition_parameters(Condition_Factory& factory,
-		const JSON::Object_View& parameters,
-		const JSON::Object_View& template_parameters)
-{
-	factory.for_each_parameter([&](const String& name, Event_Parameter& parameter){
-		if (!parameters.has(name.data())) {
-			SG_ERROR("Missing event parameter \"%s\"", name.data());
-			assert(false);
-		}
-
-		const JSON::Value_View& unresolved_value = parameters[name.data()];
-		m_event_parameter_parser.parse(parameter, unresolved_value, template_parameters);
-	});
-}
-
-Condition_Ptr Sequence_Loader::parse_condition(
-		const JSON::Object_View& json,
-		const JSON::Object_View& template_params)
-{
-	const String type = json["type"].as_string("");
-	if (type.empty()) {
-		SG_ERROR("Missing condition type.");
-		return nullptr;
-	}
-
-	const JSON::Object_View params = json["parameters"].as_object();
-	Own_Ptr<Condition_Factory> factory = get_factory_for_condition_type(type);
-
-	if (factory) {
-		parse_condition_parameters(*factory, params, template_params);
-		return factory->make_condition(m_facade);
-	} else {
-		return nullptr;
-	}
-}
-
-Own_Ptr<Condition_Factory> Sequence_Loader::get_factory_for_condition_type(const String& type)
-{
-	if (type == "not") {
-		return make_own_ptr<Condition_Factories::Not>();
-	} else if (type == "has_item") {
-		return make_own_ptr<Condition_Factories::Has_Item>();
-	} else if (type == "is_in_combat") {
-		return make_own_ptr<Condition_Factories::Is_In_Combat>();
-	} else {
-		SG_ERROR("Invalid event type \"%s\"", type.data());
-		return nullptr;
-	}
-}

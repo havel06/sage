@@ -17,7 +17,7 @@
 #include "io/gui_loader.hpp"
 #include "io/resource/resource_system.hpp"
 #include "io/savegame/savegame_directory_provider.hpp"
-#include "io/sequence_loader.hpp"
+#include "io/sequence/sequence_loader.hpp"
 #include "io/savegame/map_saveloader.hpp"
 #include "io/savegame/sequence_saveloader.hpp"
 #include "io/savegame/game_saveloader.hpp"

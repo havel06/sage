@@ -50,10 +50,11 @@
 #include "utils/json.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
-#include "json_types.hpp"
-#include "resource/resource_system.hpp"
+#include "../json_types.hpp"
+#include "../resource/resource_system.hpp"
 
 Sequence_Loader::Sequence_Loader(const String& resource_root_path, Resource_System& res_system, Game_Facade& facade, GUI_Loader& gui_loader) :
+	m_event_parameter_parser(*this, res_system.texture_manager),
 	m_facade{facade},
 	m_resource_system{res_system},
 	m_gui_loader{gui_loader}
@@ -221,7 +222,7 @@ void Sequence_Loader::parse_event_parameters(Event_Factory& factory,
 		}
 
 		const JSON::Value_View& unresolved_value = parameters[name.data()];
-		parse_event_parameter(parameter, unresolved_value, template_parameters);
+		m_event_parameter_parser.parse(parameter, unresolved_value, template_parameters);
 	});
 }
 
@@ -236,73 +237,8 @@ void Sequence_Loader::parse_condition_parameters(Condition_Factory& factory,
 		}
 
 		const JSON::Value_View& unresolved_value = parameters[name.data()];
-		parse_event_parameter(parameter, unresolved_value, template_parameters);
+		m_event_parameter_parser.parse(parameter, unresolved_value, template_parameters);
 	});
-}
-
-void Sequence_Loader::parse_event_parameter(
-		Event_Parameter& parameter,
-		const JSON::Value_View& unresolved_value,
-		const JSON::Object_View& template_parameters)
-{
-	const JSON::Value_View& resolved_value_json = resolve_value(unresolved_value, template_parameters);
-
-	class Visitor : public Event_Parameter_Visitor {
-		const JSON::Value_View& m_param_json;
-		const JSON::Object_View& m_template_params;
-		Texture_Manager& m_tex_mgr;
-		Sequence_Loader& m_seq_loader;
-
-	public:
-		Visitor(
-				const JSON::Value_View& param_json,
-				Texture_Manager& tex_mgr,
-				Sequence_Loader& seq_loader,
-				const JSON::Object_View& template_params) :
-			m_param_json{param_json},
-			m_template_params{template_params},
-			m_tex_mgr{tex_mgr},
-			m_seq_loader{seq_loader}
-		{
-		}
-
-		void visit(Int_Event_Parameter& param) override {
-			param.value = m_param_json.as_int(0);
-		}
-
-		void visit(Float_Event_Parameter& param) override {
-			param.value = m_param_json.as_float(0);
-		}
-
-		void visit(String_Event_Parameter& param) override {
-			param.value = m_param_json.as_string("");
-		}
-
-		void visit(Direction_Event_Parameter& param) override {
-			param.value = direction_from_string(m_param_json.as_string("down"));
-		}
-		
-		void visit(String_Array_Event_Parameter& param) override {
-			m_param_json.as_array().for_each([&](const JSON::Value_View& value){
-				param.value.push_back(value.as_string(""));
-			});
-		}
-
-		void visit(Sprite_Event_Parameter& param) override {
-			param.value = JSON_Types::parse_animated_sprite(m_param_json.as_object(), m_tex_mgr);
-		}
-
-		void visit(Target_Selection_Type_Event_Parameter& param) override {
-			param.value = target_selection_type_from_str(m_param_json.as_string("enemy"));
-		}
-
-		void visit(Condition_Event_Parameter& param) override {
-			param.value = m_seq_loader.parse_condition(m_param_json.as_object(), m_template_params);
-		}
-	};
-
-	Visitor visitor{resolved_value_json, m_resource_system.texture_manager, *this, template_parameters};
-	parameter.accept_visitor(visitor);
 }
 
 Condition_Ptr Sequence_Loader::parse_condition(
@@ -338,24 +274,4 @@ Own_Ptr<Condition_Factory> Sequence_Loader::get_factory_for_condition_type(const
 		SG_ERROR("Invalid event type \"%s\"", type.data());
 		return nullptr;
 	}
-}
-
-JSON::Value_View Sequence_Loader::resolve_value(const JSON::Value_View& val,
-		const JSON::Object_View& parameters)
-{
-	if (val.is_string()) {
-		const char* str_value = val.as_string("");
-
-		if (strlen(str_value) > 1 && str_value[0] == '$') {
-			const char* param_name = str_value + 1;
-			if (parameters.has(param_name)) {
-				return parameters.get(param_name);
-			} else {
-				SG_ERROR("Missing sequence template parameter \"%s\"", param_name);
-				assert(false);
-			}
-		}
-	}
-
-	return val;
 }

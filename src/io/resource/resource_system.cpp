@@ -3,7 +3,7 @@
 #include "io/resource/map_manager.hpp"
 #include "io/resource/sequence_manager.hpp"
 #include "io/resource/texture_manager.hpp"
-#include "io/sequence_loader.hpp"
+#include "io/sequence/sequence_loader.hpp"
 #include "utils/log.hpp"
 
 Resource_System::Resource_System(const String& resource_root_path, Sequence_Loader& seq_loader, Sequence_Saveloader& saveloader) :

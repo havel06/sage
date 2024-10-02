@@ -1,5 +1,5 @@
 #include "sequence_manager.hpp"
-#include "../sequence_loader.hpp"
+#include "../sequence/sequence_loader.hpp"
 #include "utils/own_ptr.hpp"
 
 Sequence_Manager::Sequence_Manager(const String& resource_root_path, Sequence_Loader& loader, Sequence_Saveloader& saveloader) :

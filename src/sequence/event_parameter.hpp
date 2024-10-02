@@ -4,6 +4,7 @@
 #include "utils/string.hpp"
 #include "utils/direction.hpp"
 #include "combat/target_selection_type.hpp"
+#include "sequence/condition.hpp"
 
 // fwd
 class Int_Event_Parameter;
@@ -13,6 +14,7 @@ class Direction_Event_Parameter;
 class Sprite_Event_Parameter;
 class String_Array_Event_Parameter;
 class Target_Selection_Type_Event_Parameter;
+class Condition_Event_Parameter;
 
 // Visitor pattern for parameters
 
@@ -26,6 +28,7 @@ public:
 	virtual void visit(Sprite_Event_Parameter&) = 0;
 	virtual void visit(String_Array_Event_Parameter&) = 0;
 	virtual void visit(Target_Selection_Type_Event_Parameter&) = 0;
+	virtual void visit(Condition_Event_Parameter&) = 0;
 };
 
 // Abstract parameter class
@@ -86,5 +89,12 @@ class Target_Selection_Type_Event_Parameter final : public Event_Parameter
 {
 public:
 	Target_Selection_Type value;
+	void accept_visitor(Event_Parameter_Visitor& visitor) override { visitor.visit(*this); }
+};
+
+class Condition_Event_Parameter final : public Event_Parameter
+{
+public:
+	Own_Ptr<Condition> value;
 	void accept_visitor(Event_Parameter_Visitor& visitor) override { visitor.visit(*this); }
 };

@@ -4,10 +4,10 @@
 namespace Conditions
 {
 
-Has_Item::Has_Item(Game_Facade& facade, String&& id, int count) :
+Has_Item::Has_Item(Game_Facade& facade, const String& id, int count) :
 	Condition{facade}
 {
-	m_id = (String&&)id;
+	m_id = id;
 	m_count = count;
 }
 

@@ -9,7 +9,7 @@ namespace Conditions
 class Has_Item : public Condition
 {
 public:
-	Has_Item(Game_Facade& facade, String&& id, int count);
+	Has_Item(Game_Facade& facade, const String& id, int count);
 	bool is_satisfied() const override;
 private:
 	String m_id;

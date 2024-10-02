@@ -40,6 +40,9 @@
 #include "sequence/event_factories/change_all_enemy_units_hp.hpp"
 #include "sequence/event_factories/end_turn.hpp"
 #include "sequence/event_factories/teleport_camera_to_player.hpp"
+#include "sequence/condition_factories/not.hpp"
+#include "sequence/condition_factories/has_item.hpp"
+#include "sequence/condition_factories/is_in_combat.hpp"
 #include "sequence/sequence.hpp"
 #include "sequence/event_factory.hpp"
 #include "utils/direction.hpp"
@@ -104,7 +107,7 @@ Sequence Sequence_Loader::load_templated_sequence(
 
 	// Condition
 	if (template_json.has("condition")) {
-		sequence.set_condition(parse_condition(template_json["condition"].as_object()));
+		sequence.set_condition(parse_condition(template_json["condition"].as_object(), parameters));
 	}
 
 	return sequence;
@@ -211,85 +214,128 @@ void Sequence_Loader::parse_event_parameters(Event_Factory& factory,
 		const JSON::Object_View& parameters,
 		const JSON::Object_View& template_parameters)
 {
-	// FIXME - refactor
-
 	factory.for_each_parameter([&](const String& name, Event_Parameter& parameter){
 		if (!parameters.has(name.data())) {
 			SG_ERROR("Missing event parameter \"%s\"", name.data());
 			assert(false);
 		}
 
-		const JSON::Value_View& parameter_json = resolve_value(parameters[name.data()], template_parameters);
-
-		class Visitor : public Event_Parameter_Visitor {
-			const JSON::Value_View& m_param_json;
-			Texture_Manager& m_tex_mgr;
-
-		public:
-			Visitor(const JSON::Value_View& param_json, Texture_Manager& tex_mgr) :
-				m_param_json{param_json},
-				m_tex_mgr{tex_mgr}
-			{
-			}
-
-			void visit(Int_Event_Parameter& param) override {
-				param.value = m_param_json.as_int(0);
-			}
-
-			void visit(Float_Event_Parameter& param) override {
-				param.value = m_param_json.as_float(0);
-			}
-
-			void visit(String_Event_Parameter& param) override {
-				param.value = m_param_json.as_string("");
-			}
-
-			void visit(Direction_Event_Parameter& param) override {
-				param.value = direction_from_string(m_param_json.as_string("down"));
-			}
-			
-			void visit(String_Array_Event_Parameter& param) override {
-				m_param_json.as_array().for_each([&](const JSON::Value_View& value){
-					param.value.push_back(value.as_string(""));
-				});
-			}
-
-			void visit(Sprite_Event_Parameter& param) override {
-				param.value = JSON_Types::parse_animated_sprite(m_param_json.as_object(), m_tex_mgr);
-			}
-
-			void visit(Target_Selection_Type_Event_Parameter& param) override {
-				param.value = target_selection_type_from_str(m_param_json.as_string("enemy"));
-			}
-		};
-
-		Visitor visitor{parameter_json, m_resource_system.texture_manager};
-		parameter.accept_visitor(visitor);
+		const JSON::Value_View& unresolved_value = parameters[name.data()];
+		parse_event_parameter(parameter, unresolved_value, template_parameters);
 	});
 }
 
-Condition_Ptr Sequence_Loader::parse_condition(const JSON::Object_View& json)
+void Sequence_Loader::parse_condition_parameters(Condition_Factory& factory,
+		const JSON::Object_View& parameters,
+		const JSON::Object_View& template_parameters)
+{
+	factory.for_each_parameter([&](const String& name, Event_Parameter& parameter){
+		if (!parameters.has(name.data())) {
+			SG_ERROR("Missing event parameter \"%s\"", name.data());
+			assert(false);
+		}
+
+		const JSON::Value_View& unresolved_value = parameters[name.data()];
+		parse_event_parameter(parameter, unresolved_value, template_parameters);
+	});
+}
+
+void Sequence_Loader::parse_event_parameter(
+		Event_Parameter& parameter,
+		const JSON::Value_View& unresolved_value,
+		const JSON::Object_View& template_parameters)
+{
+	const JSON::Value_View& resolved_value_json = resolve_value(unresolved_value, template_parameters);
+
+	class Visitor : public Event_Parameter_Visitor {
+		const JSON::Value_View& m_param_json;
+		const JSON::Object_View& m_template_params;
+		Texture_Manager& m_tex_mgr;
+		Sequence_Loader& m_seq_loader;
+
+	public:
+		Visitor(
+				const JSON::Value_View& param_json,
+				Texture_Manager& tex_mgr,
+				Sequence_Loader& seq_loader,
+				const JSON::Object_View& template_params) :
+			m_param_json{param_json},
+			m_template_params{template_params},
+			m_tex_mgr{tex_mgr},
+			m_seq_loader{seq_loader}
+		{
+		}
+
+		void visit(Int_Event_Parameter& param) override {
+			param.value = m_param_json.as_int(0);
+		}
+
+		void visit(Float_Event_Parameter& param) override {
+			param.value = m_param_json.as_float(0);
+		}
+
+		void visit(String_Event_Parameter& param) override {
+			param.value = m_param_json.as_string("");
+		}
+
+		void visit(Direction_Event_Parameter& param) override {
+			param.value = direction_from_string(m_param_json.as_string("down"));
+		}
+		
+		void visit(String_Array_Event_Parameter& param) override {
+			m_param_json.as_array().for_each([&](const JSON::Value_View& value){
+				param.value.push_back(value.as_string(""));
+			});
+		}
+
+		void visit(Sprite_Event_Parameter& param) override {
+			param.value = JSON_Types::parse_animated_sprite(m_param_json.as_object(), m_tex_mgr);
+		}
+
+		void visit(Target_Selection_Type_Event_Parameter& param) override {
+			param.value = target_selection_type_from_str(m_param_json.as_string("enemy"));
+		}
+
+		void visit(Condition_Event_Parameter& param) override {
+			param.value = m_seq_loader.parse_condition(m_param_json.as_object(), m_template_params);
+		}
+	};
+
+	Visitor visitor{resolved_value_json, m_resource_system.texture_manager, *this, template_parameters};
+	parameter.accept_visitor(visitor);
+}
+
+Condition_Ptr Sequence_Loader::parse_condition(
+		const JSON::Object_View& json,
+		const JSON::Object_View& template_params)
 {
 	const String type = json["type"].as_string("");
-	
 	if (type.empty()) {
-		SG_ERROR("Missing sequence condition type.");
+		SG_ERROR("Missing condition type.");
 		return nullptr;
 	}
 
 	const JSON::Object_View params = json["parameters"].as_object();
+	Own_Ptr<Condition_Factory> factory = get_factory_for_condition_type(type);
 
-	if (type == "has_item") {
-		String item = params["item"].as_string("");
-		const int count = params["count"].as_int(1);
-		return make_own_ptr<Conditions::Has_Item>(m_facade, (String&&)item, count);
-	} else if (type == "not") {
-		Condition_Ptr sub_condition = parse_condition(params["condition"].as_object());
-		return make_own_ptr<Conditions::Not>(m_facade, (Condition_Ptr&&)sub_condition);
-	} else if (type == "is_in_combat") {
-		return make_own_ptr<Conditions::Is_In_Combat>(m_facade);
+	if (factory) {
+		parse_condition_parameters(*factory, params, template_params);
+		return factory->make_condition(m_facade);
 	} else {
-		SG_WARNING("Invalid event type \"%s\"", type.data());
+		return nullptr;
+	}
+}
+
+Own_Ptr<Condition_Factory> Sequence_Loader::get_factory_for_condition_type(const String& type)
+{
+	if (type == "not") {
+		return make_own_ptr<Condition_Factories::Not>();
+	} else if (type == "has_item") {
+		return make_own_ptr<Condition_Factories::Has_Item>();
+	} else if (type == "is_in_combat") {
+		return make_own_ptr<Condition_Factories::Is_In_Combat>();
+	} else {
+		SG_ERROR("Invalid event type \"%s\"", type.data());
 		return nullptr;
 	}
 }

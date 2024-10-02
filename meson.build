@@ -57,6 +57,7 @@ src = [
   'src/io/savegame/sequence_saveloader.cpp',
   'src/io/sequence/sequence_loader.cpp',
   'src/io/sequence/event_parameter_parser.cpp',
+  'src/io/sequence/event_parser.cpp',
   'src/io/tmj.cpp',
   'src/item/inventory.cpp',
   'src/item/item_registry.cpp',

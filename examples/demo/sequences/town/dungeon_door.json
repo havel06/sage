@@ -1,4 +1,5 @@
 {
+	"repeatable": false,
 	"condition": {
 		"type": "has_item",
 		"parameters": {
@@ -8,9 +9,13 @@
 	},
 	"events": [
 		{
-			"type": "activate_sequence",
-			"parameters": {
-				"sequence": "sequences/town/dungeon_door_open.json"
+			"from_template": {
+				"template": "sequences/door.json",
+				"parameters": {
+					"map": "maps/dungeon_1.tmj",
+					"x": 42,
+					"y": 78
+				}
 			}
 		},
 		{

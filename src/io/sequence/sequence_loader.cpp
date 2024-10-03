@@ -46,7 +46,6 @@ Sequence Sequence_Loader::load(const String& filename)
 
 		SG_DEBUG("Parsing sequence template %s", template_filename.data());
 		return load_templated_sequence(template_json.get_view(), params);
-
 	} else {
 		// Load normal, non-templated sequence
 		JSON::Object empty_parameters;
@@ -66,10 +65,7 @@ Sequence Sequence_Loader::load_templated_sequence(
 
 	// Events
 	template_json["events"].as_array().for_each([&](const JSON::Value_View& event_json) {
-		Event_Ptr event = parse_event(event_json.as_object(), parameters);
-
-		if (event)
-			sequence.add_event(move(event));
+		parse_event(sequence, event_json.as_object(), parameters);
 	});
 
 	// Condition
@@ -84,9 +80,31 @@ Sequence Sequence_Loader::load_templated_sequence(
 	return sequence;
 }
 
-Own_Ptr<Event> Sequence_Loader::parse_event(
+void Sequence_Loader::parse_event(
+	Sequence& sequence,
 	const JSON::Object_View& json,
 	const JSON::Object_View& template_params)
 {
-	return m_event_parser.parse_event(json, template_params);
+	if (json.has("from_template")) {
+		// Use sequence event template
+		JSON::Object_View template_spec = json["from_template"].as_object();
+		String template_filename = m_resource_root_path;
+		template_filename.append('/');
+		template_filename.append(template_spec["template"].as_string(""));
+		JSON::Object_View params = template_spec["parameters"].as_object();
+
+		JSON::Object template_json = JSON::Object::from_file(template_filename.data());
+
+		SG_DEBUG("Parsing event group template %s", template_filename.data());
+
+		JSON::Array_View events_json = template_json.get_view().get("events").as_array();
+		events_json.for_each([&](const JSON::Value_View& event_json){
+			parse_event(sequence, event_json.as_object(), params);
+		});
+	} else {
+		// Parse event normally
+		Event_Ptr event = m_event_parser.parse_event(json, template_params);
+		if (event)
+			sequence.add_event(move(event));
+	}
 }

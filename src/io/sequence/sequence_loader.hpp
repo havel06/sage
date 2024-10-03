@@ -22,7 +22,7 @@ public:
 	Sequence load(const String& filename);
 
 private:
-	Own_Ptr<Event> parse_event(const JSON::Object_View& json, const JSON::Object_View& template_params);
+	void parse_event(Sequence& sequence, const JSON::Object_View& json, const JSON::Object_View& template_params);
 	Sequence load_templated_sequence(const JSON::Object_View& template_json, const JSON::Object_View& parameters);
 
 	String m_resource_root_path;

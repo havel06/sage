@@ -4,6 +4,7 @@
 #include "graphics/ui/layout.hpp"
 #include "io/gui_loader.hpp"
 #include "io/resource/texture_manager.hpp"
+#include "sequence/condition.hpp"
 #include "sequence/event_parameter.hpp"
 #include "utils/move.hpp"
 #include "sequence/sequence.hpp"
@@ -65,7 +66,7 @@ Sequence Sequence_Loader::load_templated_sequence(
 
 	// Events
 	template_json["events"].as_array().for_each([&](const JSON::Value_View& event_json) {
-		Event_Ptr event = m_event_parser.parse_event(event_json.as_object(), parameters);
+		Event_Ptr event = parse_event(event_json.as_object(), parameters);
 
 		if (event)
 			sequence.add_event(move(event));
@@ -73,12 +74,19 @@ Sequence Sequence_Loader::load_templated_sequence(
 
 	// Condition
 	if (template_json.has("condition")) {
-		sequence.set_condition(
-			m_condition_parser.parse_condition(
-				template_json["condition"].as_object(),
-				parameters));
+		JSON::Object_View condition_json = template_json["condition"].as_object();
+		Condition_Ptr condition = m_condition_parser.parse_condition(condition_json, parameters);
+
+		if (condition)
+			sequence.set_condition(move(condition));
 	}
 
 	return sequence;
 }
 
+Own_Ptr<Event> Sequence_Loader::parse_event(
+	const JSON::Object_View& json,
+	const JSON::Object_View& template_params)
+{
+	return m_event_parser.parse_event(json, template_params);
+}

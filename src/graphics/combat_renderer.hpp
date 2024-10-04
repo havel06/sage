@@ -4,6 +4,7 @@
 #include "utils/vec2.hpp"
 #include "combat/combat.hpp"
 #include "ui/size.hpp"
+#include "shader.hpp"
 
 class Party;
 class Combat;
@@ -43,4 +44,5 @@ private:
 
 	const Party& m_party;
 	const Combat& m_combat;
+	Sage_Shader m_shader; // NOTE - if shader is ever used in an another location, it would be smarter to use DI
 };

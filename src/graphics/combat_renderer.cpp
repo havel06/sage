@@ -85,7 +85,10 @@ void Combat_Renderer::draw_enemies(float dt)
 		};
 
 		// FIXME - draw highlight on selected enemy
+		m_shader.begin();
+		m_shader.set_highlight({255, 255, 255, 120});
 		combat_unit.character.get().sprite_left.draw(transform, dt);
+		m_shader.end();
 
 		draw_hp_bar({pos_x, pos_y}, size, combat_unit, *renderer_unit, dt);
 	}

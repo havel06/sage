@@ -28,6 +28,7 @@ src = [
   'src/graphics/map_renderer.cpp',
   'src/graphics/quest_log_renderer.cpp',
   'src/graphics/scriptable_gui.cpp',
+  'src/graphics/shader.cpp',
   'src/graphics/sprite.cpp',
   'src/graphics/text_box_renderer.cpp',
   'src/graphics/ui/box.cpp',

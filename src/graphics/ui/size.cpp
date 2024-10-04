@@ -13,9 +13,9 @@ Size Size::lerp(const Size& other, float amount)
 {
 	return Size {
 		.automatic = this->automatic || other.automatic,
-		.pixels = this->pixels + (int)((this->pixels - other.pixels) * amount),
-		.parent_width = this->parent_width + (this->parent_width - other.parent_width) * amount,
-		.parent_height = this->parent_height + (this->parent_height - other.parent_height) * amount,
+		.pixels = this->pixels + (int)((other.pixels - this->pixels) * amount),
+		.parent_width = this->parent_width + (other.parent_width - this->parent_width) * amount,
+		.parent_height = this->parent_height + (other.parent_height - this->parent_height) * amount,
 	};
 }
 

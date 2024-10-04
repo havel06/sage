@@ -9,6 +9,7 @@ class Party;
 class Combat;
 class Combat_Unit;
 
+// FIXME - encapsulate, refactor
 struct Combat_Renderer_Unit
 {
 	float hp_shown_old;
@@ -29,6 +30,7 @@ private:
 	void draw_enemies(float dt);
 	void draw_hp_bar(const Vec2i unit_pos, const int unit_size, const Combat_Unit&, Combat_Renderer_Unit&, float dt);
 
+	void update_unit_position(int index, Combat_Renderer_Unit&, bool is_enemy, float dt);
 	UI::Size get_hero_position_y(int index);
 	UI::Size get_enemy_position_y(int index);
 

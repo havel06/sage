@@ -39,12 +39,15 @@ void Combat_Renderer::draw_background(float dt)
 
 void Combat_Renderer::draw_party(float dt)
 {
+	// FIXME - this function is very similar to draw_enemies - DRY!
 	const int size = GetScreenWidth() / 13;
 
 	for (int i = 0; i < m_party.get_character_count(); i++) {
 		const Combat_Unit& combat_unit = m_combat.get_hero(i);
 		Combat_Renderer_Unit* renderer_unit = m_heroes.get(combat_unit.get_id());
 		assert(renderer_unit);
+
+		update_unit_position(i, *renderer_unit, false, dt);
 
 		Vec2i screen_size = {GetScreenWidth(), GetScreenHeight()};
 		const int pos_x = renderer_unit->pos_x.to_pixels(screen_size);
@@ -69,6 +72,8 @@ void Combat_Renderer::draw_enemies(float dt)
 		const Combat_Unit& combat_unit = m_combat.get_enemy(i);
 		Combat_Renderer_Unit* renderer_unit = m_enemies.get(combat_unit.get_id());
 		assert(renderer_unit);
+
+		update_unit_position(i, *renderer_unit, true, dt);
 
 		Vec2i screen_size = {GetScreenWidth(), GetScreenHeight()};
 		const int pos_x = renderer_unit->pos_x.to_pixels(screen_size);
@@ -152,4 +157,12 @@ UI::Size Combat_Renderer::get_enemy_position_y(int index)
 		.parent_width = index * 0.1f,
 		.parent_height = 0.15f,
 	};
+}
+
+void Combat_Renderer::update_unit_position(int index, Combat_Renderer_Unit& unit, bool is_enemy, float dt)
+{
+	// FIXME - also update pos_x
+	UI::Size pos_y = is_enemy ? get_enemy_position_y(index) : get_hero_position_y(index);
+	const float speed = 5;
+	unit.pos_y = unit.pos_y.lerp(pos_y, speed * dt);
 }

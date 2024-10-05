@@ -11,7 +11,6 @@ enum class Combat_Controller_Menu_State
 {
 	selecting_action,
 	selecting_ability,
-	selecting_enemy,
 	inventory,
 };
 
@@ -26,6 +25,11 @@ public:
 	void input_direction(Direction);
 	void input_enter();
 	void input_escape();
+
+	// Target selection
+	bool is_selecting_enemy() const;
+	int get_current_selected_enemy() const { return m_selected_enemy; }
+
 	void draw(float time_delta);
 private:
 	void on_hero_ability_selecting_begin() override; // Combat observer

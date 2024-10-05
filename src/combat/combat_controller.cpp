@@ -266,3 +266,8 @@ void Combat_Controller::draw_selected_enemy(float dt)
 
 	m_ability_menu_widget->draw_as_root(dt);
 }
+
+bool Combat_Controller::is_selecting_enemy() const
+{
+	return m_combat.get_state() == Combat_State::hero_selecting_target;
+}

@@ -9,6 +9,7 @@
 class Party;
 class Combat;
 class Combat_Unit;
+class Combat_Controller;
 
 // FIXME - encapsulate, refactor
 struct Combat_Renderer_Unit
@@ -19,10 +20,11 @@ struct Combat_Renderer_Unit
 	UI::Size pos_y;
 };
 
+// FIXME - refactor (after refactoring Combat itself)
 class Combat_Renderer : public Combat_Observer
 {
 public:
-	Combat_Renderer(const Party&, Combat&);
+	Combat_Renderer(const Party&, Combat&, const Combat_Controller&);
 	void draw(float dt);
 
 private:
@@ -38,11 +40,13 @@ private:
 	void on_hero_ability_selecting_begin() override {};
 	void on_battle_begin() override;
 
+	float m_highlight_time = 0;
 	Animated_Sprite m_background;
 	Table<int /*id*/, Combat_Renderer_Unit> m_heroes;
 	Table<int /*id*/, Combat_Renderer_Unit> m_enemies;
 
 	const Party& m_party;
 	const Combat& m_combat;
+	const Combat_Controller& m_combat_controller;
 	Sage_Shader m_shader; // NOTE - if shader is ever used in an another location, it would be smarter to use DI
 };

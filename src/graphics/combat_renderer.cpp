@@ -1,13 +1,15 @@
 #include "combat_renderer.hpp"
+#include "combat/combat_controller.hpp"
 #include "party.hpp"
 #include "utils/log.hpp"
 #include "utils/rect.hpp"
 #include "combat/combat.hpp"
 #include <raylib/raylib.h>
 
-Combat_Renderer::Combat_Renderer(const Party& party, Combat& combat) :
+Combat_Renderer::Combat_Renderer(const Party& party, Combat& combat, const Combat_Controller& combat_controller) :
 	m_party{party},
-	m_combat{combat}
+	m_combat{combat},
+	m_combat_controller{combat_controller}
 {
 	combat.add_observer(*this);
 }
@@ -17,6 +19,7 @@ void Combat_Renderer::draw(float dt)
 	draw_background(dt);
 	draw_party(dt);
 	draw_enemies(dt);
+	m_highlight_time += dt;
 }
 
 void Combat_Renderer::draw_background(float dt)
@@ -84,9 +87,16 @@ void Combat_Renderer::draw_enemies(float dt)
 			.size = Vec2f{(float)size, (float)size}
 		};
 
-		// FIXME - draw highlight on selected enemy
+		float highlight_amount = 0;
+		if (m_combat_controller.is_selecting_enemy() &&
+				m_combat_controller.get_current_selected_enemy() == i) {
+			const float blink_speed = 7;
+			const float highlight_max = 0.7;
+			highlight_amount = highlight_max * ((sin(m_highlight_time * blink_speed) + 1) / 2);
+		}
+
 		m_shader.begin();
-		m_shader.set_highlight({255, 255, 255, 120});
+		m_shader.set_highlight({255, 255, 255, (unsigned char)(highlight_amount * 255)});
 		combat_unit.character.get().sprite_left.draw(transform, dt);
 		m_shader.end();
 

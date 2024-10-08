@@ -50,7 +50,7 @@ void Combat_Renderer::draw_party(float dt)
 		Combat_Renderer_Unit* renderer_unit = m_heroes.get(combat_unit.get_id());
 		assert(renderer_unit);
 
-		update_unit_position(i, *renderer_unit, false, dt);
+		update_unit_position(i, *renderer_unit, dt);
 
 		Vec2i screen_size = {GetScreenWidth(), GetScreenHeight()};
 		const int pos_x = renderer_unit->pos_x.to_pixels(screen_size);
@@ -76,7 +76,7 @@ void Combat_Renderer::draw_enemies(float dt)
 		Combat_Renderer_Unit* renderer_unit = m_enemies.get(combat_unit.get_id());
 		assert(renderer_unit);
 
-		update_unit_position(i, *renderer_unit, true, dt);
+		update_unit_position(i, *renderer_unit, dt);
 
 		Vec2i screen_size = {GetScreenWidth(), GetScreenHeight()};
 		const int pos_x = renderer_unit->pos_x.to_pixels(screen_size);
@@ -144,7 +144,7 @@ void Combat_Renderer::on_battle_begin()
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
 			.pos_x = { .parent_width = 0.2 },
-			.pos_y = get_hero_position_y(i)
+			.pos_y = get_unit_position_y(i)
 		});
 	}
 
@@ -154,17 +154,12 @@ void Combat_Renderer::on_battle_begin()
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
 			.pos_x = { .parent_width = 0.675 },
-			.pos_y = get_enemy_position_y(i)
+			.pos_y = get_unit_position_y(i)
 		});
 	}
 }
 
-UI::Size Combat_Renderer::get_hero_position_y(int index)
-{
-	return { .parent_height = 0.15f + index * 0.05f };
-}
-
-UI::Size Combat_Renderer::get_enemy_position_y(int index)
+UI::Size Combat_Renderer::get_unit_position_y(int index)
 {
 	return {
 		.parent_width = index * 0.1f,
@@ -172,10 +167,10 @@ UI::Size Combat_Renderer::get_enemy_position_y(int index)
 	};
 }
 
-void Combat_Renderer::update_unit_position(int index, Combat_Renderer_Unit& unit, bool is_enemy, float dt)
+void Combat_Renderer::update_unit_position(int index, Combat_Renderer_Unit& unit, float dt)
 {
 	// FIXME - also update pos_x
-	UI::Size pos_y = is_enemy ? get_enemy_position_y(index) : get_hero_position_y(index);
+	UI::Size pos_y = get_unit_position_y(index);
 	const float speed = 5;
 	unit.pos_y = unit.pos_y.lerp(pos_y, speed * dt);
 }

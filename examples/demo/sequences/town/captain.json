@@ -1,4 +1,5 @@
 {
+	"repeatable": true,
 	"events": [
 		{
 			"type": "activate_sequence",

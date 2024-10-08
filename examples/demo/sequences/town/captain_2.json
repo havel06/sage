@@ -25,6 +25,12 @@
 			"parameters": {
 				"message": "You have proven your abilities, traveller. Now, as I promised, here is your reward."
 			}
+		},
+		{
+			"type": "show_gui",
+			"parameters": {
+				"widget": "gui/end_game_screen.json"
+			}
 		}
 	]
 }

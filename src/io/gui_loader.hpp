@@ -7,6 +7,7 @@ class Font_Manager;
 class Texture_Manager;
 namespace UI {
 	class Layout;
+	enum class Text_Align;
 }
 namespace JSON {
 	class Object_View;
@@ -29,6 +30,7 @@ private:
 	UI::Widget_Ptr parse_text(UI::Layout&&, const JSON::Object_View& params);
 	UI::Widget_Ptr parse_image(UI::Layout&&, const JSON::Object_View& params);
 	UI::Widget_Ptr parse_button(UI::Layout&&, const JSON::Object_View& params);
+	UI::Text_Align parse_align(const String&);
 
 	Font_Manager& m_font_manager;
 	Texture_Manager& m_texture_manager;

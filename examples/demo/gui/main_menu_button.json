@@ -25,7 +25,8 @@
 			"parameters": {
 				"text": "",
 				"font": "gui/font.json",
-				"size": 50
+				"size": 50,
+				"align": "center"
 			}
 		}
 	]

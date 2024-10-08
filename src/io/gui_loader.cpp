@@ -160,8 +160,22 @@ UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const JSON::Object_Vi
 
 	widget->text = params["text"].as_string("");
 	widget->size = params["size"].as_int(16);
+	if (params.has("align")) {
+		widget->align = parse_align(params["align"].as_string("left"));
+	}
 
 	return widget;
+}
+
+UI::Text_Align GUI_Loader::parse_align(const String& text)
+{
+	if (text == "center")
+		return UI::Text_Align::center;
+	if (text == "left")
+		return UI::Text_Align::left;
+
+	SG_ERROR("Unknown align value \"%s\"", text.data());
+	return UI::Text_Align::left;
 }
 
 UI::Widget_Ptr GUI_Loader::parse_image(UI::Layout&& layout, const JSON::Object_View& params)

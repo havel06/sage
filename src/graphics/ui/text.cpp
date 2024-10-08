@@ -14,9 +14,24 @@ Text::Text(Resource_Handle<Font> font, Layout&& layout) :
 
 void Text::draw_impl(Recti parent_area, float opacity, float)
 {
-	const String wrapped_text = wrap_text(text, parent_area.size.x);
 	const Color color {255, 255, 255, (unsigned char)(255 * opacity)};
-	DrawTextEx(m_font.get(), wrapped_text.data(), {(float)parent_area.position.x, (float)parent_area.position.y}, size, 0, color);
+	const Array<String> wrapped_text = wrap_text(text, parent_area.size.x);
+
+	// Draw the lines
+	float y = parent_area.position.y;
+	for (const String& line : wrapped_text) {
+		draw_line(line, parent_area.position.x, y, parent_area.size.x, color);
+		y += size * 1.25;
+	}
+}
+
+void Text::draw_line(const String& line, int x, int y, int max_width, Color color)
+{
+	const int width = MeasureTextEx(m_font.get(), line.data(), size, 0).x;
+	const int space_left = max_width - width;
+	const int offset = align == Text_Align::center ? (space_left / 2) : 0;
+
+	DrawTextEx(m_font.get(), line.data(), {(float)(x + offset), (float)y}, size, 0, color);
 }
 
 Array<String> Text::split_text_to_words(const String& text)
@@ -44,7 +59,7 @@ Array<String> Text::split_text_to_words(const String& text)
 	return words;
 }
 
-String Text::wrap_text(const String& text, int width)
+Array<String> Text::wrap_text(const String& text, int width)
 {
 	auto words = split_text_to_words(text);
 	
@@ -55,11 +70,13 @@ String Text::wrap_text(const String& text, int width)
 		if (words[i] != "\n")
 			first_line_test.append(" ");
 	} if (MeasureText(first_line_test.data(), size) <= width) {
-		return {first_line_test};
+		Array<String> result;
+		result.push_back(first_line_test);
+		return result;
 	}
 
 	// Wrap text
-	String result;
+	Array<String> result;
 	String line;
 	for (int i = 0; i < words.size(); i++) {
 		if (words[i] == "\n") {
@@ -69,22 +86,21 @@ String Text::wrap_text(const String& text, int width)
 
 		auto space_left = width - MeasureTextEx(m_font.get(), line.data(), size, 0).x;
 
-		const auto word_width = MeasureText((words[i]).data(), size);
+		const auto word_width = MeasureTextEx(m_font.get(), (words[i]).data(), size, 0).x;
 		if (word_width <= space_left) {
 			//add word to current line
 			line.append(words[i]);
 			line.append(" ");
 		} else {
 			//new line
-			result.append(line);
-			result.append("\n");
+			result.push_back(line);
 			line = words[i];
 			line.append(" ");
 		}
 	}
 	//add last line
 	if (!line.empty()) {
-		result.append(line);
+		result.push_back(line);
 	}
 	
 	return result;
@@ -95,6 +111,7 @@ Widget_Ptr Text::clone_impl(Layout&& layout) const
 	Own_Ptr<Text> cloned = make_own_ptr<Text>(m_font, (Layout&&)layout);
 	cloned->text = text;
 	cloned->size = size;
+	cloned->align = align;
 	return cloned;
 }
 

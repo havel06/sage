@@ -26,7 +26,7 @@ Resource_Handle<Character_Profile> Party::get_character(int index) const
 void Party::add_character(Resource_Handle<Character_Profile> profile)
 {
 	if (contains_character(profile.get().name)) {
-		SG_WARNING("Character \"%s\" is already in party.", profile.get().name.data());
+		SG_ERROR("Character \"%s\" is already in party.", profile.get().name.data());
 	} else {
 		m_characters.push_back(profile);
 	}

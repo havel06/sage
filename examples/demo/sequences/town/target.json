@@ -1,0 +1,11 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "A target used by archers to train."
+			}
+		}
+	]
+}

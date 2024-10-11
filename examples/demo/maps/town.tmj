@@ -133,6 +133,91 @@
                  "width":16,
                  "x":752,
                  "y":576
+                }, 
+                {
+                 "height":16,
+                 "id":8,
+                 "name":"Cart",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/town\/cart.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":800,
+                 "y":704
+                }, 
+                {
+                 "height":16,
+                 "id":9,
+                 "name":"Bucket 1",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/town\/bucket.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":768,
+                 "y":592
+                }, 
+                {
+                 "height":16,
+                 "id":10,
+                 "name":"Bucket 2",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/town\/bucket.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":752,
+                 "y":512
+                }, 
+                {
+                 "height":16,
+                 "id":11,
+                 "name":"Target 2",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/town\/target.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":480,
+                 "y":480
+                }, 
+                {
+                 "height":16,
+                 "id":12,
+                 "name":"Target 1",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/town\/target.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":544.25,
+                 "y":479.25
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -141,7 +226,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":8,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.2",

@@ -253,6 +253,160 @@
                  "width":16,
                  "x":1072,
                  "y":496
+                }, 
+                {
+                 "gid":90,
+                 "height":16,
+                 "id":20,
+                 "name":"Chest 3",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/dungeon_1\/chest_3.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":784,
+                 "y":560
+                }, 
+                {
+                 "height":16,
+                 "id":23,
+                 "name":"Crate 1",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/dungeon_1\/crates.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":864,
+                 "y":960
+                }, 
+                {
+                 "height":31.75,
+                 "id":24,
+                 "name":"Crate 2",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/dungeon_1\/crates.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":880,
+                 "y":944.25
+                }, 
+                {
+                 "height":16,
+                 "id":25,
+                 "name":"Crate 3",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/dungeon_1\/crates.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":1136,
+                 "y":592
+                }, 
+                {
+                 "height":16,
+                 "id":26,
+                 "name":"Crate 4",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/dungeon_1\/crates.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":46.3333333333335,
+                 "x":992,
+                 "y":496
+                }, 
+                {
+                 "height":16,
+                 "id":27,
+                 "name":"Crate 5",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/dungeon_1\/crates.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":46.3333,
+                 "x":1104,
+                 "y":496
+                }, 
+                {
+                 "height":16,
+                 "id":28,
+                 "name":"Barrel",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/dungeon_1\/barrel.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":1120,
+                 "y":592
+                }, 
+                {
+                 "height":16,
+                 "id":29,
+                 "name":"Anvil",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/dungeon_1\/anvil.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":1088,
+                 "y":544
+                }, 
+                {
+                 "height":16,
+                 "id":30,
+                 "name":"Table",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/dungeon_1\/table.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":1136,
+                 "y":544
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -261,7 +415,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":20,
+ "nextobjectid":31,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.2",

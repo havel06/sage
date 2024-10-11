@@ -172,7 +172,7 @@ void Map_Loader::parse_object(const JSON::Object_View& object)
 	entity.name = object["name"].as_string("");
 	if (entity.name.empty()) {
 		SG_ERROR("All entities must have a name.");
-		assert(false);
+		return;
 	}
 	entity.position.x = round(object["x"].as_float(0) / m_tile_width);
 	entity.position.y = round(object["y"].as_float(0) / m_tile_height);

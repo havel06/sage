@@ -1,0 +1,11 @@
+{
+	"from_template": {
+		"template": "sequences/chest.json",
+		"parameters": {
+			"entity_name": "Chest 3",
+			"item_id": "healing_potion",
+			"item_count": 2,
+			"message": "You have received two Healing Potions."
+		}
+	}
+}

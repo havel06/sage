@@ -1,0 +1,17 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Let's see what is inside this cart..."
+			}
+		},
+		{
+			"type": "display_text",
+			"parameters": {
+				"message": "Oh, looks like there's nothing."
+			}
+		}
+	]
+}

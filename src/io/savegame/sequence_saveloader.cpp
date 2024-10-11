@@ -1,5 +1,5 @@
 #include "sequence_saveloader.hpp"
-#include "savegame_directory_provider.hpp"
+#include "../user_directory_provider.hpp"
 #include "utils/file.hpp"
 #include "utils/filesystem.hpp"
 #include "sequence/sequence.hpp"
@@ -7,7 +7,7 @@
 #include "utils/log.hpp"
 #include "utils/json.hpp"
 
-Sequence_Saveloader::Sequence_Saveloader(Savegame_Directory_Provider& dir_provider, const String& project_path) :
+Sequence_Saveloader::Sequence_Saveloader(User_Directory_Provider& dir_provider, const String& project_path) :
 	m_savegame_dir_provider{dir_provider}
 {
 	m_project_path = project_path;
@@ -49,7 +49,7 @@ String Sequence_Saveloader::get_savefile_location(const String& sequence_path)
 {
 	String path_relative_to_project = get_relative_path(sequence_path, m_project_path);
 
-	String save_file_path = m_savegame_dir_provider.get_path();
+	String save_file_path = m_savegame_dir_provider.get_savegame_path();
 	save_file_path.append("/sequences/");
 	save_file_path.append(path_relative_to_project);
 

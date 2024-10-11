@@ -24,6 +24,10 @@ Optional<Parsed_Arguments> Parsed_Arguments::parse(int argc, const char** argv)
 		}
 	}
 
+	if (directory.empty()) {
+		SG_ERROR("Missing project directory argument.");
+	}
+
 	return Parsed_Arguments {
 		.flags = flags,
 		.directory = directory,

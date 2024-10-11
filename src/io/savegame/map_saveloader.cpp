@@ -6,10 +6,10 @@
 #include "map/map.hpp"
 #include "utils/json.hpp"
 #include "utils/log.hpp"
-#include "io/savegame/savegame_directory_provider.hpp"
+#include "io/user_directory_provider.hpp"
 
-Map_Saveloader::Map_Saveloader(Texture_Manager& tex_mgr, Savegame_Directory_Provider& dir_provider, const String& project_dir) :
-	m_savegame_dir_provider{dir_provider},
+Map_Saveloader::Map_Saveloader(Texture_Manager& tex_mgr, User_Directory_Provider& dir_provider, const String& project_dir) :
+	m_user_dir_provider{dir_provider},
 	m_texture_manager{tex_mgr}
 {
 	m_project_dir = project_dir;
@@ -57,7 +57,7 @@ String Map_Saveloader::get_savefile_location(const String& map_path)
 {
 	String path_relative_to_project = get_relative_path(map_path, m_project_dir);
 
-	String save_file_path = m_savegame_dir_provider.get_path();
+	String save_file_path = m_user_dir_provider.get_savegame_path();
 	save_file_path.append("/maps/");
 	save_file_path.append(path_relative_to_project);
 

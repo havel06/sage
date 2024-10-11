@@ -16,7 +16,7 @@
 #include "graphics/text_box_renderer.hpp"
 #include "io/gui_loader.hpp"
 #include "io/resource/resource_system.hpp"
-#include "io/savegame/savegame_directory_provider.hpp"
+#include "io/user_directory_provider.hpp"
 #include "io/sequence/sequence_loader.hpp"
 #include "io/savegame/map_saveloader.hpp"
 #include "io/savegame/sequence_saveloader.hpp"
@@ -57,7 +57,7 @@ private:
 	Game_Facade m_game_facade;
 	Sequence_Loader m_sequence_loader;
 	Resource_System m_resource_system;
-	Savegame_Directory_Provider m_savegame_dir_provider;
+	User_Directory_Provider m_user_dir_provider;
 	Map_Saveloader m_map_saveloader;
 	Sequence_Saveloader m_sequence_saveloader;
 	Game_Saveloader m_game_saveloader;

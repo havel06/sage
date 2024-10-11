@@ -4,17 +4,23 @@
 #include "utils/log.hpp"
 #include "rlImGui.h"
 #include "map/map.hpp"
+#include "io/user_directory_provider.hpp"
 
-Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
+Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
+	m_user_dir_provider{dir_provider},
 	m_general(facade, logic, project_root),
 	m_sequence(seq_mgr, project_root),
 	m_items(item_reg, inv)
 {
 	rlImGuiSetup(true);
+
+	ImGui::GetIO().IniFilename = NULL;
+	ImGui::LoadIniSettingsFromDisk(dir_provider.get_imgui_inifile_path().data());
 }
 
 Dev_Tools::~Dev_Tools()
 {
+	ImGui::SaveIniSettingsToDisk(m_user_dir_provider.get_imgui_inifile_path().data());
 	rlImGuiShutdown();
 }
 

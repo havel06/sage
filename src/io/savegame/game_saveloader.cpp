@@ -4,7 +4,7 @@
 #include "io/character_profile_loader.hpp"
 #include "io/savegame/inventory_saveloader.hpp"
 #include "io/savegame/quest_saveloader.hpp"
-#include "io/savegame/savegame_directory_provider.hpp"
+#include "io/user_directory_provider.hpp"
 #include "item/inventory.hpp"
 #include "utils/filesystem.hpp"
 #include "utils/file.hpp"
@@ -16,7 +16,7 @@
 #include "utils/json.hpp"
 #include <stdio.h>
 
-Game_Saveloader::Game_Saveloader(Savegame_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager, Party& party) :
+Game_Saveloader::Game_Saveloader(User_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager, Party& party) :
 	m_logic{logic},
 	m_camera{camera},
 	m_inventory{inv},
@@ -31,7 +31,7 @@ Game_Saveloader::Game_Saveloader(Savegame_Directory_Provider& dir_provider, cons
 
 String Game_Saveloader::get_savefile_path()
 {
-	String save_file_path = m_savegame_dir_provider.get_path();
+	String save_file_path = m_savegame_dir_provider.get_savegame_path();
 	save_file_path.append("/save.json");
 	return save_file_path;
 }

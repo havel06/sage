@@ -36,11 +36,11 @@
 	},
 	"abilities": [
 		{
-			"name": "Punch",
-			"sequence": "sequences/abilities/punch.json"
+			"name": "Scare",
+			"sequence": "sequences/abilities/scare.json"
 		}, {
-			"name": "Slash",
-			"sequence": "sequences/abilities/punch.json"
+			"name": "Sacrifice",
+			"sequence": "sequences/abilities/sacrifice.json"
 		}
 	]
 }

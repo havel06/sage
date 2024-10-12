@@ -55,11 +55,11 @@
 	},
 	"abilities": [
 		{
-			"name": "Punch",
-			"sequence": "sequences/abilities/punch.json"
+			"name": "Slam",
+			"sequence": "sequences/abilities/slam.json"
 		}, {
-			"name": "Slash",
-			"sequence": "sequences/abilities/punch.json"
+			"name": "Restore",
+			"sequence": "sequences/abilities/restore.json"
 		}
 	]
 }

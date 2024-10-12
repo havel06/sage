@@ -60,11 +60,11 @@
 	},
 	"abilities": [
 		{
-			"name": "Punch",
-			"sequence": "sequences/abilities/punch.json"
+			"name": "Curse",
+			"sequence": "sequences/abilities/curse.json"
 		}, {
-			"name": "Slash",
-			"sequence": "sequences/abilities/punch.json"
+			"name": "Heal",
+			"sequence": "sequences/abilities/heal.json"
 		}
 	]
 }

@@ -4,13 +4,7 @@
 		{
 			"type": "echo",
 			"parameters": {
-				"message": "Punch ability!"
-			}
-		},
-		{
-			"type": "select_target",
-			"parameters": {
-				"target_type": "enemy"
+				"message": "Heal ability!"
 			}
 		},
 		{
@@ -20,9 +14,9 @@
 			}
 		},
 		{
-			"type": "change_target_hp",
+			"type": "change_all_ally_units_hp",
 			"parameters": {
-				"amount": -5
+				"amount": 4
 			}
 		},
 		{

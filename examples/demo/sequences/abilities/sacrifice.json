@@ -4,7 +4,7 @@
 		{
 			"type": "echo",
 			"parameters": {
-				"message": "Punch ability!"
+				"message": "Sacrifice ability!"
 			}
 		},
 		{
@@ -23,6 +23,18 @@
 			"type": "change_target_hp",
 			"parameters": {
 				"amount": -5
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.5
+			}
+		},
+		{
+			"type": "change_current_unit_hp",
+			"parameters": {
+				"amount": -3
 			}
 		},
 		{

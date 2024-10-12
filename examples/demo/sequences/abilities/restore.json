@@ -4,7 +4,7 @@
 		{
 			"type": "echo",
 			"parameters": {
-				"message": "Punch ability!"
+				"message": "Restore ability!"
 			}
 		},
 		{
@@ -20,9 +20,9 @@
 			}
 		},
 		{
-			"type": "change_target_hp",
+			"type": "change_current_unit_hp",
 			"parameters": {
-				"amount": -5
+				"amount": 5
 			}
 		},
 		{

@@ -7,7 +7,7 @@ enum class Target_Selection_Type
 {
 	enemy, // Select any enemy
 	ally,  // Select any ally
-	self,  // Automatically selects the character casting the ability
+	self,  // Automatically selects the character casting the ability FIXME - consider removing
 };
 
 inline Target_Selection_Type target_selection_type_from_str(const String& str)

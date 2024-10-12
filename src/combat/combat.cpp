@@ -93,6 +93,15 @@ void Combat::change_current_unit_hp(int amount)
 	get_unit_on_turn().change_hp(amount);
 }
 
+void Combat::change_all_ally_units_hp(int amount)
+{
+	Array<Combat_Unit>& units = is_hero_turn() ? m_heroes : m_enemies;
+
+	for (Combat_Unit& unit : units) {
+		unit.change_hp(amount);
+	}
+}
+
 void Combat::change_all_enemy_units_hp(int amount)
 {
 	Array<Combat_Unit>& units = is_hero_turn() ? m_enemies : m_heroes;

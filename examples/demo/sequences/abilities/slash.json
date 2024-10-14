@@ -4,7 +4,7 @@
 		{
 			"type": "echo",
 			"parameters": {
-				"message": "Restore ability!"
+				"message": "Slash ability!"
 			}
 		},
 		{
@@ -20,9 +20,15 @@
 			}
 		},
 		{
-			"type": "change_current_unit_hp",
+			"type": "change_target_hp",
 			"parameters": {
-				"amount": 2
+				"amount": -2
+			}
+		},
+		{
+			"type": "change_all_enemy_units_hp",
+			"parameters": {
+				"amount": -2
 			}
 		},
 		{

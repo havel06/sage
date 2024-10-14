@@ -215,7 +215,7 @@
 			"sequence": "sequences/abilities/punch.json"
 		}, {
 			"name": "Slash",
-			"sequence": "sequences/abilities/punch.json"
+			"sequence": "sequences/abilities/slash.json"
 		}, {
 			"name": "Pass",
 			"sequence": "sequences/abilities/pass.json"

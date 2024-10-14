@@ -4,13 +4,13 @@
 		{
 			"type": "echo",
 			"parameters": {
-				"message": "Restore ability!"
+				"message": "Punch ability!"
 			}
 		},
 		{
 			"type": "select_target",
 			"parameters": {
-				"target_type": "enemy"
+				"target_type": "ally"
 			}
 		},
 		{
@@ -20,9 +20,9 @@
 			}
 		},
 		{
-			"type": "change_current_unit_hp",
+			"type": "change_target_hp",
 			"parameters": {
-				"amount": 2
+				"amount": 3
 			}
 		},
 		{

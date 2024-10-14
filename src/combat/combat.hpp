@@ -1,6 +1,7 @@
 #pragma once
 
 #include "character_profile.hpp"
+#include "combat/target_selection_type.hpp"
 #include "utils/array.hpp"
 #include "battle_desc.hpp"
 
@@ -47,7 +48,8 @@ enum class Combat_State
 {
 	inactive,
 	hero_selecting_ability,
-	hero_selecting_target,
+	hero_selecting_enemy_target,
+	hero_selecting_ally_target,
 	hero_casting_ability,
 	enemy_selecting_ability,
 	enemy_selecting_target,
@@ -79,7 +81,7 @@ public:
 	void select_target(int target_index);
 
 	// Interface for abilities
-	void enter_target_selection();
+	void enter_target_selection(Target_Selection_Type);
 	void change_target_hp(int amount);
 	void change_current_unit_hp(int amount);
 	void change_all_ally_units_hp(int amount);

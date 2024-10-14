@@ -28,7 +28,8 @@ public:
 
 	// Target selection
 	bool is_selecting_enemy() const;
-	int get_current_selected_enemy() const { return m_selected_enemy; }
+	bool is_selecting_hero() const;
+	int get_current_selected_target() const { return m_selected_target; }
 
 	void draw(float time_delta);
 private:
@@ -37,9 +38,9 @@ private:
 	void on_item_activate(Item& item) override; // Inventory renderer observer
 
 	void update_menus();
-	void draw_selected_enemy(float dt);
+	void draw_selected_target(float dt, bool is_enemy);
 
-	int m_selected_enemy = 0;
+	int m_selected_target = 0;
 	Combat_Controller_Menu_State m_menu_state = Combat_Controller_Menu_State::selecting_action;
 	Combat& m_combat;
 	Inventory_Renderer& m_inventory_renderer;

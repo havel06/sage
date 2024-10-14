@@ -165,17 +165,33 @@ void Combat_Controller::input_direction(Direction direction)
 				m_ability_menu_widget->move_focus(direction);
 			}
 			break;
-		case Combat_State::hero_selecting_target:
+		case Combat_State::hero_selecting_enemy_target:
 			switch (direction) {
 				case Direction::up:
-					m_selected_enemy--;
-					if (m_selected_enemy < 0) {
-						m_selected_enemy = m_combat.get_enemy_count() - 1;
+					m_selected_target--;
+					if (m_selected_target < 0) {
+						m_selected_target = m_combat.get_enemy_count() - 1;
 					}
 					break;
 				case Direction::down:
-					m_selected_enemy++;
-					m_selected_enemy = m_selected_enemy % m_combat.get_enemy_count();
+					m_selected_target++;
+					m_selected_target = m_selected_target % m_combat.get_enemy_count();
+					break;
+				default:
+					break;
+			}
+			break;
+		case Combat_State::hero_selecting_ally_target:
+			switch (direction) {
+				case Direction::up:
+					m_selected_target--;
+					if (m_selected_target < 0) {
+						m_selected_target = m_combat.get_hero_count() - 1;
+					}
+					break;
+				case Direction::down:
+					m_selected_target++;
+					m_selected_target = m_selected_target % m_combat.get_hero_count();
 					break;
 				default:
 					break;
@@ -198,8 +214,9 @@ void Combat_Controller::input_enter()
 				m_ability_menu_widget->process_click();
 			}
 			break;
-		case Combat_State::hero_selecting_target:
-			m_combat.select_target(m_selected_enemy);
+		case Combat_State::hero_selecting_enemy_target:
+		case Combat_State::hero_selecting_ally_target:
+			m_combat.select_target(m_selected_target);
 			break;
 		default:
 			return;
@@ -241,24 +258,29 @@ void Combat_Controller::draw(float time_delta)
 				m_ability_menu_widget->draw_as_root(time_delta);
 			}
 			break;
-		case Combat_State::hero_selecting_target:
-			draw_selected_enemy(time_delta);
+		case Combat_State::hero_selecting_enemy_target:
+			draw_selected_target(time_delta, true);
+			break;
+		case Combat_State::hero_selecting_ally_target:
+			draw_selected_target(time_delta, false);
 			break;
 		default:
 			return;
 	}
 }
 
-void Combat_Controller::draw_selected_enemy(float dt)
+void Combat_Controller::draw_selected_target(float dt, bool is_enemy)
 {
-	const Character_Profile& enemy = m_combat.get_enemy(m_selected_enemy).character.get();
+	const Character_Profile& target = is_enemy ?
+		m_combat.get_enemy(m_selected_target).character.get() :
+		m_combat.get_hero(m_selected_target).character.get();
 
 	UI::Widget* title_widget = m_ability_menu_widget->get_widget_by_name("Title");
 	UI::Widget* options_widget = m_ability_menu_widget->get_widget_by_name("Options");
 
 	if (title_widget && options_widget) {
 		UI::Text_Widget_Visitor visitor{[&](UI::Text& text){
-			text.text = enemy.name;
+			text.text = target.name;
 		}};
 		title_widget->accept_visitor(visitor);
 		options_widget->clear_children();
@@ -269,5 +291,10 @@ void Combat_Controller::draw_selected_enemy(float dt)
 
 bool Combat_Controller::is_selecting_enemy() const
 {
-	return m_combat.get_state() == Combat_State::hero_selecting_target;
+	return m_combat.get_state() == Combat_State::hero_selecting_enemy_target;
+}
+
+bool Combat_Controller::is_selecting_hero() const
+{
+	return m_combat.get_state() == Combat_State::hero_selecting_ally_target;
 }

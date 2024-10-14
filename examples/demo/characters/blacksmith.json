@@ -58,8 +58,12 @@
 			"name": "Punch",
 			"sequence": "sequences/abilities/punch.json"
 		}, {
-			"name": "Slash",
-			"sequence": "sequences/abilities/punch.json"
+			"name": "Repair",
+			"sequence": "sequences/abilities/repair.json"
+		}, {
+			"name": "Pass",
+			"sequence": "sequences/abilities/pass.json"
 		}
+
 	]
 }

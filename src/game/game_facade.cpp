@@ -206,9 +206,9 @@ void Game_Facade::combat_change_current_unit_hp(int amount)
 	m_combat.change_current_unit_hp(amount);
 }
 
-void Game_Facade::combat_enter_target_selection()
+void Game_Facade::combat_enter_target_selection(Target_Selection_Type type)
 {
-	m_combat.enter_target_selection();
+	m_combat.enter_target_selection(type);
 }
 
 void Game_Facade::combat_end_turn()

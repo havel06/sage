@@ -2,6 +2,7 @@
 #include "ability.hpp"
 #include "character_profile.hpp"
 #include "combat/battle_desc.hpp"
+#include "combat/target_selection_type.hpp"
 #include "combat_ai.hpp"
 #include "party.hpp"
 #include "sequence/sequence.hpp"
@@ -111,11 +112,15 @@ void Combat::change_all_enemy_units_hp(int amount)
 	}
 }
 
-void Combat::enter_target_selection()
+void Combat::enter_target_selection(Target_Selection_Type type)
 {
 	if (is_hero_turn()) {
-		m_state = Combat_State::hero_selecting_target;
+		if (type == Target_Selection_Type::enemy)
+			m_state = Combat_State::hero_selecting_enemy_target;
+		else
+			m_state = Combat_State::hero_selecting_ally_target;
 	} else {
+		// FIXME - ally selection for enemies
 		m_state = Combat_State::enemy_selecting_target;
 	}
 }
@@ -144,7 +149,8 @@ bool Combat::is_hero_turn() const
 {
 	switch (m_state) {
 		case Combat_State::hero_selecting_ability:
-		case Combat_State::hero_selecting_target:
+		case Combat_State::hero_selecting_enemy_target:
+		case Combat_State::hero_selecting_ally_target:
 		case Combat_State::hero_casting_ability:
 			return true;
 		case Combat_State::enemy_selecting_ability:
@@ -209,11 +215,24 @@ void Combat::select_target(int target_index)
 {
 	SG_DEBUG("Combat: Selected target");
 
-	assert(m_state == Combat_State::hero_selecting_target ||
-			m_state == Combat_State::enemy_selecting_target);
+	assert(target_index >= 0);
 
-	Combat_Unit& target = is_hero_turn() ? m_enemies[target_index] : m_heroes[target_index];
-	m_current_target = &target;
+	switch (m_state) {
+		case Combat_State::hero_selecting_enemy_target:
+			assert(target_index < m_enemies.size());
+			m_current_target = &m_enemies[target_index];
+			break;
+		case Combat_State::hero_selecting_ally_target:
+			assert(target_index < m_heroes.size());
+			m_current_target = &m_heroes[target_index];
+			break;
+		case Combat_State::enemy_selecting_target:
+			assert(target_index < m_heroes.size());
+			m_current_target = &m_heroes[target_index];
+			break;
+		default:
+			assert(false);
+	}
 
 	m_state = is_hero_turn() ? Combat_State::hero_casting_ability : Combat_State::enemy_casting_ability;
 }
@@ -261,7 +280,12 @@ void Combat::update()
 	m_current_enemy_turn %= m_enemies.size();
 
 	// If there is only one enemy, we can skip target selection and select it
-	if (m_state == Combat_State::hero_selecting_target && m_enemies.size() == 1) {
+	if (m_state == Combat_State::hero_selecting_enemy_target && m_enemies.size() == 1) {
+		select_target(0);
+	}
+
+	// If there is only one ally, we can skip target selection and select it
+	if (m_state == Combat_State::hero_selecting_ally_target && m_heroes.size() == 1) {
 		select_target(0);
 	}
 	

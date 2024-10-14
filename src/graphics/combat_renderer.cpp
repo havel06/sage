@@ -61,7 +61,18 @@ void Combat_Renderer::draw_party(float dt)
 			.size = Vec2f{(float)size, (float)size}
 		};
 
-		combat_unit.character.get().sprite_right.draw(transform, dt);
+		float highlight_amount = 0;
+		if (m_combat_controller.is_selecting_hero() &&
+				m_combat_controller.get_current_selected_target() == i) {
+			const float blink_speed = 7;
+			const float highlight_max = 0.7;
+			highlight_amount = highlight_max * ((sin(m_highlight_time * blink_speed) + 1) / 2);
+		}
+
+		m_shader.begin();
+		m_shader.set_highlight({255, 255, 255, (unsigned char)(highlight_amount * 255)});
+		combat_unit.character.get().sprite_left.draw(transform, dt);
+		m_shader.end();
 
 		draw_hp_bar({pos_x, pos_y}, size, combat_unit, *renderer_unit, dt);
 	}
@@ -89,7 +100,7 @@ void Combat_Renderer::draw_enemies(float dt)
 
 		float highlight_amount = 0;
 		if (m_combat_controller.is_selecting_enemy() &&
-				m_combat_controller.get_current_selected_enemy() == i) {
+				m_combat_controller.get_current_selected_target() == i) {
 			const float blink_speed = 7;
 			const float highlight_max = 0.7;
 			highlight_amount = highlight_max * ((sin(m_highlight_time * blink_speed) + 1) / 2);

@@ -3,6 +3,7 @@
 #include "character_profile.hpp"
 #include "combat/battle_desc.hpp"
 #include "combat/combat.hpp"
+#include "combat/target_selection_type.hpp"
 #include "utils/direction.hpp"
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
@@ -56,7 +57,7 @@ public:
 	void combat_change_all_enemy_units_hp(int amount);
 	void combat_change_all_ally_units_hp(int amount);
 	void combat_change_current_unit_hp(int amount);
-	void combat_enter_target_selection();
+	void combat_enter_target_selection(Target_Selection_Type);
 	void combat_end_turn();
 	Combat_State get_combat_state() const;
 	void add_quest(const String& id, const String& name, const String& description);

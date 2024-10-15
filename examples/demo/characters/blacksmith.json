@@ -53,6 +53,105 @@
 			}
 		]
 	},
+	"sprite_move_right": {
+		"frame_time": 0.2,
+		"frames": [
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 0,
+				"position_y": 16,
+				"size_x": 16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 16,
+				"position_y": 16,
+				"size_x": 16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 32,
+				"position_y": 16,
+				"size_x": 16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 48,
+				"position_y": 16,
+				"size_x": 16,
+				"size_y": 16
+			}
+		]
+	},
+	"sprite_move_left": {
+		"frame_time": 0.2,
+		"frames": [
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 0,
+				"position_y": 16,
+				"size_x": -16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 16,
+				"position_y": 16,
+				"size_x": -16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 32,
+				"position_y": 16,
+				"size_x": -16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 48,
+				"position_y": 16,
+				"size_x": -16,
+				"size_y": 16
+			}
+		]
+	},
+	"sprite_move_down": {
+		"frame_time": 0.2,
+		"frames": [
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 0,
+				"position_y": 32,
+				"size_x": -16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 16,
+				"position_y": 32,
+				"size_x": -16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 32,
+				"position_y": 32,
+				"size_x": -16,
+				"size_y": 16
+			},
+			{
+				"texture": "textures/blacksmith.png",
+				"position_x": 48,
+				"position_y": 32,
+				"size_x": -16,
+				"size_y": 16
+			}
+		]
+	},
 	"abilities": [
 		{
 			"name": "Punch",

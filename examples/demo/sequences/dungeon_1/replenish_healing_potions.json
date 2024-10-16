@@ -2,8 +2,8 @@
 	"from_template": {
 		"template": "sequences/replenish_item.json",
 		"parameters": {
-			"item": "poisoning_potion",
-			"count": 1
+			"item": "healing_potion",
+			"count": 2
 		}
 	}
 }

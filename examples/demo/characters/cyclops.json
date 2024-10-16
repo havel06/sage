@@ -56,10 +56,16 @@
 	"abilities": [
 		{
 			"name": "Slam",
-			"sequence": "sequences/abilities/slam.json"
+			"sequence": "sequences/abilities/slam.json",
+			"stances": {
+				"offense": 1
+			}
 		}, {
 			"name": "Restore",
-			"sequence": "sequences/abilities/restore.json"
+			"sequence": "sequences/abilities/restore.json",
+			"stances": {
+				"defense": 1
+			}
 		}
 	]
 }

@@ -212,13 +212,25 @@
 	"abilities": [
 		{
 			"name": "Punch",
-			"sequence": "sequences/abilities/punch.json"
+			"sequence": "sequences/abilities/punch.json",
+			"stances": {
+				"defense": 0,
+				"offense": 1
+			}
 		}, {
 			"name": "Slash",
-			"sequence": "sequences/abilities/slash.json"
+			"sequence": "sequences/abilities/slash.json",
+			"stances": {
+				"defense": 0,
+				"offense": 1
+			}
 		}, {
 			"name": "Pass",
-			"sequence": "sequences/abilities/pass.json"
+			"sequence": "sequences/abilities/pass.json",
+			"stances": {
+				"defense": 1,
+				"offense": 1
+			}
 		}
 	]
 }

@@ -80,10 +80,18 @@
 	"abilities": [
 		{
 			"name": "Bite",
-			"sequence": "sequences/abilities/bite.json"
+			"sequence": "sequences/abilities/bite.json",
+			"stances": {
+				"offense": 0.5,
+				"defense": 0.5
+			}
 		}, {
 			"name": "Tackle",
-			"sequence": "sequences/abilities/tackle.json"
+			"sequence": "sequences/abilities/tackle.json",
+			"stances": {
+				"offense": 0.5,
+				"defense": 0.5
+			}
 		}
 	]
 }

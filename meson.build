@@ -8,6 +8,7 @@ src = [
   'src/combat/combat.cpp',
   'src/combat/combat_ai.cpp',
   'src/combat/combat_controller.cpp',
+  'src/combat/stances.cpp',
   'src/dev_tools/dev_tools.cpp',
   'src/dev_tools/mode_entity.cpp',
   'src/dev_tools/mode_general.cpp',

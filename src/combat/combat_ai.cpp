@@ -2,6 +2,7 @@
 #include "ability.hpp"
 #include "character_profile.hpp"
 #include "combat.hpp"
+#include "combat/stances.hpp"
 #include "utils/log.hpp"
 #include <stdlib.h>
 #include <float.h>
@@ -13,69 +14,73 @@ Combat_AI::Combat_AI(const Combat& combat) :
 
 int Combat_AI::decide_ability()
 {
-	return make_decision().ability_index;
-}
-
-int Combat_AI::decide_target()
-{
-	return make_decision().target_index;
-}
-
-Combat_AI_Decision Combat_AI::make_decision()
-{
 	const Combat_Unit& unit = m_combat.get_unit_on_turn();
+	const Combat_Stances current_stances = calculate_stances();
 
 	int best_ability = 0;
-	int best_target = 0;
-	float best_option_score = -FLT_MAX;
+	float best_option_score = FLT_MAX;
 
 	// Find best option
-	for (int ability = 0; ability < unit.character.get().abilities.size(); ability++) {
-		for (int target = 0; target < m_combat.get_hero_count(); target++) {
-			float score = evaluate_option(ability, target);
-			if (score > best_option_score) {
-				best_ability = ability;
-				best_target = target;
-				best_option_score = score;
-			}
+	for (int i = 0; i < unit.character.get().abilities.size(); i++) {
+		const Ability& ability = unit.character.get().abilities[i];
+		const float score = ability.stances.get_dissimilarity_index(current_stances);
+		SG_DEBUG("Combat AI: Score for ability \"%s\": %f", ability.name.data(), score);
+
+		if (score < best_option_score) {
+			best_ability = i;
+			best_option_score = score;
 		}
 	}
 
-	return Combat_AI_Decision {
-		.ability_index = best_ability,
-		.target_index = best_target
+	return best_ability;
+}
+
+int Combat_AI::decide_target(bool ally)
+{
+	const int target_count = ally ? m_combat.get_enemy_count() : m_combat.get_hero_count();
+	return rand() % target_count;
+}
+
+Combat_Stances Combat_AI::calculate_stances()
+{
+	const Combat_Unit& unit = m_combat.get_unit_on_turn();
+
+	// Full hp -> defense = 0
+	// No hp   -> defense = 1
+	const float defense = calcualte_defense_for_unit(unit);
+	const float aid = calculate_aid_stance();
+	const float offense = 1 - defense;
+	
+	return Combat_Stances {
+		.offense = offense,
+		.defense = defense,
+		.aid = aid
 	};
 }
 
-float Combat_AI::evaluate_option(int ability_index, int target_index)
+float Combat_AI::calcualte_defense_for_unit(const Combat_Unit& unit)
 {
-	// FIXME - design a new AI system
-	(void)ability_index;
-	(void)target_index;
-	return (float)random() / (float)RAND_MAX;
-
-	//const Ability& ability = m_combat.get_unit_on_turn().character.abilities[ability_index];
-	//float score = 0;
-
-	//for (int i = 0; i < m_combat.get_hero_count(); i++) {
-	//	Combat_Unit hero_unit = m_combat.get_hero(i);
-
-	//	//if (i == target_index) {
-	//	//	hero_unit.hp -= ability.damage;
-	//	//}
-
-	//	score += evaluate_hero_unit(hero_unit);
-	//}
-
-	//return score;
+	const float max_hp = unit.character.get().max_hp;
+	return (max_hp - unit.get_hp()) / max_hp;
 }
 
-float Combat_AI::evaluate_hero_unit(const Combat_Unit& hero)
+float Combat_AI::calculate_aid_stance()
 {
-	// Eliminated - positive score
-	if (hero.get_hp() <= 0)
-		return 1;
+	// Calculated as the average defense stance for allies not on turn
 
-	// Bigger HP portion left is worse
-	return -(float)hero.get_hp() / hero.character.get().max_hp;
+	if (m_combat.get_enemy_count() == 1)
+		return 0;
+
+	float sum = 0;
+
+	for (int i = 0; i < m_combat.get_enemy_count(); i++) {
+		const Combat_Unit& unit = m_combat.get_enemy(i);
+
+		if (unit == m_combat.get_unit_on_turn())
+			continue;
+
+		sum += calcualte_defense_for_unit(unit);
+	}
+
+	return sum / (m_combat.get_enemy_count() - 1);
 }

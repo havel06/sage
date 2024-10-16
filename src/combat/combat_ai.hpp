@@ -2,12 +2,7 @@
 
 class Combat;
 class Combat_Unit;
-
-struct Combat_AI_Decision
-{
-	int ability_index;
-	int target_index;
-};
+struct Combat_Stances;
 
 class Combat_AI
 {
@@ -15,12 +10,12 @@ public:
 	Combat_AI(const Combat&);
 
 	int decide_ability();
-	int decide_target();
+	int decide_target(bool ally);
 private:
-	Combat_AI_Decision make_decision();
+	Combat_Stances calculate_stances();
 
-	float evaluate_option(int ability_index, int target_index);
-	float evaluate_hero_unit(const Combat_Unit&);
+	float calcualte_defense_for_unit(const Combat_Unit&);
+	float calculate_aid_stance();
 
 	const Combat& m_combat;
 };

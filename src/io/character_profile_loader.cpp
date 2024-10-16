@@ -1,8 +1,10 @@
 #include "character_profile_loader.hpp"
 #include "ability.hpp"
+#include "combat/stances.hpp"
 #include "io/resource/sequence_manager.hpp"
 #include "utils/file.hpp"
 #include "utils/json.hpp"
+#include "utils/log.hpp"
 #include "utils/move.hpp"
 #include "json_types.hpp"
 
@@ -88,8 +90,30 @@ Ability Character_Profile_Loader::load_ability(const JSON::Object_View& ability_
 
 	Resource_Handle<Sequence> sequence = m_sequence_manager.get(sequence_filename, false);
 
+	Combat_Stances stances = parse_stances(ability_json.get("stances").as_object());
+
 	return Ability {
 		.name = move(name),
-		.sequence = sequence
+		.sequence = sequence,
+		.stances = stances
 	};
+}
+
+Combat_Stances Character_Profile_Loader::parse_stances(const JSON::Object_View& json)
+{
+	Combat_Stances stances;
+
+	if (json.has("offense")) {
+		stances.offense = json.get("offense").as_float(0);
+	}
+
+	if (json.has("defense")) {
+		stances.defense = json.get("defense").as_float(0);
+	}
+
+	if (json.has("aid")) {
+		stances.aid = json.get("aid").as_float(0);
+	}
+
+	return stances;
 }

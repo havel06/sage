@@ -16,13 +16,15 @@ class Combat_Unit
 {
 public:
 	Resource_Handle<Character_Profile> character;
+
+	Combat_Unit(int id, Resource_Handle<Character_Profile>, bool is_hero);
+	bool operator==(const Combat_Unit& other) const;
+
 	int get_id() const { return m_id; }
 	int get_hp() const { return m_hp; }
 	bool is_hero() const { return m_is_hero; }
 	bool is_enemy() const { return !m_is_hero; }
 	void change_hp(int amount);
-
-	Combat_Unit(int id, Resource_Handle<Character_Profile>, bool is_hero);
 private:
 	int m_id;
 	int m_hp;

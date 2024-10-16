@@ -17,6 +17,11 @@ Combat_Unit::Combat_Unit(int id, Resource_Handle<Character_Profile> p, bool is_h
 	m_hp = character.get().max_hp;
 }
 
+bool Combat_Unit::operator==(const Combat_Unit& other) const
+{
+	return get_id() == other.get_id();
+}
+
 void Combat_Unit::change_hp(int amount)
 {
 	m_hp += amount;
@@ -314,7 +319,7 @@ void Combat::update()
 	if (m_state == Combat_State::enemy_selecting_ability) {
 		select_ability(ai.decide_ability());
 	} else if (m_state == Combat_State::enemy_selecting_target) {
-		select_target(ai.decide_target());
+		select_target(ai.decide_target(false)); // FIXME - enemies selecting ally targets
 	}
 
 	// Check eliminated units

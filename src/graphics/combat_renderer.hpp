@@ -24,7 +24,7 @@ struct Combat_Renderer_Unit
 class Combat_Renderer : public Combat_Observer
 {
 public:
-	Combat_Renderer(const Party&, Combat&, const Combat_Controller&);
+	Combat_Renderer(Combat&, const Combat_Controller&);
 	void draw(float dt);
 
 private:
@@ -44,7 +44,6 @@ private:
 	Table<int /*id*/, Combat_Renderer_Unit> m_heroes;
 	Table<int /*id*/, Combat_Renderer_Unit> m_enemies;
 
-	const Party& m_party;
 	const Combat& m_combat;
 	const Combat_Controller& m_combat_controller;
 	Sage_Shader m_shader; // NOTE - if shader is ever used in an another location, it would be smarter to use DI

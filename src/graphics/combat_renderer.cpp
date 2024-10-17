@@ -6,8 +6,7 @@
 #include "combat/combat.hpp"
 #include <raylib/raylib.h>
 
-Combat_Renderer::Combat_Renderer(const Party& party, Combat& combat, const Combat_Controller& combat_controller) :
-	m_party{party},
+Combat_Renderer::Combat_Renderer(Combat& combat, const Combat_Controller& combat_controller) :
 	m_combat{combat},
 	m_combat_controller{combat_controller}
 {
@@ -45,7 +44,7 @@ void Combat_Renderer::draw_party(float dt)
 	// FIXME - this function is very similar to draw_enemies - DRY!
 	const int size = GetScreenWidth() / 13;
 
-	for (int i = 0; i < m_party.get_character_count(); i++) {
+	for (int i = 0; i < m_combat.get_hero_count(); i++) {
 		const Combat_Unit& combat_unit = m_combat.get_hero(i);
 		Combat_Renderer_Unit* renderer_unit = m_heroes.get(combat_unit.get_id());
 		assert(renderer_unit);

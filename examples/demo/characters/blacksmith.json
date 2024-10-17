@@ -1,6 +1,6 @@
 {
 	"name": "Blacksmith",
-	"max_hp": 20,
+	"max_hp": 18,
 	"sprite_down": {
 		"texture": "textures/blacksmith.png",
 		"position_x": 0,

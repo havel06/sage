@@ -28,7 +28,7 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	m_text_box_renderer(m_logic_normal.text_box),
 	m_inventory_renderer(m_logic_normal.item_registry, m_logic_normal.inventory),
 	m_combat_controller(m_combat, m_inventory_renderer),
-	m_combat_renderer(m_party, m_combat, m_combat_controller),
+	m_combat_renderer(m_combat, m_combat_controller),
 	m_quest_log_renderer(m_logic_normal.quest_log),
 	m_main_menu(m_logic, m_resource_system.font_manager.get_default_font()),
 	m_debug_entity_renderer{m_camera},

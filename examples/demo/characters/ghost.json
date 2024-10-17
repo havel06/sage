@@ -1,6 +1,6 @@
 {
 	"name": "Ghost",
-	"max_hp": 10,
+	"max_hp": 19,
 	"sprite_left": {
 		"frame_time": 0.3,
 		"frames": [

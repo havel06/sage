@@ -1,0 +1,95 @@
+{
+	"type": "box",
+	"parameters": {},
+	"layout": {
+		"columns": [
+			{
+				"pixels": "$margin_left"
+			},
+			{
+				"automatic": true
+			},
+			{
+				"pixels": "$margin_right"
+			}
+		],
+		"rows": [
+			{
+				"pixels": "$margin_top"
+			},
+			{
+				"automatic": true
+			},
+			{
+				"pixels": "$margin_bottom"
+			}
+		]
+	},
+	"children": [
+		"$child",
+		{
+			"row": 0,
+			"column": 0,
+			"type": "image",
+			"parameters": {
+				"sprite": "$sprite_top_left"
+			}
+		},
+		{
+			"row": 0,
+			"column": 2,
+			"type": "image",
+			"parameters": {
+				"sprite": "$sprite_top_right"
+			}
+		},
+		{
+			"row": 2,
+			"column": 0,
+			"type": "image",
+			"parameters": {
+				"sprite": "$sprite_bottom_left"
+			}
+		},
+		{
+			"row": 2,
+			"column": 2,
+			"type": "image",
+			"parameters": {
+				"sprite": "$sprite_bottom_right"
+			}
+		},
+		{
+			"row": 0,
+			"column": 1,
+			"type": "image",
+			"parameters": {
+				"sprite": "$sprite_top"
+			}
+		},
+		{
+			"row": 2,
+			"column": 1,
+			"type": "image",
+			"parameters": {
+				"sprite": "$sprite_bottom"
+			}
+		},
+		{
+			"row": 1,
+			"column": 0,
+			"type": "image",
+			"parameters": {
+				"sprite": "$sprite_left"
+			}
+		},
+		{
+			"row": 1,
+			"column": 2,
+			"type": "image",
+			"parameters": {
+				"sprite": "$sprite_right"
+			}
+		}
+	]
+}

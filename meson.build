@@ -60,6 +60,7 @@ src = [
   'src/io/sequence/sequence_loader.cpp',
   'src/io/sequence/event_parameter_parser.cpp',
   'src/io/sequence/event_parser.cpp',
+  'src/io/template.cpp',
   'src/io/tmj.cpp',
   'src/io/user_directory_provider.cpp',
   'src/item/inventory.cpp',

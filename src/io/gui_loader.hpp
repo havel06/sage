@@ -21,15 +21,16 @@ public:
 	UI::Widget_Ptr load(const String& filename);
 
 private:
-	UI::Size parse_size(const JSON::Object_View& json);
-	UI::Widget_Ptr parse_widget(const JSON::Object_View& json);
-	UI::Layout parse_layout(const JSON::Object_View& json);
-	void parse_widget_children(const JSON::Array_View& children, UI::Layout& layout);
-	UI::Widget_Ptr create_widget_from_type_name(const String& type_name, UI::Layout&&, const JSON::Object_View& params);
-	UI::Widget_Ptr parse_box(UI::Layout&&, const JSON::Object_View& params);
-	UI::Widget_Ptr parse_text(UI::Layout&&, const JSON::Object_View& params);
-	UI::Widget_Ptr parse_image(UI::Layout&&, const JSON::Object_View& params);
-	UI::Widget_Ptr parse_button(UI::Layout&&, const JSON::Object_View& params);
+	UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& template_params);
+	UI::Widget_Ptr parse_widget(const JSON::Object_View& json, const JSON::Object_View& template_params);
+	UI::Widget_Ptr parse_templated_widget(const JSON::Object_View& widget_json, const JSON::Object_View& template_params);
+	UI::Layout parse_layout(const JSON::Object_View& json, const JSON::Object_View& template_params);
+	void parse_widget_children(const JSON::Array_View& children, UI::Layout& layout, const JSON::Object_View& template_params);
+	UI::Widget_Ptr create_widget_from_type_name(const String& type_name, UI::Layout&&, const JSON::Object_View& params, const JSON::Object_View& template_params);
+	UI::Widget_Ptr parse_box(UI::Layout&&, const JSON::Object_View& params, const JSON::Object_View& template_params);
+	UI::Widget_Ptr parse_text(UI::Layout&&, const JSON::Object_View& params, const JSON::Object_View& template_params);
+	UI::Widget_Ptr parse_image(UI::Layout&&, const JSON::Object_View& params, const JSON::Object_View& template_params);
+	UI::Widget_Ptr parse_button(UI::Layout&&, const JSON::Object_View& params, const JSON::Object_View& template_params);
 	UI::Text_Align parse_align(const String&);
 
 	Font_Manager& m_font_manager;

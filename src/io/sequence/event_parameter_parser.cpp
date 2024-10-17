@@ -4,7 +4,7 @@
 #include "../json_types.hpp"
 #include "sequence/event_parameter.hpp"
 #include "condition_parser.hpp"
-#include <string.h>
+#include "../template.hpp"
 #include <assert.h>
 
 
@@ -16,7 +16,7 @@ Event_Parameter_Parser::Event_Parameter_Parser(Condition_Parser& cond_parser, Te
 
 void Event_Parameter_Parser::parse(Event_Parameter& parameter, const JSON::Value_View& unresolved_value, const JSON::Object_View& template_parameters)
 {
-	const JSON::Value_View& resolved_value_json = resolve_value(unresolved_value, template_parameters);
+	const JSON::Value_View& resolved_value_json = resolve_templated_value(unresolved_value, template_parameters);
 
 	// FIXME - refactor visitor away
 	class Visitor : public Event_Parameter_Visitor {
@@ -75,23 +75,4 @@ void Event_Parameter_Parser::parse(Event_Parameter& parameter, const JSON::Value
 
 	Visitor visitor{resolved_value_json, m_texture_manager, m_condition_parser, template_parameters};
 	parameter.accept_visitor(visitor);
-}
-
-JSON::Value_View Event_Parameter_Parser::resolve_value(const JSON::Value_View& val, const JSON::Object_View& template_parameters)
-{
-	if (val.is_string()) {
-		const char* str_value = val.as_string("");
-
-		if (strlen(str_value) > 1 && str_value[0] == '$') {
-			const char* param_name = str_value + 1;
-			if (template_parameters.has(param_name)) {
-				return template_parameters.get(param_name);
-			} else {
-				SG_ERROR("Missing sequence template parameter \"%s\"", param_name);
-				assert(false);
-			}
-		}
-	}
-
-	return val;
 }

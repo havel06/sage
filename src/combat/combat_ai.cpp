@@ -46,22 +46,18 @@ int Combat_AI::decide_target(bool ally)
 Combat_Stances Combat_AI::calculate_stances()
 {
 	const Combat_Unit& unit = m_combat.get_unit_on_turn();
-
-	// Full hp -> defense = 0
-	// No hp   -> defense = 1
-	const float defense = calcualte_defense_for_unit(unit);
-	const float aid = calculate_aid_stance();
-	const float offense = 1 - defense;
 	
 	return Combat_Stances {
-		.offense = offense,
-		.defense = defense,
-		.aid = aid
+		.offense = calculate_offense_stance(),
+		.defense = calcualte_defense_for_unit(unit),
+		.aid = calculate_aid_stance()
 	};
 }
 
 float Combat_AI::calcualte_defense_for_unit(const Combat_Unit& unit)
 {
+	// Full hp -> defense = 0
+	// No hp   -> defense = 1
 	const float max_hp = unit.character.get().max_hp;
 	return (max_hp - unit.get_hp()) / max_hp;
 }
@@ -85,4 +81,20 @@ float Combat_AI::calculate_aid_stance()
 	}
 
 	return sum / (m_combat.get_enemy_count() - 1);
+}
+
+float Combat_AI::calculate_offense_stance()
+{
+	// Hero full hp -> offense = 0
+	// Hero no hp   -> offense = 1
+
+	float hero_max_hp_sum = 0;
+	float hero_current_hp_sum = 0;
+
+	for (int i = 0; i < m_combat.get_hero_count(); i++) {
+		hero_max_hp_sum += m_combat.get_hero(i).character.get().max_hp;
+		hero_current_hp_sum += m_combat.get_hero(i).get_hp();
+	}
+
+	return 1 - (hero_current_hp_sum / hero_max_hp_sum);
 }

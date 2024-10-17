@@ -16,6 +16,7 @@ private:
 
 	float calcualte_defense_for_unit(const Combat_Unit&);
 	float calculate_aid_stance();
+	float calculate_offense_stance();
 
 	const Combat& m_combat;
 };

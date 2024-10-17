@@ -77,6 +77,8 @@ void Combat::start_battle(const Battle_Description& description)
 	m_current_target = nullptr;
 	m_current_casted_sequence = {};
 
+	reset_all_ability_sequences();
+
 	// Notify observers
 	for (int i = 0; i < m_observers.size(); i++) {
 		m_observers[i]->on_battle_begin();

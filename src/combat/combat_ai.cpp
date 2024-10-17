@@ -32,6 +32,8 @@ int Combat_AI::decide_ability()
 		}
 	}
 
+	SG_DEBUG("Combat AI: Chose ability %d", best_ability);
+
 	return best_ability;
 }
 

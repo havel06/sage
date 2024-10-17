@@ -10,6 +10,7 @@ static_assert(false, "Not implemented for Windows yet. :(");
 
 User_Directory_Provider::User_Directory_Provider(const char* project_name)
 {
+	// FIXME - Windows support
 #ifdef _WIN32
 	static_assert(false, "Not implemented for Windows yet. :(");
 #else

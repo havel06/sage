@@ -69,6 +69,13 @@
 			}
 		},
 		{
+			"type": "teleport_player",
+			"parameters": {
+				"x": 61,
+				"y": 35
+			}
+		},
+		{
 			"type": "hide_gui",
 			"parameters": {}
 		}

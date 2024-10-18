@@ -65,6 +65,7 @@ void Inventory::notify_observers()
 void Inventory::clear()
 {
 	m_items.clear();
+	notify_observers();
 }
 
 bool Inventory::is_empty() const

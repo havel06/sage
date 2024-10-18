@@ -30,38 +30,115 @@
 		{
 			"row": 1,
 			"column": 1,
-			"type": "box",
-			"name": "Slots",
-			"parameters": {},
-			"layout": {
-				"columns": [
-					{
-						"automatic": true
+			"from_template": {
+				"template": "gui/templates/nine_patch_rect.json",
+				"parameters": {
+					"margin_left": 24,
+					"margin_right": 24,
+					"margin_top": 24,
+					"margin_bottom": 24,
+					"texture": "textures/panel-010.png",
+					"sprite_top_left": {
+						"texture": "textures/panel-010.png",
+						"position_x": 0,
+						"position_y": 0,
+						"size_x": 12,
+						"size_y": 12
 					},
-					{
-						"automatic": true
+					"sprite_top_right": {
+						"texture": "textures/panel-010.png",
+						"position_x": 36,
+						"position_y": 0,
+						"size_x": 12,
+						"size_y": 12
 					},
-					{
-						"automatic": true
+					"sprite_bottom_left": {
+						"texture": "textures/panel-010.png",
+						"position_x": 0,
+						"position_y": 36,
+						"size_x": 12,
+						"size_y": 12
 					},
-					{
-						"automatic": true
+					"sprite_bottom_right": {
+						"texture": "textures/panel-010.png",
+						"position_x": 36,
+						"position_y": 36,
+						"size_x": 12,
+						"size_y": 12
+					},
+					"sprite_top": {
+						"texture": "textures/panel-010.png",
+						"position_x": 12,
+						"position_y": 0,
+						"size_x": 4,
+						"size_y": 12
+					},
+					"sprite_bottom": {
+						"texture": "textures/panel-010.png",
+						"position_x": 12,
+						"position_y": 36,
+						"size_x": 4,
+						"size_y": 12
+					},
+					"sprite_left": {
+						"texture": "textures/panel-010.png",
+						"position_x": 0,
+						"position_y": 12,
+						"size_x": 12,
+						"size_y": 4
+					},
+					"sprite_right": {
+						"texture": "textures/panel-010.png",
+						"position_x": 36,
+						"position_y": 12,
+						"size_x": 12,
+						"size_y": 4
+					},
+					"child": {
+						"row": 1,
+						"column": 1,
+						"type": "box",
+						"name": "Slots",
+						"parameters": {
+							"colour": {
+								"r": 0,
+								"g": 0,
+								"b": 0,
+								"a": 255
+							}
+						},
+						"layout": {
+							"columns": [
+								{
+									"automatic": true
+								},
+								{
+									"automatic": true
+								},
+								{
+									"automatic": true
+								},
+								{
+									"automatic": true
+								}
+							],
+							"rows": [
+								{
+									"parent_width": 0.25
+								},
+								{
+									"parent_width": 0.25
+								},
+								{
+									"parent_width": 0.25
+								},
+								{
+									"parent_width": 0.25
+								}
+							]
+						}
 					}
-				],
-				"rows": [
-					{
-						"parent_width": 0.25
-					},
-					{
-						"parent_width": 0.25
-					},
-					{
-						"parent_width": 0.25
-					},
-					{
-						"parent_width": 0.25
-					}
-				]
+				}
 			}
 		}
 	]

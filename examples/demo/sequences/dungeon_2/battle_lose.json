@@ -25,6 +25,18 @@
 			"parameters": {
 				"entity": "Ghost 2"
 			}
+		},
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/dungeon_2/replenish_healing_potion.json"
+			}
+		},
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/dungeon_2/replenish_bomb.json"
+			}
 		}
 	]
 }

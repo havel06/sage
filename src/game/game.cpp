@@ -130,6 +130,8 @@ void Game::process_normal_input()
 		m_show_inventory = true;
 	} else if (is_action_pressed_questlog()) {
 		m_show_quest_log = !m_show_quest_log;
+	} else if (m_show_quest_log && is_action_pressed_escape()) {
+		m_show_quest_log = false;
 	}
 
 	if (is_action_down_up()) {
@@ -153,7 +155,7 @@ void Game::process_inventory_input()
 		m_inventory_renderer.input_direction(Direction::right);
 	} else if (is_action_pressed_left()) {
 		m_inventory_renderer.input_direction(Direction::left);
-	} else if (is_action_pressed_inventory()) {
+	} else if (is_action_pressed_inventory() || is_action_pressed_escape()) {
 		m_show_inventory = false;
 	} else if (is_action_pressed_accept()) {
 		m_inventory_renderer.input_click();

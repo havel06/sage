@@ -66,26 +66,28 @@
 					"size_x": 320,
 					"size_y": 208
 				},
-				"hero_layout": [
-					{
-						"x": {
-							"parent_width": 0.2
-						},
-						"y": {
-							"parent_height": 0.2
+				"layout": {
+					"heroes": [
+						{
+							"position_x": {
+								"parent_width": 0.2
+							},
+							"position_y": {
+								"parent_height": 0.2
+							}
 						}
-					}
-				],
-				"enemy_layout": [
-					{
-						"x": {
-							"parent_width": 0.8
-						},
-						"y": {
-							"parent_height": 0.2
+					],
+					"enemies": [
+						{
+							"position_x": {
+								"parent_width": 0.8
+							},
+							"position_y": {
+								"parent_height": 0.2
+							}
 						}
-					}
-				]
+					]
+				}
 			}
 		},
 		{

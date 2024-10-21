@@ -16,8 +16,8 @@ struct Battle_Unit_Placement
 
 struct Battle_Units_Layout
 {
-	Array<Battle_Unit_Placement> hero_layout; // Placement of heroes
-	Array<Battle_Unit_Placement> enemy_layout; // Placement of enemies
+	Array<Battle_Unit_Placement> heroes; // Placement of heroes
+	Array<Battle_Unit_Placement> enemies; // Placement of enemies
 };
 
 struct Battle_Description

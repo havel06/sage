@@ -21,6 +21,7 @@ private:
 	String_Event_Parameter m_win_sequence_filename;
 	String_Event_Parameter m_lose_sequence_filename;
 	Sprite_Event_Parameter m_background;
+	Battle_Units_Layout_Event_Parameter m_layout;
 };
 
 }

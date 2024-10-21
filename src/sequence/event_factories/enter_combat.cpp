@@ -17,6 +17,7 @@ Enter_Combat::Enter_Combat(Sequence_Manager& seq_mgr, Character_Profile_Manager&
 	register_parameter("win_sequence", m_win_sequence_filename);
 	register_parameter("lose_sequence", m_lose_sequence_filename);
 	register_parameter("background", m_background);
+	register_parameter("layout", m_layout);
 }
 
 Own_Ptr<Event> Enter_Combat::make_event(Game_Facade& facade)
@@ -33,7 +34,8 @@ Own_Ptr<Event> Enter_Combat::make_event(Game_Facade& facade)
 		.enemies = move(enemy_profiles),
 		.win_sequence = win_sequence,
 		.lose_sequence = lose_sequence,
-		.background = m_background.value
+		.background = m_background.value,
+		.units_layout = m_layout.value
 	};
 
 	return make_own_ptr<Events::Enter_Combat>(facade, move(description));

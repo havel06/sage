@@ -71,8 +71,38 @@ void Event_Parameter_Parser::parse(Event_Parameter& parameter, const JSON::Value
 		void visit(Condition_Event_Parameter& param) override {
 			param.value = m_condition_parser.parse_condition(m_param_json.as_object(), m_template_params);
 		}
+
+		void visit(Battle_Units_Layout_Event_Parameter& param) override {
+			param.value = parse_battle_units_layout(m_param_json.as_object());
+		}
 	};
 
 	Visitor visitor{resolved_value_json, m_texture_manager, m_condition_parser, template_parameters};
 	parameter.accept_visitor(visitor);
+}
+
+Battle_Units_Layout Event_Parameter_Parser::parse_battle_units_layout(const JSON::Object_View& json)
+{
+	Battle_Units_Layout layout;
+
+	auto parse_array = [&](Array<Battle_Unit_Placement>& out, const JSON::Array_View& in) {
+		in.for_each([&](const JSON::Value_View& value){
+			out.push_back(parse_battle_unit(value.as_object()));
+		});
+	};
+
+	parse_array(layout.heroes, json.get("heroes").as_array());
+	parse_array(layout.enemies, json.get("enemies").as_array());
+
+	return layout;
+}
+
+Battle_Unit_Placement Event_Parameter_Parser::parse_battle_unit(const JSON::Object_View& json)
+{
+	Battle_Unit_Placement placement;
+
+	placement.position_x = JSON_Types::parse_size(json.get("position_x").as_object(), JSON::Object_View{nullptr});
+	placement.position_y = JSON_Types::parse_size(json.get("position_y").as_object(), JSON::Object_View{nullptr});
+
+	return placement;
 }

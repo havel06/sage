@@ -21,7 +21,6 @@ public:
 	UI::Widget_Ptr load(const String& filename);
 
 private:
-	UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& template_params);
 	UI::Widget_Ptr parse_widget(const JSON::Object_View& json, const JSON::Object_View& template_params);
 	UI::Widget_Ptr parse_templated_widget(const JSON::Object_View& widget_json, const JSON::Object_View& template_params);
 	UI::Layout parse_layout(const JSON::Object_View& json, const JSON::Object_View& template_params);

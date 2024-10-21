@@ -3,6 +3,8 @@
 #include "utils/filesystem.hpp"
 #include "io/resource/texture_manager.hpp"
 #include "utils/json.hpp"
+#include "template.hpp"
+#include "graphics/ui/size.hpp"
 
 namespace JSON_Types
 {
@@ -71,6 +73,30 @@ JSON::Object serialise_animated_sprite(const Animated_Sprite& sprite, const Stri
 	json.add("frames", JSON::Value{(JSON::Array&&)frames});
 
 	return json;
+}
+
+UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& template_params)
+{
+	UI::Size size;
+
+	if (json.has("automatic")) {
+		size.automatic = resolve_templated_value(json["automatic"], template_params).as_bool(false);
+		return size; // We can return immediately, since other values are ignored
+	}
+
+	if (json.has("parent_width")) {
+		size.parent_width = resolve_templated_value(json["parent_width"], template_params).as_float(0);
+	}
+
+	if (json.has("parent_height")) {
+		size.parent_height = resolve_templated_value(json["parent_height"], template_params).as_float(0);
+	}
+
+	if (json.has("pixels")) {
+		size.pixels = resolve_templated_value(json["pixels"], template_params).as_int(0);
+	}
+
+	return size;
 }
 
 }

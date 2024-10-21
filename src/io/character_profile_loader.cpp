@@ -7,6 +7,7 @@
 #include "utils/log.hpp"
 #include "utils/move.hpp"
 #include "json_types.hpp"
+#include "character_profile.hpp"
 
 Character_Profile_Loader::Character_Profile_Loader(Texture_Manager& tex_mgr, Sequence_Manager& seq_mgr) :
 	m_texture_manager{tex_mgr},

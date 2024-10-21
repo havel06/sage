@@ -17,7 +17,6 @@ Sprite parse_sprite(const JSON::Object_View& json, Texture_Manager& texture_mana
 		SG_ERROR("Error when parsing sprite - texture name missing.");
 
 	const Resource_Handle<Sage_Texture> texture = texture_manager.get(texture_name, false);
-
 	Sprite sprite(texture);
 	sprite.texture_clip.position.x = json["position_x"].as_int(0);
 	sprite.texture_clip.position.y = json["position_y"].as_int(0);

@@ -76,6 +76,7 @@ public:
 
 	void start_battle(const Battle_Description&);
 	Animated_Sprite get_background() const { return m_background; }
+	const Battle_Units_Layout& get_units_layout() const { return m_units_layout; }
 
 	// For controller
 	void select_ability(int ability_index);
@@ -116,6 +117,7 @@ private:
 	Optional<Resource_Handle<Sequence>> m_win_sequence;
 	Optional<Resource_Handle<Sequence>> m_lose_sequence;
 	Animated_Sprite m_background;
+	Battle_Units_Layout m_units_layout;
 
 	Array<Combat_Unit> m_heroes;
 	Array<Combat_Unit> m_enemies;

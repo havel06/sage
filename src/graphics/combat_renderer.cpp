@@ -1,9 +1,11 @@
 #include "combat_renderer.hpp"
+#include "combat/battle_desc.hpp"
 #include "combat/combat_controller.hpp"
 #include "party.hpp"
 #include "utils/log.hpp"
 #include "utils/rect.hpp"
 #include "combat/combat.hpp"
+#include "utils/vec2.hpp"
 #include <raylib/raylib.h>
 
 Combat_Renderer::Combat_Renderer(Combat& combat, const Combat_Controller& combat_controller) :
@@ -41,23 +43,22 @@ void Combat_Renderer::draw_background(float dt)
 
 void Combat_Renderer::draw_party(float dt)
 {
-	// FIXME - this function is very similar to draw_enemies - DRY!
-	const int size = GetScreenWidth() / 13;
-
 	for (int i = 0; i < m_combat.get_hero_count(); i++) {
 		const Combat_Unit& combat_unit = m_combat.get_hero(i);
 		Combat_Renderer_Unit* renderer_unit = m_heroes.get(combat_unit.get_id());
 		assert(renderer_unit);
 
-		update_unit_position(i, *renderer_unit, dt);
+		update_unit_position(i, *renderer_unit, false, dt);
 
 		Vec2i screen_size = {GetScreenWidth(), GetScreenHeight()};
-		const int pos_x = renderer_unit->pos_x.to_pixels(screen_size);
-		const int pos_y = renderer_unit->pos_y.to_pixels(screen_size);
+		const int pos_x = renderer_unit->placement.position_x.to_pixels(screen_size);
+		const int pos_y = renderer_unit->placement.position_y.to_pixels(screen_size);
+		const int size_x = renderer_unit->placement.size_x.to_pixels(screen_size);
+		const int size_y = renderer_unit->placement.size_y.to_pixels(screen_size);
 
 		Rectf transform = {
 			.position = Vec2f{(float)pos_x, (float)pos_y},
-			.size = Vec2f{(float)size, (float)size}
+			.size = Vec2f{(float)size_x, (float)size_y}
 		};
 
 		float highlight_amount = 0;
@@ -73,28 +74,28 @@ void Combat_Renderer::draw_party(float dt)
 		combat_unit.character.get().sprite_left.draw(transform, dt);
 		m_shader.end();
 
-		draw_hp_bar({pos_x, pos_y}, size, combat_unit, *renderer_unit, dt);
+		draw_hp_bar({pos_x, pos_y}, Vec2i{size_x, size_y}, combat_unit, *renderer_unit, dt);
 	}
 }
 
 void Combat_Renderer::draw_enemies(float dt)
 {
-	const int size = GetScreenWidth() / 13;
-
 	for (int i = 0; i < m_combat.get_enemy_count(); i++) {
 		const Combat_Unit& combat_unit = m_combat.get_enemy(i);
 		Combat_Renderer_Unit* renderer_unit = m_enemies.get(combat_unit.get_id());
 		assert(renderer_unit);
 
-		update_unit_position(i, *renderer_unit, dt);
+		update_unit_position(i, *renderer_unit, true, dt);
 
 		Vec2i screen_size = {GetScreenWidth(), GetScreenHeight()};
-		const int pos_x = renderer_unit->pos_x.to_pixels(screen_size);
-		const int pos_y = renderer_unit->pos_y.to_pixels(screen_size);
+		const int pos_x = renderer_unit->placement.position_x.to_pixels(screen_size);
+		const int pos_y = renderer_unit->placement.position_y.to_pixels(screen_size);
+		const int size_x = renderer_unit->placement.size_x.to_pixels(screen_size);
+		const int size_y = renderer_unit->placement.size_y.to_pixels(screen_size);
 
 		Rectf transform = {
 			.position = Vec2f{(float)pos_x, (float)pos_y},
-			.size = Vec2f{(float)size, (float)size}
+			.size = Vec2f{(float)size_x, (float)size_y}
 		};
 
 		float highlight_amount = 0;
@@ -110,18 +111,18 @@ void Combat_Renderer::draw_enemies(float dt)
 		combat_unit.character.get().sprite_left.draw(transform, dt);
 		m_shader.end();
 
-		draw_hp_bar({pos_x, pos_y}, size, combat_unit, *renderer_unit, dt);
+		draw_hp_bar({pos_x, pos_y}, Vec2i{size_x, size_y}, combat_unit, *renderer_unit, dt);
 	}
 }
 
-void Combat_Renderer::draw_hp_bar(const Vec2i unit_pos, const int unit_size, const Combat_Unit& unit, Combat_Renderer_Unit& renderer_unit, float dt)
+void Combat_Renderer::draw_hp_bar(const Vec2i unit_pos, Vec2i unit_size, const Combat_Unit& unit, Combat_Renderer_Unit& renderer_unit, float dt)
 {
 	const int bar_x = unit_pos.x;
-	const int bar_y = unit_pos.y + unit_size + 8;
+	const int bar_y = unit_pos.y + unit_size.y + 8;
 	const int padding = 4;
 
 	const int height = 14;
-	DrawRectangle(bar_x, bar_y, unit_size, height, BLACK);
+	DrawRectangle(bar_x, bar_y, unit_size.x, height, BLACK);
 
 	float hp_portion_old = (float)renderer_unit.hp_shown_old / unit.character.get().max_hp;
 	float hp_portion_current = (float)renderer_unit.hp_shown_current / unit.character.get().max_hp;
@@ -134,8 +135,8 @@ void Combat_Renderer::draw_hp_bar(const Vec2i unit_pos, const int unit_size, con
 	}
 	renderer_unit.hp_shown_current += (unit.get_hp() - renderer_unit.hp_shown_current) * dt * speed_current;
 
-	DrawRectangle(bar_x + padding, bar_y + padding, (unit_size - 2*padding) * hp_portion_old, height - 2 * padding, ORANGE);
-	DrawRectangle(bar_x + padding, bar_y + padding, (unit_size - 2*padding) * hp_portion_current, height - 2 * padding, RED);
+	DrawRectangle(bar_x + padding, bar_y + padding, (unit_size.x - 2*padding) * hp_portion_old, height - 2 * padding, ORANGE);
+	DrawRectangle(bar_x + padding, bar_y + padding, (unit_size.x - 2*padding) * hp_portion_current, height - 2 * padding, RED);
 
 	(void)padding;
 	(void)unit;
@@ -153,8 +154,7 @@ void Combat_Renderer::on_battle_begin()
 		m_heroes.insert(unit.get_id(), Combat_Renderer_Unit{
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
-			.pos_x = { .parent_width = 0.2 },
-			.pos_y = get_unit_position_y(i)
+			.placement = get_hero_unit_placement(i)
 		});
 	}
 
@@ -163,24 +163,38 @@ void Combat_Renderer::on_battle_begin()
 		m_enemies.insert(unit.get_id(), Combat_Renderer_Unit{
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
-			.pos_x = { .parent_width = 0.675 },
-			.pos_y = get_unit_position_y(i)
+			.placement = get_enemy_unit_placement(i)
 		});
 	}
 }
 
-UI::Size Combat_Renderer::get_unit_position_y(int index)
+Battle_Unit_Placement Combat_Renderer::get_enemy_unit_placement(int index)
 {
-	return {
-		.parent_width = index * 0.1f,
-		.parent_height = 0.15f,
-	};
+	const Array<Battle_Unit_Placement>& placements = m_combat.get_units_layout().enemies;
+	if (m_combat.get_enemy_count() > placements.size()) {
+		// FIXME - Possibly log an error without spamming the console
+		index = placements.size() - 1;
+	}
+
+	return placements[index];
 }
 
-void Combat_Renderer::update_unit_position(int index, Combat_Renderer_Unit& unit, float dt)
+Battle_Unit_Placement Combat_Renderer::get_hero_unit_placement(int index)
 {
-	// FIXME - also update pos_x
-	UI::Size pos_y = get_unit_position_y(index);
+	const Array<Battle_Unit_Placement>& placements = m_combat.get_units_layout().heroes;
+	if (m_combat.get_hero_count() > placements.size()) {
+		// FIXME - Possibly log an error without spamming the console
+		index = placements.size() - 1;
+	}
+
+	return placements[index];
+}
+
+void Combat_Renderer::update_unit_position(int index, Combat_Renderer_Unit& unit, bool enemy, float dt)
+{
+	Battle_Unit_Placement placement = enemy ? get_enemy_unit_placement(index) : get_hero_unit_placement(index);
 	const float speed = 5;
-	unit.pos_y = unit.pos_y.lerp(pos_y, speed * dt);
+
+	unit.placement.position_x = unit.placement.position_x.lerp(placement.position_x, speed * dt);
+	unit.placement.position_y = unit.placement.position_y.lerp(placement.position_y, speed * dt);
 }

@@ -12,6 +12,8 @@ struct Battle_Unit_Placement
 {
 	UI::Size position_x;
 	UI::Size position_y;
+	UI::Size size_x;
+	UI::Size size_y;
 };
 
 struct Battle_Units_Layout

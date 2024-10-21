@@ -64,17 +64,30 @@
 								"parent_width": 0.2
 							},
 							"position_y": {
-								"parent_height": 0.2
+								"parent_height": 0.3
+							},
+							"size_x": {
+								"parent_height": 0.14
+							},
+							"size_y": {
+								"parent_height": 0.14
 							}
 						}
 					],
 					"enemies": [
 						{
 							"position_x": {
-								"parent_width": 0.8
+								"parent_width": 0.8,
+								"parent_height": -0.14
 							},
 							"position_y": {
-								"parent_height": 0.2
+								"parent_height": 0.3
+							},
+							"size_x": {
+								"parent_height": 0.14
+							},
+							"size_y": {
+								"parent_height": 0.14
 							}
 						}
 					]

@@ -74,6 +74,12 @@
 							},
 							"position_y": {
 								"parent_height": 0.2
+							},
+							"size_x": {
+								"parent_height": 0.15
+							},
+							"size_y": {
+								"parent_height": 0.15
 							}
 						}
 					],
@@ -84,6 +90,12 @@
 							},
 							"position_y": {
 								"parent_height": 0.2
+							},
+							"size_x": {
+								"parent_height": 0.15
+							},
+							"size_y": {
+								"parent_height": 0.15
 							}
 						}
 					]

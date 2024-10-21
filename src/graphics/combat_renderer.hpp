@@ -1,5 +1,6 @@
 #pragma once
 
+#include "combat/battle_desc.hpp"
 #include "graphics/animated_sprite.hpp"
 #include "utils/vec2.hpp"
 #include "combat/combat.hpp"
@@ -16,8 +17,7 @@ struct Combat_Renderer_Unit
 {
 	float hp_shown_old;
 	float hp_shown_current;
-	UI::Size pos_x;
-	UI::Size pos_y;
+	Battle_Unit_Placement placement;
 };
 
 // FIXME - refactor (after refactoring Combat itself)
@@ -31,10 +31,11 @@ private:
 	void draw_background(float dt);
 	void draw_party(float dt);
 	void draw_enemies(float dt);
-	void draw_hp_bar(const Vec2i unit_pos, const int unit_size, const Combat_Unit&, Combat_Renderer_Unit&, float dt);
+	void draw_hp_bar(const Vec2i unit_pos, Vec2i unit_size, const Combat_Unit&, Combat_Renderer_Unit&, float dt);
 
-	void update_unit_position(int index, Combat_Renderer_Unit&, float dt);
-	UI::Size get_unit_position_y(int index);
+	void update_unit_position(int index, Combat_Renderer_Unit&, bool enemy, float dt);
+	Battle_Unit_Placement get_enemy_unit_placement(int index);
+	Battle_Unit_Placement get_hero_unit_placement(int index);
 
 	void on_hero_ability_selecting_begin() override {};
 	void on_battle_begin() override;

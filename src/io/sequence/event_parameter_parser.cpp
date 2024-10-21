@@ -103,6 +103,8 @@ Battle_Unit_Placement Event_Parameter_Parser::parse_battle_unit(const JSON::Obje
 
 	placement.position_x = JSON_Types::parse_size(json.get("position_x").as_object(), JSON::Object_View{nullptr});
 	placement.position_y = JSON_Types::parse_size(json.get("position_y").as_object(), JSON::Object_View{nullptr});
+	placement.size_x = JSON_Types::parse_size(json.get("size_x").as_object(), JSON::Object_View{nullptr});
+	placement.size_y = JSON_Types::parse_size(json.get("size_y").as_object(), JSON::Object_View{nullptr});
 
 	return placement;
 }

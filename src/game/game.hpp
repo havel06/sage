@@ -36,6 +36,7 @@ public:
 	void draw_frame(float time_delta);
 	bool should_exit() const;
 private:
+	// FIXME - use input manager instead
 	void process_main_menu_input();
 	void process_normal_input();
 	void process_combat_input();

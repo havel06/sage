@@ -39,6 +39,7 @@ src = [
   'src/graphics/ui/size.cpp',
   'src/graphics/ui/text.cpp',
   'src/graphics/ui/widget.cpp',
+  'src/input_manager.cpp',
   'src/io/character_profile_loader.cpp',
   'src/io/json_types.cpp',
   'src/io/gui_loader.cpp',

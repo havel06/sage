@@ -10,9 +10,9 @@ Combat_Stances Combat_Stances::normalised() const
 	}
 
 	// Normalise it like a vector
-	float sum = offense + defense + aid;
-	assert(sum != 0);
-	float ratio = 1.0 / sum;
+	float len = sqrt(offense * offense + defense * defense + aid * aid);
+	assert(len != 0);
+	float ratio = 1.0 / len;
 
 	return Combat_Stances {
 		.offense = offense * ratio,

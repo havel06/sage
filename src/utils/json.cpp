@@ -79,6 +79,11 @@ bool Value_View::is_null() const
 	return cJSON_IsNull(m_cjson);
 }
 
+bool Value_View::is_array() const
+{
+	return cJSON_IsArray(m_cjson);
+}
+
 bool Value_View::is_string() const
 {
 	return cJSON_IsString(m_cjson);

@@ -156,22 +156,22 @@
 		{
 			"name": "Punch",
 			"sequence": "sequences/abilities/punch.json",
-			"stances": {
+			"stances": [{
 				"offense": 1
-			}
+			}]
 		}, {
 			"name": "Repair",
 			"sequence": "sequences/abilities/repair.json",
-			"stances": {
+			"stances": [{
 				"aid": 1
-			}
+			}]
 		}, {
 			"name": "Pass",
 			"sequence": "sequences/abilities/pass.json",
-			"stances": {
+			"stances": [{
 				"offense": 1,
 				"defense": 1
-			}
+			}]
 		}
 
 	]

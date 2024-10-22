@@ -22,7 +22,7 @@
 		{
 			"type": "change_target_hp",
 			"parameters": {
-				"amount": -3
+				"amount": -4
 			}
 		},
 		{

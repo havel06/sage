@@ -62,16 +62,16 @@
 		{
 			"name": "Curse",
 			"sequence": "sequences/abilities/curse.json",
-			"stances": {
+			"stances": [{
 				"offense": 1
-			}
+			}]
 		}, {
 			"name": "Heal",
 			"sequence": "sequences/abilities/heal.json",
-			"stances": {
+			"stances": [{
 				"defense": 0.3,
 				"aid": 0.7
-			}
+			}]
 		}
 	]
 }

@@ -38,16 +38,16 @@
 		{
 			"name": "Scare",
 			"sequence": "sequences/abilities/scare.json",
-			"stances": {
+			"stances": [{
 				"offense": 1
-			}
+			}]
 		}, {
 			"name": "Sacrifice",
 			"sequence": "sequences/abilities/sacrifice.json",
-			"stances": {
+			"stances": [{
 				"offense": 0.5,
 				"defense": 0.5
-			}
+			}]
 		}
 	]
 }

@@ -28,6 +28,7 @@ public:
 
 	bool is_null() const;
 	bool is_string() const;
+	bool is_array() const;
 private:
 	const cJSON* m_cjson;
 };

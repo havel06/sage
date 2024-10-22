@@ -9,5 +9,5 @@ struct Ability
 {
 	String name;
 	Resource_Handle<Sequence> sequence;
-	Combat_Stances stances;
+	Array<Combat_Stances> stances;
 };

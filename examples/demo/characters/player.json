@@ -220,17 +220,17 @@
 		}, {
 			"name": "Slash",
 			"sequence": "sequences/abilities/slash.json",
-			"stances": {
+			"stances": [{
 				"defense": 0,
 				"offense": 1
-			}
+			}]
 		}, {
 			"name": "Pass",
 			"sequence": "sequences/abilities/pass.json",
-			"stances": {
+			"stances": [{
 				"defense": 1,
 				"offense": 1
-			}
+			}]
 		}
 	]
 }

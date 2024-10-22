@@ -22,7 +22,7 @@
 		{
 			"type": "change_current_unit_hp",
 			"parameters": {
-				"amount": 4
+				"amount": 3
 			}
 		},
 		{

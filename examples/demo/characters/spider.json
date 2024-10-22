@@ -81,17 +81,17 @@
 		{
 			"name": "Bite",
 			"sequence": "sequences/abilities/bite.json",
-			"stances": {
+			"stances": [{
 				"offense": 0.35,
 				"defense": 0.65
-			}
+			}]
 		}, {
 			"name": "Tackle",
 			"sequence": "sequences/abilities/tackle.json",
-			"stances": {
+			"stances": [{
 				"offense": 1,
 				"defense": 0
-			}
+			}]
 		}
 	]
 }

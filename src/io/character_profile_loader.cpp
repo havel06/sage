@@ -90,31 +90,37 @@ Ability Character_Profile_Loader::load_ability(const JSON::Object_View& ability_
 	}
 
 	Resource_Handle<Sequence> sequence = m_sequence_manager.get(sequence_filename, false);
-
-	Combat_Stances stances = parse_stances(ability_json.get("stances").as_object());
+	Array<Combat_Stances> stances = parse_stances(ability_json.get("stances").as_array());
 
 	return Ability {
 		.name = move(name),
 		.sequence = sequence,
-		.stances = stances
+		.stances = move(stances)
 	};
 }
 
-Combat_Stances Character_Profile_Loader::parse_stances(const JSON::Object_View& json)
+Array<Combat_Stances> Character_Profile_Loader::parse_stances(const JSON::Array_View& json)
 {
-	Combat_Stances stances;
+	Array<Combat_Stances> result;
 
-	if (json.has("offense")) {
-		stances.offense = json.get("offense").as_float(0);
-	}
+	json.for_each([&](const JSON::Value_View& value){
+		JSON::Object_View stances_json = value.as_object();
+		Combat_Stances stances;
 
-	if (json.has("defense")) {
-		stances.defense = json.get("defense").as_float(0);
-	}
+		if (stances_json.has("offense")) {
+			stances.offense = stances_json.get("offense").as_float(0);
+		}
 
-	if (json.has("aid")) {
-		stances.aid = json.get("aid").as_float(0);
-	}
+		if (stances_json.has("defense")) {
+			stances.defense = stances_json.get("defense").as_float(0);
+		}
 
-	return stances;
+		if (stances_json.has("aid")) {
+			stances.aid = stances_json.get("aid").as_float(0);
+		}
+
+		result.push_back(stances);
+	});
+
+	return result;
 }

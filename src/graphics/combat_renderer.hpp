@@ -41,6 +41,7 @@ private:
 	void on_battle_begin() override;
 
 	float m_highlight_time = 0;
+	int m_last_highlight_target = 0;
 	Animated_Sprite m_background;
 	Table<int /*id*/, Combat_Renderer_Unit> m_heroes;
 	Table<int /*id*/, Combat_Renderer_Unit> m_enemies;

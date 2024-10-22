@@ -103,7 +103,12 @@ void Combat_Renderer::draw_enemies(float dt)
 				m_combat_controller.get_current_selected_target() == i) {
 			const float blink_speed = 7;
 			const float highlight_max = 0.7;
-			highlight_amount = highlight_max * ((sin(m_highlight_time * blink_speed) + 1) / 2);
+			// Reset highlight time if selecting a new enemy
+			if (m_last_highlight_target != i) {
+				m_last_highlight_target = i;
+				m_highlight_time = 0;
+			}
+			highlight_amount = highlight_max * ((cos(m_highlight_time * blink_speed) + 1) / 2);
 		}
 
 		m_shader.begin();

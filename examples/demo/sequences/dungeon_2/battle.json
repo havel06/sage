@@ -106,74 +106,78 @@
 					"heroes": [
 						{
 							"position_x": {
-								"parent_width": 0.2
-							},
-							"position_y": {
+								"parent_width": 0.1,
 								"parent_height": 0.2
-							},
-							"size_x": {
-								"parent_height": 0.15
-							},
-							"size_y": {
-								"parent_height": 0.15
-							}
-						},
-						{
-							"position_x": {
-								"parent_width": 0.2
 							},
 							"position_y": {
 								"parent_height": 0.3
 							},
 							"size_x": {
-								"parent_height": 0.15
+								"parent_height": 0.14
 							},
 							"size_y": {
-								"parent_height": 0.15
+								"parent_height": 0.14
+							}
+						},
+						{
+							"position_x": {
+								"parent_width": 0.1
+							},
+							"position_y": {
+								"parent_height": 0.3
+							},
+							"size_x": {
+								"parent_height": 0.14
+							},
+							"size_y": {
+								"parent_height": 0.14
 							}
 						}
 					],
 					"enemies": [
 						{
 							"position_x": {
-								"parent_width": 0.8
+								"parent_width": 0.9,
+								"parent_height": -0.14
 							},
 							"position_y": {
 								"parent_height": 0.2
 							},
 							"size_x": {
-								"parent_height": 0.15
+								"parent_height": 0.14
 							},
 							"size_y": {
-								"parent_height": 0.15
+								"parent_height": 0.14
 							}
 						},
 						{
 							"position_x": {
-								"parent_width": 0.8
+								"parent_width": 0.9,
+								"parent_height": -0.34
 							},
 							"position_y": {
 								"parent_height": 0.3
 							},
 							"size_x": {
-								"parent_height": 0.15
+								"parent_height": 0.14
 							},
 							"size_y": {
-								"parent_height": 0.15
+								"parent_height": 0.14
 							}
 						},
 						{
 							"position_x": {
-								"parent_width": 0.8
+								"parent_width": 0.9,
+								"parent_height": -0.14
 							},
 							"position_y": {
 								"parent_height": 0.4
 							},
 							"size_x": {
-								"parent_height": 0.15
+								"parent_height": 0.14
 							},
 							"size_y": {
-								"parent_height": 0.15
+								"parent_height": 0.14
 							}
 						}
 					]

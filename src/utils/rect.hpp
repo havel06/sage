@@ -31,6 +31,16 @@ struct Rect
 		}
 		return true;
 	}
+
+	Rect<T> scale_from_center(float scale)
+	{
+		const Vec2<T> offset = size * (scale - 1) / 2;
+
+		return Rect<T>{
+			.position = position - offset,
+			.size = size * scale
+		};
+	}
 };
 
 using Recti = Rect<int>;

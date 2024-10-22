@@ -24,7 +24,9 @@ struct Character_Profile
 	Animated_Sprite sprite_move_left;
 	Animated_Sprite sprite_move_right;
 
-	Vec2f size = {1, 1};
+	float sprite_scale = 1;
+
+	Vec2i size = {1, 1};
 
 	Array<Ability> abilities;
 

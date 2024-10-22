@@ -56,10 +56,10 @@ void Combat_Renderer::draw_party(float dt)
 		const int size_x = renderer_unit->placement.size_x.to_pixels(screen_size);
 		const int size_y = renderer_unit->placement.size_y.to_pixels(screen_size);
 
-		Rectf transform = {
+		Rectf transform = Rectf{
 			.position = Vec2f{(float)pos_x, (float)pos_y},
 			.size = Vec2f{(float)size_x, (float)size_y}
-		};
+		}.scale_from_center(combat_unit.character.get().sprite_scale);
 
 		float highlight_amount = 0;
 		if (m_combat_controller.is_selecting_hero() &&
@@ -71,7 +71,7 @@ void Combat_Renderer::draw_party(float dt)
 
 		m_shader.begin();
 		m_shader.set_highlight({255, 255, 255, (unsigned char)(highlight_amount * 255)});
-		combat_unit.character.get().sprite_left.draw(transform, dt);
+		combat_unit.character.get().sprite_right.draw(transform, dt);
 		m_shader.end();
 
 		draw_hp_bar({pos_x, pos_y}, Vec2i{size_x, size_y}, combat_unit, *renderer_unit, dt);
@@ -93,10 +93,10 @@ void Combat_Renderer::draw_enemies(float dt)
 		const int size_x = renderer_unit->placement.size_x.to_pixels(screen_size);
 		const int size_y = renderer_unit->placement.size_y.to_pixels(screen_size);
 
-		Rectf transform = {
+		Rectf transform = Rectf{
 			.position = Vec2f{(float)pos_x, (float)pos_y},
 			.size = Vec2f{(float)size_x, (float)size_y}
-		};
+		}.scale_from_center(combat_unit.character.get().sprite_scale);
 
 		float highlight_amount = 0;
 		if (m_combat_controller.is_selecting_enemy() &&

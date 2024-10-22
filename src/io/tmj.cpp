@@ -176,15 +176,20 @@ void Map_Loader::parse_object(const JSON::Object_View& object)
 	}
 	entity.position.x = round(object["x"].as_float(0) / m_tile_width);
 	entity.position.y = round(object["y"].as_float(0) / m_tile_height);
-	entity.size.x = object["width"].as_int(1) / m_tile_width;
-	entity.size.y = object["height"].as_int(1) / m_tile_height;
+
+	Vec2i entity_size = {
+		.x = object["width"].as_int(1) / m_tile_width,
+		.y = object["height"].as_int(1) / m_tile_height
+	};
+
+	entity.set_size(entity_size);
 
 	if (object.has("gid")) {
 		// Tile object
 		Tile tile = resolve_tile(object["gid"].as_int(0));
 		entity.sprite = tile.sprite;
 		// NOTE - For some reason, tile objects have origin in the bottom left corner.
-		entity.position.y -= entity.size.y;
+		entity.position.y -= entity.get_size().y;
 	}
 
 	if (object.has("properties")) {

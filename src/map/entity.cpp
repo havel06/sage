@@ -29,6 +29,15 @@ Vec2f Entity::get_subgrid_position() const
 	return position + m_subgrid_offset;
 }
 
+float Entity::get_sprite_scale() const
+{
+	if (assigned_character.has_value()) {
+		return assigned_character.value().get().sprite_scale;
+	} else {
+		return 1;
+	}
+}
+
 void Entity::move(Direction direction)
 {
 	if (m_moving)
@@ -48,8 +57,22 @@ void Entity::look(Direction direction)
 
 Recti Entity::get_bounding_box() const
 {
-	return {
+	return Recti{
 		.position = position,
-		.size = size
+		.size = get_size()
 	};
+}
+
+Vec2i Entity::get_size() const
+{
+	if (assigned_character.has_value()) {
+		return assigned_character.value().get().size;
+	} else {
+		return m_size;
+	}
+}
+
+void Entity::set_size(Vec2i value)
+{
+	m_size = value;
 }

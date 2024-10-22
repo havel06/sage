@@ -54,16 +54,15 @@ void Map_Renderer::draw_entity(const Entity& entity, float time_delta)
 {
 	Rectf transform = Rectf{
 		.position = entity.get_subgrid_position(),
-		.size = entity.size
-	};
+		.size = entity.get_size()
+	}.scale_from_center(entity.get_sprite_scale());
 
 	Direction look_direction = entity.get_look_direction();
 
 	if (entity.assigned_character.has_value()) {
 		const Character_Profile& character = entity.assigned_character.value().get();
 
-		transform.size = character.size;
-		transform.position.y -= character.size.y - 1; //Adjust foot position
+		transform.position.y -= character.size.y - 1; // Adjust foot position
 
 		if (entity.is_moving()) {
 			switch (look_direction) {

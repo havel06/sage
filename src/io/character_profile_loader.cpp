@@ -60,12 +60,16 @@ Character_Profile Character_Profile_Loader::load(const char* file_path)
 
 	if (json_view.has("size")) {
 		const JSON::Object_View character_size = json_view["size"].as_object();
-		profile.size.x = character_size["x"].as_float(1);
-		profile.size.y = character_size["y"].as_float(1);
+		profile.size.x = character_size["x"].as_int(1);
+		profile.size.y = character_size["y"].as_int(1);
 	}
 
 	if (json_view.has("move_speed")) {
 		profile.move_speed = json_view["move_speed"].as_float(CHARACTER_DEFAULT_SPEED);
+	}
+
+	if (json_view.has("sprite_scale")) {
+		profile.sprite_scale = json_view["sprite_scale"].as_float(1);
 	}
 
 	if (json_view.has("abilities")) {

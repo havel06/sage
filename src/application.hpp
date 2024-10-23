@@ -8,4 +8,5 @@ public:
 	void run(int argc, const char* argv[]);
 private:
 	void init_window();
+	void print_help();
 };

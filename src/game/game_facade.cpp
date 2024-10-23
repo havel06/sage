@@ -46,6 +46,7 @@ Game_Facade::Game_Facade(
 void Game_Facade::set_current_map(const String& filename)
 {
 	// FIXME - wouldn't time-based periodic saves be better?
+	// FIXME - this should probably happen in Game_Logic_Normal
 	if (!m_no_auto_save)
 		save_game(); // Save everything
 

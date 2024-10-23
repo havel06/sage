@@ -24,7 +24,7 @@ Optional<Parsed_Arguments> Parsed_Arguments::parse(int argc, const char** argv)
 		}
 	}
 
-	if (directory.empty()) {
+	if (!flags.contains("help") && directory.empty()) {
 		SG_ERROR("Missing project directory argument.");
 	}
 

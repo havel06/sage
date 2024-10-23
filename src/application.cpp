@@ -18,10 +18,7 @@ void Application::run(int argc, const char* argv[])
 	const bool cmd_help = arguments.value().flags.contains("help");
 
 	if (cmd_help) {
-		puts("Supported flags:");
-		puts("  --help");
-		puts("  --fps");
-		puts("  --noautosave");
+		print_help();
 		return;
 	}
 
@@ -54,4 +51,22 @@ void Application::init_window()
 	SetTargetFPS(60);
 	SetExitKey(0);
 	InitAudioDevice();
+}
+
+void Application::print_help()
+{
+	auto print_option = [](const char* name, const char* description) {
+		printf("  --%s\n", name);
+		printf("      %s\n", description);
+	};
+
+	puts("Usage:");
+	puts("sage [options...] <project_path>");
+	puts("");
+	puts("Supported flags:");
+	print_option("help", "Prints the available options.");
+	print_option("fps", "Shows the current fps in the corner of the window.");
+	print_option("nautosave", "Game does not automatically save when switching maps.");
+	print_option("record=<file>", "Records the game into specified replay file.");
+	print_option("replay=<file>", "Plays the specified replay file.");
 }

@@ -17,6 +17,8 @@ public:
 	const Sprite& get_current_frame() const { return m_frames[m_current_frame]; }
 	const Array<Sprite>& get_frames() const { return m_frames; }
 	float get_frame_time() const { return m_frame_time; }
+
+	bool is_null() const { return m_frames.empty(); }
 private:
 	float m_frame_time = 99999;
 	mutable int m_current_frame = 0;

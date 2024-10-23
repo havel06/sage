@@ -59,6 +59,8 @@ public:
 	void combat_change_current_unit_hp(int amount);
 	void combat_enter_target_selection(Target_Selection_Type);
 	void combat_end_turn();
+	void combat_set_current_unit_sprite(const Animated_Sprite& sprite);
+	void combat_reset_current_unit_sprite();
 	Combat_State get_combat_state() const;
 	void add_quest(const String& id, const String& name, const String& description);
 	void finish_quest(const String& id);

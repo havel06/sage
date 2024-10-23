@@ -2,6 +2,7 @@
 
 #include "character_profile.hpp"
 #include "combat/target_selection_type.hpp"
+#include "graphics/animated_sprite.hpp"
 #include "utils/array.hpp"
 #include "battle_desc.hpp"
 
@@ -16,6 +17,7 @@ class Combat_Unit
 {
 public:
 	Resource_Handle<Character_Profile> character;
+	Animated_Sprite custom_sprite; // For ability animations etc
 
 	Combat_Unit(int id, Resource_Handle<Character_Profile>, bool is_hero);
 	bool operator==(const Combat_Unit& other) const;
@@ -89,6 +91,8 @@ public:
 	void change_current_unit_hp(int amount);
 	void change_all_ally_units_hp(int amount);
 	void change_all_enemy_units_hp(int amount);
+	void set_current_unit_sprite(const Animated_Sprite& sprite);
+	void reset_current_unit_sprite();
 	void advance_turn();
 
 	// Unit stuff

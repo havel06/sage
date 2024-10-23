@@ -4,6 +4,7 @@
 #include "combat/battle_desc.hpp"
 #include "combat/target_selection_type.hpp"
 #include "combat_ai.hpp"
+#include "graphics/animated_sprite.hpp"
 #include "party.hpp"
 #include "sequence/sequence.hpp"
 #include "utils/log.hpp"
@@ -417,4 +418,14 @@ bool Combat::has_player_lost() const
 bool Combat::is_active() const
 {
 	return m_state != Combat_State::inactive;
+}
+
+void Combat::set_current_unit_sprite(const Animated_Sprite& sprite)
+{
+	get_unit_on_turn().custom_sprite = sprite;
+}
+
+void Combat::reset_current_unit_sprite()
+{
+	get_unit_on_turn().custom_sprite = Animated_Sprite{};
 }

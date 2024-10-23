@@ -217,6 +217,16 @@ void Game_Facade::combat_end_turn()
 	m_combat.advance_turn();
 }
 
+void Game_Facade::combat_set_current_unit_sprite(const Animated_Sprite& sprite)
+{
+	m_combat.set_current_unit_sprite(sprite);
+}
+
+void Game_Facade::combat_reset_current_unit_sprite()
+{
+	m_combat.reset_current_unit_sprite();
+}
+
 Combat_State Game_Facade::get_combat_state() const
 {
 	return m_combat.get_state();

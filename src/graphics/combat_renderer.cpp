@@ -1,6 +1,7 @@
 #include "combat_renderer.hpp"
 #include "combat/battle_desc.hpp"
 #include "combat/combat_controller.hpp"
+#include "graphics/animated_sprite.hpp"
 #include "party.hpp"
 #include "utils/log.hpp"
 #include "utils/rect.hpp"
@@ -91,9 +92,13 @@ void Combat_Renderer::draw_party(float dt)
 		renderer_unit->time_since_damage_taken += dt;
 		renderer_unit->time_since_heal += dt;
 
+		const Animated_Sprite& sprite = combat_unit.custom_sprite.is_null() ?
+				combat_unit.character.get().sprite_right :
+				combat_unit.custom_sprite;
+
 		m_shader.begin();
 		m_shader.set_highlight(highlight_colour);
-		combat_unit.character.get().sprite_right.draw(transform, dt);
+		sprite.draw(transform, dt);
 		m_shader.end();
 
 		draw_hp_bar({pos_x, pos_y}, Vec2i{size_x, size_y}, combat_unit, *renderer_unit, dt);
@@ -155,9 +160,13 @@ void Combat_Renderer::draw_enemies(float dt)
 		renderer_unit->time_since_damage_taken += dt;
 		renderer_unit->time_since_heal += dt;
 
+		const Animated_Sprite& sprite = combat_unit.custom_sprite.is_null() ?
+				combat_unit.character.get().sprite_left :
+				combat_unit.custom_sprite;
+
 		m_shader.begin();
 		m_shader.set_highlight(highlight_colour);
-		combat_unit.character.get().sprite_left.draw(transform, dt);
+		sprite.draw(transform, dt);
 		m_shader.end();
 
 		draw_hp_bar({pos_x, pos_y}, Vec2i{size_x, size_y}, combat_unit, *renderer_unit, dt);

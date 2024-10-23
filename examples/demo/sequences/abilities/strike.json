@@ -4,7 +4,7 @@
 		{
 			"type": "echo",
 			"parameters": {
-				"message": "Slash ability!"
+				"message": "Strike ability!"
 			}
 		},
 		{
@@ -28,21 +28,21 @@
 						{
 							"texture": "textures/player.png",
 							"position_x": 0,
-							"position_y": 224,
+							"position_y": 192,
 							"size_x": 32,
 							"size_y": 32
 						},
 						{
 							"texture": "textures/player.png",
 							"position_x": 32,
-							"position_y": 224,
+							"position_y": 192,
 							"size_x": 32,
 							"size_y": 32
 						},
 						{
 							"texture": "textures/player.png",
 							"position_x": 64,
-							"position_y": 224,
+							"position_y": 192,
 							"size_x": 32,
 							"size_y": 32
 						}
@@ -59,13 +59,7 @@
 		{
 			"type": "change_target_hp",
 			"parameters": {
-				"amount": -2
-			}
-		},
-		{
-			"type": "change_all_enemy_units_hp",
-			"parameters": {
-				"amount": -2
+				"amount": -5
 			}
 		},
 		{
@@ -81,7 +75,7 @@
 		{
 			"type": "delay",
 			"parameters": {
-				"seconds": 0.4
+				"seconds": 0.3
 			}
 		},
 		{

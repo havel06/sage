@@ -1,22 +1,7 @@
 #pragma once
 #include "utils/concepts.hpp"
 #include "utils/function_wrapper.hpp"
-
-enum class Input_Event
-{
-	down_pressed,
-	down_released,
-	up_pressed,
-	up_released,
-	left_pressed,
-	left_released,
-	right_pressed,
-	right_released,
-	accept,
-	escape,
-	open_inventory,
-	open_quest_log,
-};
+#include "input_event.hpp"
 
 class Input_Observer
 {

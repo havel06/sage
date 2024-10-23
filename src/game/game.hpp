@@ -14,7 +14,7 @@
 #include "graphics/quest_log_renderer.hpp"
 #include "graphics/scriptable_gui.hpp"
 #include "graphics/text_box_renderer.hpp"
-#include "input_event_provider.hpp"
+#include "input/input_event_provider.hpp"
 #include "io/gui_loader.hpp"
 #include "io/resource/resource_system.hpp"
 #include "io/user_directory_provider.hpp"
@@ -24,15 +24,17 @@
 #include "io/savegame/game_saveloader.hpp"
 #include "map/map.hpp"
 #include "music_player.hpp"
+#include "replay/replay_recorder.hpp"
 #include "sequence/sequence.hpp"
 #include "combat/combat_controller.hpp"
+#include "utils/optional.hpp"
 
 struct Project_Description;
 
 class Game : public Input_Observer
 {
 public:
-	Game(const Project_Description&, bool display_fps, bool no_auto_save);
+	Game(const Project_Description&, bool display_fps, bool no_auto_save, const Optional<String>& record_filename);
 	~Game();
 	void draw_frame(float time_delta);
 	bool should_exit() const;
@@ -73,12 +75,16 @@ private:
 	Scriptable_GUI m_scriptable_gui;
 	Debug_Entity_Renderer m_debug_entity_renderer;
 
+	Replay_Recorder m_replay_recorder;
 	Dev_Tools m_dev_tools;
+
+	double m_current_time = 0;
 
 	bool m_dev_mode = false;
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;
 	bool m_display_fps = false;
+	Optional<String> m_record_filename;
 
 	// Player controls
 	bool m_go_up = false;

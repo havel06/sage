@@ -27,13 +27,16 @@ void Application::run(int argc, const char* argv[])
 	const bool display_fps = arguments.value().flags.contains("fps");
 	const bool no_auto_save = arguments.value().flags.contains("noautosave");
 
+	const String* record_filename_ptr = arguments.value().options.get("record");
+	Optional<String> record_filename = record_filename_ptr ? *record_filename_ptr : Optional<String>{};
+
 	Project_Description description = load_project_description(arguments.value().directory);
 	SG_INFO("Loaded project \"%s\"", description.name.data());
 	SetWindowTitle(description.name.data());
 
 	Game game = [&](){
 		SG_PROFILE_SCOPE("Game initialisation");
-		return Game{description, display_fps, no_auto_save};
+		return Game{description, display_fps, no_auto_save, record_filename};
 	}();
 
 	while (!WindowShouldClose() && !game.should_exit()) {

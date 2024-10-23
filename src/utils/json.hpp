@@ -65,6 +65,7 @@ class Value
 public:
 	Value(int);
 	Value(float);
+	Value(double);
 	Value(bool);
 	Value(const char*);
 	Value(Array&&);

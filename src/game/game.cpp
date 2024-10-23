@@ -2,8 +2,8 @@
 #include "game/game_logic.hpp"
 #include "game_facade.hpp"
 #include "graphics/ui/widget.hpp"
-#include "input_event_provider.hpp"
-#include "input_manager.hpp"
+#include "input/input_event_provider.hpp"
+#include "input/input_manager.hpp"
 #include "io/gui_loader.hpp"
 #include "io/item_registry_loader.hpp"
 #include "io/project_loader.hpp"
@@ -13,7 +13,7 @@
 #include "utils/profiler.hpp"
 #include <raylib/raylib.h>
 
-Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save) :
+Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save, const Optional<String>& record_filename) :
 	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui, m_combat, m_party, no_auto_save),
 	m_sequence_loader(description.path, m_resource_system, m_game_facade, m_gui_loader),
 	m_resource_system(description.path, m_sequence_loader, m_sequence_saveloader),
@@ -54,11 +54,16 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 		m_combat_controller.load(m_gui_loader, description.gui_description.combat_menu_path, description.gui_description.combat_option_path);
 		m_main_menu.load(m_gui_loader, description.gui_description.main_menu_path, description.gui_description.main_menu_option_path);
 	}
+
+	m_record_filename = record_filename;
 }
 
 Game::~Game()
 {
 	m_game_facade.save_game();
+
+	if (m_record_filename.has_value())
+		m_replay_recorder.write_to_file(m_record_filename.value().data());
 }
 
 bool Game::should_exit() const
@@ -69,7 +74,6 @@ bool Game::should_exit() const
 void Game::draw_frame(float time_delta)
 {
 	// FIXME - refactor this function
-
 	m_resource_system.unload_free_resources();
 	m_music_player.update();
 
@@ -83,6 +87,8 @@ void Game::draw_frame(float time_delta)
 		m_dev_tools.draw(m_logic_normal.get_map(), m_logic_normal.get_map_filename());
 		return;
 	}
+
+	m_current_time += time_delta;
 
 	Input_Manager input;
 	input.process(*this);
@@ -134,6 +140,9 @@ void Game::do_player_movement()
 
 void Game::handle_input_event(Input_Event event)
 {
+	if (m_record_filename.has_value())
+		m_replay_recorder.capture_event(event, m_current_time);
+
 	// Direction input
 	switch (event) {
 		case Input_Event::up_pressed:

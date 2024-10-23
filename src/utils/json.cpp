@@ -187,6 +187,11 @@ Value::Value(float val)
 	m_cjson = cJSON_CreateNumber(val);
 }
 
+Value::Value(double val)
+{
+	m_cjson = cJSON_CreateNumber(val);
+}
+
 Value::Value(bool val)
 {
 	m_cjson = cJSON_CreateBool(val);

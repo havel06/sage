@@ -1,6 +1,9 @@
 #include "game.hpp"
+#include "game/game_logic.hpp"
 #include "game_facade.hpp"
 #include "graphics/ui/widget.hpp"
+#include "input_event_provider.hpp"
+#include "input_manager.hpp"
 #include "io/gui_loader.hpp"
 #include "io/item_registry_loader.hpp"
 #include "io/project_loader.hpp"
@@ -70,12 +73,6 @@ void Game::draw_frame(float time_delta)
 	m_resource_system.unload_free_resources();
 	m_music_player.update();
 
-	if (m_logic.get_state() == Game_Logic_State::main_menu) {
-		process_main_menu_input();
-		m_main_menu.draw(time_delta);
-		return;
-	}
-
 	if (IsKeyPressed(KEY_F3))
 		m_dev_mode = !m_dev_mode;
 
@@ -87,15 +84,19 @@ void Game::draw_frame(float time_delta)
 		return;
 	}
 
+	Input_Manager input;
+	input.process(*this);
+
+	if (m_logic.get_state() == Game_Logic_State::main_menu) {
+		m_main_menu.draw(time_delta);
+		return;
+	}
+
 	m_logic.update(time_delta);
 
 	if (m_logic.get_state() == Game_Logic_State::normal) {
 		// Normal mode
-		if (m_show_inventory)
-			process_inventory_input();
-		else
-			process_normal_input();
-
+		do_player_movement();
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
 		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
 		m_scriptable_gui.draw(time_delta);
@@ -107,7 +108,6 @@ void Game::draw_frame(float time_delta)
 		m_inventory_renderer.show(m_show_inventory);
 	} else {
 		// Combat mode
-		process_combat_input();
 		m_combat_renderer.draw(time_delta);
 		m_combat_controller.draw(time_delta);
 		m_scriptable_gui.draw(time_delta);
@@ -119,137 +119,190 @@ void Game::draw_frame(float time_delta)
 		DrawFPS(10, 10);
 }
 
-void Game::process_normal_input()
+void Game::do_player_movement()
 {
-	if (is_action_pressed_accept()) {
-		if (m_logic_normal.text_box.contains_message())
-			m_logic_normal.text_box.advance();
-		else
-			m_logic_normal.player_interact();
-	} else if (is_action_pressed_inventory()) {
-		m_show_inventory = true;
-	} else if (is_action_pressed_questlog()) {
-		m_show_quest_log = !m_show_quest_log;
-	} else if (m_show_quest_log && is_action_pressed_escape()) {
-		m_show_quest_log = false;
-	}
-
-	if (is_action_down_up()) {
+	if (m_go_up) {
 		m_logic_normal.move_player(Direction::up);
-	} else if (is_action_down_down()) {
+	} else if (m_go_down) {
 		m_logic_normal.move_player(Direction::down);
-	} else if (is_action_down_right()) {
+	} else if (m_go_right) {
 		m_logic_normal.move_player(Direction::right);
-	} else if (is_action_down_left()) {
+	} else if (m_go_left) {
 		m_logic_normal.move_player(Direction::left);
 	}
 }
 
-void Game::process_inventory_input()
+void Game::handle_input_event(Input_Event event)
 {
-	if (is_action_pressed_up()) {
-		m_inventory_renderer.input_direction(Direction::up);
-	} else if (is_action_pressed_down()) {
-		m_inventory_renderer.input_direction(Direction::down);
-	} else if (is_action_pressed_right()) {
-		m_inventory_renderer.input_direction(Direction::right);
-	} else if (is_action_pressed_left()) {
-		m_inventory_renderer.input_direction(Direction::left);
-	} else if (is_action_pressed_inventory() || is_action_pressed_escape()) {
-		m_show_inventory = false;
-	} else if (is_action_pressed_accept()) {
-		m_inventory_renderer.input_click();
+	// Direction input
+	switch (event) {
+		case Input_Event::up_pressed:
+			m_go_up = true;
+			break;
+		case Input_Event::up_released:
+			m_go_up = false;
+			break;
+		case Input_Event::down_pressed:
+			m_go_down = true;
+			break;
+		case Input_Event::down_released:
+			m_go_down = false;
+			break;
+		case Input_Event::left_pressed:
+			m_go_left = true;
+			break;
+		case Input_Event::left_released:
+			m_go_left = false;
+			break;
+		case Input_Event::right_pressed:
+			m_go_right = true;
+			break;
+		case Input_Event::right_released:
+			m_go_right = false;
+			break;
+		default:
+			break;
+	}
+
+	switch (m_logic.get_state()) {
+		case Game_Logic_State::normal:
+			if (m_show_inventory)
+				handle_input_inventory(event);
+			else if (m_show_quest_log)
+				handle_input_quest_log(event);
+			else
+				handle_input_normal(event);
+			break;
+		case Game_Logic_State::combat:
+			handle_input_combat(event);
+			break;
+		case Game_Logic_State::main_menu:
+			handle_input_main_menu(event);
+			break;
+		case Game_Logic_State::exit:
+			break;
 	}
 }
 
-void Game::process_main_menu_input()
+void Game::handle_input_normal(Input_Event event)
 {
-	if (is_action_pressed_up()) {
-		m_main_menu.input_direction(Direction::up);
-	} else if (is_action_pressed_down()) {
-		m_main_menu.input_direction(Direction::down);
-	} else if (is_action_pressed_right()) {
-		m_main_menu.input_direction(Direction::right);
-	} else if (is_action_pressed_left()) {
-		m_main_menu.input_direction(Direction::left);
-	} else if (is_action_pressed_accept()) {
-		m_main_menu.enter();
+	switch (event) {
+		case Input_Event::accept:
+			if (m_logic_normal.text_box.contains_message())
+				m_logic_normal.text_box.advance();
+			else
+				m_logic_normal.player_interact();
+			break;
+
+		case Input_Event::open_inventory:
+			m_show_inventory = true;
+			break;
+
+		case Input_Event::open_quest_log:
+			m_show_quest_log = true;
+			break;
+
+		default:
+			break;
 	}
 }
 
-void Game::process_combat_input()
+void Game::handle_input_inventory(Input_Event event)
 {
-	if (is_action_pressed_up()) {
-		m_combat_controller.input_direction(Direction::up);
-	} else if (is_action_pressed_down()) {
-		m_combat_controller.input_direction(Direction::down);
-	} else if (is_action_pressed_right()) {
-		m_combat_controller.input_direction(Direction::right);
-	} else if (is_action_pressed_left()) {
-		m_combat_controller.input_direction(Direction::left);
-	} else if (is_action_pressed_accept()) {
-		m_combat_controller.input_enter();
-	} else if (is_action_pressed_escape()) {
-		m_combat_controller.input_escape();
+	switch (event) {
+		case Input_Event::up_pressed:
+			m_inventory_renderer.input_direction(Direction::up);
+			break;
+
+		case Input_Event::down_pressed:
+			m_inventory_renderer.input_direction(Direction::down);
+			break;
+
+		case Input_Event::left_pressed:
+			m_inventory_renderer.input_direction(Direction::left);
+			break;
+
+		case Input_Event::right_pressed:
+			m_inventory_renderer.input_direction(Direction::right);
+			break;
+
+		case Input_Event::open_inventory:
+		case Input_Event::escape:
+			m_show_inventory = false;
+			break;
+
+		case Input_Event::accept:
+			m_inventory_renderer.input_click();
+			break;
+
+		default:
+			break;
 	}
 }
 
-bool Game::is_action_pressed_up()
+void Game::handle_input_quest_log(Input_Event event)
 {
-	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_UP) || IsKeyPressed(KEY_UP);
+	if (event == Input_Event::escape || event == Input_Event::open_quest_log) {
+		m_show_quest_log = false;
+	}
 }
 
-bool Game::is_action_pressed_down()
+void Game::handle_input_main_menu(Input_Event event)
 {
-	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN) || IsKeyPressed(KEY_DOWN);
+	switch (event) {
+		case Input_Event::up_pressed:
+			m_main_menu.input_direction(Direction::up);
+			break;
+
+		case Input_Event::down_pressed:
+			m_main_menu.input_direction(Direction::down);
+			break;
+
+		case Input_Event::left_pressed:
+			m_main_menu.input_direction(Direction::left);
+			break;
+
+		case Input_Event::right_pressed:
+			m_main_menu.input_direction(Direction::right);
+			break;
+
+		case Input_Event::accept:
+			m_main_menu.enter();
+			break;
+
+		default:
+			break;
+	}
 }
 
-bool Game::is_action_pressed_left()
+void Game::handle_input_combat(Input_Event event)
 {
-	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT) || IsKeyPressed(KEY_LEFT);
-}
+	switch (event) {
+		case Input_Event::up_pressed:
+			m_combat_controller.input_direction(Direction::up);
+			break;
 
-bool Game::is_action_pressed_right()
-{
-	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT) || IsKeyPressed(KEY_RIGHT);
-}
+		case Input_Event::down_pressed:
+			m_combat_controller.input_direction(Direction::down);
+			break;
 
-bool Game::is_action_down_up()
-{
-	return IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP) || IsKeyDown(KEY_UP);
-}
+		case Input_Event::left_pressed:
+			m_combat_controller.input_direction(Direction::left);
+			break;
 
-bool Game::is_action_down_down()
-{
-	return IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN) || IsKeyDown(KEY_DOWN);
-}
+		case Input_Event::right_pressed:
+			m_combat_controller.input_direction(Direction::right);
+			break;
 
-bool Game::is_action_down_left()
-{
-	return IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT) || IsKeyDown(KEY_LEFT);
-}
+		case Input_Event::accept:
+			m_combat_controller.input_enter();
+			break;
 
-bool Game::is_action_down_right()
-{
-	return IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT) || IsKeyDown(KEY_RIGHT);
-}
+		case Input_Event::escape:
+			m_combat_controller.input_escape();
+			break;
 
-bool Game::is_action_pressed_accept()
-{
-	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) || IsKeyPressed(KEY_ENTER);
-}
-
-bool Game::is_action_pressed_escape()
-{
-	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) || IsKeyPressed(KEY_ESCAPE);
-}
-
-bool Game::is_action_pressed_inventory()
-{
-	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT) || IsKeyPressed(KEY_I);
-}
-
-bool Game::is_action_pressed_questlog()
-{
-	return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_UP) || IsKeyPressed(KEY_Q);
+		default:
+			break;
+	}
 }

@@ -14,6 +14,7 @@
 #include "graphics/quest_log_renderer.hpp"
 #include "graphics/scriptable_gui.hpp"
 #include "graphics/text_box_renderer.hpp"
+#include "input_event_provider.hpp"
 #include "io/gui_loader.hpp"
 #include "io/resource/resource_system.hpp"
 #include "io/user_directory_provider.hpp"
@@ -28,7 +29,7 @@
 
 struct Project_Description;
 
-class Game
+class Game : public Input_Observer
 {
 public:
 	Game(const Project_Description&, bool display_fps, bool no_auto_save);
@@ -36,24 +37,13 @@ public:
 	void draw_frame(float time_delta);
 	bool should_exit() const;
 private:
-	// FIXME - use input manager instead
-	void process_main_menu_input();
-	void process_normal_input();
-	void process_combat_input();
-	void process_inventory_input();
-
-	bool is_action_down_up();
-	bool is_action_down_down();
-	bool is_action_down_left();
-	bool is_action_down_right();
-	bool is_action_pressed_up();
-	bool is_action_pressed_down();
-	bool is_action_pressed_left();
-	bool is_action_pressed_right();
-	bool is_action_pressed_accept();
-	bool is_action_pressed_escape();
-	bool is_action_pressed_inventory();
-	bool is_action_pressed_questlog();
+	void handle_input_event(Input_Event) override;
+	void handle_input_main_menu(Input_Event);
+	void handle_input_normal(Input_Event);
+	void handle_input_combat(Input_Event);
+	void handle_input_inventory(Input_Event);
+	void handle_input_quest_log(Input_Event);
+	void do_player_movement();
 
 	Game_Facade m_game_facade;
 	Sequence_Loader m_sequence_loader;
@@ -89,4 +79,10 @@ private:
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;
 	bool m_display_fps = false;
+
+	// Player controls
+	bool m_go_up = false;
+	bool m_go_down = false;
+	bool m_go_left = false;
+	bool m_go_right = false;
 };

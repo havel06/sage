@@ -1,22 +1,23 @@
 {
 	"name": "Spider",
 	"max_hp": 22,
+	"sprite_scale": 2,
 	"sprite_down": {
 		"frame_time": 0.8,
 		"frames": [
 			{
-				"texture": "textures/mage.png",
+				"texture": "textures/spider.png",
 				"position_x": 0,
-				"position_y": 240,
-				"size_x": 16,
-				"size_y": 16
+				"position_y": 0,
+				"size_x": 32,
+				"size_y": 32
 			},
 			{
-				"texture": "textures/mage.png",
-				"position_x": 16,
-				"position_y": 240,
-				"size_x": 16,
-				"size_y": 16
+				"texture": "textures/spider.png",
+				"position_x": 32,
+				"position_y": 0,
+				"size_x": 32,
+				"size_y": 32
 			}
 		]
 	},
@@ -24,18 +25,18 @@
 		"frame_time": 0.8,
 		"frames": [
 			{
-				"texture": "textures/mage.png",
+				"texture": "textures/spider.png",
 				"position_x": 0,
-				"position_y": 240,
-				"size_x": 16,
-				"size_y": 16
+				"position_y": 0,
+				"size_x": 32,
+				"size_y": 32
 			},
 			{
-				"texture": "textures/mage.png",
-				"position_x": 16,
-				"position_y": 240,
-				"size_x": 16,
-				"size_y": 16
+				"texture": "textures/spider.png",
+				"position_x": 32,
+				"position_y": 0,
+				"size_x": 32,
+				"size_y": 32
 			}
 		]
 	},
@@ -43,18 +44,18 @@
 		"frame_time": 0.8,
 		"frames": [
 			{
-				"texture": "textures/mage.png",
+				"texture": "textures/spider.png",
 				"position_x": 0,
-				"position_y": 240,
-				"size_x": 16,
-				"size_y": 16
+				"position_y": 0,
+				"size_x": 32,
+				"size_y": 32
 			},
 			{
-				"texture": "textures/mage.png",
-				"position_x": 16,
-				"position_y": 240,
-				"size_x": 16,
-				"size_y": 16
+				"texture": "textures/spider.png",
+				"position_x": 32,
+				"position_y": 0,
+				"size_x": 32,
+				"size_y": 32
 			}
 		]
 	},
@@ -62,18 +63,18 @@
 		"frame_time": 0.8,
 		"frames": [
 			{
-				"texture": "textures/mage.png",
+				"texture": "textures/spider.png",
 				"position_x": 0,
-				"position_y": 240,
-				"size_x": 16,
-				"size_y": 16
+				"position_y": 0,
+				"size_x": 32,
+				"size_y": 32
 			},
 			{
-				"texture": "textures/mage.png",
-				"position_x": 16,
-				"position_y": 240,
-				"size_x": 16,
-				"size_y": 16
+				"texture": "textures/spider.png",
+				"position_x": 32,
+				"position_y": 0,
+				"size_x": 32,
+				"size_y": 32
 			}
 		]
 	},

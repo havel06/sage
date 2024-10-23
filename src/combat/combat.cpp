@@ -95,11 +95,21 @@ void Combat::change_target_hp(int amount)
 	}
 
 	m_current_target->change_hp(amount);
+
+	// Notify observers
+	for (Combat_Observer* observer : m_observers) {
+		observer->on_unit_hp_change(m_current_target->get_id(), amount);
+	}
 }
 
 void Combat::change_current_unit_hp(int amount)
 {
 	get_unit_on_turn().change_hp(amount);
+
+	// Notify observers
+	for (Combat_Observer* observer : m_observers) {
+		observer->on_unit_hp_change(get_unit_on_turn().get_id(), amount);
+	}
 }
 
 void Combat::change_all_ally_units_hp(int amount)
@@ -108,6 +118,11 @@ void Combat::change_all_ally_units_hp(int amount)
 
 	for (Combat_Unit& unit : units) {
 		unit.change_hp(amount);
+
+		// Notify observers
+		for (Combat_Observer* observer : m_observers) {
+			observer->on_unit_hp_change(unit.get_id(), amount);
+		}
 	}
 }
 
@@ -117,6 +132,11 @@ void Combat::change_all_enemy_units_hp(int amount)
 
 	for (Combat_Unit& unit : units) {
 		unit.change_hp(amount);
+
+		// Notify observers
+		for (Combat_Observer* observer : m_observers) {
+			observer->on_unit_hp_change(unit.get_id(), amount);
+		}
 	}
 }
 

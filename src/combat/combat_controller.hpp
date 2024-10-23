@@ -36,6 +36,7 @@ private:
 	void on_hero_ability_selecting_begin() override; // Combat observer
 	void on_battle_begin() override {} // Combat observer
 	void on_item_activate(Item& item) override; // Inventory renderer observer
+	void on_unit_hp_change(int, int) override {};
 
 	void update_menus();
 	void draw_selected_target(float dt, bool is_enemy);

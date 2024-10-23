@@ -45,7 +45,7 @@ void Combat_Renderer::draw_party(float dt)
 {
 	for (int i = 0; i < m_combat.get_hero_count(); i++) {
 		const Combat_Unit& combat_unit = m_combat.get_hero(i);
-		Combat_Renderer_Unit* renderer_unit = m_heroes.get(combat_unit.get_id());
+		Combat_Renderer_Unit* renderer_unit = m_units.get(combat_unit.get_id());
 		assert(renderer_unit);
 
 		update_unit_position(i, *renderer_unit, false, dt);
@@ -61,16 +61,38 @@ void Combat_Renderer::draw_party(float dt)
 			.size = Vec2f{(float)size_x, (float)size_y}
 		}.scale_from_center(combat_unit.character.get().sprite_scale);
 
-		float highlight_amount = 0;
+		// Selection highlight
+		Colour highlight_colour = {255, 255, 255, 0};
 		if (m_combat_controller.is_selecting_hero() &&
 				m_combat_controller.get_current_selected_target() == i) {
 			const float blink_speed = 7;
 			const float highlight_max = 0.7;
-			highlight_amount = highlight_max * ((sin(m_highlight_time * blink_speed) + 1) / 2);
+			highlight_colour.a = highlight_max * ((sin(m_highlight_time * blink_speed) + 1) / 2);
 		}
 
+		// Damage taken highlight
+		const float damage_highlight_len = 0.5;
+		if (renderer_unit->time_since_damage_taken <= damage_highlight_len) {
+			// y = cos(t * pi / 2 / T)
+			const float effect_intensity = cos(renderer_unit->time_since_damage_taken * M_PI_2 / damage_highlight_len);
+			const float highlight_max = 0.7;
+			highlight_colour = Colour{220, 40, 40, (unsigned char)(255 * highlight_max * effect_intensity)};
+		}
+
+		// Heal highlight
+		const float heal_highlight_len = 0.8;
+		if (renderer_unit->time_since_heal <= heal_highlight_len) {
+			// y = sin(t * pi / T)
+			const float effect_intensity = sin(renderer_unit->time_since_heal * M_PI / heal_highlight_len);
+			const float highlight_max = 0.7;
+			highlight_colour = Colour{40, 220, 40, (unsigned char)(255 * highlight_max * effect_intensity)};
+		}
+
+		renderer_unit->time_since_damage_taken += dt;
+		renderer_unit->time_since_heal += dt;
+
 		m_shader.begin();
-		m_shader.set_highlight({255, 255, 255, (unsigned char)(highlight_amount * 255)});
+		m_shader.set_highlight(highlight_colour);
 		combat_unit.character.get().sprite_right.draw(transform, dt);
 		m_shader.end();
 
@@ -82,7 +104,7 @@ void Combat_Renderer::draw_enemies(float dt)
 {
 	for (int i = 0; i < m_combat.get_enemy_count(); i++) {
 		const Combat_Unit& combat_unit = m_combat.get_enemy(i);
-		Combat_Renderer_Unit* renderer_unit = m_enemies.get(combat_unit.get_id());
+		Combat_Renderer_Unit* renderer_unit = m_units.get(combat_unit.get_id());
 		assert(renderer_unit);
 
 		update_unit_position(i, *renderer_unit, true, dt);
@@ -98,7 +120,8 @@ void Combat_Renderer::draw_enemies(float dt)
 			.size = Vec2f{(float)size_x, (float)size_y}
 		}.scale_from_center(combat_unit.character.get().sprite_scale);
 
-		float highlight_amount = 0;
+		// Selection highlight
+		Colour highlight_colour = {255, 255, 255, 0};
 		if (m_combat_controller.is_selecting_enemy() &&
 				m_combat_controller.get_current_selected_target() == i) {
 			const float blink_speed = 7;
@@ -108,11 +131,32 @@ void Combat_Renderer::draw_enemies(float dt)
 				m_last_highlight_target = i;
 				m_highlight_time = 0;
 			}
-			highlight_amount = highlight_max * ((cos(m_highlight_time * blink_speed) + 1) / 2);
+			highlight_colour.a = 255 * highlight_max * ((cos(m_highlight_time * blink_speed) + 1) / 2);
 		}
 
+		// Damage taken highlight
+		const float damage_highlight_len = 0.5;
+		if (renderer_unit->time_since_damage_taken <= damage_highlight_len) {
+			// y = cos(t * pi / 2 / T)
+			const float effect_intensity = cos(renderer_unit->time_since_damage_taken * M_PI_2 / damage_highlight_len);
+			const float highlight_max = 0.7;
+			highlight_colour = Colour{220, 40, 40, (unsigned char)(255 * highlight_max * effect_intensity)};
+		}
+
+		// Heal highlight
+		const float heal_highlight_len = 0.7;
+		if (renderer_unit->time_since_heal <= heal_highlight_len) {
+			// y = cos(t * pi / 2 / T)
+			const float effect_intensity = cos(renderer_unit->time_since_heal * M_PI_2 / heal_highlight_len);
+			const float highlight_max = 0.7;
+			highlight_colour = Colour{40, 220, 40, (unsigned char)(255 * highlight_max * effect_intensity)};
+		}
+
+		renderer_unit->time_since_damage_taken += dt;
+		renderer_unit->time_since_heal += dt;
+
 		m_shader.begin();
-		m_shader.set_highlight({255, 255, 255, (unsigned char)(highlight_amount * 255)});
+		m_shader.set_highlight(highlight_colour);
 		combat_unit.character.get().sprite_left.draw(transform, dt);
 		m_shader.end();
 
@@ -142,21 +186,17 @@ void Combat_Renderer::draw_hp_bar(const Vec2i unit_pos, Vec2i unit_size, const C
 
 	DrawRectangle(bar_x + padding, bar_y + padding, (unit_size.x - 2*padding) * hp_portion_old, height - 2 * padding, ORANGE);
 	DrawRectangle(bar_x + padding, bar_y + padding, (unit_size.x - 2*padding) * hp_portion_current, height - 2 * padding, RED);
-
-	(void)padding;
-	(void)unit;
 }
 
 void Combat_Renderer::on_battle_begin()
 {
 	SG_DEBUG("Combat renderer - battle begins");
 	m_background = m_combat.get_background();
-	m_heroes.clear();
-	m_enemies.clear();
+	m_units.clear();
 
 	for (int i = 0; i < m_combat.get_hero_count(); i++) {
 		const Combat_Unit& unit = m_combat.get_hero(i);
-		m_heroes.insert(unit.get_id(), Combat_Renderer_Unit{
+		m_units.insert(unit.get_id(), Combat_Renderer_Unit{
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
 			.placement = get_hero_unit_placement(i)
@@ -165,7 +205,7 @@ void Combat_Renderer::on_battle_begin()
 
 	for (int i = 0; i < m_combat.get_enemy_count(); i++) {
 		const Combat_Unit& unit = m_combat.get_enemy(i);
-		m_enemies.insert(unit.get_id(), Combat_Renderer_Unit{
+		m_units.insert(unit.get_id(), Combat_Renderer_Unit{
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
 			.placement = get_enemy_unit_placement(i)
@@ -202,4 +242,15 @@ void Combat_Renderer::update_unit_position(int index, Combat_Renderer_Unit& unit
 
 	unit.placement.position_x = unit.placement.position_x.lerp(placement.position_x, speed * dt);
 	unit.placement.position_y = unit.placement.position_y.lerp(placement.position_y, speed * dt);
+}
+
+void Combat_Renderer::on_unit_hp_change(int id, int amount)
+{
+	Combat_Renderer_Unit* unit = m_units.get(id);
+	assert(unit);
+	
+	if (amount < 0)
+		unit->time_since_damage_taken = 0;
+	else
+		unit->time_since_heal = 0;
 }

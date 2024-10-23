@@ -18,6 +18,8 @@ struct Combat_Renderer_Unit
 	float hp_shown_old;
 	float hp_shown_current;
 	Battle_Unit_Placement placement;
+	float time_since_damage_taken = 10000;
+	float time_since_heal = 10000;
 };
 
 // FIXME - refactor (after refactoring Combat itself)
@@ -39,12 +41,12 @@ private:
 
 	void on_hero_ability_selecting_begin() override {};
 	void on_battle_begin() override;
+	void on_unit_hp_change(int id, int amount) override;
 
 	float m_highlight_time = 0;
 	int m_last_highlight_target = 0;
 	Animated_Sprite m_background;
-	Table<int /*id*/, Combat_Renderer_Unit> m_heroes;
-	Table<int /*id*/, Combat_Renderer_Unit> m_enemies;
+	Table<int /*id*/, Combat_Renderer_Unit> m_units;
 
 	const Combat& m_combat;
 	const Combat_Controller& m_combat_controller;

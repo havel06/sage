@@ -186,7 +186,7 @@ if get_option('buildtype') == 'debug'
   build_options = ['werror=true', 'unity=off', 'warning_level=3']
 endif
 
-executable('out', src,
+executable('sage', src,
   dependencies : deps,
   include_directories : [vendor_inc, 'src'],
   override_options : build_options,

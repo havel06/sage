@@ -21,6 +21,7 @@ public:
 	int as_int(int fallback_value) const;
 	bool as_bool(bool fallback_value) const;
 	float as_float(float fallback_value) const;
+	double as_double(double fallback_value) const;
 	const char* as_string(const char* fallback_value) const;
 
 	Array_View as_array() const;

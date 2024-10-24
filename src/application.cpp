@@ -1,9 +1,12 @@
 #include "application.hpp"
 #include "argument_parser.hpp"
+#include "input/input_event_provider.hpp"
+#include "input/user_input.hpp"
 #include "io/project_loader.hpp"
 #include "io/resource/resource_system.hpp"
 #include "utils/log.hpp"
 #include "utils/profiler.hpp"
+#include "replay/replay_player.hpp"
 #include <raylib/raylib.h>
 #include <stdio.h>
 
@@ -27,8 +30,17 @@ void Application::run(int argc, const char* argv[])
 	const bool display_fps = arguments.value().flags.contains("fps");
 	const bool no_auto_save = arguments.value().flags.contains("noautosave");
 
-	const String* record_filename_ptr = arguments.value().options.get("record");
-	Optional<String> record_filename = record_filename_ptr ? *record_filename_ptr : Optional<String>{};
+	Optional<String> record_filename = arguments.value().options.get_opt("record");
+	Optional<String> replay_filename = arguments.value().options.get_opt("replay");
+
+	// Create input
+	Own_Ptr<Input_Event_Provider> input = [&]() -> Own_Ptr<Input_Event_Provider> {
+		if (replay_filename.has_value()) {
+			return make_own_ptr<Replay_Player>(replay_filename.value().data());
+		} else {
+			return make_own_ptr<User_Input>();
+		}
+	}();
 
 	Project_Description description = load_project_description(arguments.value().directory);
 	SG_INFO("Loaded project \"%s\"", description.name.data());
@@ -36,7 +48,7 @@ void Application::run(int argc, const char* argv[])
 
 	Game game = [&](){
 		SG_PROFILE_SCOPE("Game initialisation");
-		return Game{description, display_fps, no_auto_save, record_filename};
+		return Game{description, display_fps, no_auto_save, record_filename, *input};
 	}();
 
 	while (!WindowShouldClose() && !game.should_exit()) {

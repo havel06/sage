@@ -34,7 +34,7 @@ struct Project_Description;
 class Game : public Input_Observer
 {
 public:
-	Game(const Project_Description&, bool display_fps, bool no_auto_save, const Optional<String>& record_filename);
+	Game(const Project_Description&, bool display_fps, bool no_auto_save, const Optional<String>& record_filename, Input_Event_Provider& input_provider);
 	~Game();
 	void draw_frame(float time_delta);
 	bool should_exit() const;
@@ -46,6 +46,8 @@ private:
 	void handle_input_inventory(Input_Event);
 	void handle_input_quest_log(Input_Event);
 	void do_player_movement();
+
+	Input_Event_Provider& m_input;
 
 	Game_Facade m_game_facade;
 	Sequence_Loader m_sequence_loader;

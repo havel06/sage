@@ -2,6 +2,7 @@
 
 #include "array.hpp"
 #include "concepts.hpp"
+#include "optional.hpp"
 
 // A simple non-ordered key-value table
 template<typename Key, typename T>
@@ -15,6 +16,7 @@ public:
 
 	T* get(const Key&);
 	const T* get(const Key&) const;
+	Optional<T> get_opt(const Key&) const;
 	bool contains(const Key&) const;
 
 	template<typename Fn>
@@ -89,6 +91,17 @@ const T* Table<Key, T>::get(const Key& key) const
 	}
 
 	return nullptr;
+}
+
+template<typename Key, typename T>
+Optional<T> Table<Key, T>::get_opt(const Key& key) const
+{
+	const T* ptr = get(key);
+	if (ptr) {
+		return Optional<T>{*ptr};
+	} else {
+		return Optional<T>{};
+	}
 }
 
 template<typename Key, typename T>

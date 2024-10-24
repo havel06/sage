@@ -44,6 +44,16 @@ float Value_View::as_float(float fallback_value) const
 	}
 }
 
+double Value_View::as_double(double fallback_value) const
+{
+	if (cJSON_IsNumber(m_cjson)) {
+		return m_cjson->valuedouble;
+	} else {
+		SG_ERROR("JSON: Expected a number.");
+		return fallback_value;
+	}
+}
+
 const char* Value_View::as_string(const char* fallback_value) const
 {
 	if (cJSON_IsString(m_cjson)) {

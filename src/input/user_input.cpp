@@ -1,8 +1,8 @@
-#include "input_manager.hpp"
+#include "user_input.hpp"
 #include <raylib/raylib.h>
 
 
-void Input_Manager::process(Input_Observer& observer)
+void User_Input::process(Input_Observer& observer, float)
 {
 	if (IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_UP) || IsKeyPressed(KEY_UP))
 		observer.handle_input_event(Input_Event::up_pressed);

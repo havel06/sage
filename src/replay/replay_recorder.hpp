@@ -1,26 +1,18 @@
 #pragma once
 
 #include "input/input_event.hpp"
-#include "utils/array.hpp"
+#include "replay.hpp"
 
 // fwd
 namespace JSON {
 	class Object;
 }
 
-struct Replay_Event
-{
-	Input_Event input_event;
-	double event_time;
-};
-
 class Replay_Recorder
 {
 public:
 	void capture_event(Input_Event event, double event_time);
-	void write_to_file(const char* filename);
+	const Replay& get_replay() { return m_replay; }
 private:
-	JSON::Object serialise_event(const Replay_Event&);
-
-	Array<Replay_Event> m_events;
+	Replay m_replay;
 };

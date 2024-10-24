@@ -17,3 +17,4 @@ enum class Input_Event
 };
 
 const char* input_event_to_string(Input_Event);
+Input_Event input_event_from_string(const char*);

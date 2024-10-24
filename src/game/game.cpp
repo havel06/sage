@@ -3,7 +3,7 @@
 #include "game_facade.hpp"
 #include "graphics/ui/widget.hpp"
 #include "input/input_event_provider.hpp"
-#include "input/input_manager.hpp"
+#include "input/user_input.hpp"
 #include "io/gui_loader.hpp"
 #include "io/item_registry_loader.hpp"
 #include "io/project_loader.hpp"
@@ -13,7 +13,8 @@
 #include "utils/profiler.hpp"
 #include <raylib/raylib.h>
 
-Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save, const Optional<String>& record_filename) :
+Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save, const Optional<String>& record_filename, Input_Event_Provider& input) :
+	m_input{input},
 	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui, m_combat, m_party, no_auto_save),
 	m_sequence_loader(description.path, m_resource_system, m_game_facade, m_gui_loader),
 	m_resource_system(description.path, m_sequence_loader, m_sequence_saveloader),
@@ -63,7 +64,7 @@ Game::~Game()
 	m_game_facade.save_game();
 
 	if (m_record_filename.has_value())
-		m_replay_recorder.write_to_file(m_record_filename.value().data());
+		m_replay_recorder.get_replay().save_to_file(m_record_filename.value().data());
 }
 
 bool Game::should_exit() const
@@ -89,9 +90,7 @@ void Game::draw_frame(float time_delta)
 	}
 
 	m_current_time += time_delta;
-
-	Input_Manager input;
-	input.process(*this);
+	m_input.process(*this, time_delta);
 
 	if (m_logic.get_state() == Game_Logic_State::main_menu) {
 		m_main_menu.draw(time_delta);

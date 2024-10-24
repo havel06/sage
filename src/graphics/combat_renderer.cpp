@@ -68,7 +68,7 @@ void Combat_Renderer::draw_party(float dt)
 				m_combat_controller.get_current_selected_target() == i) {
 			const float blink_speed = 7;
 			const float highlight_max = 0.7;
-			highlight_colour.a = highlight_max * ((sin(m_highlight_time * blink_speed) + 1) / 2);
+			highlight_colour.a = 255 * highlight_max * ((sin(m_highlight_time * blink_speed) + 1) / 2);
 		}
 
 		// Damage taken highlight

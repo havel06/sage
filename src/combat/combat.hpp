@@ -5,33 +5,12 @@
 #include "graphics/animated_sprite.hpp"
 #include "utils/array.hpp"
 #include "battle_desc.hpp"
+#include "combat_unit.hpp"
 
 // fwd
 class Party;
 class Sequence;
 struct Item;
-
-// FIXME - separate some parts of this file
-
-class Combat_Unit
-{
-public:
-	Resource_Handle<Character_Profile> character;
-	Animated_Sprite custom_sprite; // For ability animations etc
-
-	Combat_Unit(int id, Resource_Handle<Character_Profile>, bool is_hero);
-	bool operator==(const Combat_Unit& other) const;
-
-	int get_id() const { return m_id; }
-	int get_hp() const { return m_hp; }
-	bool is_hero() const { return m_is_hero; }
-	bool is_enemy() const { return !m_is_hero; }
-	void change_hp(int amount);
-private:
-	int m_id;
-	int m_hp;
-	bool m_is_hero;
-};
 
 enum class Combat_Result
 {

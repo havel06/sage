@@ -2,6 +2,7 @@
 #include "ability.hpp"
 #include "character_profile.hpp"
 #include "combat/battle_desc.hpp"
+#include "combat/combat_unit.hpp"
 #include "combat/target_selection_type.hpp"
 #include "combat_ai.hpp"
 #include "graphics/animated_sprite.hpp"
@@ -10,29 +11,6 @@
 #include "utils/log.hpp"
 #include "item/item.hpp"
 
-Combat_Unit::Combat_Unit(int id, Resource_Handle<Character_Profile> p, bool is_hero) :
-	character{p},
-	m_id{id},
-	m_is_hero{is_hero}
-{
-	m_hp = character.get().max_hp;
-}
-
-bool Combat_Unit::operator==(const Combat_Unit& other) const
-{
-	return get_id() == other.get_id();
-}
-
-void Combat_Unit::change_hp(int amount)
-{
-	m_hp += amount;
-
-	// Clamp to max hp
-	const int max_hp = character.get().max_hp;
-	if (m_hp > max_hp) {
-		m_hp = max_hp;
-	}
-}
 
 Combat::Combat(Party& party) :
 	m_party{party}
@@ -66,11 +44,11 @@ void Combat::start_battle(const Battle_Description& description)
 	m_enemies.clear();
 
 	for (int i = 0; i < m_party.get_character_count(); i++) {
-		m_heroes.push_back(Combat_Unit{m_last_assigned_id++, m_party.get_character(i), true});
+		m_heroes.push_back(Combat_Unit{m_last_assigned_id++, m_party.get_character(i), Combat_Unit_Side::hero});
 	}
 
 	for (Resource_Handle<Character_Profile> enemy : description.enemies) {
-		m_enemies.push_back(Combat_Unit{m_last_assigned_id++, enemy, false});
+		m_enemies.push_back(Combat_Unit{m_last_assigned_id++, enemy, Combat_Unit_Side::enemy});
 	}
 
 	m_state = Combat_State::hero_selecting_ability;

@@ -24,4 +24,6 @@ private:
 
 	Condition_Parser& m_condition_parser;
 	Texture_Manager& m_texture_manager;
+
+	class Visitor; // fwd
 };

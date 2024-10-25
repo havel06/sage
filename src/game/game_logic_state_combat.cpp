@@ -15,10 +15,9 @@ void Game_Logic_State_Combat::update(float time_delta)
 {
 	// Update sequences
 	m_sequence_manager.update(time_delta);
-
 	m_combat.update();
-	Combat_Result result = m_combat.get_current_result();
-	if (result == Combat_Result::won || result == Combat_Result::lost) {
+
+	if (!m_combat.is_active()) {
 		m_logic.enter_normal_mode();
 	}
 }

@@ -189,47 +189,87 @@ bool Game_Facade::is_in_combat() const
 
 void Game_Facade::combat_change_target_hp(int amount)
 {
-	m_combat.change_target_hp(amount);
+	if (!m_combat.is_active()) {
+		SG_ERROR("No active battle.");
+		return;
+	}
+
+	m_combat.get_battle().change_target_hp(amount);
 }
 
 void Game_Facade::combat_change_all_enemy_units_hp(int amount)
 {
-	m_combat.change_all_enemy_units_hp(amount);
+	if (!m_combat.is_active()) {
+		SG_ERROR("No active battle.");
+		return;
+	}
+
+	m_combat.get_battle().change_all_enemy_units_hp(amount);
 }
 
 void Game_Facade::combat_change_all_ally_units_hp(int amount)
 {
-	m_combat.change_all_ally_units_hp(amount);
+	if (!m_combat.is_active()) {
+		SG_ERROR("No active battle.");
+		return;
+	}
+
+	m_combat.get_battle().change_all_ally_units_hp(amount);
 }
 
 void Game_Facade::combat_change_current_unit_hp(int amount)
 {
-	m_combat.change_current_unit_hp(amount);
+	if (!m_combat.is_active()) {
+		SG_ERROR("No active battle.");
+		return;
+	}
+	m_combat.get_battle().change_current_unit_hp(amount);
 }
 
 void Game_Facade::combat_enter_target_selection(Target_Selection_Type type)
 {
-	m_combat.enter_target_selection(type);
+	if (!m_combat.is_active()) {
+		SG_ERROR("No active battle.");
+		return;
+	}
+	m_combat.get_battle().enter_target_selection(type);
 }
 
 void Game_Facade::combat_end_turn()
 {
-	m_combat.advance_turn();
+	if (!m_combat.is_active()) {
+		SG_ERROR("No active battle.");
+		return;
+	}
+	m_combat.get_battle().advance_turn();
 }
 
 void Game_Facade::combat_set_current_unit_sprite(const Animated_Sprite& sprite)
 {
-	m_combat.set_current_unit_sprite(sprite);
+	if (!m_combat.is_active()) {
+		SG_ERROR("No active battle.");
+		return;
+	}
+	m_combat.get_battle().set_current_unit_sprite(sprite);
 }
 
 void Game_Facade::combat_reset_current_unit_sprite()
 {
-	m_combat.reset_current_unit_sprite();
+	if (!m_combat.is_active()) {
+		SG_ERROR("No active battle.");
+		return;
+	}
+	m_combat.get_battle().reset_current_unit_sprite();
 }
 
 Combat_State Game_Facade::get_combat_state() const
 {
-	return m_combat.get_state();
+	if (!m_combat.is_active()) {
+		SG_ERROR("No active battle.");
+		return Combat_State::inactive;
+	}
+
+	return m_combat.get_battle().get_state();
 }
 
 void Game_Facade::add_quest(const String& id, const String& name, const String& description)

@@ -7,14 +7,14 @@
 #include <stdlib.h>
 #include <float.h>
 
-Combat_AI::Combat_AI(const Combat& combat) :
-	m_combat{combat}
+Combat_AI::Combat_AI(const Battle& battle) :
+	m_battle{battle}
 {
 }
 
 int Combat_AI::decide_ability()
 {
-	const Combat_Unit& unit = m_combat.get_unit_on_turn();
+	const Combat_Unit& unit = m_battle.get_unit_on_turn();
 	const Combat_Stances current_stances = calculate_stances();
 
 	int best_ability = 0;
@@ -42,13 +42,13 @@ int Combat_AI::decide_ability()
 
 int Combat_AI::decide_target(bool ally)
 {
-	const int target_count = ally ? m_combat.get_enemy_count() : m_combat.get_hero_count();
+	const int target_count = ally ? m_battle.get_enemy_count() : m_battle.get_hero_count();
 	return rand() % target_count;
 }
 
 Combat_Stances Combat_AI::calculate_stances()
 {
-	const Combat_Unit& unit = m_combat.get_unit_on_turn();
+	const Combat_Unit& unit = m_battle.get_unit_on_turn();
 
 	//SG_DEBUG("def: %f", calculate_defense_for_unit(unit));
 	//SG_DEBUG("of: %f", calculate_offense_stance());
@@ -74,21 +74,21 @@ float Combat_AI::calculate_aid_stance()
 {
 	// Calculated as the average defense stance for allies not on turn
 
-	if (m_combat.get_enemy_count() == 1)
+	if (m_battle.get_enemy_count() == 1)
 		return 0;
 
 	float sum = 0;
 
-	for (int i = 0; i < m_combat.get_enemy_count(); i++) {
-		const Combat_Unit& unit = m_combat.get_enemy(i);
+	for (int i = 0; i < m_battle.get_enemy_count(); i++) {
+		const Combat_Unit& unit = m_battle.get_enemy(i);
 
-		if (unit == m_combat.get_unit_on_turn())
+		if (unit == m_battle.get_unit_on_turn())
 			continue;
 
 		sum += calculate_defense_for_unit(unit);
 	}
 
-	return sum / (m_combat.get_enemy_count() - 1);
+	return sum / (m_battle.get_enemy_count() - 1);
 }
 
 //float Combat_AI::calculate_offense_stance()

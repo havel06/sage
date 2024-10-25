@@ -26,26 +26,28 @@ void Combat_Renderer::draw(float dt)
 
 void Combat_Renderer::draw_background(float dt)
 {
+	const Animated_Sprite& background = m_combat.get_battle().get_background();
+
 	// Render sprite to cover screen
-	const float texture_size_x = m_background.get_current_frame().texture_clip.size.x;
-	const float texture_size_y = m_background.get_current_frame().texture_clip.size.y;
+	const float texture_size_x = background.get_current_frame().texture_clip.size.x;
+	const float texture_size_y = background.get_current_frame().texture_clip.size.y;
 
 	const float scale_x = GetScreenWidth() / texture_size_x;
 	const float scale_y = GetScreenHeight() / texture_size_y;
 
 	if (scale_x > scale_y) {
 		// Sprite needs to stretch horizontally
-		m_background.draw({{0, 0}, {texture_size_x * scale_x, texture_size_y * scale_x}}, dt);
+		background.draw({{0, 0}, {texture_size_x * scale_x, texture_size_y * scale_x}}, dt);
 	} else {
 		// Sprite needs to stretch vertically
-		m_background.draw({{0, 0}, {texture_size_x * scale_y, texture_size_y * scale_y}}, dt);
+		background.draw({{0, 0}, {texture_size_x * scale_y, texture_size_y * scale_y}}, dt);
 	}
 }
 
 void Combat_Renderer::draw_party(float dt)
 {
-	for (int i = 0; i < m_combat.get_hero_count(); i++) {
-		const Combat_Unit& combat_unit = m_combat.get_hero(i);
+	for (int i = 0; i < m_combat.get_battle().get_hero_count(); i++) {
+		const Combat_Unit& combat_unit = m_combat.get_battle().get_hero(i);
 		Combat_Renderer_Unit* renderer_unit = m_units.get(combat_unit.get_id());
 		assert(renderer_unit);
 
@@ -107,8 +109,8 @@ void Combat_Renderer::draw_party(float dt)
 
 void Combat_Renderer::draw_enemies(float dt)
 {
-	for (int i = 0; i < m_combat.get_enemy_count(); i++) {
-		const Combat_Unit& combat_unit = m_combat.get_enemy(i);
+	for (int i = 0; i < m_combat.get_battle().get_enemy_count(); i++) {
+		const Combat_Unit& combat_unit = m_combat.get_battle().get_enemy(i);
 		Combat_Renderer_Unit* renderer_unit = m_units.get(combat_unit.get_id());
 		assert(renderer_unit);
 
@@ -200,11 +202,10 @@ void Combat_Renderer::draw_hp_bar(const Vec2i unit_pos, Vec2i unit_size, const C
 void Combat_Renderer::on_battle_begin()
 {
 	SG_DEBUG("Combat renderer - battle begins");
-	m_background = m_combat.get_background();
 	m_units.clear();
 
-	for (int i = 0; i < m_combat.get_hero_count(); i++) {
-		const Combat_Unit& unit = m_combat.get_hero(i);
+	for (int i = 0; i < m_combat.get_battle().get_hero_count(); i++) {
+		const Combat_Unit& unit = m_combat.get_battle().get_hero(i);
 		m_units.insert(unit.get_id(), Combat_Renderer_Unit{
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
@@ -212,8 +213,8 @@ void Combat_Renderer::on_battle_begin()
 		});
 	}
 
-	for (int i = 0; i < m_combat.get_enemy_count(); i++) {
-		const Combat_Unit& unit = m_combat.get_enemy(i);
+	for (int i = 0; i < m_combat.get_battle().get_enemy_count(); i++) {
+		const Combat_Unit& unit = m_combat.get_battle().get_enemy(i);
 		m_units.insert(unit.get_id(), Combat_Renderer_Unit{
 			.hp_shown_old = (float)unit.get_hp(),
 			.hp_shown_current = (float)unit.get_hp(),
@@ -224,8 +225,8 @@ void Combat_Renderer::on_battle_begin()
 
 Battle_Unit_Placement Combat_Renderer::get_enemy_unit_placement(int index)
 {
-	const Array<Battle_Unit_Placement>& placements = m_combat.get_units_layout().enemies;
-	if (m_combat.get_enemy_count() > placements.size()) {
+	const Array<Battle_Unit_Placement>& placements = m_combat.get_battle().get_units_layout().enemies;
+	if (m_combat.get_battle().get_enemy_count() > placements.size()) {
 		// FIXME - Possibly log an error without spamming the console
 		index = placements.size() - 1;
 	}
@@ -235,8 +236,8 @@ Battle_Unit_Placement Combat_Renderer::get_enemy_unit_placement(int index)
 
 Battle_Unit_Placement Combat_Renderer::get_hero_unit_placement(int index)
 {
-	const Array<Battle_Unit_Placement>& placements = m_combat.get_units_layout().heroes;
-	if (m_combat.get_hero_count() > placements.size()) {
+	const Array<Battle_Unit_Placement>& placements = m_combat.get_battle().get_units_layout().heroes;
+	if (m_combat.get_battle().get_hero_count() > placements.size()) {
 		// FIXME - Possibly log an error without spamming the console
 		index = placements.size() - 1;
 	}

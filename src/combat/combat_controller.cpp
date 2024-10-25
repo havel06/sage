@@ -99,14 +99,14 @@ void Combat_Controller::on_item_activate(Item& item)
 	}
 
 	if (item.assigned_sequence.has_value()) {
-		m_combat.select_item(item);
+		m_combat.get_battle().select_item(item);
 		m_menu_state = Combat_Controller_Menu_State::selecting_action;
 	}
 }
 
 void Combat_Controller::update_menus()
 {
-	const Character_Profile& hero = m_combat.get_unit_on_turn().character.get();
+	const Character_Profile& hero = m_combat.get_battle().get_unit_on_turn().character.get();
 
 	UI::Widget* action_menu_title = m_action_menu_widget->get_widget_by_name("Title");
 	UI::Widget* ability_menu_title = m_ability_menu_widget->get_widget_by_name("Title");
@@ -136,7 +136,7 @@ void Combat_Controller::update_menus()
 
 				UI::Button_Widget_Visitor button_visitor{[&](UI::Button& button){
 					button.on_click = [this, i](){
-						m_combat.select_ability(i);
+						m_combat.get_battle().select_ability(i);
 					};
 				}};
 
@@ -155,7 +155,7 @@ void Combat_Controller::update_menus()
 
 void Combat_Controller::input_direction(Direction direction)
 {
-	switch (m_combat.get_state()) {
+	switch (m_combat.get_battle().get_state()) {
 		case Combat_State::hero_selecting_ability:
 			if (m_menu_state == Combat_Controller_Menu_State::selecting_action) {
 				m_action_menu_widget->move_focus(direction);
@@ -170,12 +170,12 @@ void Combat_Controller::input_direction(Direction direction)
 				case Direction::up:
 					m_selected_target--;
 					if (m_selected_target < 0) {
-						m_selected_target = m_combat.get_enemy_count() - 1;
+						m_selected_target = m_combat.get_battle().get_enemy_count() - 1;
 					}
 					break;
 				case Direction::down:
 					m_selected_target++;
-					m_selected_target = m_selected_target % m_combat.get_enemy_count();
+					m_selected_target = m_selected_target % m_combat.get_battle().get_enemy_count();
 					break;
 				default:
 					break;
@@ -186,12 +186,12 @@ void Combat_Controller::input_direction(Direction direction)
 				case Direction::up:
 					m_selected_target--;
 					if (m_selected_target < 0) {
-						m_selected_target = m_combat.get_hero_count() - 1;
+						m_selected_target = m_combat.get_battle().get_hero_count() - 1;
 					}
 					break;
 				case Direction::down:
 					m_selected_target++;
-					m_selected_target = m_selected_target % m_combat.get_hero_count();
+					m_selected_target = m_selected_target % m_combat.get_battle().get_hero_count();
 					break;
 				default:
 					break;
@@ -204,7 +204,7 @@ void Combat_Controller::input_direction(Direction direction)
 
 void Combat_Controller::input_enter()
 {
-	switch (m_combat.get_state()) {
+	switch (m_combat.get_battle().get_state()) {
 		case Combat_State::hero_selecting_ability:
 			if (m_menu_state == Combat_Controller_Menu_State::selecting_action) {
 				m_action_menu_widget->process_click();
@@ -216,7 +216,7 @@ void Combat_Controller::input_enter()
 			break;
 		case Combat_State::hero_selecting_enemy_target:
 		case Combat_State::hero_selecting_ally_target:
-			m_combat.select_target(m_selected_target);
+			m_combat.get_battle().select_target(m_selected_target);
 			break;
 		default:
 			return;
@@ -225,7 +225,7 @@ void Combat_Controller::input_enter()
 
 void Combat_Controller::input_escape()
 {
-	if (m_combat.get_state() != Combat_State::hero_selecting_ability)
+	if (m_combat.get_battle().get_state() != Combat_State::hero_selecting_ability)
 		return;
 
 	switch (m_menu_state) {
@@ -243,7 +243,7 @@ void Combat_Controller::draw(float time_delta)
 	if (!m_action_menu_widget || !m_ability_menu_widget || !m_option_widget)
 		return;
 
-	switch (m_combat.get_state()) {
+	switch (m_combat.get_battle().get_state()) {
 		case Combat_State::hero_selecting_ability:
 			if (m_menu_state == Combat_Controller_Menu_State::inventory) {
 				m_inventory_renderer.show(true);
@@ -272,8 +272,8 @@ void Combat_Controller::draw(float time_delta)
 void Combat_Controller::draw_selected_target(float dt, bool is_enemy)
 {
 	const Character_Profile& target = is_enemy ?
-		m_combat.get_enemy(m_selected_target).character.get() :
-		m_combat.get_hero(m_selected_target).character.get();
+		m_combat.get_battle().get_enemy(m_selected_target).character.get() :
+		m_combat.get_battle().get_hero(m_selected_target).character.get();
 
 	UI::Widget* title_widget = m_ability_menu_widget->get_widget_by_name("Title");
 	UI::Widget* options_widget = m_ability_menu_widget->get_widget_by_name("Options");
@@ -291,10 +291,10 @@ void Combat_Controller::draw_selected_target(float dt, bool is_enemy)
 
 bool Combat_Controller::is_selecting_enemy() const
 {
-	return m_combat.get_state() == Combat_State::hero_selecting_enemy_target;
+	return m_combat.get_battle().get_state() == Combat_State::hero_selecting_enemy_target;
 }
 
 bool Combat_Controller::is_selecting_hero() const
 {
-	return m_combat.get_state() == Combat_State::hero_selecting_ally_target;
+	return m_combat.get_battle().get_state() == Combat_State::hero_selecting_ally_target;
 }

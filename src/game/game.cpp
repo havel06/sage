@@ -58,6 +58,7 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 
 	m_record_filename = record_filename;
 	m_speed = speed;
+	m_initial_window_size = description.initial_window_size;
 }
 
 Game::~Game()
@@ -81,6 +82,9 @@ void Game::draw_frame(float time_delta)
 
 	m_resource_system.unload_free_resources();
 	m_music_player.update();
+
+	if (IsKeyPressed(KEY_F1))
+		SetWindowSize(m_initial_window_size.x, m_initial_window_size.y);
 
 	if (IsKeyPressed(KEY_F3))
 		m_dev_mode = !m_dev_mode;

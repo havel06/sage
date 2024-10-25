@@ -32,6 +32,8 @@ Project_Description load_project_description(String project_root)
 
 	description.name = view["name"].as_string("Project");
 	description.start_sequence = view["sequence"].as_string("");
+	description.initial_window_size.x = view["window_size_x"].as_int(1280);
+	description.initial_window_size.y = view["window_size_y"].as_int(720);
 
 	if (description.start_sequence.empty()) {
 		SG_ERROR("Initial sequence has not been set.");

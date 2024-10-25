@@ -1,6 +1,7 @@
 #pragma once
 
 #include "utils/string.hpp"
+#include "utils/vec2.hpp"
 
 struct GUI_Description
 {
@@ -22,6 +23,7 @@ struct Project_Description
 	String start_sequence;
 	String default_character;
 	GUI_Description gui_description;
+	Vec2i initial_window_size;
 };
 
 Project_Description load_project_description(String project_root);

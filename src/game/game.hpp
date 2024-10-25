@@ -80,6 +80,7 @@ private:
 	Replay_Recorder m_replay_recorder;
 	Dev_Tools m_dev_tools;
 
+	Vec2i m_initial_window_size;
 	float m_speed = 1;
 	double m_current_time = 0;
 

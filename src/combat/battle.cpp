@@ -9,6 +9,7 @@
 void Battle::add_observer(Combat_Observer& observer)
 {
 	m_observers.push_back(&observer);
+	m_current_turn->add_observer(observer);
 }
 
 void Battle::remove_observer(Combat_Observer& observer)
@@ -19,6 +20,8 @@ void Battle::remove_observer(Combat_Observer& observer)
 			return;
 		}
 	}
+
+	m_current_turn->remove_observer(observer);
 }
 
 Battle::Battle(const Battle_Description& description, const Party& party)
@@ -44,11 +47,6 @@ Battle::Battle(const Battle_Description& description, const Party& party)
 	reset_all_ability_sequences(); // TODO - this might be unnecessarry
 
 	m_current_turn = make_own_ptr<Battle_Turn>(m_heroes, m_enemies, m_current_hero_turn);
-
-	// Add observers to turn
-	for (Combat_Observer* observer : m_observers) {
-		m_current_turn->add_observer(*observer);
-	}
 }
 
 int Battle::get_enemy_count() const
@@ -114,11 +112,21 @@ void Battle::advance_turn()
 		m_current_hero_turn++;
 		m_current_side = Combat_Unit_Side::enemy;
 		m_current_turn = make_own_ptr<Battle_Turn>(m_enemies, m_heroes, m_current_enemy_turn);
+
+		// Add observers
+		for (Combat_Observer* observer : m_observers) {
+			m_current_turn->add_observer(*observer);
+		}
 	} else {
 		// Advance enemy
 		m_current_enemy_turn++;
 		m_current_side = Combat_Unit_Side::hero;
 		m_current_turn = make_own_ptr<Battle_Turn>(m_heroes, m_enemies, m_current_hero_turn);
+
+		// Add observers
+		for (Combat_Observer* observer : m_observers) {
+			m_current_turn->add_observer(*observer);
+		}
 
 		// Notify observers
 		for (int i = 0; i < m_observers.size(); i++) {

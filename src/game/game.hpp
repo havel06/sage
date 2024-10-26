@@ -6,7 +6,7 @@
 #include "game_logic_state_normal.hpp"
 #include "graphics/camera.hpp"
 #include "graphics/camera_controller.hpp"
-#include "graphics/combat_renderer.hpp"
+#include "graphics/combat_renderer/combat_renderer.hpp"
 #include "graphics/debug_entity_renderer.hpp"
 #include "graphics/inventory_renderer.hpp"
 #include "graphics/main_menu_renderer.hpp"

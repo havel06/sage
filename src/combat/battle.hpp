@@ -26,6 +26,7 @@ public:
 	void update(); // Call every frame
 
 	// Observer stuff
+	// FIXME - consider using something like a mediator pattern
 	void add_observer(Combat_Observer&);
 	void remove_observer(Combat_Observer&);
 

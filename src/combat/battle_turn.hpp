@@ -38,6 +38,7 @@ public:
 	const Combat_Unit& get_enemy(int index) const { return m_enemies[index]; }
 
 	// Observer stuff
+	// FIXME - consider using something like a mediator pattern
 	void add_observer(Combat_Observer&);
 	void remove_observer(Combat_Observer&);
 

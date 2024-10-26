@@ -2,6 +2,7 @@
 #include "graphics/scriptable_gui.hpp"
 #include "character_profile.hpp"
 #include "combat/battle_desc.hpp"
+#include "combat/battle_turn.hpp"
 #include "game/game_logic.hpp"
 #include "utils/move.hpp"
 #include "io/savegame/map_saveloader.hpp"
@@ -194,7 +195,7 @@ void Game_Facade::combat_change_target_hp(int amount)
 		return;
 	}
 
-	m_combat.get_battle().change_target_hp(amount);
+	m_combat.get_battle().get_current_turn().change_target_hp(amount);
 }
 
 void Game_Facade::combat_change_all_enemy_units_hp(int amount)
@@ -204,7 +205,7 @@ void Game_Facade::combat_change_all_enemy_units_hp(int amount)
 		return;
 	}
 
-	m_combat.get_battle().change_all_enemy_units_hp(amount);
+	m_combat.get_battle().get_current_turn().change_all_enemy_units_hp(amount);
 }
 
 void Game_Facade::combat_change_all_ally_units_hp(int amount)
@@ -214,7 +215,7 @@ void Game_Facade::combat_change_all_ally_units_hp(int amount)
 		return;
 	}
 
-	m_combat.get_battle().change_all_ally_units_hp(amount);
+	m_combat.get_battle().get_current_turn().change_all_ally_units_hp(amount);
 }
 
 void Game_Facade::combat_change_current_unit_hp(int amount)
@@ -223,7 +224,7 @@ void Game_Facade::combat_change_current_unit_hp(int amount)
 		SG_ERROR("No active battle.");
 		return;
 	}
-	m_combat.get_battle().change_current_unit_hp(amount);
+	m_combat.get_battle().get_current_turn().change_current_unit_hp(amount);
 }
 
 void Game_Facade::combat_enter_target_selection(Target_Selection_Type type)
@@ -232,7 +233,7 @@ void Game_Facade::combat_enter_target_selection(Target_Selection_Type type)
 		SG_ERROR("No active battle.");
 		return;
 	}
-	m_combat.get_battle().enter_target_selection(type);
+	m_combat.get_battle().get_current_turn().enter_target_selection(type);
 }
 
 void Game_Facade::combat_end_turn()
@@ -241,7 +242,7 @@ void Game_Facade::combat_end_turn()
 		SG_ERROR("No active battle.");
 		return;
 	}
-	m_combat.get_battle().advance_turn();
+	m_combat.get_battle().get_current_turn().advance_turn();
 }
 
 void Game_Facade::combat_set_current_unit_sprite(const Animated_Sprite& sprite)
@@ -250,7 +251,7 @@ void Game_Facade::combat_set_current_unit_sprite(const Animated_Sprite& sprite)
 		SG_ERROR("No active battle.");
 		return;
 	}
-	m_combat.get_battle().set_current_unit_sprite(sprite);
+	m_combat.get_battle().get_current_turn().set_current_unit_sprite(sprite);
 }
 
 void Game_Facade::combat_reset_current_unit_sprite()
@@ -259,17 +260,17 @@ void Game_Facade::combat_reset_current_unit_sprite()
 		SG_ERROR("No active battle.");
 		return;
 	}
-	m_combat.get_battle().reset_current_unit_sprite();
+	m_combat.get_battle().get_current_turn().reset_current_unit_sprite();
 }
 
-Combat_State Game_Facade::get_combat_state() const
+Battle_Turn_State Game_Facade::combat_get_battle_turn_state() const
 {
 	if (!m_combat.is_active()) {
 		SG_ERROR("No active battle.");
-		return Combat_State::inactive;
+		return Battle_Turn_State::finished;
 	}
 
-	return m_combat.get_battle().get_state();
+	return m_combat.get_battle().get_current_turn().get_state();
 }
 
 void Game_Facade::add_quest(const String& id, const String& name, const String& description)

@@ -1,5 +1,6 @@
 #include "combat_ai.hpp"
 #include "ability.hpp"
+#include "battle_turn.hpp"
 #include "character_profile.hpp"
 #include "combat.hpp"
 #include "combat/stances.hpp"
@@ -7,7 +8,7 @@
 #include <stdlib.h>
 #include <float.h>
 
-Combat_AI::Combat_AI(const Battle& battle) :
+Combat_AI::Combat_AI(const Battle_Turn& battle) :
 	m_battle{battle}
 {
 }
@@ -40,10 +41,16 @@ int Combat_AI::decide_ability()
 	return best_ability;
 }
 
-int Combat_AI::decide_target(bool ally)
+int Combat_AI::decide_enemy_target()
 {
-	const int target_count = ally ? m_battle.get_enemy_count() : m_battle.get_hero_count();
-	return rand() % target_count;
+	// FIXME - make deterministic
+	return rand() % m_battle.get_enemy_count();
+}
+
+int Combat_AI::decide_ally_target()
+{
+	// FIXME - make deterministic
+	return rand() % m_battle.get_ally_count();
 }
 
 Combat_Stances Combat_AI::calculate_stances()
@@ -74,13 +81,13 @@ float Combat_AI::calculate_aid_stance()
 {
 	// Calculated as the average defense stance for allies not on turn
 
-	if (m_battle.get_enemy_count() == 1)
+	if (m_battle.get_ally_count() == 1)
 		return 0;
 
 	float sum = 0;
 
-	for (int i = 0; i < m_battle.get_enemy_count(); i++) {
-		const Combat_Unit& unit = m_battle.get_enemy(i);
+	for (int i = 0; i < m_battle.get_ally_count(); i++) {
+		const Combat_Unit& unit = m_battle.get_ally(i);
 
 		if (unit == m_battle.get_unit_on_turn())
 			continue;

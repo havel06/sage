@@ -25,7 +25,7 @@ class Game_Saveloader;
 class Game_Logic;
 class Scriptable_GUI;
 class Combat;
-
+enum class Battle_Turn_State;
 
 // FIXME - maybe too many responsibilities
 
@@ -61,7 +61,7 @@ public:
 	void combat_end_turn();
 	void combat_set_current_unit_sprite(const Animated_Sprite& sprite);
 	void combat_reset_current_unit_sprite();
-	Combat_State get_combat_state() const;
+	Battle_Turn_State combat_get_battle_turn_state() const;
 	void add_quest(const String& id, const String& name, const String& description);
 	void finish_quest(const String& id);
 	void zoom_camera(int amount);

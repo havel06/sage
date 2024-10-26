@@ -21,13 +21,13 @@ Combat::Combat(const Party& party) :
 
 void Combat::update()
 {
-	assert(m_battle.has_value());
+	assert(m_battle);
 
-	m_battle.value().update();
+	m_battle->update();
 
-	if (m_battle.value().get_state() == Combat_State::inactive) {
+	if (m_battle->has_finished()) {
 		// Battle has ended
-		m_battle = Optional<Battle>{};
+		m_battle = Own_Ptr<Battle>{};
 	}
 }
 
@@ -48,24 +48,24 @@ void Combat::remove_observer(Combat_Observer& observer)
 
 const Battle& Combat::get_battle() const
 {
-	assert(m_battle.has_value());
-	return m_battle.value();
+	assert(m_battle);
+	return *m_battle;
 }
 
 Battle& Combat::get_battle()
 {
-	assert(m_battle.has_value());
-	return m_battle.value();
+	assert(m_battle);
+	return *m_battle;
 }
 
 void Combat::start_battle(const Battle_Description& description)
 {
 	SG_DEBUG("Combat: Start battle");
-	m_battle = Battle{description, m_party};
+	m_battle = make_own_ptr<Battle>(description, m_party);
 
 	// Notify observers
 	for (Combat_Observer* observer : m_observers) {
-		m_battle.value().add_observer(*observer);
+		m_battle->add_observer(*observer);
 	}
 
 	for (Combat_Observer* observer : m_observers) {
@@ -76,6 +76,5 @@ void Combat::start_battle(const Battle_Description& description)
 
 bool Combat::is_active() const
 {
-	return m_battle.has_value();
+	return m_battle;
 }
-

@@ -1,7 +1,9 @@
 #include "combat_controller.hpp"
 #include "ability.hpp"
+#include "battle_turn.hpp"
 #include "character_profile.hpp"
 #include "combat.hpp"
+#include "combat/combat_unit.hpp"
 #include "graphics/inventory_renderer.hpp"
 #include "graphics/ui/box.hpp"
 #include "graphics/ui/button.hpp"
@@ -99,7 +101,7 @@ void Combat_Controller::on_item_activate(Item& item)
 	}
 
 	if (item.assigned_sequence.has_value()) {
-		m_combat.get_battle().select_item(item);
+		m_combat.get_battle().get_current_turn().select_item(item);
 		m_menu_state = Combat_Controller_Menu_State::selecting_action;
 	}
 }
@@ -136,7 +138,7 @@ void Combat_Controller::update_menus()
 
 				UI::Button_Widget_Visitor button_visitor{[&](UI::Button& button){
 					button.on_click = [this, i](){
-						m_combat.get_battle().select_ability(i);
+						m_combat.get_battle().get_current_turn().select_ability(i);
 					};
 				}};
 
@@ -155,8 +157,11 @@ void Combat_Controller::update_menus()
 
 void Combat_Controller::input_direction(Direction direction)
 {
-	switch (m_combat.get_battle().get_state()) {
-		case Combat_State::hero_selecting_ability:
+	if (m_combat.get_battle().get_current_side() != Combat_Unit_Side::hero)
+		return;
+
+	switch (m_combat.get_battle().get_current_turn().get_state()) {
+		case Battle_Turn_State::selecting_action:
 			if (m_menu_state == Combat_Controller_Menu_State::selecting_action) {
 				m_action_menu_widget->move_focus(direction);
 			} else if (m_menu_state == Combat_Controller_Menu_State::inventory) {
@@ -165,7 +170,7 @@ void Combat_Controller::input_direction(Direction direction)
 				m_ability_menu_widget->move_focus(direction);
 			}
 			break;
-		case Combat_State::hero_selecting_enemy_target:
+		case Battle_Turn_State::selecting_enemy_target:
 			switch (direction) {
 				case Direction::up:
 					m_selected_target--;
@@ -181,7 +186,7 @@ void Combat_Controller::input_direction(Direction direction)
 					break;
 			}
 			break;
-		case Combat_State::hero_selecting_ally_target:
+		case Battle_Turn_State::selecting_ally_target:
 			switch (direction) {
 				case Direction::up:
 					m_selected_target--;
@@ -204,8 +209,11 @@ void Combat_Controller::input_direction(Direction direction)
 
 void Combat_Controller::input_enter()
 {
-	switch (m_combat.get_battle().get_state()) {
-		case Combat_State::hero_selecting_ability:
+	if (m_combat.get_battle().get_current_side() != Combat_Unit_Side::hero)
+		return;
+
+	switch (m_combat.get_battle().get_current_turn().get_state()) {
+		case Battle_Turn_State::selecting_action:
 			if (m_menu_state == Combat_Controller_Menu_State::selecting_action) {
 				m_action_menu_widget->process_click();
 			} else if (m_menu_state == Combat_Controller_Menu_State::inventory) {
@@ -214,9 +222,10 @@ void Combat_Controller::input_enter()
 				m_ability_menu_widget->process_click();
 			}
 			break;
-		case Combat_State::hero_selecting_enemy_target:
-		case Combat_State::hero_selecting_ally_target:
-			m_combat.get_battle().select_target(m_selected_target);
+		case Battle_Turn_State::selecting_enemy_target:
+		case Battle_Turn_State::selecting_ally_target:
+			m_combat.get_battle().get_current_turn().select_target(m_selected_target);
+			m_selected_target = 0;
 			break;
 		default:
 			return;
@@ -225,7 +234,10 @@ void Combat_Controller::input_enter()
 
 void Combat_Controller::input_escape()
 {
-	if (m_combat.get_battle().get_state() != Combat_State::hero_selecting_ability)
+	if (m_combat.get_battle().get_current_side() != Combat_Unit_Side::hero)
+		return;
+
+	if (m_combat.get_battle().get_current_turn().get_state() != Battle_Turn_State::selecting_action)
 		return;
 
 	switch (m_menu_state) {
@@ -243,8 +255,11 @@ void Combat_Controller::draw(float time_delta)
 	if (!m_action_menu_widget || !m_ability_menu_widget || !m_option_widget)
 		return;
 
-	switch (m_combat.get_battle().get_state()) {
-		case Combat_State::hero_selecting_ability:
+	if (m_combat.get_battle().get_current_side() != Combat_Unit_Side::hero)
+		return;
+
+	switch (m_combat.get_battle().get_current_turn().get_state()) {
+		case Battle_Turn_State::selecting_action:
 			if (m_menu_state == Combat_Controller_Menu_State::inventory) {
 				m_inventory_renderer.show(true);
 				return;
@@ -258,10 +273,10 @@ void Combat_Controller::draw(float time_delta)
 				m_ability_menu_widget->draw_as_root(time_delta);
 			}
 			break;
-		case Combat_State::hero_selecting_enemy_target:
+		case Battle_Turn_State::selecting_enemy_target:
 			draw_selected_target(time_delta, true);
 			break;
-		case Combat_State::hero_selecting_ally_target:
+		case Battle_Turn_State::selecting_ally_target:
 			draw_selected_target(time_delta, false);
 			break;
 		default:
@@ -291,10 +306,15 @@ void Combat_Controller::draw_selected_target(float dt, bool is_enemy)
 
 bool Combat_Controller::is_selecting_enemy() const
 {
-	return m_combat.get_battle().get_state() == Combat_State::hero_selecting_enemy_target;
+	if (m_combat.get_battle().get_current_side() != Combat_Unit_Side::hero)
+		return false;
+
+	return m_combat.get_battle().get_current_turn().get_state() == Battle_Turn_State::selecting_enemy_target;
 }
 
 bool Combat_Controller::is_selecting_hero() const
 {
-	return m_combat.get_battle().get_state() == Combat_State::hero_selecting_ally_target;
+	if (m_combat.get_battle().get_current_side() != Combat_Unit_Side::hero)
+		return false;
+	return m_combat.get_battle().get_current_turn().get_state() == Battle_Turn_State::selecting_ally_target;
 }

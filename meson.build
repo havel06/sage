@@ -6,6 +6,7 @@ src = [
   'src/application.cpp',
   'src/argument_parser.cpp',
   'src/combat/battle.cpp',
+  'src/combat/battle_turn.cpp',
   'src/combat/combat.cpp',
   'src/combat/combat_ai.cpp',
   'src/combat/combat_controller.cpp',

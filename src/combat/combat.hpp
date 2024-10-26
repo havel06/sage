@@ -33,5 +33,5 @@ private:
 	const Party& m_party;
 
 	Array<Combat_Observer*> m_observers;
-	Optional<Battle> m_battle;
+	Own_Ptr<Battle> m_battle;
 };

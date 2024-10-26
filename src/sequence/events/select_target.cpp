@@ -1,5 +1,5 @@
 #include "select_target.hpp"
-#include "combat/combat.hpp"
+#include "combat/battle_turn.hpp"
 #include "game/game_facade.hpp"
 #include "utils/log.hpp"
 
@@ -25,9 +25,8 @@ void Select_Target::update(float time_delta)
 bool Select_Target::is_finished() const
 {
 	return m_activated &&
-		m_game_facade.get_combat_state() != Combat_State::hero_selecting_enemy_target &&
-		m_game_facade.get_combat_state() != Combat_State::hero_selecting_ally_target &&
-		m_game_facade.get_combat_state() != Combat_State::enemy_selecting_target;
+		m_game_facade.combat_get_battle_turn_state() != Battle_Turn_State::selecting_ally_target &&
+		m_game_facade.combat_get_battle_turn_state() != Battle_Turn_State::selecting_enemy_target;
 }
 
 void Select_Target::reset()

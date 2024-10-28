@@ -43,14 +43,36 @@ int Combat_AI::decide_ability()
 
 int Combat_AI::decide_enemy_target()
 {
-	// FIXME - make deterministic
-	return rand() % m_battle.get_enemy_count();
+	int best_index = 0;
+	float best_score = 0;
+
+	for (int i = 0; i < m_battle.get_enemy_count(); i++) {
+		const Combat_Unit& enemy = m_battle.get_enemy(i);
+		const float score = (float)enemy.get_hp() / enemy.character.get().max_hp;
+		if (score > best_score) {
+			best_index = i;
+			best_score = score;
+		}
+	}
+
+	return best_index;
 }
 
 int Combat_AI::decide_ally_target()
 {
-	// FIXME - make deterministic
-	return rand() % m_battle.get_ally_count();
+	int best_index = 0;
+	float best_score = 999999;
+
+	for (int i = 0; i < m_battle.get_enemy_count(); i++) {
+		const Combat_Unit& enemy = m_battle.get_enemy(i);
+		const float score = (float)enemy.get_hp() / enemy.character.get().max_hp;
+		if (score < best_score) {
+			best_index = i;
+			best_score = score;
+		}
+	}
+
+	return best_index;
 }
 
 Combat_Stances Combat_AI::calculate_stances()

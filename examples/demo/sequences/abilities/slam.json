@@ -16,13 +16,73 @@
 		{
 			"type": "delay",
 			"parameters": {
-				"seconds": 0.5
+				"seconds": 0.4
+			}
+		},
+		{
+			"type": "change_current_unit_sprite",
+			"parameters": {
+				"sprite": {
+					"frame_time": 0.15,
+					"frames": [
+						{
+							"texture": "textures/cyclops.png",
+							"position_x": 0,
+							"position_y": 64,
+							"size_x": -32,
+							"size_y": 32
+						},
+						{
+							"texture": "textures/cyclops.png",
+							"position_x": 32,
+							"position_y": 64,
+							"size_x": -32,
+							"size_y": 32
+						},
+						{
+							"texture": "textures/cyclops.png",
+							"position_x": 64,
+							"position_y": 64,
+							"size_x": -32,
+							"size_y": 32
+						},
+						{
+							"texture": "textures/cyclops.png",
+							"position_x": 32,
+							"position_y": 64,
+							"size_x": -32,
+							"size_y": 32
+						}
+					]
+				}
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
 			}
 		},
 		{
 			"type": "change_target_hp",
 			"parameters": {
 				"amount": -4
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
+			}
+		},
+		{
+			"type": "reset_current_unit_sprite",
+			"parameters": {}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
 			}
 		},
 		{

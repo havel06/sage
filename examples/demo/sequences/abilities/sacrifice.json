@@ -20,10 +20,65 @@
 			}
 		},
 		{
+			"type": "change_current_unit_sprite",
+			"parameters": {
+				"sprite": {
+					"frame_time": 0.2,
+					"frames": [
+						{
+							"texture": "textures/ghost.png",
+							"position_x": 0,
+							"position_y": 48,
+							"size_x": -16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/ghost.png",
+							"position_x": 16,
+							"position_y": 48,
+							"size_x": -16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/ghost.png",
+							"position_x": 32,
+							"position_y": 48,
+							"size_x": -16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/ghost.png",
+							"position_x": 16,
+							"position_y": 48,
+							"size_x": -16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/ghost.png",
+							"position_x": 0,
+							"position_y": 48,
+							"size_x": -16,
+							"size_y": 16
+						}
+					]
+				}
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 1
+			}
+		},
+		{
 			"type": "change_target_hp",
 			"parameters": {
 				"amount": -5
 			}
+		},
+		{
+			"type": "reset_current_unit_sprite",
+			"parameters": {}
 		},
 		{
 			"type": "delay",
@@ -35,6 +90,12 @@
 			"type": "change_current_unit_hp",
 			"parameters": {
 				"amount": -3
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
 			}
 		},
 		{

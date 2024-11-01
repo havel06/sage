@@ -20,9 +20,70 @@
 			}
 		},
 		{
+			"type": "change_current_unit_sprite",
+			"parameters": {
+				"sprite": {
+					"frame_time": 0.2,
+					"frames": [
+						{
+							"texture": "textures/blacksmith.png",
+							"position_x": 0,
+							"position_y": 128,
+							"size_x": 32,
+							"size_y": 32
+						},
+						{
+							"texture": "textures/blacksmith.png",
+							"position_x": 32,
+							"position_y": 128,
+							"size_x": 32,
+							"size_y": 32
+						},
+						{
+							"texture": "textures/blacksmith.png",
+							"position_x": 0,
+							"position_y": 128,
+							"size_x": 32,
+							"size_y": 32
+						},
+						{
+							"texture": "textures/blacksmith.png",
+							"position_x": 32,
+							"position_y": 128,
+							"size_x": 32,
+							"size_y": 32
+						},
+						{
+							"texture": "textures/blacksmith.png",
+							"position_x": 0,
+							"position_y": 128,
+							"size_x": 32,
+							"size_y": 32
+						}
+					]
+				}
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 1
+			}
+		},
+		{
+			"type": "reset_current_unit_sprite",
+			"parameters": {}
+		},
+		{
 			"type": "change_target_hp",
 			"parameters": {
 				"amount": 3
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
 			}
 		},
 		{

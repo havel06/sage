@@ -22,6 +22,7 @@
 #include "sequence/event_factories/remove_item.hpp"
 #include "sequence/event_factories/remove_sprite.hpp"
 #include "sequence/event_factories/rotate_entity.hpp"
+#include "sequence/event_factories/rotate_player.hpp"
 #include "sequence/event_factories/play_music.hpp"
 #include "sequence/event_factories/play_sound.hpp"
 #include "sequence/event_factories/show_gui.hpp"
@@ -102,6 +103,8 @@ Own_Ptr<Event_Factory> Event_Parser::get_factory_for_event_type(const String& ty
 		return make_own_ptr<Event_Factories::Move_Entity>();
 	} else if (type == "rotate_entity") {
 		return make_own_ptr<Event_Factories::Rotate_Entity>();
+	} else if (type == "rotate_player") {
+		return make_own_ptr<Event_Factories::Rotate_Player>();
 	} else if (type == "play_sound") {
 		return make_own_ptr<Event_Factories::Play_Sound>(m_resource_system.sound_manager);
 	} else if (type == "play_music") {

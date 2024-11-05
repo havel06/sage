@@ -156,6 +156,12 @@ void Game_Facade::move_entity(const String& entity_name, Vec2i position)
 	entity->move(direction);
 }
 
+void Game_Facade::rotate_player(Direction direction)
+{
+	Entity& entity = m_logic_normal.get_player();
+	entity.look(direction);
+}
+
 void Game_Facade::rotate_entity(const String& entity_name, Direction direction)
 {
 	Entity* entity = m_logic_normal.get_map().entities.get_entity(entity_name);

@@ -43,6 +43,7 @@ public:
 	Direction get_entity_direction(const String& entity_name);
 	void move_entity(const String& entity_name, Vec2i position);
 	void rotate_entity(const String& entity_name, Direction);
+	void rotate_player(Direction);
 	void display_text(String&& message);
 	bool is_text_box_shown() const;
 	void give_item(const String& id, int count);

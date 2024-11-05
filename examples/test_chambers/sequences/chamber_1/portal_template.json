@@ -1,0 +1,39 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "disable_player_actions",
+			"parameters": {}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "$other_portal",
+				"x": 999,
+				"y": 999
+			}
+		},
+		{
+			"type": "move_camera",
+			"parameters": {
+				"x": "$cam_x",
+				"y": "$cam_y"
+			}
+		},
+		{
+			"type": "teleport_player",
+			"parameters": {
+				"x": "$x",
+				"y": "$y"
+			}
+		},
+		{
+			"type": "teleport_camera_to_player",
+			"parameters": {}
+		},
+		{
+			"type": "enable_player_actions",
+			"parameters": {}
+		}
+	]
+}

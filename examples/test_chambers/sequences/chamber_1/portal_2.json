@@ -1,0 +1,12 @@
+{
+	"from_template": {
+		"template": "sequences/chamber_1/portal_template.json",
+		"parameters": {
+			"other_portal": "Portal 1",
+			"x": 43,
+			"y": 42,
+			"cam_x": 43.5,
+			"cam_y": 43
+		}
+	}
+}

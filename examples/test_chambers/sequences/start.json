@@ -1,0 +1,21 @@
+{
+	"events": [
+		{
+			"type": "change_map",
+			"parameters": {
+				"map": "maps/lobby.tmj"
+			}
+		}, {
+			"type": "teleport_player",
+			"parameters": {
+				"x": 44,
+				"y": 47
+			}
+		}, {
+			"type": "zoom_camera",
+			"parameters": {
+				"zoom": 64
+			}
+		}
+	]
+}

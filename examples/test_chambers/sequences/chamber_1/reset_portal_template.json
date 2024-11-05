@@ -1,0 +1,13 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "$portal",
+				"x": "$x",
+				"y": "$y"
+			}
+		}
+	]
+}

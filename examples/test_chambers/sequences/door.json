@@ -1,0 +1,34 @@
+{
+	"repeatable": false,
+	"events": [
+		{
+			"type": "show_gui",
+			"parameters": {
+				"widget": "gui/map_transition.json"
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
+			}
+		},
+		{
+			"type": "change_map",
+			"parameters": {
+				"map": "$map"
+			}
+		},
+		{
+			"type": "teleport_player",
+			"parameters": {
+				"x": "$x",
+				"y": "$y"
+			}
+		},
+		{
+			"type": "hide_gui",
+			"parameters": {}
+		}
+	]
+}

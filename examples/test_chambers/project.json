@@ -1,0 +1,8 @@
+{
+	"name": "Test chambers",
+	"sequence": "sequences/start.json",
+	"default_character": "characters/player.json",
+	"window_size_x": 1280,
+	"window_size_y": 720,
+	"gui": {}
+}

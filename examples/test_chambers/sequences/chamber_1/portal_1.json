@@ -3,10 +3,14 @@
 		"template": "sequences/chamber_1/portal_template.json",
 		"parameters": {
 			"other_portal": "Portal 2",
-			"x": 47,
-			"y": 42,
-			"cam_x": 47.5,
-			"cam_y": 43
+			"src_x":  43,
+			"src_y":  42,
+			"dest_x": 47,
+			"dest_y": 42,
+			"dest_cam_x":  47.5,
+			"dest_cam_y":  43,
+			"src_cam_x":   43.5,
+			"src_cam_y":   43
 		}
 	}
 }

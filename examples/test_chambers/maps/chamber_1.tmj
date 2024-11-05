@@ -83,6 +83,18 @@
                  "width":16,
                  "x":752,
                  "y":672
+                }, 
+                {
+                 "gid":349,
+                 "height":16,
+                 "id":18,
+                 "name":"Player Stand-in",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":800,
+                 "y":368
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -318,7 +330,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":17,
+ "nextobjectid":19,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.2",

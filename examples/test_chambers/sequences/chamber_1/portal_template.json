@@ -6,6 +6,165 @@
 			"parameters": {}
 		},
 		{
+			"type": "move_camera",
+			"parameters": {
+				"x": "$src_cam_x",
+				"y": "$src_cam_y"
+			}
+		},
+		{
+			"type": "teleport_player",
+			"parameters": {
+				"x": 9999,
+				"y": 9999
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Player Stand-in",
+				"x": "$src_x",
+				"y": "$src_y"
+			}
+		},
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "Player Stand-in",
+				"sprite": {
+					"frame_time": 0.08,
+					"frames": [
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 0,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 16,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 32,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 48,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 64,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 80,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 96,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 112,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 0,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 16,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 32,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 48,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 64,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 80,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 96,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 112,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						}
+					]
+				}
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 1.28
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Player Stand-in",
+				"x": 9999,
+				"y": 9999
+			}
+		},
+		{
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "$other_portal",
@@ -14,17 +173,174 @@
 			}
 		},
 		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
+			}
+		},
+		{
 			"type": "move_camera",
 			"parameters": {
-				"x": "$cam_x",
-				"y": "$cam_y"
+				"x": "$dest_cam_x",
+				"y": "$dest_cam_y"
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Player Stand-in",
+				"x": "$dest_x",
+				"y": "$dest_y"
+			}
+		},
+		{
+			"type": "change_sprite",
+			"parameters": {
+				"entity": "Player Stand-in",
+				"sprite": {
+					"frame_time": 0.08,
+					"frames": [
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 112,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 96,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 80,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 64,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 48,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 32,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 16,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 0,
+							"position_y": 16,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 112,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 96,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 80,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 64,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 48,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 32,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 16,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						},
+						{
+							"texture": "textures/player_animation.png",
+							"position_x": 0,
+							"position_y": 0,
+							"size_x": 16,
+							"size_y": 16
+						}
+					]
+				}
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 1.28
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Player Stand-in",
+				"x": 9999,
+				"y": 9999
+			}
+		},
+		{
+			"type": "rotate_player",
+			"parameters": {
+				"direction": "down"
 			}
 		},
 		{
 			"type": "teleport_player",
 			"parameters": {
-				"x": "$x",
-				"y": "$y"
+				"x": "$dest_x",
+				"y": "$dest_y"
 			}
 		},
 		{

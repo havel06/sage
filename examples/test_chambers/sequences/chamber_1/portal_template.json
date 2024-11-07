@@ -153,7 +153,20 @@
 		{
 			"type": "delay",
 			"parameters": {
-				"seconds": 1.28
+				"seconds": 0.28
+			}
+		},
+		{
+			"type": "play_sound",
+			"asynchronous": true,
+			"parameters": {
+				"sound": "audio/teleport.wav"
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 1.00
 			}
 		},
 		{
@@ -314,6 +327,13 @@
 						}
 					]
 				}
+			}
+		},
+		{
+			"type": "play_sound",
+			"asynchronous": true,
+			"parameters": {
+				"sound": "audio/teleport.wav"
 			}
 		},
 		{

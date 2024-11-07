@@ -13,7 +13,7 @@
 #include "utils/profiler.hpp"
 #include <raylib/raylib.h>
 
-Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save, const Optional<String>& record_filename, Input_Event_Provider& input, float speed) :
+Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save, const Optional<String>& record_filename, Input_Event_Provider& input) :
 	m_input{input},
 	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui, m_combat, m_party, no_auto_save),
 	m_sequence_loader(description.path, m_resource_system, m_game_facade, m_gui_loader),
@@ -57,7 +57,6 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	}
 
 	m_record_filename = record_filename;
-	m_speed = speed;
 	m_initial_window_size = description.initial_window_size;
 }
 
@@ -78,8 +77,6 @@ void Game::draw_frame(float time_delta)
 {
 	// FIXME - refactor this function
 	
-	time_delta *= m_speed;
-
 	m_resource_system.unload_free_resources();
 	m_music_player.update();
 

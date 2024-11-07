@@ -30,11 +30,6 @@ void Application::run(int argc, const char* argv[])
 	const bool display_fps = arguments.value().flags.contains("fps");
 	const bool no_auto_save = arguments.value().flags.contains("noautosave");
 
-	float game_speed = 1;
-	if (arguments.value().options.contains("speed")) {
-		game_speed = atof(arguments.value().options.get("speed")->data());
-	}
-
 	int max_fps = 60;
 	if (arguments.value().options.contains("maxfps")) {
 		max_fps = atof(arguments.value().options.get("maxfps")->data());
@@ -60,7 +55,7 @@ void Application::run(int argc, const char* argv[])
 
 	Game game = [&](){
 		SG_PROFILE_SCOPE("Game initialisation");
-		return Game{description, display_fps, no_auto_save, record_filename, input, game_speed};
+		return Game{description, display_fps, no_auto_save, record_filename, input};
 	}();
 
 	while (!WindowShouldClose() && !game.should_exit()) {
@@ -107,6 +102,5 @@ void Application::print_help()
 	print_option("nautosave", "Game does not automatically save when switching maps.");
 	print_option("record=<file>", "Records the game into specified replay file.");
 	print_option("replay=<file>", "Plays the specified replay file.");
-	print_option("speed=<number>", "Speeds the game up by a specified amount.");
 	print_option("maxfps=<number>", "Sets the maximum frames per second.");
 }

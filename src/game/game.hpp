@@ -34,7 +34,7 @@ struct Project_Description;
 class Game : public Input_Observer
 {
 public:
-	Game(const Project_Description&, bool display_fps, bool no_auto_save, const Optional<String>& record_filename, Input_Event_Provider& input_provider, float speed);
+	Game(const Project_Description&, bool display_fps, bool no_auto_save, const Optional<String>& record_filename, Input_Event_Provider& input_provider);
 	~Game();
 	void draw_frame(float time_delta);
 	bool should_exit() const;
@@ -81,7 +81,6 @@ private:
 	Dev_Tools m_dev_tools;
 
 	Vec2i m_initial_window_size;
-	float m_speed = 1;
 
 	bool m_dev_mode = false;
 	bool m_show_inventory = false;

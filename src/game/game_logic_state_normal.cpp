@@ -22,22 +22,33 @@ void Game_Logic_State_Normal::update(float time_delta)
 {
 	text_box.update(time_delta);
 	
-	m_sequence_manager.update(time_delta);
 	Entity& player = get_player();
-
 	Map& map = get_map();
+
+	// Update entities
+	// NOTE - entities must be updated before Area triggers are checked and sequences are updated,
+	// so that the area triggers get triggered in the same frame where the entity has finished movement.
+	for (int i = 0; i < map.entities.get_entity_count(); i++) {
+		map.entities.get_entity(i).update(time_delta);
+	}
+
+	// Check area triggers
 	for (int i = 0; i < map.entities.get_entity_count(); i++) {
 		Entity& entity = map.entities.get_entity(i);
-		entity.update(time_delta);
 
-		// Area triggers
 		if (entity.area_trigger &&
 			entity.assigned_sequence.has_value() &&
 			entity.get_bounding_box().contains(player.position))
 		{
 			entity.assigned_sequence.value().get().try_activate();
 		}
+
 	}
+
+	// Update sequences
+	// NOTE - sequences are updated after area triggers,
+	// so that newly triggered area triggers are processed in the same frame.
+	m_sequence_manager.update(time_delta);
 }
 
 Map& Game_Logic_State_Normal::get_map()

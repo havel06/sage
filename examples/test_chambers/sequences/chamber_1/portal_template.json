@@ -6,6 +6,12 @@
 			"parameters": {}
 		},
 		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
+			}
+		},
+		{
 			"type": "move_camera",
 			"parameters": {
 				"x": "$src_cam_x",

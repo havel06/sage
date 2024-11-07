@@ -2,16 +2,17 @@
 
 #include "input/input_event.hpp"
 #include "utils/array.hpp"
+#include "utils/optional.hpp"
 
-struct Replay_Event
+struct Replay_Frame
 {
-	Input_Event input_event;
-	double event_time;
+	Array<Input_Event> input_events;
+	float duration;
 };
 
 struct Replay
 {
-	Array<Replay_Event> events;
+	Array<Replay_Frame> frames;
 
 	static Replay load_from_file(const char* filename);
 	void save_to_file(const char* filename) const;

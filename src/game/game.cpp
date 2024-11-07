@@ -97,8 +97,13 @@ void Game::draw_frame(float time_delta)
 		return;
 	}
 
-	m_current_time += time_delta;
-	m_input.process(*this, time_delta);
+	// Input
+	{
+		if (m_record_filename.has_value())
+			m_replay_recorder.begin_frame(time_delta);
+
+		m_input.process(*this);
+	}
 
 	if (m_logic.get_state() == Game_Logic_State::main_menu) {
 		m_main_menu.draw(time_delta);
@@ -128,8 +133,10 @@ void Game::draw_frame(float time_delta)
 
 	m_inventory_renderer.draw(time_delta);
 
-	if (m_display_fps)
+	if (m_display_fps) {
+		DrawRectangle(0, 0, 120, 40, Color{0, 0, 0, 200});
 		DrawFPS(10, 10);
+	}
 }
 
 void Game::do_player_movement()
@@ -148,7 +155,7 @@ void Game::do_player_movement()
 void Game::handle_input_event(Input_Event event)
 {
 	if (m_record_filename.has_value())
-		m_replay_recorder.capture_event(event, m_current_time);
+		m_replay_recorder.capture_event(event);
 
 	// Direction input
 	switch (event) {

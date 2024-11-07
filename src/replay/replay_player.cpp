@@ -1,26 +1,30 @@
 #include "replay_player.hpp"
+#include "replay/replay.hpp"
 #include "utils/log.hpp"
+#include "game/game.hpp"
 
 Replay_Player::Replay_Player(const char* file)
 {
 	m_replay = Replay::load_from_file(file);
 }
 
-void Replay_Player::process(Input_Observer& observer, float dt)
+bool Replay_Player::should_exit() const
 {
-	m_current_time += dt;
+	return m_current_frame >= m_replay.frames.size();
+}
 
-	while (true) {
-		if (m_next_event >= m_replay.events.size())
-			break;
+void Replay_Player::run_frame(Game& game)
+{
+	if (should_exit())
+		return;
 
-		const Replay_Event& next_event = m_replay.events[m_next_event];
-		if (next_event.event_time <= m_current_time) {
-			SG_DEBUG("Event latency: %lf", m_current_time - next_event.event_time);
-			observer.handle_input_event(next_event.input_event);
-			m_next_event++;
-		} else {
-			break;
-		}
-	}
+	const Replay_Frame& frame = m_replay.frames[m_current_frame];
+	game.draw_frame(frame.duration);
+	m_current_frame++;
+}
+
+void Replay_Player::process(Input_Observer& observer)
+{
+	for (Input_Event event : m_replay.frames[m_current_frame].input_events)
+		observer.handle_input_event(event);
 }

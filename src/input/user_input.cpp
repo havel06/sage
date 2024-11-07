@@ -2,7 +2,7 @@
 #include <raylib/raylib.h>
 
 
-void User_Input::process(Input_Observer& observer, float)
+void User_Input::process(Input_Observer& observer)
 {
 	if (IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_UP) || IsKeyPressed(KEY_UP))
 		observer.handle_input_event(Input_Event::up_pressed);

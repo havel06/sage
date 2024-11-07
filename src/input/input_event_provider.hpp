@@ -12,6 +12,6 @@ public:
 class Input_Event_Provider
 {
 public:
-	virtual void process(Input_Observer&, float dt) = 0;
+	virtual void process(Input_Observer&) = 0;
 	virtual ~Input_Event_Provider() = default;
 };

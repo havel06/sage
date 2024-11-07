@@ -11,7 +11,8 @@ namespace JSON {
 class Replay_Recorder
 {
 public:
-	void capture_event(Input_Event event, double event_time);
+	void begin_frame(float dt);
+	void capture_event(Input_Event event);
 	const Replay& get_replay() { return m_replay; }
 private:
 	Replay m_replay;

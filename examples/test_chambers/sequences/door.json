@@ -1,5 +1,5 @@
 {
-	"repeatable": false,
+	"repeatable": true,
 	"events": [
 		{
 			"type": "show_gui",
@@ -24,6 +24,12 @@
 			"parameters": {
 				"x": "$x",
 				"y": "$y"
+			}
+		},
+		{
+			"type": "rotate_player",
+			"parameters": {
+				"direction": "down"
 			}
 		},
 		{

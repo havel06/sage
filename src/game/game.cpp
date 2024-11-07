@@ -13,7 +13,7 @@
 #include "utils/profiler.hpp"
 #include <raylib/raylib.h>
 
-Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save, const Optional<String>& record_filename, Input_Event_Provider& input) :
+Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save, const Optional<String>& record_filename, Input_Event_Provider& input, bool headless) :
 	m_input{input},
 	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui, m_combat, m_party, no_auto_save),
 	m_sequence_loader(description.path, m_resource_system, m_game_facade, m_gui_loader),
@@ -58,6 +58,7 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 
 	m_record_filename = record_filename;
 	m_initial_window_size = description.initial_window_size;
+	m_headless = headless;
 }
 
 Game::~Game()
@@ -88,9 +89,11 @@ void Game::draw_frame(float time_delta)
 
 	if (m_dev_mode) {
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
-		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
-		m_debug_entity_renderer.draw(m_logic_normal.get_map().entities);
-		m_dev_tools.draw(m_logic_normal.get_map(), m_logic_normal.get_map_filename());
+		if (!m_headless) {
+			m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
+			m_debug_entity_renderer.draw(m_logic_normal.get_map().entities);
+			m_dev_tools.draw(m_logic_normal.get_map(), m_logic_normal.get_map_filename());
+		}
 		return;
 	}
 
@@ -103,7 +106,8 @@ void Game::draw_frame(float time_delta)
 	}
 
 	if (m_logic.get_state() == Game_Logic_State::main_menu) {
-		m_main_menu.draw(time_delta);
+		if (!m_headless)
+			m_main_menu.draw(time_delta);
 		return;
 	}
 
@@ -113,24 +117,30 @@ void Game::draw_frame(float time_delta)
 		// Normal mode
 		do_player_movement();
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
-		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
-		m_scriptable_gui.draw(time_delta);
-		m_text_box_renderer.draw(time_delta);
 
-		m_quest_log_renderer.show(m_show_quest_log);
-		m_quest_log_renderer.draw(time_delta);
+		if (!m_headless) {
+			m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
+			m_scriptable_gui.draw(time_delta);
+			m_text_box_renderer.draw(time_delta);
 
-		m_inventory_renderer.show(m_show_inventory);
+			m_quest_log_renderer.show(m_show_quest_log);
+			m_quest_log_renderer.draw(time_delta);
+
+			m_inventory_renderer.show(m_show_inventory);
+		}
 	} else {
 		// Combat mode
-		m_combat_renderer.draw(time_delta);
-		m_combat_controller.draw(time_delta);
-		m_scriptable_gui.draw(time_delta);
+		if (!m_headless) {
+			m_combat_renderer.draw(time_delta);
+			m_combat_controller.draw(time_delta);
+			m_scriptable_gui.draw(time_delta);
+		}
 	}
 
-	m_inventory_renderer.draw(time_delta);
+	if (!m_headless)
+		m_inventory_renderer.draw(time_delta);
 
-	if (m_display_fps) {
+	if (m_display_fps && !m_headless) {
 		DrawRectangle(0, 0, 120, 40, Color{0, 0, 0, 200});
 		DrawFPS(10, 10);
 	}

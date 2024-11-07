@@ -29,6 +29,7 @@ void Application::run(int argc, const char* argv[])
 
 	const bool display_fps = arguments.value().flags.contains("fps");
 	const bool no_auto_save = arguments.value().flags.contains("noautosave");
+	const bool headless = arguments.value().flags.contains("headless");
 
 	int max_fps = 60;
 	if (arguments.value().options.contains("maxfps")) {
@@ -55,7 +56,7 @@ void Application::run(int argc, const char* argv[])
 
 	Game game = [&](){
 		SG_PROFILE_SCOPE("Game initialisation");
-		return Game{description, display_fps, no_auto_save, record_filename, input};
+		return Game{description, display_fps, no_auto_save, record_filename, input, headless};
 	}();
 
 	while (!WindowShouldClose() && !game.should_exit()) {
@@ -100,6 +101,7 @@ void Application::print_help()
 	print_option("help", "Prints the available options.");
 	print_option("fps", "Shows the current fps in the corner of the window.");
 	print_option("nautosave", "Game does not automatically save when switching maps.");
+	print_option("headless", "Game runs without any graphics.");
 	print_option("record=<file>", "Records the game into specified replay file.");
 	print_option("replay=<file>", "Plays the specified replay file.");
 	print_option("maxfps=<number>", "Sets the maximum frames per second.");

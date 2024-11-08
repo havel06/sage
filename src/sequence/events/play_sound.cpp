@@ -20,7 +20,7 @@ void Play_Sound::update(float)
 
 bool Play_Sound::is_finished() const
 {
-	return m_activated && !IsSoundPlaying(m_sound.get());
+	return m_activated;
 }
 
 void Play_Sound::reset()

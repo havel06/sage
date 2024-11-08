@@ -7,6 +7,7 @@
 #include "graphics/inventory_renderer.hpp"
 #include "graphics/ui/box.hpp"
 #include "graphics/ui/button.hpp"
+#include "graphics/ui/formatted_text.hpp"
 #include "graphics/ui/text.hpp"
 #include "graphics/ui/widget.hpp"
 #include "graphics/ui/widget_visitor.hpp"
@@ -50,7 +51,7 @@ void Combat_Controller::load(GUI_Loader& loader, const String& menu_filename, co
 		UI::Widget* fight_widget_button = fight_widget->get_widget_by_name("Button");
 		if (fight_widget_name && fight_widget_button) {
 			UI::Text_Widget_Visitor name_visitor{[&](UI::Text& text){
-				text.text = "Fight";
+				text.text = UI::Formatted_Text{"Fight"};
 			}};
 
 			UI::Button_Widget_Visitor button_visitor{[&](UI::Button& button){
@@ -67,7 +68,7 @@ void Combat_Controller::load(GUI_Loader& loader, const String& menu_filename, co
 		UI::Widget* inventory_widget_button = inventory_widget->get_widget_by_name("Button");
 		if (inventory_widget_name && inventory_widget_button) {
 			UI::Text_Widget_Visitor name_visitor{[&](UI::Text& text){
-				text.text = "Inventory";
+				text.text = UI::Formatted_Text{"Inventory"};
 			}};
 
 			UI::Button_Widget_Visitor button_visitor{[&](UI::Button& button){

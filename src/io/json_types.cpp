@@ -1,10 +1,12 @@
 #include "json_types.hpp"
 #include "graphics/animated_sprite.hpp"
+#include "graphics/ui/formatted_text.hpp"
 #include "utils/filesystem.hpp"
 #include "io/resource/texture_manager.hpp"
 #include "utils/json.hpp"
 #include "template.hpp"
 #include "graphics/ui/size.hpp"
+#include "utils/log.hpp"
 
 namespace JSON_Types
 {
@@ -96,6 +98,52 @@ UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& temp
 	}
 
 	return size;
+}
+
+Colour parse_colour(const JSON::Object_View& json, const JSON::Object_View& template_params)
+{
+	return Colour {
+		.r = (unsigned char)resolve_templated_value(json["r"], template_params).as_int(0),
+		.g = (unsigned char)resolve_templated_value(json["g"], template_params).as_int(0),
+		.b = (unsigned char)resolve_templated_value(json["b"], template_params).as_int(0),
+		.a = (unsigned char)resolve_templated_value(json["a"], template_params).as_int(255)
+	};
+}
+
+UI::Formatted_Text parse_formatted_text(const JSON::Value_View& json)
+{
+	UI::Formatted_Text result;
+
+	// Whole text as simple string
+	if (json.is_string()) {
+		result.fragments.push_back(UI::Formatted_Text_Fragment{
+			.text = json.as_string("")
+		});
+		return result;
+	}
+
+	// Array of fragments
+	json.as_array().for_each([&](const JSON::Value_View& value){
+		// Fragment as simple string
+		if (value.is_string()) {
+			result.fragments.push_back(UI::Formatted_Text_Fragment{
+				.text = value.as_string("")
+			});
+			return;
+		}
+
+		// Parse fragment object
+		JSON::Object_View fragment_json = value.as_object();
+		UI::Formatted_Text_Fragment fragment;
+		fragment.text = fragment_json["text"].as_string("");
+		if (fragment_json.has("colour")) {
+			fragment.colour = parse_colour(fragment_json["colour"].as_object(), JSON::Object_View{nullptr});
+		}
+
+		result.fragments.push_back(move(fragment));
+	});
+
+	return result;
 }
 
 }

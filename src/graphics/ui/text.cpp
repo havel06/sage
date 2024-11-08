@@ -1,4 +1,5 @@
 #include "text.hpp"
+#include "graphics/ui/formatted_text.hpp"
 #include "raylib/raylib.h"
 #include "utils/log.hpp"
 #include "widget_visitor.hpp"
@@ -14,92 +15,111 @@ Text::Text(Resource_Handle<Font> font, Layout&& layout) :
 
 void Text::draw_impl(Recti parent_area, float opacity, float)
 {
-	const Color color {255, 255, 255, (unsigned char)(255 * opacity)};
-	const Array<String> wrapped_text = wrap_text(text, parent_area.size.x);
+	const Colour colour {255, 255, 255, 255};
+	const Array<Formatted_Text> lines = wrap_text(text, parent_area.size.x);
 
 	// Draw the lines
 	float y = parent_area.position.y;
-	for (const String& line : wrapped_text) {
-		draw_line(line, parent_area.position.x, y, parent_area.size.x, color);
+	for (const Formatted_Text& line : lines) {
+		draw_line(line, parent_area.position.x, y, parent_area.size.x, opacity, colour);
 		y += size * 1.25;
 	}
 }
 
-void Text::draw_line(const String& line, int x, int y, int max_width, Color color)
+void Text::draw_line(const Formatted_Text& line, int x, int y, int max_width, float opacity, Colour fallback_color)
 {
-	const int width = MeasureTextEx(m_font.get(), line.data(), size, 0).x;
+	const int width = MeasureTextEx(m_font.get(), line.to_string().data(), size, 0).x;
 	const int space_left = max_width - width;
 	const int offset = align == Text_Align::center ? (space_left / 2) : 0;
+	x += offset;
 
-	DrawTextEx(m_font.get(), line.data(), {(float)(x + offset), (float)y}, size, 0, color);
+	// Draw individual fragments
+	for (const Formatted_Text_Fragment& fragment : line.fragments) {
+		const int fragment_width = MeasureTextEx(m_font.get(), fragment.text.data(), size, 0).x;
+		Colour colour = fragment.colour.has_value() ? fragment.colour.value() : fallback_color;
+		colour.a *= opacity;
+		DrawTextEx(m_font.get(), fragment.text.data(), {(float)x, (float)y}, size, 0, Color{colour.r, colour.g, colour.b, colour.a});
+		x += fragment_width;
+	}
 }
 
-Array<String> Text::split_text_to_words(const String& text)
+Array<Formatted_Text_Fragment> Text::split_text_to_words(const Formatted_Text& text)
 {
-	Array<String> words;
-	String word;
-	for (int i = 0; i < text.length(); i++) {
-		char c = text[i];
-		if (c == ' ' && !word.empty()) {
-			words.push_back(word);
-			word.clear();
-		} else if (c == '\n') {
-			words.push_back(word);
-			words.push_back("\n");
-			word.clear();
-		} else {
-			word.append(c);
+	Array<Formatted_Text_Fragment> words;
+
+	Formatted_Text_Fragment word;
+
+	for (const Formatted_Text_Fragment& fragment : text.fragments) {
+		word.colour = fragment.colour;
+
+		for (int i = 0; i < fragment.text.length(); i++) {
+			char c = fragment.text[i];
+			if (c == ' ' && !word.text.empty()) {
+				words.push_back(word);
+				word.text.clear();
+			} else if (c == '\n') {
+				words.push_back(word);
+				words.push_back(Formatted_Text_Fragment{.text = "\n"});
+				word.text.clear();
+			} else {
+				word.text.append(c);
+			}
 		}
-	}
-	// Add last word
-	if (!word.empty()) {
-		words.push_back(word);
+
+		// Add last word
+		if (!word.text.empty()) {
+			words.push_back(word);
+			word.text.clear();
+		}
 	}
 
 	return words;
 }
 
-Array<String> Text::wrap_text(const String& text, int width)
+Array<Formatted_Text> Text::wrap_text(const Formatted_Text& text, int width)
 {
 	auto words = split_text_to_words(text);
 	
 	// If whole text fits on one line, just return it right away
-	String first_line_test;
-	for (int i = 0; i < words.size(); i++) {
-		first_line_test.append(words[i]);
-		if (words[i] != "\n")
-			first_line_test.append(" ");
-	} if (MeasureText(first_line_test.data(), size) <= width) {
-		Array<String> result;
-		result.push_back(first_line_test);
-		return result;
-	}
+	//String first_line_test;
+	//for (int i = 0; i < words.size(); i++) {
+	//	first_line_test.append(words[i].text);
+	//	if (words[i].text != "\n")
+	//		first_line_test.append(" ");
+	//} if (MeasureText(first_line_test.data(), size) <= width) {
+	//	Array<Formatted_Text_Fragment> result;
+	//	result.push_back(first_line_test);
+	//	return result;
+	//}
 
 	// Wrap text
-	Array<String> result;
-	String line;
-	for (int i = 0; i < words.size(); i++) {
-		if (words[i] == "\n") {
-			line.append("\n");
+	Array<Formatted_Text> result;
+	Formatted_Text line;
+
+	for (const Formatted_Text_Fragment& word : words) {
+		if (word.text == "\n") {
+			result.push_back(line);
+			line.fragments.clear();
 			continue;
 		}
 
-		auto space_left = width - MeasureTextEx(m_font.get(), line.data(), size, 0).x;
+		auto space_left = width - MeasureTextEx(m_font.get(), line.to_string().data(), size, 0).x;
 
-		const auto word_width = MeasureTextEx(m_font.get(), (words[i]).data(), size, 0).x;
+		const auto word_width = MeasureTextEx(m_font.get(), word.text.data(), size, 0).x;
 		if (word_width <= space_left) {
 			//add word to current line
-			line.append(words[i]);
-			line.append(" ");
+			line.fragments.push_back(word);
+			line.fragments.push_back(Formatted_Text_Fragment{.text = " "});
 		} else {
 			//new line
 			result.push_back(line);
-			line = words[i];
-			line.append(" ");
+			line.fragments.clear();
+			line.fragments.push_back(word);
+			line.fragments.push_back(Formatted_Text_Fragment{.text = " "});
 		}
 	}
 	//add last line
-	if (!line.empty()) {
+	if (!line.fragments.empty()) {
 		result.push_back(line);
 	}
 	

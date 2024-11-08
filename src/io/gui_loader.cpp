@@ -141,11 +141,7 @@ UI::Widget_Ptr GUI_Loader::parse_box(UI::Layout&& layout, const JSON::Object_Vie
 	Own_Ptr<UI::Box> widget = make_own_ptr<UI::Box>((UI::Layout&&)layout);
 
 	if (params.has("colour")) {
-		JSON::Object_View colour_json = resolve_templated_value(params["colour"], template_params).as_object();
-		widget->colour.r = resolve_templated_value(colour_json["r"], template_params).as_int(0);
-		widget->colour.g = resolve_templated_value(colour_json["g"], template_params).as_int(0);
-		widget->colour.b = resolve_templated_value(colour_json["b"], template_params).as_int(0);
-		widget->colour.a = resolve_templated_value(colour_json["a"], template_params).as_int(255);
+		widget->colour = JSON_Types::parse_colour(params["colour"].as_object(), template_params);
 	}
 
 	return widget;
@@ -156,7 +152,7 @@ UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const JSON::Object_Vi
 	Resource_Handle<Font> font = m_font_manager.get(resolve_templated_value(params["font"], template_params).as_string(""), false);
 	Own_Ptr<UI::Text> widget = make_own_ptr<UI::Text>(font, (UI::Layout&&)layout);
 
-	widget->text = resolve_templated_value(params["text"], template_params).as_string("");
+	widget->text = JSON_Types::parse_formatted_text(resolve_templated_value(params["text"], template_params));
 	widget->size = resolve_templated_value(params["size"], template_params).as_int(16);
 	if (params.has("align")) {
 		widget->align = parse_align(resolve_templated_value(params["align"], template_params).as_string("left"));

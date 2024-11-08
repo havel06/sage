@@ -178,8 +178,8 @@ void Map_Loader::parse_object(const JSON::Object_View& object)
 	entity.position.y = round(object["y"].as_float(0) / m_tile_height);
 
 	Vec2i entity_size = {
-		.x = object["width"].as_int(1) / m_tile_width,
-		.y = object["height"].as_int(1) / m_tile_height
+		.x = (int)round((float)object["width"].as_int(1) / m_tile_width),
+		.y = (int)round((float)object["height"].as_int(1) / m_tile_height)
 	};
 
 	entity.set_size(entity_size);

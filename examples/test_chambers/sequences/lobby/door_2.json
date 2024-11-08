@@ -1,0 +1,10 @@
+{
+	"from_template": {
+		"template": "sequences/door.json",
+		"parameters": {
+			"map": "maps/chamber_2.tmj",
+			"x": 50,
+			"y": 46
+		}
+	}
+}

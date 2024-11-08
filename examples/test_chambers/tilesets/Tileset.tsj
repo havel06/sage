@@ -26,6 +26,60 @@
                  "type":"bool",
                  "value":true
                 }]
+        }, 
+        {
+         "id":405,
+         "properties":[
+                {
+                 "name":"passable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":432,
+         "properties":[
+                {
+                 "name":"passable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":434,
+         "properties":[
+                {
+                 "name":"passable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":435,
+         "properties":[
+                {
+                 "name":"passable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":436,
+         "properties":[
+                {
+                 "name":"passable",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":459,
+         "properties":[
+                {
+                 "name":"passable",
+                 "type":"bool",
+                 "value":true
+                }]
         }],
  "tilewidth":16,
  "type":"tileset",

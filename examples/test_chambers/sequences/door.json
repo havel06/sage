@@ -2,6 +2,12 @@
 	"repeatable": true,
 	"events": [
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/door.wav"
+			}
+		},
+		{
 			"type": "show_gui",
 			"parameters": {
 				"widget": "gui/map_transition.json"

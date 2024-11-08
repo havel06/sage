@@ -18,10 +18,13 @@ public:
 	Camera_Controller(Game_Camera&);
 
 	Vec2f get_camera_position() const;
+	float get_zoom() const;
+	Camera_Controller_Mode get_mode() const { return m_mode; }
 
 	void update(const Map& map, const Entity& player, float dt); // Call every frame
-	void set_zoom(int amount);
+	void set_zoom(float amount);
 	void set_fixed_target(Vec2f pos);
+	void set_fixed_target_instant(Vec2f pos); // Same as set_fixed_target, but teleports camera instantly
 	void follow_player();
 	void teleport_to(Vec2f pos);
 private:

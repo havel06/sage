@@ -21,7 +21,7 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	m_user_dir_provider(description.name.data()),
 	m_map_saveloader(m_resource_system.texture_manager, m_user_dir_provider, description.path),
 	m_sequence_saveloader(m_user_dir_provider, description.path),
-	m_game_saveloader(m_user_dir_provider, description.path, m_logic_normal, m_camera, m_logic_normal.inventory, m_logic_normal.quest_log, m_resource_system.sequence_manager, m_resource_system.character_profile_manager, m_party),
+	m_game_saveloader(m_user_dir_provider, description.path, m_logic_normal, m_camera_controller, m_logic_normal.inventory, m_logic_normal.quest_log, m_resource_system.sequence_manager, m_resource_system.character_profile_manager, m_party),
 	m_party(m_resource_system.character_profile_manager.get(description.default_character.data(), false)),
 	m_combat(m_party),
 	m_logic_normal(m_party, m_resource_system.sequence_manager,m_map_saveloader, m_resource_system.map_manager),

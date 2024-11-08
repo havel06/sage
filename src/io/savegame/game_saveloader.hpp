@@ -4,7 +4,7 @@
 #include "utils/string.hpp"
 
 class Game_Logic_State_Normal;
-class Game_Camera;
+class Camera_Controller;
 class Inventory;
 class Party;
 class Sequence_Manager;
@@ -19,7 +19,7 @@ namespace JSON {
 class Game_Saveloader
 {
 public:
-	Game_Saveloader(User_Directory_Provider&, const String& project_dir, Game_Logic_State_Normal& logic, Game_Camera&, Inventory& inventory, Quest_Log& quest_log, Sequence_Manager&, Character_Profile_Manager&, Party& party);
+	Game_Saveloader(User_Directory_Provider&, const String& project_dir, Game_Logic_State_Normal& logic, Camera_Controller&, Inventory& inventory, Quest_Log& quest_log, Sequence_Manager&, Character_Profile_Manager&, Party& party);
 
 	void save();
 	void load();
@@ -32,7 +32,7 @@ private:
 	String get_savefile_path();
 
 	Game_Logic_State_Normal& m_logic;
-	Game_Camera& m_camera;
+	Camera_Controller& m_camera_controller;
 	Inventory& m_inventory;
 	Quest_Log& m_quest_log;
 	Sequence_Manager& m_seq_manager;

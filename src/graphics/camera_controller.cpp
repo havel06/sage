@@ -15,6 +15,11 @@ Vec2f Camera_Controller::get_camera_position() const
 	return m_camera.position;
 }
 
+float Camera_Controller::get_zoom() const
+{
+	return m_camera.zoom;
+}
+
 void Camera_Controller::update(const Map& map, const Entity& player, float dt)
 {
 	if (m_mode == Camera_Controller_Mode::follow_player)
@@ -40,6 +45,12 @@ void Camera_Controller::set_fixed_target(Vec2f pos)
 {
 	m_mode = Camera_Controller_Mode::fixed;
 	m_fixed_target = pos;
+}
+
+void Camera_Controller::set_fixed_target_instant(Vec2f pos)
+{
+	set_fixed_target(pos);
+	m_camera.position = pos;
 }
 
 void Camera_Controller::fix_camera_out_of_bounds(Vec2i map_size)
@@ -91,7 +102,7 @@ void Camera_Controller::follow_player()
 	m_mode = Camera_Controller_Mode::follow_player;
 }
 
-void Camera_Controller::set_zoom(int amount)
+void Camera_Controller::set_zoom(float amount)
 {
 	m_camera.zoom = amount;
 }

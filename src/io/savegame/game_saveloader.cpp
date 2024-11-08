@@ -16,9 +16,9 @@
 #include "utils/json.hpp"
 #include <stdio.h>
 
-Game_Saveloader::Game_Saveloader(User_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic, Game_Camera& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager, Party& party) :
+Game_Saveloader::Game_Saveloader(User_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic, Camera_Controller& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager, Party& party) :
 	m_logic{logic},
-	m_camera{camera},
+	m_camera_controller{camera},
 	m_inventory{inv},
 	m_quest_log{quest_log},
 	m_seq_manager{seq_manager},
@@ -47,7 +47,13 @@ void Game_Saveloader::save()
 
 	String map_relative_path = get_relative_path(map_absolute_path, m_project_dir);
 	json.add("current_map", map_relative_path.data());
-	json.add("camera_zoom", m_camera.zoom);
+	json.add("camera_zoom", m_camera_controller.get_zoom());
+	if (m_camera_controller.get_mode() == Camera_Controller_Mode::fixed) {
+		JSON::Object camera_position;
+		camera_position.add("x", JSON::Value{m_camera_controller.get_camera_position().x});
+		camera_position.add("y", JSON::Value{m_camera_controller.get_camera_position().y});
+		json.add("camera_position", move(camera_position));
+	}
 	Inventory_Saveloader inv_saveloader;
 	json.add("inventory", inv_saveloader.save(m_inventory));
 	Quest_Saveloader quest_saveloader(m_quest_log);
@@ -76,7 +82,14 @@ void Game_Saveloader::load()
 	const char* current_map = view["current_map"].as_string(m_logic.get_map_filename().data());
 	m_logic.set_current_map(current_map);
 
-	m_camera.zoom = view["camera_zoom"].as_float(m_camera.zoom);
+	m_camera_controller.set_zoom(view["camera_zoom"].as_float(m_camera_controller.get_zoom()));
+	if (view.has("camera_position")) {
+		const JSON::Object_View cam_pos = view["camera_position"].as_object();
+		const float x = cam_pos["x"].as_float(m_camera_controller.get_camera_position().x);
+		const float y = cam_pos["y"].as_float(m_camera_controller.get_camera_position().y);
+		m_camera_controller.set_fixed_target_instant(Vec2f{x, y});
+	}
+
 	Inventory_Saveloader inv_saveloader;
 	inv_saveloader.load(m_inventory, view["inventory"].as_array());
 	Quest_Saveloader quest_saveloader(m_quest_log);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "graphics/animated_sprite.hpp"
+#include "graphics/ui/formatted_text.hpp"
 #include "utils/string.hpp"
 #include "utils/direction.hpp"
 #include "combat/target_selection_type.hpp"
@@ -17,6 +18,7 @@ class String_Array_Event_Parameter;
 class Target_Selection_Type_Event_Parameter;
 class Condition_Event_Parameter;
 class Battle_Units_Layout_Event_Parameter;
+class Formatted_Text_Event_Parameter;
 
 // Visitor pattern for parameters
 
@@ -32,6 +34,7 @@ public:
 	virtual void visit(Target_Selection_Type_Event_Parameter&) = 0;
 	virtual void visit(Condition_Event_Parameter&) = 0;
 	virtual void visit(Battle_Units_Layout_Event_Parameter&) = 0;
+	virtual void visit(Formatted_Text_Event_Parameter&) = 0;
 };
 
 // Abstract parameter class
@@ -106,5 +109,12 @@ class Battle_Units_Layout_Event_Parameter final : public Event_Parameter
 {
 public:
 	Battle_Units_Layout value;
+	void accept_visitor(Event_Parameter_Visitor& visitor) override { visitor.visit(*this); }
+};
+
+class Formatted_Text_Event_Parameter final : public Event_Parameter
+{
+public:
+	UI::Formatted_Text value;
 	void accept_visitor(Event_Parameter_Visitor& visitor) override { visitor.visit(*this); }
 };

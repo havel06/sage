@@ -5,7 +5,7 @@
 namespace Events
 {
 
-Display_Text::Display_Text(Game_Facade& facade, const String& message) :
+Display_Text::Display_Text(Game_Facade& facade, const UI::Formatted_Text& message) :
 	Event(facade)
 {
 	m_message = message;
@@ -14,7 +14,7 @@ Display_Text::Display_Text(Game_Facade& facade, const String& message) :
 void Display_Text::update(float)
 {
 	if (!m_activated) {
-		m_game_facade.display_text(String{m_message});
+		m_game_facade.display_text(m_message);
 		m_activated = true;
 	}
 }

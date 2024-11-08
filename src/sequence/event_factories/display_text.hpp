@@ -11,7 +11,7 @@ public:
 	Display_Text();
 	Own_Ptr<Event> make_event(Game_Facade&) override;
 private:
-	String_Event_Parameter m_message;
+	Formatted_Text_Event_Parameter m_message;
 };
 
 }

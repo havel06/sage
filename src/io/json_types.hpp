@@ -14,6 +14,8 @@ namespace UI {
 namespace JSON_Types
 {
 
+// FIXME - don't propagate template parameter values, it makes the engine needlessly complicated
+
 Sprite parse_sprite(const JSON::Object_View&, Texture_Manager&);
 JSON::Object serialise_sprite(const Sprite&, const String& project_dir);
 

@@ -71,9 +71,9 @@ void Game_Facade::teleport_entity(const String& entity_name, Vec2i position)
 	entity->position = position;
 }
 
-void Game_Facade::display_text(String&& message)
+void Game_Facade::display_text(const UI::Formatted_Text& message)
 {
-	m_logic_normal.text_box.push_message((String&&)message);
+	m_logic_normal.text_box.push_message(message);
 }
 
 bool Game_Facade::is_text_box_shown() const

@@ -4,6 +4,7 @@
 #include "combat/battle_desc.hpp"
 #include "combat/combat.hpp"
 #include "combat/target_selection_type.hpp"
+#include "graphics/ui/formatted_text.hpp"
 #include "utils/direction.hpp"
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
@@ -44,7 +45,7 @@ public:
 	void move_entity(const String& entity_name, Vec2i position);
 	void rotate_entity(const String& entity_name, Direction);
 	void rotate_player(Direction);
-	void display_text(String&& message);
+	void display_text(const UI::Formatted_Text& message);
 	bool is_text_box_shown() const;
 	void give_item(const String& id, int count);
 	void remove_item(const String& id, int count);

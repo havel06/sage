@@ -63,6 +63,10 @@ public:
 	void visit(Battle_Units_Layout_Event_Parameter& param) override {
 		param.value = parse_battle_units_layout(m_param_json.as_object());
 	}
+
+	void visit(Formatted_Text_Event_Parameter& param) override {
+		param.value = JSON_Types::parse_formatted_text(m_param_json);
+	}
 };
 
 

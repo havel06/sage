@@ -23,6 +23,8 @@ struct Formatted_Text
 
 
 	String to_string() const;
+	int length() const;
+	Formatted_Text substring(int length) const;
 };
 
 }

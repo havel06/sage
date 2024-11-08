@@ -48,12 +48,12 @@ void Game_Saveloader::save()
 	String map_relative_path = get_relative_path(map_absolute_path, m_project_dir);
 	json.add("current_map", map_relative_path.data());
 	json.add("camera_zoom", m_camera_controller.get_zoom());
-	if (m_camera_controller.get_mode() == Camera_Controller_Mode::fixed) {
-		JSON::Object camera_position;
-		camera_position.add("x", JSON::Value{m_camera_controller.get_camera_position().x});
-		camera_position.add("y", JSON::Value{m_camera_controller.get_camera_position().y});
-		json.add("camera_position", move(camera_position));
-	}
+
+	json.add("camera_x", JSON::Value{m_camera_controller.get_camera_position().x});
+	json.add("camera_y", JSON::Value{m_camera_controller.get_camera_position().y});
+	const bool camera_fixed = m_camera_controller.get_mode() == Camera_Controller_Mode::fixed;
+	json.add("camera_fixed", camera_fixed);
+
 	Inventory_Saveloader inv_saveloader;
 	json.add("inventory", inv_saveloader.save(m_inventory));
 	Quest_Saveloader quest_saveloader(m_quest_log);
@@ -83,11 +83,15 @@ void Game_Saveloader::load()
 	m_logic.set_current_map(current_map);
 
 	m_camera_controller.set_zoom(view["camera_zoom"].as_float(m_camera_controller.get_zoom()));
-	if (view.has("camera_position")) {
-		const JSON::Object_View cam_pos = view["camera_position"].as_object();
-		const float x = cam_pos["x"].as_float(m_camera_controller.get_camera_position().x);
-		const float y = cam_pos["y"].as_float(m_camera_controller.get_camera_position().y);
-		m_camera_controller.set_fixed_target_instant(Vec2f{x, y});
+	// Camera
+	{
+		const float x = view["camera_x"].as_float(m_camera_controller.get_camera_position().x);
+		const float y = view["camera_y"].as_float(m_camera_controller.get_camera_position().y);
+
+		if (view["camera_fixed"].as_bool(false))
+			m_camera_controller.set_fixed_target_instant(Vec2f{x, y});
+		else
+			m_camera_controller.teleport_to(Vec2f{x, y});
 	}
 
 	Inventory_Saveloader inv_saveloader;

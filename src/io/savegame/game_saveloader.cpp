@@ -63,6 +63,10 @@ void Game_Saveloader::save()
 	json.add("active_sequences", serialise_active_sequences());
 	json.add("party", serialise_party());
 	json.add("player_actions_disabled", m_logic.player_actions_disabled);
+
+	if (!m_scriptable_gui.get_current_widget_filename().empty()) {
+		json.add("scriptable_gui_widget", m_scriptable_gui.get_current_widget_filename().data());
+	}
 	
 	// Write to file
 	String savefile_path = get_savefile_path();
@@ -103,6 +107,10 @@ void Game_Saveloader::load()
 	load_active_sequences(view["active_sequences"].as_array());
 	load_party(view["party"].as_array());
 	m_logic.player_actions_disabled = view["player_actions_disabled"].as_bool(false);
+
+	if (view.has("scriptable_gui_widget")) {
+		m_scriptable_gui.show_widget(view["scriptable_gui_widget"].as_string(""));
+	}
 
 	SG_INFO("Loaded game state.");
 }

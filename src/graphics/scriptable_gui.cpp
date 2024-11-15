@@ -19,6 +19,8 @@ void Scriptable_GUI::hide_widget()
 {
 	if (m_widget)
 		m_widget->show(false);
+
+	m_filename = "";
 }
 
 void Scriptable_GUI::draw(float time_delta)

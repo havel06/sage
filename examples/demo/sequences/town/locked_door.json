@@ -8,7 +8,18 @@
 		{
 			"type": "display_text",
 			"parameters": {
-				"message": "The door is locked."
+				"message": [
+					"The door is",
+					{
+						"text": "locked.",
+						"colour": {
+							"r": 255,
+							"g": 50,
+							"b": 50,
+							"a": 255
+						}
+					}
+				]
 			}
 		},
 		{

@@ -29,17 +29,7 @@
 			"type": "display_text",
 			"parameters": {
 				"message": [
-					"A",
-					{
-						"text": "new quest",
-						"colour": {
-							"r": 0,
-							"g": 255,
-							"b": 255,
-							"a": 255
-						}
-					},
-					"has been added to your",
+					"A new quest has been added to your",
 					{
 						"text": "quest log.",
 						"colour": {

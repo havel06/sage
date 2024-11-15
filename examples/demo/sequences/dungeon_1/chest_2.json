@@ -5,7 +5,18 @@
 			"entity_name": "Chest 2",
 			"item_id": "poisoning_potion",
 			"item_count": 1,
-			"message": "You have received a Poisoning Potion."
+			"message": [
+				"You have received a",
+				{
+					"text": "Poisoning Potion.",
+					"colour": {
+						"r": 0,
+						"g": 220,
+						"b": 40,
+						"a": 255
+					}
+				}
+			]
 		}
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../event.hpp"
-#include "graphics/ui/layout.hpp"
+#include "utils/string.hpp"
 
 namespace Events
 {
@@ -9,12 +9,12 @@ namespace Events
 class Show_GUI : public Event
 {
 public:
-	Show_GUI(Game_Facade&, UI::Widget_Ptr&& widget);
+	Show_GUI(Game_Facade&, const String& filename);
 	void update(float time_delta) override;
 	bool is_finished() const override;
 	void reset() override;
 private:
-	UI::Widget_Ptr m_widget;
+	String m_filename;
 	bool m_activated = false;
 };
 

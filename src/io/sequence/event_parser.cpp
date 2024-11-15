@@ -126,7 +126,7 @@ Own_Ptr<Event_Factory> Event_Parser::get_factory_for_event_type(const String& ty
 	} else if (type == "disable_player_actions") {
 		return make_own_ptr<Event_Factories::Disable_Player_Actions>();
 	} else if (type == "show_gui") {
-		return make_own_ptr<Event_Factories::Show_GUI>(m_gui_loader);
+		return make_own_ptr<Event_Factories::Show_GUI>();
 	} else if (type == "hide_gui") {
 		return make_own_ptr<Event_Factories::Hide_GUI>();
 	} else if (type == "enter_combat") {

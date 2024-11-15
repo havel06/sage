@@ -1,6 +1,12 @@
 {
 	"events": [
 		{
+			"type": "show_gui",
+			"parameters": {
+				"widget": "gui/end_game_screen.json"
+			}
+		},
+		{
 			"type": "change_map",
 			"parameters": {
 				"map": "maps/town.tmj"

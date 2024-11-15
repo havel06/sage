@@ -5,15 +5,15 @@
 namespace Events
 {
 
-Show_GUI::Show_GUI(Game_Facade& facade, UI::Widget_Ptr&& widget) :
+Show_GUI::Show_GUI(Game_Facade& facade, const String& filename) :
 	Event{facade}
 {
-	m_widget = move(widget);
+	m_filename = filename;
 }
 
 void Show_GUI::update(float)
 {
-	m_game_facade.show_gui(m_widget->clone());
+	m_game_facade.show_gui(m_filename);
 	m_activated = true;
 }
 

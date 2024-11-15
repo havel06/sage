@@ -307,9 +307,9 @@ void Game_Facade::save_game()
 	m_sequence_manager.save();
 }
 
-void Game_Facade::show_gui(UI::Widget_Ptr&& widget)
+void Game_Facade::show_gui(const String& filename)
 {
-	m_scriptable_gui.show_widget(move(widget));
+	m_scriptable_gui.show_widget(filename);
 }
 
 void Game_Facade::hide_gui()

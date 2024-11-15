@@ -10,6 +10,7 @@ class Party;
 class Sequence_Manager;
 class User_Directory_Provider;
 class Character_Profile_Manager;
+class Scriptable_GUI;
 namespace JSON {
 	class Array_View;
 	class Array;
@@ -19,7 +20,7 @@ namespace JSON {
 class Game_Saveloader
 {
 public:
-	Game_Saveloader(User_Directory_Provider&, const String& project_dir, Game_Logic_State_Normal& logic, Camera_Controller&, Inventory& inventory, Quest_Log& quest_log, Sequence_Manager&, Character_Profile_Manager&, Party& party);
+	Game_Saveloader(User_Directory_Provider&, const String& project_dir, Game_Logic_State_Normal& logic, Camera_Controller&, Inventory& inventory, Quest_Log& quest_log, Sequence_Manager&, Character_Profile_Manager&, Party& party, Scriptable_GUI& scriptable_gui);
 
 	void save();
 	void load();
@@ -39,6 +40,7 @@ private:
 	User_Directory_Provider& m_savegame_dir_provider;
 	Character_Profile_Manager& m_character_manager;
 	Party& m_party;
+	Scriptable_GUI& m_scriptable_gui;
 
 	String m_project_dir;
 };

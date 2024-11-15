@@ -7,16 +7,14 @@
 
 namespace Event_Factories {
 
-Show_GUI::Show_GUI(GUI_Loader& gui_loader) :
-	m_gui_loader{gui_loader}
+Show_GUI::Show_GUI()
 {
 	register_parameter("widget", m_widget_filename);
 }
 
 Own_Ptr<Event> Show_GUI::make_event(Game_Facade& facade)
 {
-	UI::Widget_Ptr widget = m_gui_loader.load(m_widget_filename.value);
-	return make_own_ptr<Events::Show_GUI>(facade, move(widget));
+	return make_own_ptr<Events::Show_GUI>(facade, m_widget_filename.value);
 }
 
 }

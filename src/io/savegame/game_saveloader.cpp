@@ -1,6 +1,7 @@
 #include "game_saveloader.hpp"
 #include "character_profile.hpp"
 #include "game/game.hpp"
+#include "graphics/scriptable_gui.hpp"
 #include "io/character_profile_loader.hpp"
 #include "io/savegame/inventory_saveloader.hpp"
 #include "io/savegame/quest_saveloader.hpp"
@@ -16,7 +17,7 @@
 #include "utils/json.hpp"
 #include <stdio.h>
 
-Game_Saveloader::Game_Saveloader(User_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic, Camera_Controller& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager, Party& party) :
+Game_Saveloader::Game_Saveloader(User_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic, Camera_Controller& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager, Party& party, Scriptable_GUI& gui) :
 	m_logic{logic},
 	m_camera_controller{camera},
 	m_inventory{inv},
@@ -24,7 +25,8 @@ Game_Saveloader::Game_Saveloader(User_Directory_Provider& dir_provider, const St
 	m_seq_manager{seq_manager},
 	m_savegame_dir_provider{dir_provider},
 	m_character_manager{character_manager},
-	m_party{party}
+	m_party{party},
+	m_scriptable_gui{gui}
 {
 	m_project_dir = project_dir;
 }

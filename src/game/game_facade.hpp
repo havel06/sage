@@ -68,7 +68,7 @@ public:
 	void finish_quest(const String& id);
 	void zoom_camera(int amount);
 	void save_game();
-	void show_gui(UI::Widget_Ptr&& widget);
+	void show_gui(const String& filename);
 	void hide_gui();
 	void move_camera(Vec2f position);
 	void camera_follow_player();

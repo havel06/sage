@@ -1,10 +1,17 @@
 #include "scriptable_gui.hpp"
 #include "utils/log.hpp"
 #include "utils/move.hpp"
+#include "io/gui_loader.hpp"
 
-void Scriptable_GUI::show_widget(UI::Widget_Ptr&& widget)
+Scriptable_GUI::Scriptable_GUI(GUI_Loader& loader) :
+	m_loader{loader}
 {
-	m_widget = move(widget);
+}
+
+void Scriptable_GUI::show_widget(const String& filename)
+{
+	m_widget = m_loader.load(filename);
+	m_filename = filename;
 	m_widget->show(true);
 }
 

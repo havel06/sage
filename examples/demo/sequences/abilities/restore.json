@@ -71,6 +71,12 @@
 			}
 		},
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/powerup.wav"
+			}
+		},
+		{
 			"type": "change_current_unit_hp",
 			"parameters": {
 				"amount": 3

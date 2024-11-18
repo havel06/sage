@@ -18,9 +18,21 @@
 			}
 		},
 		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.8
+			}
+		},
+		{
 			"type": "activate_sequence",
 			"parameters": {
 				"sequence": "sequences/dungeon_1/battle_2_spike_2.json"
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.8
 			}
 		},
 		{

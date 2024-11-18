@@ -57,6 +57,12 @@
 			}
 		},
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/hit.wav"
+			}
+		},
+		{
 			"type": "change_target_hp",
 			"parameters": {
 				"amount": -5

@@ -12,6 +12,12 @@
 			}
 		},
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/explosion.wav"
+			}
+		},
+		{
 			"type": "remove_item",
 			"parameters": {
 				"item": "bomb",

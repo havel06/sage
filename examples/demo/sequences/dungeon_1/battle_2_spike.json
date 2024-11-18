@@ -51,7 +51,19 @@
 		{
 			"type": "delay",
 			"parameters": {
-				"seconds": 1
+				"seconds": 0.3
+			}
+		},
+		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/spike.wav"
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.7
 			}
 		},
 		{

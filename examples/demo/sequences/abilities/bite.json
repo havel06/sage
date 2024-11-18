@@ -50,6 +50,12 @@
 			}
 		},
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/hit.wav"
+			}
+		},
+		{
 			"type": "change_target_hp",
 			"parameters": {
 				"amount": -3
@@ -64,6 +70,12 @@
 		{
 			"type": "reset_current_unit_sprite",
 			"parameters": {}
+		},
+		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/powerup.wav"
+			}
 		},
 		{
 			"type": "change_current_unit_hp",

@@ -25,6 +25,12 @@
 			}
 		},
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/pickup.wav"
+			}
+		},
+		{
 			"type": "display_text",
 			"parameters": {
 				"message": "Here is the key. You will need it to get inside."

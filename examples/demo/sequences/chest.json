@@ -33,6 +33,12 @@
 			}
 		},
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/pickup.wav"
+			}
+		},
+		{
 			"type": "display_text",
 			"parameters": {
 				"message": "$message"

@@ -1,6 +1,12 @@
 {
 	"events": [
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/chest.wav"
+			}
+		},
+		{
 			"type": "change_sprite",
 			"parameters": {
 				"entity": "$entity_name",
@@ -30,6 +36,12 @@
 					"size_x": 16,
 					"size_y": 16
 				}
+			}
+		},
+		{
+			"type": "delay",
+			"parameters": {
+				"seconds": 0.3
 			}
 		},
 		{

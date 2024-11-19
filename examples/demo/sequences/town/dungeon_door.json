@@ -9,6 +9,12 @@
 	},
 	"events": [
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/chest.wav"
+			}
+		},
+		{
 			"from_template": {
 				"template": "sequences/door.json",
 				"parameters": {

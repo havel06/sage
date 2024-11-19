@@ -20,6 +20,12 @@
 			}
 		},
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/blacksmith_hammer.wav"
+			}
+		},
+		{
 			"type": "change_current_unit_sprite",
 			"parameters": {
 				"sprite": {
@@ -73,6 +79,12 @@
 		{
 			"type": "reset_current_unit_sprite",
 			"parameters": {}
+		},
+		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/powerup.wav"
+			}
 		},
 		{
 			"type": "change_target_hp",

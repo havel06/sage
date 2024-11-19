@@ -1,6 +1,12 @@
 {
 	"events": [
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/chest.wav"
+			}
+		},
+		{
 			"type": "change_sprite",
 			"parameters": {
 				"entity": "Exit left",

@@ -173,7 +173,7 @@ String String::substring(int start, int length) const
 	assert(start >= 0);
 	assert(length >= 0);
 	assert(start < m_length);
-	assert(start + length < m_length);
+	assert(start + length <= m_length);
 
 	String result;
 

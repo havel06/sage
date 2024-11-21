@@ -36,6 +36,11 @@ void Application::run(int argc, const char* argv[])
 		max_fps = atof(arguments.value().options.get("maxfps")->data());
 	}
 
+	if (arguments.value().options.contains("loglevel")) {
+		const char* level_str = arguments.value().options.get("loglevel")->data();
+		set_log_level(log_level_from_string(level_str, Log_Level::debug));
+	}
+
 	Optional<String> record_filename = arguments.value().options.get_opt("record");
 	Optional<String> replay_filename = arguments.value().options.get_opt("replay");
 	const bool do_replay = replay_filename.has_value();

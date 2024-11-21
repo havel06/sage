@@ -1,6 +1,27 @@
 {
 	"name": "Ghost",
 	"max_hp": 19,
+	"sprite_up": {
+		"texture": "textures/ghost.png",
+		"position_x": 0,
+		"position_y": 0,
+		"size_x": -16,
+		"size_y": 16
+	},
+	"sprite_down": {
+		"texture": "textures/ghost.png",
+		"position_x": 0,
+		"position_y": 0,
+		"size_x": -16,
+		"size_y": 16
+	},
+	"sprite_right": {
+		"texture": "textures/ghost.png",
+		"position_x": 0,
+		"position_y": 0,
+		"size_x": -16,
+		"size_y": 16
+	},
 	"sprite_left": {
 		"frame_time": 0.3,
 		"frames": [

@@ -21,6 +21,25 @@
 			}
 		]
 	},
+	"sprite_up": {
+		"frame_time": 0.8,
+		"frames": [
+			{
+				"texture": "textures/mage.png",
+				"position_x": 0,
+				"position_y": 0,
+				"size_x": 32,
+				"size_y": 32
+			},
+			{
+				"texture": "textures/mage.png",
+				"position_x": 32,
+				"position_y": 0,
+				"size_x": 32,
+				"size_y": 32
+			}
+		]
+	},
 	"sprite_left": {
 		"frame_time": 0.8,
 		"frames": [

@@ -11,8 +11,7 @@ public:
 	Teleport_Player();
 	Own_Ptr<Event> make_event(Game_Facade&) override;
 private:
-	Int_Event_Parameter m_x;
-	Int_Event_Parameter m_y;
+	Position_Event_Parameter m_position;
 };
 
 }

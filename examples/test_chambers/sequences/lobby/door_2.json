@@ -3,8 +3,11 @@
 		"template": "sequences/door.json",
 		"parameters": {
 			"map": "maps/chamber_2.tmj",
-			"x": 50,
-			"y": 46
+			"pos": {
+				"entity": "Lobby door",
+				"x": 0,
+				"y": 1
+			}
 		}
 	}
 }

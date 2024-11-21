@@ -118,8 +118,11 @@
 		{
 			"type": "teleport_player",
 			"parameters": {
-				"x": 61,
-				"y": 35
+				"position": {
+					"entity": "Player",
+					"x": 1,
+					"y": 0
+				}
 			}
 		},
 		{

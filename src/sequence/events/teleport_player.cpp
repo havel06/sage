@@ -4,7 +4,7 @@
 namespace Events
 {
 
-Teleport_Player::Teleport_Player(Game_Facade& facade, Vec2i position) :
+Teleport_Player::Teleport_Player(Game_Facade& facade, const Position& position) :
 	Event{facade}
 {
 	m_position = position;

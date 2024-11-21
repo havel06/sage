@@ -5,8 +5,7 @@
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "$entity",
-				"x": "$x",
-				"y": "$y"
+				"position": "$pos"
 			}
 		},
 		{

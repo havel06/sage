@@ -11,8 +11,7 @@ public:
 	Move_Camera();
 	Own_Ptr<Event> make_event(Game_Facade&) override;
 private:
-	Float_Event_Parameter m_x;
-	Float_Event_Parameter m_y;
+	Position_Event_Parameter m_position;
 };
 
 }

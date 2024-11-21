@@ -67,6 +67,10 @@ public:
 	void visit(Formatted_Text_Event_Parameter& param) override {
 		param.value = JSON_Types::parse_formatted_text(m_param_json);
 	}
+
+	void visit(Position_Event_Parameter& param) override {
+		param.value = JSON_Types::parse_position(m_param_json.as_object());
+	}
 };
 
 

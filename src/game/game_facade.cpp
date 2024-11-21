@@ -17,6 +17,7 @@
 #include "io/resource/map_manager.hpp"
 #include "io/resource/sequence_manager.hpp"
 #include "combat/combat.hpp"
+#include "map/position.hpp"
 
 Game_Facade::Game_Facade(
 		Sequence_Manager& seq_mgr,
@@ -44,6 +45,11 @@ Game_Facade::Game_Facade(
 {
 }
 
+Vec2f Game_Facade::resolve_position(const Position& position)
+{
+	return position.resolve(m_logic_normal.get_map().entities);
+}
+
 void Game_Facade::set_current_map(const String& filename)
 {
 	// FIXME - wouldn't time-based periodic saves be better?
@@ -54,12 +60,12 @@ void Game_Facade::set_current_map(const String& filename)
 	m_logic_normal.set_current_map(filename);
 }
 
-void Game_Facade::teleport_player(Vec2i position)
+void Game_Facade::teleport_player(const Position& position)
 {
-	m_logic_normal.get_player().position = position;
+	m_logic_normal.get_player().position = resolve_position(position).round();
 }
 
-void Game_Facade::teleport_entity(const String& entity_name, Vec2i position)
+void Game_Facade::teleport_entity(const String& entity_name, const Position& position)
 {
 	Entity* entity = m_logic_normal.get_map().entities.get_entity(entity_name);
 
@@ -68,7 +74,7 @@ void Game_Facade::teleport_entity(const String& entity_name, Vec2i position)
 		return;
 	}
 
-	entity->position = position;
+	entity->position = resolve_position(position).round();
 }
 
 void Game_Facade::display_text(const UI::Formatted_Text& message)
@@ -140,8 +146,9 @@ Direction Game_Facade::get_entity_direction(const String& entity_name)
 	return entity->get_look_direction();
 }
 
-void Game_Facade::move_entity(const String& entity_name, Vec2i position)
+void Game_Facade::move_entity(const String& entity_name, const Position& position)
 {
+	const Vec2i pos_resolved = resolve_position(position).round();
 	Entity* entity = m_logic_normal.get_map().entities.get_entity(entity_name);
 
 	if (!entity) {
@@ -149,10 +156,10 @@ void Game_Facade::move_entity(const String& entity_name, Vec2i position)
 		return;
 	}
 
-	if (entity->position == position)
+	if (entity->position == pos_resolved)
 		return;
 
-	Direction direction = vec2i_to_direction(position - entity->position);
+	Direction direction = vec2i_to_direction(pos_resolved - entity->position);
 	entity->move(direction);
 }
 
@@ -317,9 +324,9 @@ void Game_Facade::hide_gui()
 	m_scriptable_gui.hide_widget();
 }
 
-void Game_Facade::move_camera(Vec2f position)
+void Game_Facade::move_camera(const Position& position)
 {
-	return m_camera_controller.set_fixed_target(position);
+	return m_camera_controller.set_fixed_target(position.resolve(m_logic_normal.get_map().entities));
 }
 
 Vec2f Game_Facade::get_camera_position() const

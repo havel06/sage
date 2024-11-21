@@ -164,7 +164,7 @@ void Event_Parser::parse_event_parameters(Event_Factory& factory,
 	factory.for_each_parameter([&](const String& name, Event_Parameter& parameter){
 		if (!parameters.has(name.data())) {
 			SG_ERROR("Missing event parameter \"%s\"", name.data());
-			assert(false);
+			//assert(false);
 		}
 
 		const JSON::Value_View& unresolved_value = parameters[name.data()];

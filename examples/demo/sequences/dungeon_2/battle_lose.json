@@ -10,8 +10,10 @@
 		{
 			"type": "teleport_player",
 			"parameters": {
-				"x": 49,
-				"y": 51
+				"position": {
+					"x": 49,
+					"y": 51
+				}
 			}
 		},
 		{

@@ -8,8 +8,11 @@
 		{
 			"type": "move_camera",
 			"parameters": {
-				"x": 49.5,
-				"y": 35
+				"position": {
+					"entity": "Mage",
+					"x": 0.5,
+					"y": 0.5
+				}
 			}
 		},
 		{
@@ -27,8 +30,11 @@
 		{
 			"type": "move_camera",
 			"parameters": {
-				"x": 49.5,
-				"y": 41
+				"position": {
+					"entity": "Player",
+					"x": 0.5,
+					"y": 0.5
+				}
 			}
 		},
 		{
@@ -40,8 +46,11 @@
 		{
 			"type": "move_camera",
 			"parameters": {
-				"x": 49.5,
-				"y": 35
+				"position": {
+					"entity": "Mage",
+					"x": 0.5,
+					"y": 0.5
+				}
 			}
 		},
 		{
@@ -194,8 +203,10 @@
 		{
 			"type": "teleport_player",
 			"parameters": {
-				"x": 49,
-				"y": 39
+				"position": {
+					"x": 49,
+					"y": 39
+				}
 			}
 		},
 		{

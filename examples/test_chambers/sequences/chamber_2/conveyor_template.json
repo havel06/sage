@@ -9,8 +9,7 @@
 			"type": "move_entity",
 			"parameters": {
 				"entity": "Player",
-				"x": "$x",
-				"y": "$y"
+				"position": "$dest"
 			}
 		},
 		{

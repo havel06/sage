@@ -75,6 +75,7 @@ src = [
   'src/main.cpp',
   'src/map/entity.cpp',
   'src/map/map.cpp',
+  'src/map/position.cpp',
   'src/map/tile_layer.cpp',
   'src/map/tile_layers.cpp',
   'src/music_player.cpp',

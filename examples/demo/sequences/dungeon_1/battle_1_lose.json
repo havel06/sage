@@ -11,8 +11,10 @@
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Player",
-				"x": 42,
-				"y": 54
+				"position": {
+					"x": 42,
+					"y": 54
+				}
 			}
 		},
 		{

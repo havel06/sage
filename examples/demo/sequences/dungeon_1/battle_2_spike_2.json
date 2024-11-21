@@ -2,9 +2,11 @@
 	"from_template": {
 		"template": "sequences/dungeon_1/battle_2_spike.json",
 		"parameters": {
-			"x": 57,
-			"y": 35,
-			"entity": "Spike 2"
+			"entity": "Spike 2",
+			"pos": {
+				"x": 57,
+				"y": 35
+			}
 		}
 	}
 }

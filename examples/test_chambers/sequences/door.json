@@ -28,8 +28,7 @@
 		{
 			"type": "teleport_player",
 			"parameters": {
-				"x": "$x",
-				"y": "$y"
+				"position": "$pos"
 			}
 		},
 		{

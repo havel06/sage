@@ -14,23 +14,23 @@
 		{
 			"type": "move_camera",
 			"parameters": {
-				"x": "$src_cam_x",
-				"y": "$src_cam_y"
+				"position": "$src_cam_pos"
 			}
 		},
 		{
 			"type": "teleport_player",
 			"parameters": {
-				"x": 9999,
-				"y": 9999
+				"position": {
+					"x": 9999,
+					"y": 9999
+				}
 			}
 		},
 		{
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Player Stand-in",
-				"x": "$src_x",
-				"y": "$src_y"
+				"position": "$src_pos"
 			}
 		},
 		{
@@ -179,16 +179,10 @@
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Player Stand-in",
-				"x": 9999,
-				"y": 9999
-			}
-		},
-		{
-			"type": "teleport_entity",
-			"parameters": {
-				"entity": "$other_portal",
-				"x": 999,
-				"y": 999
+				"position": {
+					"x": 9999,
+					"y": 9999
+				}
 			}
 		},
 		{
@@ -200,16 +194,24 @@
 		{
 			"type": "move_camera",
 			"parameters": {
-				"x": "$dest_cam_x",
-				"y": "$dest_cam_y"
+				"position": "$dest_cam_pos"
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "$other_portal",
+				"position": {
+					"x": 999,
+					"y": 999
+				}
 			}
 		},
 		{
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Player Stand-in",
-				"x": "$dest_x",
-				"y": "$dest_y"
+				"position": "$dest_pos"
 			}
 		},
 		{
@@ -352,8 +354,10 @@
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Player Stand-in",
-				"x": 9999,
-				"y": 9999
+				"position": {
+					"x": 9999,
+					"y": 9999
+				}
 			}
 		},
 		{
@@ -365,8 +369,10 @@
 		{
 			"type": "teleport_player",
 			"parameters": {
-				"x": "$dest_x",
-				"y": "$dest_y"
+				"position": {
+					"x": "$dest_x",
+					"y": "$dest_y"
+				}
 			}
 		},
 		{

@@ -3,14 +3,26 @@
 		"template": "sequences/chamber_1/portal_template.json",
 		"parameters": {
 			"other_portal": "Portal 1",
-			"src_x":  47,
-			"src_y":  42,
-			"dest_x": 43,
-			"dest_y": 42,
-			"dest_cam_x":  43.5,
-			"dest_cam_y":  43,
-			"src_cam_x":   47.5,
-			"src_cam_y":   43
+			"src_pos": {
+				"entity": "Portal 2",
+				"x": 0,
+				"y": 0
+			},
+			"dest_pos": {
+				"entity": "Portal 1",
+				"x": 0,
+				"y": 0
+			},
+			"dest_cam_pos": {
+				"entity": "Portal 1",
+				"x": 0.5,
+				"y": 0.5
+			},
+			"src_cam_pos": {
+				"entity": "Portal 2",
+				"x": 0.5,
+				"y": 0.5
+			}
 		}
 	}
 }

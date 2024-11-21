@@ -4,7 +4,7 @@
 namespace Events
 {
 
-Teleport_Entity::Teleport_Entity(Game_Facade& facade, const String& name, Vec2i position) :
+Teleport_Entity::Teleport_Entity(Game_Facade& facade, const String& name, const Position& position) :
 	Event{facade}
 {
 	m_name = name;

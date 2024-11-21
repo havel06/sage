@@ -7,6 +7,7 @@
 #include "combat/target_selection_type.hpp"
 #include "sequence/condition.hpp"
 #include "combat/battle_desc.hpp"
+#include "map/position.hpp"
 
 // fwd
 class Int_Event_Parameter;
@@ -19,6 +20,7 @@ class Target_Selection_Type_Event_Parameter;
 class Condition_Event_Parameter;
 class Battle_Units_Layout_Event_Parameter;
 class Formatted_Text_Event_Parameter;
+class Position_Event_Parameter;
 
 // Visitor pattern for parameters
 
@@ -35,6 +37,7 @@ public:
 	virtual void visit(Condition_Event_Parameter&) = 0;
 	virtual void visit(Battle_Units_Layout_Event_Parameter&) = 0;
 	virtual void visit(Formatted_Text_Event_Parameter&) = 0;
+	virtual void visit(Position_Event_Parameter&) = 0;
 };
 
 // Abstract parameter class
@@ -116,5 +119,12 @@ class Formatted_Text_Event_Parameter final : public Event_Parameter
 {
 public:
 	UI::Formatted_Text value;
+	void accept_visitor(Event_Parameter_Visitor& visitor) override { visitor.visit(*this); }
+};
+
+class Position_Event_Parameter final : public Event_Parameter
+{
+public:
+	Position value;
 	void accept_visitor(Event_Parameter_Visitor& visitor) override { visitor.visit(*this); }
 };

@@ -7,6 +7,7 @@
 #include "template.hpp"
 #include "graphics/ui/size.hpp"
 #include "utils/log.hpp"
+#include "map/position.hpp"
 
 namespace JSON_Types
 {
@@ -142,6 +143,20 @@ UI::Formatted_Text parse_formatted_text(const JSON::Value_View& json)
 
 		result.fragments.push_back(move(fragment));
 	});
+
+	return result;
+}
+
+Position parse_position(const JSON::Object_View& json)
+{
+	Position result;
+
+	if (json.has("entity")) {
+		result.entity_name = String{json.get("entity").as_string("")};
+	}
+
+	result.offset.x = json.get("x").as_double(0);
+	result.offset.y = json.get("y").as_double(0);
 
 	return result;
 }

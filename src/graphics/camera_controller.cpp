@@ -30,7 +30,7 @@ void Camera_Controller::update(const Map& map, const Entity& player, float dt)
 
 void Camera_Controller::update_follow_player(const Map& map, const Entity& player)
 {
-	m_camera.position = player.get_subgrid_position() + Vec2f{0.5, 1};
+	m_camera.position = player.get_subgrid_position() + Vec2f{0.5, 0.5};
 	fix_camera_out_of_bounds({map.get_width(), map.get_height()});
 }
 

@@ -8,7 +8,7 @@
 namespace Events
 {
 
-Move_Entity::Move_Entity(Game_Facade& facade, const String& entity_name, Vec2i position) :
+Move_Entity::Move_Entity(Game_Facade& facade, const String& entity_name, const Position& position) :
 	Event{facade}
 {
 	m_entity_name = entity_name;
@@ -22,7 +22,7 @@ void Move_Entity::update(float)
 
 bool Move_Entity::is_finished() const
 {
-	return m_game_facade.get_entity_position(m_entity_name) == m_position;
+	return m_game_facade.get_entity_position(m_entity_name) == m_game_facade.resolve_position(m_position);
 }
 
 }

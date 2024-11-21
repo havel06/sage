@@ -3,8 +3,10 @@
 		"template": "sequences/door.json",
 		"parameters": {
 			"map": "maps/dungeon_2.tmj",
-			"x": 49,
-			"y": 51
+			"pos": {
+				"x": 49,
+				"y": 51
+			}
 		}
 	}
 }

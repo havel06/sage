@@ -8,8 +8,10 @@
 		}, {
 			"type": "teleport_player",
 			"parameters": {
-				"x": 44,
-				"y": 47
+				"position": {
+					"x": 44,
+					"y": 47
+				}
 			}
 		}, {
 			"type": "zoom_camera",

@@ -5,7 +5,7 @@
 namespace Events
 {
 
-Move_Camera::Move_Camera(Game_Facade& game_facade, Vec2f position) :
+Move_Camera::Move_Camera(Game_Facade& game_facade, const Position& position) :
 	Event{game_facade}
 {
 	m_position = position;
@@ -18,7 +18,11 @@ void Move_Camera::update(float)
 
 bool Move_Camera::is_finished() const
 {
-	const float diff = (m_game_facade.get_camera_position() - m_position).manhattan();
+	const Vec2f current_pos = m_game_facade.get_camera_position();
+	const Vec2f target_pos = m_game_facade.resolve_position(m_position);
+
+	const float diff = (target_pos - current_pos).manhattan();
+
 	return diff < 0.01;
 }
 

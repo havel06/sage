@@ -7,6 +7,7 @@
 class Texture_Manager;
 class Animated_Sprite;
 class Sprite;
+struct Position;
 namespace UI {
 	struct Size;
 }
@@ -26,5 +27,7 @@ Colour parse_colour(const JSON::Object_View& json, const JSON::Object_View& temp
 
 UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& template_params);
 UI::Formatted_Text parse_formatted_text(const JSON::Value_View& json);
+
+Position parse_position(const JSON::Object_View& json);
 
 }

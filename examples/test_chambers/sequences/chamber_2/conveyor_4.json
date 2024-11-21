@@ -2,8 +2,10 @@
 	"from_template": {
 		"template": "sequences/chamber_2/conveyor_template.json",
 		"parameters": {
-			"x": 50,
-			"y": 51
+			"dest": {
+				"x": 50,
+				"y": 51
+			}
 		}
 	}
 }

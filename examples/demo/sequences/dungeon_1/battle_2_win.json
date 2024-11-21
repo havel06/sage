@@ -5,26 +5,23 @@
 			"parameters": {}
 		},
 		{
-			"type": "teleport_player",
-			"parameters": {
-				"x": 61,
-				"y": 35
-			}
-		},
-		{
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Cyclops",
-				"x": 9999,
-				"y": 9999
+				"position": {
+					"x": 9999,
+					"y": 9999
+				}
 			}
 		},
 		{
 			"type": "teleport_entity",
 			"parameters": {
 				"entity": "Battle 2 start",
-				"x": 9999,
-				"y": 9999
+				"position": {
+					"x": 9999,
+					"y": 9999
+				}
 			}
 		},
 		{
@@ -37,8 +34,11 @@
 			"type": "move_entity",
 			"parameters": {
 				"entity": "Blacksmith",
-				"x": 63,
-				"y": 35
+				"position": {
+					"x": 2,
+					"y": 0,
+					"entity": "Player"
+				}
 			}
 		},
 		{

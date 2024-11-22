@@ -70,5 +70,14 @@ void Inventory::clear()
 
 bool Inventory::is_empty() const
 {
-	return m_items.size() == 0;
+	bool result = true;
+
+	m_items.for_each([&](const String& key, int count){
+		(void)key;
+
+		if (count != 0)
+			result = false;
+	});
+
+	return result;
 }

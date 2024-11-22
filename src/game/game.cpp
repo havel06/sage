@@ -106,18 +106,25 @@ void Game::draw_frame(float time_delta)
 		m_input.process(*this);
 	}
 
+	// Main menu
 	if (m_logic.get_state() == Game_Logic_State::main_menu) {
 		if (!m_headless)
 			m_main_menu.draw(time_delta);
 		return;
 	}
 
+	// Close inventory if empty
+	if (m_show_inventory && m_logic_normal.inventory.is_empty())	
+		m_show_inventory = false;
+
+	// Main logic update
 	m_logic.update(time_delta);
 
 	if (m_logic.get_state() == Game_Logic_State::normal) {
 		// Normal mode
 		if (!m_show_inventory && !m_show_quest_log)
 			do_player_movement();
+
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
 
 		if (!m_headless) {
@@ -227,7 +234,8 @@ void Game::handle_input_normal(Input_Event event)
 			break;
 
 		case Input_Event::open_inventory:
-			m_show_inventory = true;
+			if (!m_logic_normal.inventory.is_empty())
+				m_show_inventory = true;
 			break;
 
 		case Input_Event::open_quest_log:

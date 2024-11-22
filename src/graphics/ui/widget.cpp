@@ -52,6 +52,9 @@ void Widget::draw(Recti parent_area, float parent_opacity, float time_delta)
 		}
 	}
 
+	if (m_opacity == 0)
+		return;
+
 	draw_impl(parent_area, m_opacity * parent_opacity, time_delta);
 	m_layout.draw(parent_area, m_opacity * parent_opacity, time_delta);
 }

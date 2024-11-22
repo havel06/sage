@@ -30,7 +30,7 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	m_gui_loader(m_resource_system.font_manager, m_resource_system.texture_manager, description.path),
 	m_camera_controller(m_camera),
 	m_text_box_renderer(m_logic_normal.text_box),
-	m_inventory_renderer(m_logic_normal.item_registry, m_logic_normal.inventory),
+	m_inventory_renderer(m_logic_normal.item_registry, m_logic_normal.inventory, m_resource_system.font_manager.get_default_font()),
 	m_combat_controller(m_combat, m_inventory_renderer),
 	m_combat_renderer(m_combat, m_combat_controller),
 	m_quest_log_renderer(m_logic_normal.quest_log),
@@ -116,7 +116,8 @@ void Game::draw_frame(float time_delta)
 
 	if (m_logic.get_state() == Game_Logic_State::normal) {
 		// Normal mode
-		do_player_movement();
+		if (!m_show_inventory && !m_show_quest_log)
+			do_player_movement();
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
 
 		if (!m_headless) {

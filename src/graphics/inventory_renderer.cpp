@@ -1,5 +1,7 @@
 #include "inventory_renderer.hpp"
 #include "graphics/ui/image.hpp"
+#include "graphics/ui/layout.hpp"
+#include "graphics/ui/size.hpp"
 #include "graphics/ui/widget.hpp"
 #include "graphics/ui/text.hpp"
 #include "graphics/ui/button.hpp"
@@ -16,9 +18,10 @@
 #include "sequence/sequence.hpp"
 #include "ui/widget_visitor.hpp"
 
-Inventory_Renderer::Inventory_Renderer(Item_Registry& item_registry, Inventory& inventory) :
+Inventory_Renderer::Inventory_Renderer(Item_Registry& item_registry, Inventory& inventory, Resource_Handle<Font> default_font) :
 	m_item_registry{item_registry},
-	m_inventory{inventory}
+	m_inventory{inventory},
+	m_default_font{default_font}
 {
 	m_inventory.add_observer(*this);
 }
@@ -114,8 +117,10 @@ void Inventory_Renderer::draw(float dt)
 
 void Inventory_Renderer::load(GUI_Loader& loader, const String& gui_filename, const String& gui_slot_filename)
 {
-	if (gui_filename.empty() || gui_slot_filename.empty())
+	if (gui_filename.empty() || gui_slot_filename.empty()) {
+		use_fallback_widgets();
 		return;
+	}
 
 	m_slot_widget = loader.load(gui_slot_filename);
 	m_main_widget = loader.load(gui_filename);
@@ -134,4 +139,55 @@ void Inventory_Renderer::input_click()
 bool Inventory_Renderer::is_inventory_empty() const
 {
 	return m_inventory.is_empty();
+}
+
+void Inventory_Renderer::use_fallback_widgets()
+{
+	Array<UI::Size> auto_rows;
+	auto_rows.push_back(UI::Size{.automatic = true});
+	Array<UI::Size> auto_columns;
+	auto_columns.push_back(UI::Size{.automatic = true});
+
+	// Main widget
+	auto main_widget = make_own_ptr<UI::Box>(UI::Layout{auto_rows, auto_columns});
+
+	// Slots widget
+	Array<UI::Size> slots_rows;
+	slots_rows.push_back(UI::Size{ .pixels = 100 });
+
+	Array<UI::Size> slots_columns;
+	slots_columns.push_back(UI::Size{ .pixels = 100 });
+	slots_columns.push_back(UI::Size{ .pixels = 100 });
+	slots_columns.push_back(UI::Size{ .pixels = 100 });
+	slots_columns.push_back(UI::Size{ .pixels = 100 });
+
+	UI::Layout slots_layout{slots_rows, slots_columns};
+	auto slots_widget = make_own_ptr<UI::Box>(move(slots_layout));
+	slots_widget->set_name("Slots");
+
+	// Slot widget
+	auto slot_button_normal = make_own_ptr<UI::Box>(UI::Layout{auto_rows, auto_columns});
+	auto slot_button_focused = make_own_ptr<UI::Box>(UI::Layout{auto_rows, auto_columns});
+	slot_button_normal->colour = Colour{100, 100, 100, 255};
+	slot_button_focused->colour = Colour{160, 160, 160, 255};
+	auto slot_button = make_own_ptr<UI::Button>(
+		move(slot_button_normal), move(slot_button_focused), UI::Layout{auto_rows, auto_columns}
+	);
+	slot_button->set_name("Button");
+
+	// Slot image
+	auto slot_image = make_own_ptr<UI::Image>(UI::Layout{auto_rows, auto_columns});
+	slot_image->set_name("Image");
+
+	// Slot count
+	auto slot_count = make_own_ptr<UI::Text>(m_default_font, UI::Layout{auto_rows, auto_columns});
+	slot_count->set_name("Count");
+
+	// Put it all together
+	slot_button->add_child(move(slot_image));
+	slot_button->add_child(move(slot_count));
+	m_slot_widget = move(slot_button);
+
+	main_widget->add_child(move(slots_widget));
+	m_main_widget = move(main_widget);
 }

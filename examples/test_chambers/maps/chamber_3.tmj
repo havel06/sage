@@ -67,7 +67,7 @@
                  "y":720
                 }, 
                 {
-                 "height":16,
+                 "height":33.0747324450407,
                  "id":3,
                  "name":"Emancipation grill",
                  "properties":[
@@ -91,7 +91,7 @@
                  "visible":true,
                  "width":48,
                  "x":784,
-                 "y":752
+                 "y":734.925267554959
                 }],
          "opacity":1,
          "type":"objectgroup",

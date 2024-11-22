@@ -1,0 +1,13 @@
+{
+	"from_template": {
+		"template": "sequences/chamber_3/box_place_templ.json",
+		"parameters": {
+			"position": {
+				"entity": "Player",
+				"x": -1,
+				"y": 0
+			},
+			"direction": "left"
+		}
+	}
+}

@@ -44,6 +44,7 @@ public:
 	void teleport_entity(const String& entity_name, const Position& position);
 	Vec2i get_entity_position(const String& entity_name);
 	Direction get_entity_direction(const String& entity_name);
+	Direction get_player_direction();
 	void move_entity(const String& entity_name, const Position& position);
 	void rotate_entity(const String& entity_name, Direction);
 	void rotate_player(Direction);

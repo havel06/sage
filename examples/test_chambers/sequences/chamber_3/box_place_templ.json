@@ -1,4 +1,10 @@
 {
+	"condition": {
+		"type": "player_is_looking",
+		"parameters": {
+			"direction": "$direction"
+		}
+	},
 	"repeatable": true,
 	"events": [
 		{

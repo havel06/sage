@@ -3,7 +3,7 @@
 		{
 			"id": "box",
 			"name": "Box",
-			"sequence": "sequences/chamber_3/box_place_south.json",
+			"sequence": "sequences/chamber_3/box_place.json",
 			"sprite": {
 				"texture": "textures/tilemap_packed.png",
 				"position_x": 48,

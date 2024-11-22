@@ -13,17 +13,12 @@ Rotate_Player::Rotate_Player(Game_Facade& facade, Direction direction) :
 void Rotate_Player::update(float)
 {
 	m_game_facade.rotate_player(m_direction);
-	m_activated = true;
 }
 
-void Rotate_Player::reset()
-{
-	m_activated = false;
-}
 
 bool Rotate_Player::is_finished() const
 {
-	return m_activated;
+	return m_game_facade.get_player_direction() == m_direction;
 }
 
 

@@ -134,6 +134,11 @@ Vec2i Game_Facade::get_entity_position(const String& entity_name)
 	return entity->position;
 }
 
+Direction Game_Facade::get_player_direction()
+{
+	return get_entity_direction("Player");
+}
+
 Direction Game_Facade::get_entity_direction(const String& entity_name)
 {
 	Entity* entity = m_logic_normal.get_map().entities.get_entity(entity_name);

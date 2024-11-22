@@ -13,10 +13,8 @@ public:
 	Rotate_Player(Game_Facade&, Direction);
 	void update(float time_delta) override;
 	bool is_finished() const override;
-	void reset() override;
+	void reset() override {}
 private:
-
-	bool m_activated = false;
 	Direction m_direction;
 };
 

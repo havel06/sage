@@ -1,0 +1,29 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/chamber_3/box_place_down.json"
+			}
+		},
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/chamber_3/box_place_up.json"
+			}
+		},
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/chamber_3/box_place_right.json"
+			}
+		},
+		{
+			"type": "activate_sequence",
+			"parameters": {
+				"sequence": "sequences/chamber_3/box_place_left.json"
+			}
+		}
+	]
+}

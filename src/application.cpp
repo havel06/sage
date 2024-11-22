@@ -65,8 +65,10 @@ void Application::run(int argc, const char* argv[])
 	}();
 
 	while (!WindowShouldClose() && !game.should_exit()) {
-		BeginDrawing();
-		ClearBackground(BLACK);
+		if (!headless) {
+			BeginDrawing();
+			ClearBackground(BLACK);
+		}
 
 		if (do_replay) {
 			if (replay_player->should_exit())
@@ -76,7 +78,9 @@ void Application::run(int argc, const char* argv[])
 			game.draw_frame(GetFrameTime());
 		}
 
-		EndDrawing();
+		if (!headless) {
+			EndDrawing();
+		}
 	}
 }
 

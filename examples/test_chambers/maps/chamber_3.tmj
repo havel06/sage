@@ -53,6 +53,12 @@
                  "height":16,
                  "id":2,
                  "name":"Lobby door",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/chamber_3\/lobby_door.json"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,

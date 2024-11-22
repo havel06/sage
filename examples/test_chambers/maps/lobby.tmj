@@ -64,6 +64,23 @@
                  "width":16,
                  "x":736,
                  "y":704
+                }, 
+                {
+                 "height":16,
+                 "id":3,
+                 "name":"Door 3",
+                 "properties":[
+                        {
+                         "name":"sequence",
+                         "type":"file",
+                         "value":"..\/sequences\/lobby\/door_3.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":767.954186290919,
+                 "y":703.92246311938
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -72,7 +89,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":3,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.2",

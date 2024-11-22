@@ -1,0 +1,22 @@
+{
+	"events": [
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Box",
+				"position": {
+					"entity": "Player",
+					"x": "$offset_x",
+					"y": "$offset_y"
+				}
+			}
+		},
+		{
+			"type": "remove_item",
+			"parameters": {
+				"item": "box",
+				"count": 1
+			}
+		}
+	]
+}

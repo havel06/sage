@@ -1,0 +1,22 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Box",
+				"position": {
+					"x": 9999,
+					"y": 9999
+				}
+			}
+		},
+		{
+			"type": "give_item",
+			"parameters": {
+				"item": "box",
+				"count": 1
+			}
+		}
+	]
+}

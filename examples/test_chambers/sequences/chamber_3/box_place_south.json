@@ -1,0 +1,9 @@
+{
+	"from_template": {
+		"template": "sequences/chamber_3/box_place_templ.json",
+		"parameters": {
+			"offset_x": 0,
+			"offset_y": 1
+		}
+	}
+}

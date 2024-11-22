@@ -1,0 +1,30 @@
+{
+	"repeatable": true,
+	"condition": {
+		"type": "has_item",
+		"parameters": {
+			"item": "box",
+			"count": 1
+		}
+	},
+	"events": [
+		{
+			"type": "remove_item",
+			"parameters": {
+				"item": "box",
+				"count": 1
+			}
+		},
+		{
+			"type": "teleport_entity",
+			"parameters": {
+				"entity": "Box",
+				"position": {
+					"entity": "Box position",
+					"x": 0,
+					"y": 0
+				}
+			}
+		}
+	]
+}

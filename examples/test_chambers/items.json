@@ -1,3 +1,16 @@
 {
-	"items": []
+	"items": [
+		{
+			"id": "box",
+			"name": "Box",
+			"sequence": "sequences/chamber_3/box_place_south.json",
+			"sprite": {
+				"texture": "textures/tilemap_packed.png",
+				"position_x": 48,
+				"position_y": 160,
+				"size_x": 16,
+				"size_y": 16
+			}
+		}
+	]
 }

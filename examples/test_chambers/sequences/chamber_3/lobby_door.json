@@ -1,0 +1,13 @@
+{
+	"from_template": {
+		"template": "sequences/door.json",
+		"parameters": {
+			"map": "maps/lobby.tmj",
+			"pos": {
+				"entity": "Door 1",
+				"x": 0,
+				"y": 1
+			}
+		}
+	}
+}

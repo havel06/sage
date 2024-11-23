@@ -60,6 +60,14 @@ public:
 		param.value = m_condition_parser.parse_condition(m_param_json.as_object(), m_template_params);
 	}
 
+	void visit(Condition_Array_Event_Parameter& param) override {
+		m_param_json.as_array().for_each([&](const JSON::Value_View& value){
+			param.value.push_back(
+				m_condition_parser.parse_condition(value.as_object(), m_template_params)
+			);
+		});
+	}
+
 	void visit(Battle_Units_Layout_Event_Parameter& param) override {
 		param.value = parse_battle_units_layout(m_param_json.as_object());
 	}

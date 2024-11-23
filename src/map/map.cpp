@@ -93,3 +93,19 @@ Entity* Map_Entities::get_entity(Vec2i position)
 
 	return nullptr;
 }
+
+bool Map::is_passable(Vec2i pos) const
+{
+	// Check for tile collision
+	if (!is_position_valid(pos) || !layers.is_passable(pos))
+		return false;
+
+	// Check for entity collision
+	for (int i = 0; i < entities.get_entity_count(); i++) {
+		const Entity& entity = entities.get_entity(i);
+		if (!entity.passable && entity.get_bounding_box().contains(pos))
+			return false;
+	}
+
+	return true;
+}

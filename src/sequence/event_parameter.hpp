@@ -18,6 +18,7 @@ class Sprite_Event_Parameter;
 class String_Array_Event_Parameter;
 class Target_Selection_Type_Event_Parameter;
 class Condition_Event_Parameter;
+class Condition_Array_Event_Parameter;
 class Battle_Units_Layout_Event_Parameter;
 class Formatted_Text_Event_Parameter;
 class Position_Event_Parameter;
@@ -35,11 +36,13 @@ public:
 	virtual void visit(String_Array_Event_Parameter&) = 0;
 	virtual void visit(Target_Selection_Type_Event_Parameter&) = 0;
 	virtual void visit(Condition_Event_Parameter&) = 0;
+	virtual void visit(Condition_Array_Event_Parameter&) = 0;
 	virtual void visit(Battle_Units_Layout_Event_Parameter&) = 0;
 	virtual void visit(Formatted_Text_Event_Parameter&) = 0;
 	virtual void visit(Position_Event_Parameter&) = 0;
 };
 
+// FIXME - rename to sequence parameter
 // Abstract parameter class
 
 class Event_Parameter
@@ -105,6 +108,13 @@ class Condition_Event_Parameter final : public Event_Parameter
 {
 public:
 	Own_Ptr<Condition> value;
+	void accept_visitor(Event_Parameter_Visitor& visitor) override { visitor.visit(*this); }
+};
+
+class Condition_Array_Event_Parameter final : public Event_Parameter
+{
+public:
+	Array<Own_Ptr<Condition>> value;
 	void accept_visitor(Event_Parameter_Visitor& visitor) override { visitor.visit(*this); }
 };
 

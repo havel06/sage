@@ -41,6 +41,7 @@ public:
 	int get_width() const { return m_width; }
 	int get_height() const { return m_height; }
 	bool is_position_valid(Vec2i pos) const;
+	bool is_passable(Vec2i pos) const;
 private:
 	int m_width;
 	int m_height;

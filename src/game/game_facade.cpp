@@ -50,6 +50,11 @@ Vec2f Game_Facade::resolve_position(const Position& position)
 	return position.resolve(m_logic_normal.get_map().entities);
 }
 
+bool Game_Facade::is_passable(const Position& position)
+{
+	return m_logic_normal.get_map().is_passable(resolve_position(position));
+}
+
 void Game_Facade::set_current_map(const String& filename)
 {
 	// FIXME - wouldn't time-based periodic saves be better?

@@ -38,6 +38,7 @@ public:
 	// FIXME - maybe too many arguments
 	Game_Facade(Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&, Scriptable_GUI&, Combat& combat, Party& party, bool no_auto_save);
 	Vec2f resolve_position(const Position&);
+	bool is_passable(const Position& position);
 	void set_current_map(const String& filename);
 	void teleport_player(const Position& position);
 	void set_player_interactions_enabled(bool enabled);

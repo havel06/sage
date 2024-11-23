@@ -1,8 +1,21 @@
 {
-	"condition": {
-		"type": "player_is_looking",
+	"condition" : {
+		"type": "and",
 		"parameters": {
-			"direction": "$direction"
+			"conditions": [
+				{
+					"type": "player_is_looking",
+					"parameters": {
+						"direction": "$direction"
+					}
+				},
+				{
+					"type": "is_passable",
+					"parameters": {
+						"position": "$position"
+					}
+				}
+			]
 		}
 	},
 	"repeatable": true,

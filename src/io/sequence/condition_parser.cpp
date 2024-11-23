@@ -4,10 +4,12 @@
 #include "utils/own_ptr.hpp"
 #include "utils/log.hpp"
 #include "event_parameter_parser.hpp"
+#include "sequence/condition_factories/and.hpp"
 #include "sequence/condition_factories/not.hpp"
 #include "sequence/condition_factories/has_item.hpp"
 #include "sequence/condition_factories/is_in_combat.hpp"
 #include "sequence/condition_factories/player_is_looking.hpp"
+#include "sequence/condition_factories/is_passable.hpp"
 
 Condition_Parser::Condition_Parser(Event_Parameter_Parser& parameter_parser, Game_Facade& facade) :
 	m_event_parameter_parser{parameter_parser},
@@ -56,12 +58,16 @@ Own_Ptr<Condition_Factory> Condition_Parser::get_factory_for_condition_type(cons
 {
 	if (type == "not") {
 		return make_own_ptr<Condition_Factories::Not>();
+	} else if (type == "and") {
+		return make_own_ptr<Condition_Factories::And>();
 	} else if (type == "has_item") {
 		return make_own_ptr<Condition_Factories::Has_Item>();
 	} else if (type == "is_in_combat") {
 		return make_own_ptr<Condition_Factories::Is_In_Combat>();
 	} else if (type == "player_is_looking") {
 		return make_own_ptr<Condition_Factories::Player_Is_Looking>();
+	} else if (type == "is_passable") {
+		return make_own_ptr<Condition_Factories::Is_Passable>();
 	} else {
 		SG_ERROR("Invalid condition type \"%s\"", type.data());
 		return nullptr;

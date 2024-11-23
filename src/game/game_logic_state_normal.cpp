@@ -139,16 +139,9 @@ void Game_Logic_State_Normal::move_player(Direction direction)
 	player.look(direction);
 	auto new_pos = player.position + direction_to_vec2i(direction);
 
-	// Check for tile collision
-	if (!map.is_position_valid(new_pos) || !map.layers.is_passable(new_pos))
+	// Check for collision
+	if (!map.is_passable(new_pos))
 		return;
-
-	// Check for entity collision
-	for (int i = 0; i < map.entities.get_entity_count(); i++) {
-		const Entity& entity = map.entities.get_entity(i);
-		if (!entity.passable && entity.get_bounding_box().contains(new_pos))
-			return;
-	}
 
 	player.move(direction);
 }

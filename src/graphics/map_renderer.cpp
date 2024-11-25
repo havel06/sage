@@ -28,6 +28,7 @@ void Map_Renderer::draw_layer(const Tile_Layer& layer, const Game_Camera& camera
 {
 	// Optimization - only draw the tiles that are visible by the camera
 	const Rectf frustrum = camera.get_frustrum();
+	const float opacity = layer.get_opacity();
 	const int min_x = max(frustrum.position.x, 0.0f);
 	const int min_y = max(frustrum.position.y, 0.0f);
 	const int max_x = min(frustrum.position.x + frustrum.size.x, layer.get_width() - 1);
@@ -35,19 +36,19 @@ void Map_Renderer::draw_layer(const Tile_Layer& layer, const Game_Camera& camera
 
 	for (int y = min_y; y <= max_y; y++) {
 		for (int x = min_x; x <= max_x; x++) {
-			draw_tile(layer.get_tile({x, y}), {x, y}, time_delta);
+			draw_tile(layer.get_tile({x, y}), {x, y}, opacity, time_delta);
 		}
 	}
 }
 
-void Map_Renderer::draw_tile(const Tile& tile, Vec2i position, float time_delta)
+void Map_Renderer::draw_tile(const Tile& tile, Vec2i position, float opacity, float time_delta)
 {
 	Rectf transform = Rectf{
 		.position = position,
 		.size = {1, 1}
 	};
 
-	tile.sprite.draw(transform, time_delta);
+	tile.sprite.draw_with_opacity(transform, time_delta, opacity);
 }
 
 void Map_Renderer::draw_entity(const Entity& entity, float time_delta)

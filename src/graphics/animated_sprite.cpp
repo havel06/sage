@@ -37,3 +37,11 @@ void Animated_Sprite::draw_with_tint(Rectf transform, float time_delta, Colour t
 
 	m_frames[m_current_frame].draw_with_tint(transform, tint);
 }
+
+void Animated_Sprite::draw_with_opacity(Rectf transform, float time_delta, float opacity) const
+{
+	assert(opacity >= 0);
+	assert(opacity <= 1);
+
+	draw_with_tint(transform, time_delta, Colour{255, 255, 255, (unsigned char)(255 * opacity)});
+}

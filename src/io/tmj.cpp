@@ -135,9 +135,13 @@ void Map_Loader::parse_layer(const JSON::Object_View& layer_json)
 void Map_Loader::parse_tile_layer(const JSON::Object_View& layer_json)
 {
 	SG_PROFILE_SCOPE("TMJ Tile layer load");
-	int position_index = 0;
-	Tile_Layer layer(m_map->get_width(), m_map->get_height());
 
+	const String name = layer_json["name"].as_string("");
+	Tile_Layer layer(m_map->get_width(), m_map->get_height(), name);
+	layer.set_opacity(layer_json["opacity"].as_float(1));
+
+	// Parse tiles
+	int position_index = 0;
 	layer_json["data"].as_array().for_each([&](const JSON::Value_View& index){
 		int y = position_index / m_map->get_width();
 		int x = position_index % m_map->get_width();
@@ -155,6 +159,7 @@ void Map_Loader::parse_tile_layer(const JSON::Object_View& layer_json)
 	});
 
 	m_map->layers.add_layer((Tile_Layer&&)layer);
+	SG_DEBUG("Parsed TMJ tile layer \"%s\"", name.data());
 }
 
 void Map_Loader::parse_object_layer(const JSON::Object_View& layer_json)

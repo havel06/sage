@@ -10,6 +10,7 @@ public:
 	Animated_Sprite(const Sprite&);
 	Animated_Sprite() = default;
 	void draw(Rectf transform, float time_delta) const;
+	void draw_with_opacity(Rectf transform, float time_delta, float opacity) const;
 	void draw_with_tint(Rectf transform, float time_delta, Colour tint) const;
 	void reset_animation();
 

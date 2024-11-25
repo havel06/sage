@@ -4,7 +4,7 @@
 		"parameters": {
 			"map": "maps/lobby.tmj",
 			"pos": {
-				"entity": "Door 3",
+				"entity": "Door 4",
 				"x": 0,
 				"y": 1
 			}

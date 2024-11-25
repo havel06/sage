@@ -29,6 +29,17 @@ const Tile_Layer& Tile_Layers::get_layer(int index) const
 	return m_layers[index];
 }
 
+Tile_Layer* Tile_Layers::find_layer(const String& name)
+{
+	for (Tile_Layer& layer : m_layers) {
+		if (layer.get_name() == name) {
+			return &layer;
+		}
+	}
+
+	return nullptr;
+}
+
 bool Tile_Layers::is_passable(Vec2i position) const
 {
 	if (!is_position_valid(position))

@@ -2,9 +2,9 @@
 	"from_template": {
 		"template": "sequences/door.json",
 		"parameters": {
-			"map": "maps/lobby.tmj",
+			"map": "maps/chamber_4.tmj",
 			"pos": {
-				"entity": "Door 3",
+				"entity": "Lobby door",
 				"x": 0,
 				"y": 1
 			}

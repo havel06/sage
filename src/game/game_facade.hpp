@@ -57,6 +57,8 @@ public:
 	void set_entity_sprite(const String& entity_name, const Animated_Sprite& sprite);
 	void play_music(Resource_Handle<Sound>);
 	void add_to_party(Resource_Handle<Character_Profile>);
+	void set_layer_opacity(const String& layer_name, float opacity);
+	float get_layer_opacity(const String& layer_name) const;
 	void enter_combat(const Battle_Description&);
 	bool is_in_combat() const;
 	void combat_change_target_hp(int amount);

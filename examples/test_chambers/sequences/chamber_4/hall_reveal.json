@@ -1,0 +1,12 @@
+{
+	"repeatable": true,
+	"events": [
+		{
+			"type": "set_layer_opacity",
+			"parameters": {
+				"layer": "Hall",
+				"opacity": 0
+			}
+		}
+	]
+}

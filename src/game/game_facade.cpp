@@ -45,6 +45,30 @@ Game_Facade::Game_Facade(
 {
 }
 
+void Game_Facade::set_layer_opacity(const String& layer_name, float opacity)
+{
+	Tile_Layer* layer = m_logic_normal.get_map().layers.find_layer(layer_name);
+
+	if (!layer) {
+		SG_ERROR("Layer \"%s\" not found.", layer_name.data());
+		return;
+	}
+	
+	layer->set_opacity(opacity);
+}
+
+float Game_Facade::get_layer_opacity(const String& layer_name) const
+{
+	Tile_Layer* layer = m_logic_normal.get_map().layers.find_layer(layer_name);
+
+	if (!layer) {
+		SG_ERROR("Layer \"%s\" not found.", layer_name.data());
+		return 0;
+	}
+
+	return layer->get_opacity();
+}
+
 Vec2f Game_Facade::resolve_position(const Position& position)
 {
 	return position.resolve(m_logic_normal.get_map().entities);

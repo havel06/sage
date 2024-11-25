@@ -42,6 +42,7 @@
 #include "sequence/event_factories/teleport_camera_to_player.hpp"
 #include "sequence/event_factories/change_current_unit_sprite.hpp"
 #include "sequence/event_factories/reset_current_unit_sprite.hpp"
+#include "sequence/event_factories/set_layer_opacity.hpp"
 
 Event_Parser::Event_Parser(Event_Parameter_Parser& param_parser, Resource_System& res_system, GUI_Loader& gui_loader, Game_Facade& game_facade) :
 	m_event_parameter_parser{param_parser},
@@ -151,6 +152,8 @@ Own_Ptr<Event_Factory> Event_Parser::get_factory_for_event_type(const String& ty
 		return make_own_ptr<Event_Factories::Change_Current_Unit_Sprite>();
 	} else if (type == "reset_current_unit_sprite") {
 		return make_own_ptr<Event_Factories::Reset_Current_Unit_Sprite>();
+	} else if (type == "set_layer_opacity") {
+		return make_own_ptr<Event_Factories::Set_Layer_Opacity>();
 	} else {
 		SG_ERROR("Invalid event type \"%s\"", type.data());
 		return nullptr;

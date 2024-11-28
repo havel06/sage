@@ -1,8 +1,19 @@
 #include "inventory.hpp"
 #include "utils/log.hpp"
+#include "item_registry.hpp"
+
+Inventory::Inventory(const Item_Registry& registry) :
+	m_registry{registry}
+{
+}
 
 void Inventory::add_item(const String& id, int count)
 {
+	if (!m_registry.item_exists(id)) {
+		SG_ERROR("Tried to add non-existing item \"%s\"", id.data());
+		return;
+	}
+
 	if (m_items.contains(id)) {
 		*m_items.get(id) += count;
 	} else {

@@ -2,6 +2,16 @@
 #include "utils/log.hpp"
 #include <assert.h>
 
+bool Item_Registry::item_exists(const String &id) const
+{
+	for (const Item& item : m_items) {
+		if (item.id == id)
+			return true;
+	}
+
+	return false;
+}
+
 const Item& Item_Registry::get_item(const String& id) const
 {
 	for (int i = 0; i < m_items.size(); i++) {

@@ -10,6 +10,7 @@
 #include "io/resource/map_manager.hpp"
 
 Game_Logic_State_Normal::Game_Logic_State_Normal(Party& party, Sequence_Manager& seq_mgr, Map_Saveloader& map_saveloader, Map_Manager& map_mgr) :
+	inventory{item_registry},
 	m_sequence_manager{seq_mgr},
 	m_map_saveloader{map_saveloader},
 	m_map_manager{map_mgr},

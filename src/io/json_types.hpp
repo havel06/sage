@@ -6,6 +6,8 @@
 //fwd
 class Texture_Manager;
 class Animated_Sprite;
+class Sequence_Manager;
+struct Battle_Description;
 class Sprite;
 struct Position;
 namespace UI {

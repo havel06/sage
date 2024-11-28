@@ -24,8 +24,9 @@ void Game_Logic::update(float time_delta)
 		case Game_Logic_State::combat:
 			m_state_combat.update(time_delta);
 			break;
-		case Game_Logic_State::main_menu:
-			break; // Main menu is handled in rendering
+		case Game_Logic_State::main_menu_to_normal:
+		case Game_Logic_State::main_menu_to_combat:
+			break; // Main menu is handled in input and rendering
 		case Game_Logic_State::exit:
 			break; // Do nothing
 	}
@@ -40,7 +41,11 @@ void Game_Logic::continue_game()
 {
 	m_saveloader.load();
 	m_sequence_manager.reload_sequences();
-	m_state = Game_Logic_State::normal;
+
+	if (m_state == Game_Logic_State::main_menu_to_normal)
+		m_state = Game_Logic_State::normal;
+	else if (m_state == Game_Logic_State::main_menu_to_combat)
+		m_state = Game_Logic_State::combat;
 }
 
 void Game_Logic::new_game()
@@ -57,7 +62,11 @@ void Game_Logic::new_game()
 void Game_Logic::enter_combat(const Battle_Description& description)
 {
 	m_state_combat.start_battle(description);
-	m_state = Game_Logic_State::combat;
+
+	if (m_state == Game_Logic_State::main_menu_to_normal)
+		m_state = Game_Logic_State::main_menu_to_combat;
+	else
+		m_state = Game_Logic_State::combat;
 }
 
 void Game_Logic::enter_normal_mode()

@@ -2,6 +2,7 @@
 #include "combat_unit.hpp"
 #include "battle_desc.hpp"
 #include "combat_observer.hpp"
+#include "io/resource/resource_handle.hpp"
 #include "target_selection_type.hpp"
 #include "battle_turn.hpp"
 
@@ -16,8 +17,7 @@ public:
 	Battle(Battle&&) = delete;
 	Battle(const Battle&) = delete;
 
-	Animated_Sprite get_background() const { return m_background; }
-	const Battle_Units_Layout& get_units_layout() const { return m_units_layout; }
+	const Battle_Description& get_description() const { return m_description; }
 	Combat_Unit_Side get_current_side() const { return m_current_side; }
 	bool has_finished() const { return m_finished; }
 	Battle_Turn& get_current_turn() { return *m_current_turn; }
@@ -47,11 +47,7 @@ private:
 	void advance_turn();
 	void fix_current_turn_indices();
 
-	Animated_Sprite m_background;
-	Battle_Units_Layout m_units_layout;
-
-	Optional<Resource_Handle<Sequence>> m_win_sequence;
-	Optional<Resource_Handle<Sequence>> m_lose_sequence;
+	Battle_Description m_description;
 
 	Array<Combat_Unit> m_heroes;
 	Array<Combat_Unit> m_enemies;

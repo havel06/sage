@@ -21,7 +21,7 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	m_user_dir_provider(description.name.data()),
 	m_map_saveloader(m_resource_system.texture_manager, m_user_dir_provider, description.path),
 	m_sequence_saveloader(m_user_dir_provider, description.path),
-	m_game_saveloader(m_user_dir_provider, description.path, m_logic_normal, m_camera_controller, m_logic_normal.inventory, m_logic_normal.quest_log, m_resource_system.sequence_manager, m_resource_system.character_profile_manager, m_party, m_scriptable_gui),
+	m_game_saveloader(m_user_dir_provider, description.path, m_logic_normal, m_camera_controller, m_logic_normal.inventory, m_logic_normal.quest_log, m_resource_system.sequence_manager, m_resource_system.character_profile_manager, m_party, m_scriptable_gui, m_combat, m_resource_system.texture_manager, m_logic),
 	m_party(m_resource_system.character_profile_manager.get(description.default_character.data(), false)),
 	m_combat(m_party),
 	m_logic_normal(m_party, m_resource_system.sequence_manager,m_map_saveloader, m_resource_system.map_manager),
@@ -107,7 +107,9 @@ void Game::draw_frame(float time_delta)
 	}
 
 	// Main menu
-	if (m_logic.get_state() == Game_Logic_State::main_menu) {
+	if (m_logic.get_state() == Game_Logic_State::main_menu_to_normal ||
+		m_logic.get_state() == Game_Logic_State::main_menu_to_combat)
+	{
 		if (!m_headless)
 			m_main_menu.draw(time_delta);
 		return;
@@ -215,7 +217,8 @@ void Game::handle_input_event(Input_Event event)
 		case Game_Logic_State::combat:
 			handle_input_combat(event);
 			break;
-		case Game_Logic_State::main_menu:
+		case Game_Logic_State::main_menu_to_normal:
+		case Game_Logic_State::main_menu_to_combat:
 			handle_input_main_menu(event);
 			break;
 		case Game_Logic_State::exit:

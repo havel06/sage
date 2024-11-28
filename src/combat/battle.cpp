@@ -24,13 +24,9 @@ void Battle::remove_observer(Combat_Observer& observer)
 	m_current_turn->remove_observer(observer);
 }
 
-Battle::Battle(const Battle_Description& description, const Party& party)
+Battle::Battle(const Battle_Description& description, const Party& party) :
+	m_description{description}
 {
-	m_win_sequence = description.win_sequence;
-	m_lose_sequence = description.lose_sequence;
-	m_background = description.background;
-	m_units_layout = description.units_layout;
-
 	m_heroes.clear();
 	m_enemies.clear();
 
@@ -151,12 +147,12 @@ void Battle::update()
 		// Check win condition
 		if (has_player_won()) {
 			SG_DEBUG("Battle has been won");
-			m_win_sequence.value().get().try_activate();
+			m_description.win_sequence.get().try_activate();
 			reset_all_ability_sequences();
 			m_finished = true;
 		} else if (has_player_lost()) {
 			SG_DEBUG("Battle has been lost");
-			m_lose_sequence.value().get().try_activate();
+			m_description.lose_sequence.get().try_activate();
 			reset_all_ability_sequences();
 			m_finished = true;
 		} else {

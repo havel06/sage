@@ -11,7 +11,8 @@ struct Battle_Description;
 
 enum class Game_Logic_State
 {
-	main_menu,
+	main_menu_to_normal,
+	main_menu_to_combat,
 	normal,
 	combat,
 	exit, // Game wants to be exited
@@ -34,7 +35,7 @@ public:
 	void enter_combat(const Battle_Description&);
 	void enter_normal_mode();
 private:
-	Game_Logic_State m_state = Game_Logic_State::main_menu;
+	Game_Logic_State m_state = Game_Logic_State::main_menu_to_normal;
 
 	Game_Saveloader& m_saveloader;
 	Sequence_Manager& m_sequence_manager;

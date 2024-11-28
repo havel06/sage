@@ -26,7 +26,7 @@ void Combat_Renderer::draw(float dt)
 
 void Combat_Renderer::draw_background(float dt)
 {
-	const Animated_Sprite& background = m_combat.get_battle().get_background();
+	const Animated_Sprite& background = m_combat.get_battle().get_description().background;
 
 	// Render sprite to cover screen
 	const float texture_size_x = background.get_current_frame().texture_clip.size.x;
@@ -100,7 +100,14 @@ void Combat_Renderer::on_battle_begin()
 
 Battle_Unit_Placement Combat_Renderer::get_enemy_unit_placement(int index)
 {
-	const Array<Battle_Unit_Placement>& placements = m_combat.get_battle().get_units_layout().enemies;
+	const Array<Battle_Unit_Placement>& placements =
+		m_combat.get_battle().get_description().units_layout.enemies;
+
+	if (placements.empty()) {
+		// FIXME - Possibly log an error without spamming the console
+		return Battle_Unit_Placement{};
+	}
+
 	if (m_combat.get_battle().get_enemy_count() > placements.size()) {
 		// FIXME - Possibly log an error without spamming the console
 		index = placements.size() - 1;
@@ -111,7 +118,14 @@ Battle_Unit_Placement Combat_Renderer::get_enemy_unit_placement(int index)
 
 Battle_Unit_Placement Combat_Renderer::get_hero_unit_placement(int index)
 {
-	const Array<Battle_Unit_Placement>& placements = m_combat.get_battle().get_units_layout().heroes;
+	const Array<Battle_Unit_Placement>& placements =
+		m_combat.get_battle().get_description().units_layout.heroes;
+
+	if (placements.empty()) {
+		// FIXME - Possibly log an error without spamming the console
+		return Battle_Unit_Placement{};
+	}
+
 	if (m_combat.get_battle().get_hero_count() > placements.size()) {
 		// FIXME - Possibly log an error without spamming the console
 		index = placements.size() - 1;

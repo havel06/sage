@@ -20,7 +20,7 @@ public:
 	bool is_position_valid(Vec2i) const;
 
 	float get_opacity() const { return m_opacity; }
-	void set_opacity(float value);
+	void set_opacity(float value, bool instant = false);
 private:
 	String m_name;
 	int m_width;

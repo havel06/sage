@@ -1,5 +1,6 @@
 #include "map_saveloader.hpp"
 #include "io/json_types.hpp"
+#include "map/tile_layers.hpp"
 #include "utils/direction.hpp"
 #include "utils/file.hpp"
 #include "utils/filesystem.hpp"
@@ -25,6 +26,7 @@ void Map_Saveloader::save(const Map& map, const String& path)
 
 	JSON::Object json;
 	json.add("entities", serialise_entities(map.entities));
+	json.add("layers", serialise_layers(map.layers));
 
 	String savefile_path = get_savefile_location(path);
 	create_directories_for_file(savefile_path);
@@ -49,6 +51,7 @@ void Map_Saveloader::load(Map& map, const String& path)
 	JSON::Object json = JSON::Object::from_file(savefile_path.data());
 	JSON::Object_View view = json.get_view();
 	deserialise_entites(map.entities, view["entities"].as_array());
+	deserialise_layers(map.layers, view["layers"].as_array());
 
 	SG_INFO("Loaded state of map \"%s\".", path.data());
 }
@@ -64,6 +67,18 @@ String Map_Saveloader::get_savefile_location(const String& map_path)
 	return save_file_path;
 }
 
+JSON::Array Map_Saveloader::serialise_layers(const Tile_Layers& layers)
+{
+	JSON::Array array;
+
+	for (int i = 0; i < layers.get_layer_count(); i++) {
+		const Tile_Layer& layer = layers.get_layer(i);
+		array.add(serialise_layer(layer));
+	}
+
+	return array;
+}
+
 JSON::Array Map_Saveloader::serialise_entities(const Map_Entities& entities)
 {
 	JSON::Array array;
@@ -74,6 +89,16 @@ JSON::Array Map_Saveloader::serialise_entities(const Map_Entities& entities)
 	}
 
 	return array;
+}
+
+JSON::Object Map_Saveloader::serialise_layer(const Tile_Layer& layer)
+{
+	JSON::Object json;
+
+	json.add("name", layer.get_name().data());
+	json.add("opacity", layer.get_opacity());
+
+	return json;
 }
 
 JSON::Object Map_Saveloader::serialise_entity(const Entity& entity)
@@ -91,6 +116,11 @@ JSON::Object Map_Saveloader::serialise_entity(const Entity& entity)
 	return json;
 }
 
+void Map_Saveloader::deserialise_layer(Tile_Layer& layer, const JSON::Object_View& layer_json)
+{
+	layer.set_opacity(layer_json.get("opacity").as_float(1), true);
+}
+
 void Map_Saveloader::deserialise_entity(Entity& entity, const JSON::Object_View& entity_json)
 {
 	entity.position.x = entity_json["x"].as_int(0);
@@ -106,6 +136,22 @@ void Map_Saveloader::deserialise_entity(Entity& entity, const JSON::Object_View&
 	if (entity_json["moving"].as_bool(false)) {
 		entity.move(entity.get_look_direction());
 	}
+}
+
+void Map_Saveloader::deserialise_layers(Tile_Layers& layers, const JSON::Array_View& json)
+{
+	json.for_each([&](const JSON::Value_View& value){
+		const JSON::Object_View layer_json = value.as_object();
+
+		const char* name = layer_json["name"].as_string("");
+		Tile_Layer* layer = layers.find_layer(name);
+
+		if (layer) {
+			deserialise_layer(*layer, layer_json);
+		} else {
+			SG_ERROR("Savegame loading - unable to find layer \"%s\".", name);
+		}
+	});
 }
 
 void Map_Saveloader::deserialise_entites(Map_Entities& entities, const JSON::Array_View& json)

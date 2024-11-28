@@ -47,7 +47,7 @@ bool Tile_Layer::is_position_valid(Vec2i pos) const
 	return (pos.x >= 0 && pos.x < m_width && pos.y >= 0 && pos.y < m_height);
 }
 
-void Tile_Layer::set_opacity(float value)
+void Tile_Layer::set_opacity(float value, bool instant)
 {
 	if (value < 0) {
 		value = 0;
@@ -56,4 +56,7 @@ void Tile_Layer::set_opacity(float value)
 	}
 
 	m_opacity_target = value;
+
+	if (instant)
+		m_opacity = value;
 }

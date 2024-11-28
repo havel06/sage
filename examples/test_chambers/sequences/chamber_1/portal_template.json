@@ -369,10 +369,7 @@
 		{
 			"type": "teleport_player",
 			"parameters": {
-				"position": {
-					"x": "$dest_x",
-					"y": "$dest_y"
-				}
+				"position": "$dest_pos"
 			}
 		},
 		{

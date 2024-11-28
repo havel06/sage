@@ -3,8 +3,10 @@
 		"template": "sequences/chamber_1/reset_portal_template.json",
 		"parameters": {
 			"portal": "Portal 2",
-			"x": 47,
-			"y": 42
+			"position": {
+				"x": 47,
+				"y": 42
+			}
 		}
 	}
 }

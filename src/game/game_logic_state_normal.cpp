@@ -25,12 +25,10 @@ void Game_Logic_State_Normal::update(float time_delta)
 	Entity& player = get_player();
 	Map& map = get_map();
 
-	// Update entities
+	// Update map layers and entities
 	// NOTE - entities must be updated before Area triggers are checked and sequences are updated,
 	// so that the area triggers get triggered in the same frame where the entity has finished movement.
-	for (int i = 0; i < map.entities.get_entity_count(); i++) {
-		map.entities.get_entity(i).update(time_delta);
-	}
+	map.update(time_delta);
 
 	// Check area triggers
 	for (int i = 0; i < map.entities.get_entity_count(); i++) {

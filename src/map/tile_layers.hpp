@@ -12,6 +12,7 @@ public:
 	void add_layer(Tile_Layer&&);
 	int get_layer_count() const { return m_layers.size(); }
 	const Tile_Layer& get_layer(int index) const;
+	Tile_Layer& get_layer(int index);
 	Tile_Layer* find_layer(const String& name);
 
 	bool is_empty() const { return m_layers.empty(); }

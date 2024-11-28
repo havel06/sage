@@ -38,6 +38,8 @@ public:
 
 	void resize(int width, int height);
 
+	void update(float dt); // Call repeatedly
+
 	int get_width() const { return m_width; }
 	int get_height() const { return m_height; }
 	bool is_position_valid(Vec2i pos) const;

@@ -1,4 +1,5 @@
 #include "tile_layer.hpp"
+#include "utils/abs.hpp"
 
 
 Tile_Layer::Tile_Layer(int width, int height, const String& name)
@@ -7,6 +8,26 @@ Tile_Layer::Tile_Layer(int width, int height, const String& name)
 	m_width = width;
 	m_height = height;
 	m_tiles.resize(width * height);
+}
+
+void Tile_Layer::update(float dt)
+{
+	// Update opacity
+	if (m_opacity_target == m_opacity)
+		return;
+
+	const float speed = 4;
+	const float diff = m_opacity_target - m_opacity;
+
+	if (speed * dt > abs(diff)) {
+		m_opacity = m_opacity_target;
+	} else {
+		if (diff > 0) {
+			m_opacity += speed * dt;
+		} else {
+			m_opacity -= speed * dt;
+		}
+	}
 }
 
 void Tile_Layer::set_tile(Vec2i position, const Tile& tile)
@@ -34,5 +55,5 @@ void Tile_Layer::set_opacity(float value)
 		value =1;
 	}
 
-	m_opacity = value;
+	m_opacity_target = value;
 }

@@ -29,6 +29,12 @@ const Tile_Layer& Tile_Layers::get_layer(int index) const
 	return m_layers[index];
 }
 
+Tile_Layer& Tile_Layers::get_layer(int index)
+{
+	// Const-cast abuse
+	return (Tile_Layer&)(((const Tile_Layers*)this)->get_layer(index));
+}
+
 Tile_Layer* Tile_Layers::find_layer(const String& name)
 {
 	for (Tile_Layer& layer : m_layers) {

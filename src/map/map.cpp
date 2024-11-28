@@ -109,3 +109,14 @@ bool Map::is_passable(Vec2i pos) const
 
 	return true;
 }
+
+void Map::update(float dt)
+{
+	for (int i = 0; i < entities.get_entity_count(); i++) {
+		entities.get_entity(i).update(dt);
+	}
+	
+	for (int i = 0; i < layers.get_layer_count(); i++) {
+		layers.get_layer(i).update(dt);
+	}
+}

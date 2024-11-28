@@ -13,6 +13,8 @@ public:
 	int get_width() const { return m_width; }
 	int get_height() const { return m_height; }
 
+	void update(float dt); // Call repeatedly
+
 	void set_tile(Vec2i position, const Tile&);
 	const Tile& get_tile(Vec2i position) const;
 	bool is_position_valid(Vec2i) const;
@@ -24,5 +26,6 @@ private:
 	int m_width;
 	int m_height;
 	float m_opacity = 1;
+	float m_opacity_target = 1;
 	Array<Tile> m_tiles;
 };

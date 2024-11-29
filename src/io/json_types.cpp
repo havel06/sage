@@ -7,6 +7,7 @@
 #include "template.hpp"
 #include "graphics/ui/size.hpp"
 #include "utils/log.hpp"
+#include "combat/battle_desc.hpp"
 #include "map/position.hpp"
 
 namespace JSON_Types
@@ -83,7 +84,8 @@ UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& temp
 
 	if (json.has("automatic")) {
 		size.automatic = resolve_templated_value(json["automatic"], template_params).as_bool(false);
-		return size; // We can return immediately, since other values are ignored
+		if (size.automatic)
+			return size; // We can return immediately, since other values are ignored
 	}
 
 	if (json.has("parent_width")) {
@@ -99,6 +101,18 @@ UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& temp
 	}
 
 	return size;
+}
+
+JSON::Object serialise_size(const UI::Size& size)
+{
+	JSON::Object json;
+
+	json.add("automatic", size.automatic);
+	json.add("parent_width", size.parent_width);
+	json.add("parent_height", size.parent_height);
+	json.add("pixels", size.pixels);
+
+	return json;
 }
 
 Colour parse_colour(const JSON::Object_View& json, const JSON::Object_View& template_params)
@@ -159,6 +173,66 @@ Position parse_position(const JSON::Object_View& json)
 	result.offset.y = json.get("y").as_double(0);
 
 	return result;
+}
+
+Battle_Units_Layout parse_battle_units_layout(const JSON::Object_View& json)
+{
+	auto parse_battle_unit = [](const JSON::Object_View& unit_json) -> Battle_Unit_Placement {
+		Battle_Unit_Placement placement;
+
+		placement.position_x = JSON_Types::parse_size(
+			unit_json.get("position_x").as_object(), JSON::Object_View{nullptr}
+		);
+		placement.position_y = JSON_Types::parse_size(
+			unit_json.get("position_y").as_object(), JSON::Object_View{nullptr}
+		);
+		placement.size_x = JSON_Types::parse_size(
+			unit_json.get("size_x").as_object(), JSON::Object_View{nullptr}
+		);
+		placement.size_y = JSON_Types::parse_size(
+			unit_json.get("size_y").as_object(), JSON::Object_View{nullptr}
+		);
+
+		return placement;
+	};
+
+	auto parse_array = [&](Array<Battle_Unit_Placement>& out, const JSON::Array_View& in) {
+		in.for_each([&](const JSON::Value_View& value){
+			out.push_back(parse_battle_unit(value.as_object()));
+		});
+	};
+
+	Battle_Units_Layout layout;
+	parse_array(layout.heroes, json.get("heroes").as_array());
+	parse_array(layout.enemies, json.get("enemies").as_array());
+	return layout;
+}
+
+JSON::Object serialise_battle_units_layout(const Battle_Units_Layout& layout)
+{
+	auto serialise_unit = [](const Battle_Unit_Placement& unit) -> JSON::Object {
+		JSON::Object unit_json;
+		unit_json.add("position_x", serialise_size(unit.position_x));
+		unit_json.add("position_y", serialise_size(unit.position_y));
+		unit_json.add("size_x", serialise_size(unit.size_x));
+		unit_json.add("size_y", serialise_size(unit.size_y));
+		return unit_json;
+	};
+
+	auto serialise_array = [&](const Array<Battle_Unit_Placement>& array) -> JSON::Array {
+		JSON::Array array_json;
+
+		for (const Battle_Unit_Placement& unit : array) {
+			array_json.add(serialise_unit(unit));
+		}
+
+		return array_json;
+	};
+
+	JSON::Object json;
+	json.add("heroes", serialise_array(layout.heroes));
+	json.add("enemies", serialise_array(layout.enemies));
+	return json;
 }
 
 }

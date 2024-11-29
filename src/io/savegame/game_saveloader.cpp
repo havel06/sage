@@ -169,6 +169,10 @@ JSON::Object Game_Saveloader::serialise_battle(const Battle& battle)
 		)
 	);
 
+	json.add("layout",
+		JSON_Types::serialise_battle_units_layout(battle.get_description().units_layout)
+	);
+
 	return json;
 }
 
@@ -231,11 +235,15 @@ void Game_Saveloader::load_battle(const JSON::Object_View& json)
 	Animated_Sprite background = 
 		JSON_Types::parse_animated_sprite(json.get("background").as_object(), m_texture_manager);
 
+	Battle_Units_Layout layout =
+		JSON_Types::parse_battle_units_layout(json.get("layout").as_object());
+
 	Battle_Description description {
 		.enemies = move(enemies),
 		.win_sequence = win_seq,
 		.lose_sequence = lose_seq,
-		.background = move(background)
+		.background = move(background),
+		.units_layout = move(layout)
 	};
 
 	m_logic.enter_combat(description);

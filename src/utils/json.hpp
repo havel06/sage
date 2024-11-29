@@ -43,6 +43,7 @@ public:
 	bool has(const char* key) const;
 	Value_View get(const char* key) const;
 	Value_View operator[](const char* key) const { return get(key); }
+	String to_string() const;
 private:
 	const cJSON* m_cjson;
 };

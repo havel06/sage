@@ -99,6 +99,14 @@ bool Value_View::is_string() const
 	return cJSON_IsString(m_cjson);
 }
 
+String Object_View::to_string() const
+{
+	char* str = cJSON_Print(m_cjson);
+	String result{str};
+	free(str);
+	return result;
+}
+
 Object_View::Object_View(const cJSON* cjson)
 {
 	if (cjson)

@@ -33,6 +33,16 @@ void Dev_Tools_Mode_Sequence::draw_sequence_edit(Sequence& sequence)
 {
 	ImGui::Begin("Edit sequence");
 
+	if (sequence.is_active()) {
+		ImGui::Text("State: active");
+	} else {
+		if (sequence.has_finished()) {
+			ImGui::Text("State: finished");
+		} else {
+			ImGui::Text("State: inactive");
+		}
+	}
+
 	ImGui::Text("Current event: %d", sequence.get_current_event_index());
 	if (ImGui::Button("Reset sequence")) {
 		sequence.reset();

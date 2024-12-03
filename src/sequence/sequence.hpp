@@ -28,6 +28,7 @@ public:
 private:
 	void end_or_reset();
 
+	// FIXME - maybe use a state machine approach instead
 	bool m_active = false;
 	bool m_finished = false;
 	int m_current_event = 0;

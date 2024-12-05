@@ -44,7 +44,7 @@ void Combat_Renderer_Unit::draw(const Combat_Unit& combat_unit, bool selected, f
 	const float damage_highlight_len = 0.5;
 	if (m_time_since_damage_taken <= damage_highlight_len) {
 		// y = cos(t * pi / 2 / T)
-		const float effect_intensity = cos(m_time_since_damage_taken * M_PI_2 / damage_highlight_len);
+		const float effect_intensity = cos(m_time_since_damage_taken * (PI / 2) / damage_highlight_len);
 		const float highlight_max = 0.7;
 		highlight_colour = Colour{220, 40, 40, (unsigned char)(255 * highlight_max * effect_intensity)};
 	}
@@ -53,7 +53,7 @@ void Combat_Renderer_Unit::draw(const Combat_Unit& combat_unit, bool selected, f
 	const float heal_highlight_len = 0.8;
 	if (m_time_since_heal <= heal_highlight_len) {
 		// y = sin(t * pi / T)
-		const float effect_intensity = sin(m_time_since_heal * M_PI / heal_highlight_len);
+		const float effect_intensity = sin(m_time_since_heal * PI / heal_highlight_len);
 		const float highlight_max = 0.7;
 		highlight_colour = Colour{40, 220, 40, (unsigned char)(255 * highlight_max * effect_intensity)};
 	}

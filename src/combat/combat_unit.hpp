@@ -2,6 +2,7 @@
 #include "graphics/animated_sprite.hpp"
 #include "character_profile.hpp"
 
+struct Battle_Unit_Definition;
 
 enum class Combat_Unit_Side
 {
@@ -16,7 +17,7 @@ public:
 	Resource_Handle<Character_Profile> character;
 	Animated_Sprite custom_sprite; // For ability animations etc
 
-	Combat_Unit(int id, Resource_Handle<Character_Profile>, Combat_Unit_Side side);
+	Combat_Unit(int id, const Battle_Unit_Definition&, Combat_Unit_Side side);
 	bool operator==(const Combat_Unit& other) const;
 
 	int get_id() const { return m_id; }

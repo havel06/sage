@@ -30,11 +30,18 @@ Battle::Battle(const Battle_Description& description, const Party& party) :
 	m_heroes.clear();
 	m_enemies.clear();
 
-	for (int i = 0; i < party.get_character_count(); i++) {
-		m_heroes.push_back(Combat_Unit{m_last_assigned_id++, party.get_character(i), Combat_Unit_Side::hero});
+	if (description.heroes.has_value()) {
+		for (const Battle_Unit_Definition& hero : description.heroes.value()) {
+			m_heroes.push_back(Combat_Unit{m_last_assigned_id++, hero, Combat_Unit_Side::hero});
+		}
+	} else {
+		// Use party
+		for (int i = 0; i < party.get_character_count(); i++) {
+			m_heroes.push_back(Combat_Unit{m_last_assigned_id++, party.get_character(i), Combat_Unit_Side::hero});
+		}
 	}
 
-	for (Resource_Handle<Character_Profile> enemy : description.enemies) {
+	for (const Battle_Unit_Definition& enemy : description.enemies) {
 		m_enemies.push_back(Combat_Unit{m_last_assigned_id++, enemy, Combat_Unit_Side::enemy});
 	}
 

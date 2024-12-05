@@ -1,5 +1,7 @@
 #include "game_saveloader.hpp"
 #include "character_profile.hpp"
+#include "combat/battle_desc.hpp"
+#include "combat/combat_unit.hpp"
 #include "game/game.hpp"
 #include "graphics/animated_sprite.hpp"
 #include "graphics/scriptable_gui.hpp"
@@ -144,15 +146,6 @@ JSON::Object Game_Saveloader::serialise_battle(const Battle& battle)
 {
 	JSON::Object json;
 
-	// Enemies
-	JSON::Array enemies_json;
-	for (int i = 0; i < battle.get_enemy_count(); i++) {
-		const Combat_Unit& enemy = battle.get_enemy(i);
-		String path = get_relative_path(enemy.character.get_path(), m_project_dir);
-		enemies_json.add(path.data());
-	}
-	json.add("enemies", move(enemies_json));
-
 	// Sequences
 	String win_sequence_path =
 		get_relative_path(battle.get_description().win_sequence.get_path(), m_project_dir);
@@ -172,6 +165,26 @@ JSON::Object Game_Saveloader::serialise_battle(const Battle& battle)
 	json.add("layout",
 		JSON_Types::serialise_battle_units_layout(battle.get_description().units_layout)
 	);
+
+	// Serialise units
+	auto serialise_unit = [&](const Combat_Unit& unit) -> JSON::Value {
+		JSON::Object unit_json;
+		String path = get_relative_path(unit.character.get_path(), m_project_dir);
+		unit_json.add("character", path.data());
+		unit_json.add("hp", unit.get_hp());
+		return unit_json;
+	};
+
+	JSON::Array heroes;
+	for (int i = 0; i < battle.get_hero_count(); i++)
+		heroes.add(serialise_unit(battle.get_hero(i)));
+
+	JSON::Array enemies;
+	for (int i = 0; i < battle.get_enemy_count(); i++)
+		enemies.add(serialise_unit(battle.get_enemy(i)));
+
+	json.add("heroes", move(heroes));
+	json.add("enemies", move(enemies));
 
 	return json;
 }
@@ -221,9 +234,22 @@ void Game_Saveloader::load_party(const JSON::Array_View& json)
 void Game_Saveloader::load_battle(const JSON::Object_View& json)
 {
 	SG_DEBUG("Saveloader - loading battle");
-	Array<Resource_Handle<Character_Profile>> enemies;
+
+	auto parse_unit = [&](const JSON::Object_View& unit_json) -> Battle_Unit_Definition {
+		Resource_Handle<Character_Profile> profile =
+			m_character_manager.get(unit_json["character"].as_string(""), false);
+
+		return Battle_Unit_Definition{profile, unit_json.get("hp").as_int(1)};
+	};
+
+	Array<Battle_Unit_Definition> enemies;
 	json.get("enemies").as_array().for_each([&](const JSON::Value_View& value){
-		enemies.push_back(m_character_manager.get(value.as_string(""), false));
+		enemies.push_back(parse_unit(value.as_object()));
+	});
+
+	Array<Battle_Unit_Definition> heroes;
+	json.get("heroes").as_array().for_each([&](const JSON::Value_View& value){
+		heroes.push_back(parse_unit(value.as_object()));
 	});
 
 	Resource_Handle<Sequence> win_seq =
@@ -239,6 +265,7 @@ void Game_Saveloader::load_battle(const JSON::Object_View& json)
 		JSON_Types::parse_battle_units_layout(json.get("layout").as_object());
 
 	Battle_Description description {
+		.heroes = move(heroes),
 		.enemies = move(enemies),
 		.win_sequence = win_seq,
 		.lose_sequence = lose_seq,

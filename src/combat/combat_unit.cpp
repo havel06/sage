@@ -1,11 +1,12 @@
 #include "combat_unit.hpp"
+#include "battle_desc.hpp"
 
-Combat_Unit::Combat_Unit(int id, Resource_Handle<Character_Profile> p, Combat_Unit_Side side) :
-	character{p},
+Combat_Unit::Combat_Unit(int id, const Battle_Unit_Definition& def, Combat_Unit_Side side) :
+	character{def.character},
 	m_id{id},
 	m_side{side}
 {
-	m_hp = character.get().max_hp;
+	m_hp = def.starting_hp;
 }
 
 bool Combat_Unit::operator==(const Combat_Unit& other) const

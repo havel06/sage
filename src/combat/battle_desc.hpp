@@ -22,9 +22,28 @@ struct Battle_Units_Layout
 	Array<Battle_Unit_Placement> enemies; // Placement of enemies
 };
 
+struct Battle_Unit_Definition
+{
+	Resource_Handle<Character_Profile> character;
+	int starting_hp;
+
+	Battle_Unit_Definition(Resource_Handle<Character_Profile> profile, int hp) :
+		character{profile},
+		starting_hp{hp}
+	{
+	}
+
+	Battle_Unit_Definition(Resource_Handle<Character_Profile> profile) :
+		character{profile},
+		starting_hp{profile.get().max_hp}
+	{
+	}
+};
+
 struct Battle_Description
 {
-	Array<Resource_Handle<Character_Profile>> enemies;
+	Optional<Array<Battle_Unit_Definition>> heroes; // If left empty, current party will be used
+	Array<Battle_Unit_Definition> enemies;
 	Resource_Handle<Sequence> win_sequence;
 	Resource_Handle<Sequence> lose_sequence;
 	Animated_Sprite background;

@@ -22,16 +22,18 @@ Enter_Combat::Enter_Combat(Sequence_Manager& seq_mgr, Character_Profile_Manager&
 
 Own_Ptr<Event> Enter_Combat::make_event(Game_Facade& facade)
 {
-	Array<Resource_Handle<Character_Profile>> enemy_profiles;
+	Array<Battle_Unit_Definition> enemies;
 	for (const String& filename : m_enemy_filenames.value) {
-		enemy_profiles.push_back(m_character_profile_manager.get(filename, false));
+		enemies.push_back(
+			Battle_Unit_Definition{m_character_profile_manager.get(filename, false)}
+		);
 	}
 
 	auto win_sequence = m_sequence_manager.get(m_win_sequence_filename.value, false);
 	auto lose_sequence = m_sequence_manager.get(m_lose_sequence_filename.value, false);
 
 	Battle_Description description {
-		.enemies = move(enemy_profiles),
+		.enemies = move(enemies),
 		.win_sequence = win_sequence,
 		.lose_sequence = lose_sequence,
 		.background = m_background.value,

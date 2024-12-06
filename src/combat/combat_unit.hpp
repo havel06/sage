@@ -2,7 +2,11 @@
 #include "graphics/animated_sprite.hpp"
 #include "character_profile.hpp"
 
+// fwd
 struct Battle_Unit_Definition;
+
+template<typename T>
+class Optional;
 
 enum class Combat_Unit_Side
 {
@@ -10,6 +14,8 @@ enum class Combat_Unit_Side
 	enemy
 };
 
+Optional<Combat_Unit_Side> combat_unit_side_from_string(const String&);
+String combat_unit_side_to_string(Combat_Unit_Side);
 
 class Combat_Unit
 {

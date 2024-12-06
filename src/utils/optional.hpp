@@ -20,6 +20,7 @@ public:
 
 	T& value();
 	const T& value() const;
+	T value_or(const T& fallback) const;
 	bool has_value() const;
 	void clear();
 
@@ -159,3 +160,11 @@ const T& Optional<T>::value() const
 	return *((T*)m_value);
 }
 
+template<typename T>
+T Optional<T>::value_or(const T& fallback) const
+{
+	if (m_has_value)
+		return value();
+	else
+		return fallback;
+}

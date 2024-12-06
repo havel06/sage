@@ -49,7 +49,13 @@ Battle::Battle(const Battle_Description& description, const Party& party) :
 	m_current_enemy_turn = 0;
 	reset_all_ability_sequences(); // TODO - this might be unnecessarry
 
-	m_current_turn = make_own_ptr<Battle_Turn>(m_heroes, m_enemies, m_current_hero_turn);
+	if (description.starting_side == Combat_Unit_Side::hero) {
+		m_current_turn = make_own_ptr<Battle_Turn>(m_heroes, m_enemies, m_current_hero_turn);
+	} else {
+		m_current_turn = make_own_ptr<Battle_Turn>(m_enemies, m_heroes, m_current_enemy_turn);
+	}
+
+	m_current_side = description.starting_side;
 }
 
 int Battle::get_enemy_count() const

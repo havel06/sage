@@ -4,6 +4,7 @@
 #include "utils/array.hpp"
 #include "character_profile.hpp"
 #include "graphics/ui/size.hpp"
+#include "combat_unit.hpp"
 
 // fwd
 class Sequence;
@@ -48,4 +49,5 @@ struct Battle_Description
 	Resource_Handle<Sequence> lose_sequence;
 	Animated_Sprite background;
 	Battle_Units_Layout units_layout;
+	Combat_Unit_Side starting_side = Combat_Unit_Side::hero;
 };

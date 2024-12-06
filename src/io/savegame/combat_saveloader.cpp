@@ -1,5 +1,6 @@
 #include "combat_saveloader.hpp"
 #include "combat/combat.hpp"
+#include "combat/combat_unit.hpp"
 #include "io/resource/sequence_manager.hpp"
 #include "io/resource/character_profile_manager.hpp"
 #include "utils/json.hpp"
@@ -69,6 +70,9 @@ JSON::Object Combat_Saveloader::save()
 	json.add("heroes", move(heroes));
 	json.add("enemies", move(enemies));
 
+	// Side of the current turn
+	json.add("current_turn_side", combat_unit_side_to_string(battle.get_current_side()).data());
+
 	return json;
 }
 
@@ -103,13 +107,19 @@ void Combat_Saveloader::load(const JSON::Object_View& json)
 	Battle_Units_Layout layout =
 		JSON_Types::parse_battle_units_layout(json.get("layout").as_object());
 
+	Combat_Unit_Side starting_side =
+		combat_unit_side_from_string(
+			json.get("current_turn_side").as_string("hero")
+		).value_or(Combat_Unit_Side::hero);
+
 	Battle_Description description {
 		.heroes = move(heroes),
 		.enemies = move(enemies),
 		.win_sequence = win_seq,
 		.lose_sequence = lose_seq,
 		.background = move(background),
-		.units_layout = move(layout)
+		.units_layout = move(layout),
+		.starting_side = starting_side
 	};
 
 	m_logic.enter_combat(description);

@@ -34,11 +34,9 @@ public:
 private:
 	JSON::Array serialise_active_sequences();
 	JSON::Array serialise_party();
-	JSON::Object serialise_battle(const Battle&);
 
 	void load_active_sequences(const JSON::Array_View&);
 	void load_party(const JSON::Array_View&);
-	void load_battle(const JSON::Object_View& json);
 	String get_savefile_path();
 
 	Game_Logic& m_logic;

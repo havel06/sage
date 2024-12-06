@@ -8,6 +8,7 @@
 #include "io/character_profile_loader.hpp"
 #include "io/json_types.hpp"
 #include "io/resource/resource_handle.hpp"
+#include "io/savegame/combat_saveloader.hpp"
 #include "io/savegame/inventory_saveloader.hpp"
 #include "io/savegame/quest_saveloader.hpp"
 #include "io/user_directory_provider.hpp"
@@ -77,8 +78,10 @@ void Game_Saveloader::save()
 		json.add("scriptable_gui_widget", m_scriptable_gui.get_current_widget_filename().data());
 	}
 
+	Combat_Saveloader combat_saveloader{m_combat, m_seq_manager, m_character_manager, m_texture_manager, m_logic, m_project_dir};
+
 	if (m_combat.is_active()) {
-		json.add("battle", serialise_battle(m_combat.get_battle()));
+		json.add("battle", combat_saveloader.save());
 	}
 	
 	// Write to file
@@ -126,7 +129,8 @@ void Game_Saveloader::load()
 	}
 
 	if (view.has("battle")) {
-		load_battle(view["battle"].as_object());
+		Combat_Saveloader combat_saveloader{m_combat, m_seq_manager, m_character_manager, m_texture_manager, m_logic, m_project_dir};
+		combat_saveloader.load(view["battle"].as_object());
 	}
 
 	SG_INFO("Loaded game state.");
@@ -140,53 +144,6 @@ void Game_Saveloader::new_game()
 
 	String folder = remove_filename(savefile_path);
 	remove_directory(folder);
-}
-
-JSON::Object Game_Saveloader::serialise_battle(const Battle& battle)
-{
-	JSON::Object json;
-
-	// Sequences
-	String win_sequence_path =
-		get_relative_path(battle.get_description().win_sequence.get_path(), m_project_dir);
-	String lose_sequence_path =
-		get_relative_path(battle.get_description().lose_sequence.get_path(), m_project_dir);
-
-	json.add("win_sequence", win_sequence_path.data());
-	json.add("lose_sequence", lose_sequence_path.data());
-	json.add(
-		"background",
-		JSON_Types::serialise_animated_sprite(
-			battle.get_description().background,
-			m_project_dir
-		)
-	);
-
-	json.add("layout",
-		JSON_Types::serialise_battle_units_layout(battle.get_description().units_layout)
-	);
-
-	// Serialise units
-	auto serialise_unit = [&](const Combat_Unit& unit) -> JSON::Value {
-		JSON::Object unit_json;
-		String path = get_relative_path(unit.character.get_path(), m_project_dir);
-		unit_json.add("character", path.data());
-		unit_json.add("hp", unit.get_hp());
-		return unit_json;
-	};
-
-	JSON::Array heroes;
-	for (int i = 0; i < battle.get_hero_count(); i++)
-		heroes.add(serialise_unit(battle.get_hero(i)));
-
-	JSON::Array enemies;
-	for (int i = 0; i < battle.get_enemy_count(); i++)
-		enemies.add(serialise_unit(battle.get_enemy(i)));
-
-	json.add("heroes", move(heroes));
-	json.add("enemies", move(enemies));
-
-	return json;
 }
 
 JSON::Array Game_Saveloader::serialise_active_sequences()
@@ -229,49 +186,4 @@ void Game_Saveloader::load_party(const JSON::Array_View& json)
 		auto profile = m_character_manager.get(value.as_string(""), true);
 		m_party.add_character(profile);
 	});
-}
-
-void Game_Saveloader::load_battle(const JSON::Object_View& json)
-{
-	SG_DEBUG("Saveloader - loading battle");
-
-	auto parse_unit = [&](const JSON::Object_View& unit_json) -> Battle_Unit_Definition {
-		Resource_Handle<Character_Profile> profile =
-			m_character_manager.get(unit_json["character"].as_string(""), false);
-
-		return Battle_Unit_Definition{profile, unit_json.get("hp").as_int(1)};
-	};
-
-	Array<Battle_Unit_Definition> enemies;
-	json.get("enemies").as_array().for_each([&](const JSON::Value_View& value){
-		enemies.push_back(parse_unit(value.as_object()));
-	});
-
-	Array<Battle_Unit_Definition> heroes;
-	json.get("heroes").as_array().for_each([&](const JSON::Value_View& value){
-		heroes.push_back(parse_unit(value.as_object()));
-	});
-
-	Resource_Handle<Sequence> win_seq =
-		m_seq_manager.get(json.get("win_sequence").as_string(""), false);
-
-	Resource_Handle<Sequence> lose_seq =
-		m_seq_manager.get(json.get("lose_sequence").as_string(""), false);
-
-	Animated_Sprite background = 
-		JSON_Types::parse_animated_sprite(json.get("background").as_object(), m_texture_manager);
-
-	Battle_Units_Layout layout =
-		JSON_Types::parse_battle_units_layout(json.get("layout").as_object());
-
-	Battle_Description description {
-		.heroes = move(heroes),
-		.enemies = move(enemies),
-		.win_sequence = win_seq,
-		.lose_sequence = lose_seq,
-		.background = move(background),
-		.units_layout = move(layout)
-	};
-
-	m_logic.enter_combat(description);
 }

@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include "game/game_logic.hpp"
 #include "game_facade.hpp"
+#include "graphics/imgui/widgets/button.hpp"
 #include "graphics/ui/widget.hpp"
 #include "input/input_event_provider.hpp"
 #include "input/user_input.hpp"
@@ -11,6 +12,7 @@
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
 #include "utils/profiler.hpp"
+#include "graphics/imgui/widgets/pane.hpp"
 #include <raylib/raylib.h>
 
 Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save, const Optional<String>& record_filename, Input_Event_Provider& input, bool headless) :
@@ -155,6 +157,12 @@ void Game::draw_frame(float time_delta)
 		DrawRectangle(0, 0, 120, 40, Color{0, 0, 0, 200});
 		DrawFPS(10, 10);
 	}
+
+	// FIXME - remove test code!!!!
+	IMGUI::Widgets::Pane pane{Recti{Vec2i{100, 100}, Vec2i{200, 200}}};
+	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Button>());
+	pane.layout(Recti{Vec2i{0, 0}, Vec2i{1000, 1000}});
+	pane.draw();
 }
 
 void Game::do_player_movement()

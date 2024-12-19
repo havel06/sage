@@ -34,7 +34,20 @@ Vec2i Pane::layout(Recti bounding_box)
 {
 	// NOTE - bounding_box is ignored, since panes are positioned absolutely
 	(void)bounding_box;
-	column.layout(m_transform);
+
+	const int padding = Theme::PADDING_DEFAULT;
+	const Recti children_bounding_box = {
+		.position = {
+			m_transform.position.x + padding,
+			m_transform.position.y + padding,
+		},
+		.size = {
+			m_transform.size.x - 2 * padding,
+			m_transform.size.y - 2 * padding,
+		}
+	};
+
+	column.layout(children_bounding_box);
 	return m_transform.size;
 }
 

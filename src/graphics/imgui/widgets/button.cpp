@@ -12,12 +12,6 @@ void Button::draw()
 	const int corner_radius = 20;
 	const int segments = 10;
 
-	SG_DEBUG("Draw button %d %d %d %d",
-		m_bounding_box.position.x,
-		m_bounding_box.position.y,
-		m_bounding_box.size.x,
-		m_bounding_box.size.y
-	);
 	DrawRectangleRounded(
 		Rectangle{
 			(float)m_bounding_box.position.x,
@@ -34,24 +28,28 @@ void Button::draw()
 			Theme::PRIMARY.a,
 		}
 	);
+
+	row.draw();
 }
 
 Vec2i Button::layout(Recti bounding_box)
 {
-	SG_DEBUG("Layout button %d %d %d %d",
-		bounding_box.position.x,
-		bounding_box.position.y,
-		bounding_box.size.x,
-		bounding_box.size.y
-	);
-
 	const int min_width = 40;
 	const int min_height = 40;
 	const int padding_vertical = 10;
 	const int padding_horizontal = 24;
 
-	// FIXME - account for padding before layout
-	Vec2i child_size = row.layout(bounding_box);
+	const Recti children_bounding_box = {
+		.position = {
+			bounding_box.position.x + padding_horizontal,
+			bounding_box.position.y + padding_vertical,
+		},
+		.size = {
+			bounding_box.size.x - 2 * padding_horizontal,
+			bounding_box.size.y - 2 * padding_vertical,
+		}
+	};
+	Vec2i child_size = row.layout(children_bounding_box);
 
 	// Calculate bounding box
 	m_bounding_box = Recti {

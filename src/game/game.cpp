@@ -2,6 +2,8 @@
 #include "game/game_logic.hpp"
 #include "game_facade.hpp"
 #include "graphics/imgui/widgets/button.hpp"
+#include "graphics/imgui/widgets/text.hpp"
+#include "graphics/imgui/theme.hpp"
 #include "graphics/ui/widget.hpp"
 #include "input/input_event_provider.hpp"
 #include "input/user_input.hpp"
@@ -160,7 +162,11 @@ void Game::draw_frame(float time_delta)
 
 	// FIXME - remove test code!!!!
 	IMGUI::Widgets::Pane pane{Recti{Vec2i{100, 100}, Vec2i{200, 200}}};
-	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Button>());
+	auto button = make_own_ptr<IMGUI::Widgets::Button>();
+	button->row.add_child(make_own_ptr<IMGUI::Widgets::Text>("Hello", IMGUI::Theme::ON_PRIMARY));
+	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("This is a line", IMGUI::Theme::ON_SURFACE));
+	pane.column.add_child(move(button));
+	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("Testing!", IMGUI::Theme::ON_SURFACE));
 	pane.layout(Recti{Vec2i{0, 0}, Vec2i{1000, 1000}});
 	pane.draw();
 }

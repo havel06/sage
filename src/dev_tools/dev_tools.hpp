@@ -1,5 +1,6 @@
 #pragma once
 
+#include "graphics/editor_ui/context.hpp"
 #include "mode_general.hpp"
 #include "mode_sequence.hpp"
 #include "mode_entity.hpp"
@@ -30,6 +31,8 @@ private:
 	User_Directory_Provider& m_user_dir_provider;
 
 	Editor_UI::System m_gui;
+	Editor_UI::Context m_context;
+
 	Dev_Tools_Mode_General m_general;
 	Dev_Tools_Mode_Sequence m_sequence;
 	Dev_Tools_Mode_Entity m_entity;

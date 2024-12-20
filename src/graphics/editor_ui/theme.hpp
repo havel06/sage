@@ -17,4 +17,5 @@ const Colour OUTLINE = {142, 144, 153, 255};
 const int FONT_SIZE_DEFAULT = 16;
 const int PADDING_DEFAULT = 16;
 const int ICON_SIZE = 24;
+const int NAV_WIDTH = 80;
 }

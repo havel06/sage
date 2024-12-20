@@ -7,9 +7,10 @@
 namespace Editor_UI::Widgets
 {
 
-Pane::Pane(Recti transform)
+Pane::Pane(Recti transform, bool padding)
 {
 	m_transform = transform;
+	m_padding = padding;
 }
 
 void Pane::draw()
@@ -35,7 +36,7 @@ Vec2i Pane::layout(Recti bounding_box)
 	// NOTE - bounding_box is ignored, since panes are positioned absolutely
 	(void)bounding_box;
 
-	const int padding = Theme::PADDING_DEFAULT;
+	const int padding = m_padding ? Theme::PADDING_DEFAULT : 0;
 	const Recti children_bounding_box = {
 		.position = {
 			m_transform.position.x + padding,

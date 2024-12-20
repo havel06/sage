@@ -3,6 +3,7 @@
 #include "raylib/raylib.h"
 #include "utils/move.hpp"
 #include "utils/log.hpp"
+#include "utils/minmax.hpp"
 
 namespace Editor_UI::Widgets
 {
@@ -14,17 +15,25 @@ Nav_Rail_Item::Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const 
 {
 }
 
-void Nav_Rail_Item::draw(Vec2i position)
+int Nav_Rail_Item::get_width() const
+{
+	const int min_width = 80;
+	const int label_padding_left = 16;
+	const int label_width = MeasureText(m_label.data(), Theme::FONT_SIZE_DEFAULT);
+
+	return max(min_width, label_width + 2 * label_padding_left);
+}
+
+void Nav_Rail_Item::draw(Vec2i position, int width)
 {
 	const int gap = 4;
-	const int width = 80;
 	//const int padding_horizontal = 16;
-	const int icon_padding_left = 28;
+	const int icon_padding_left = (width - Theme::ICON_SIZE) / 2;
 	
 	// Draw icon
 	DrawTexturePro(
 		m_icon.get(),
-		{(float)m_icon.get().width, (float)m_icon.get().height, Theme::ICON_SIZE, Theme::ICON_SIZE},
+		{0, 0, Theme::ICON_SIZE, Theme::ICON_SIZE},
 		{(float)position.x + icon_padding_left, (float)position.y, Theme::ICON_SIZE, Theme::ICON_SIZE},
 		{0, 0},
 		0,
@@ -37,7 +46,7 @@ void Nav_Rail_Item::draw(Vec2i position)
 	);
 	
 	// Draw label
-	const int label_width = MeasureText(m_label.data(), Theme::FONT_SIZE_DEFAULT);
+	const int label_width = MeasureTextEx(m_font, m_label.data(), Theme::FONT_SIZE_DEFAULT, 0).x;
 	const int label_padding_left = (width - label_width) / 2;
 	const int label_pos_y = position.y + Theme::ICON_SIZE + gap;
 	DrawTextEx(
@@ -67,10 +76,10 @@ void Nav_Rail::draw()
 {
 	// Draw background
 	DrawRectangle(
-		m_position.x,
-		m_position.y,
-		80,
-		GetScreenHeight(),
+		m_bounding_box.position.x,
+		m_bounding_box.position.y,
+		m_bounding_box.size.x,
+		m_bounding_box.size.y,
 		Color {
 			.r = Theme::SURFACE.r,
 			.g = Theme::SURFACE.g,
@@ -83,20 +92,28 @@ void Nav_Rail::draw()
 	const int gap = 16;
 	const int padding_top = 8;
 
-	int y = m_position.y + padding_top;
+	int y = m_bounding_box.position.y + padding_top;
 
 	for (auto& item : m_items) {
-		item->draw(Vec2i{m_position.x, y});
+		item->draw(Vec2i{m_bounding_box.position.x, y}, m_bounding_box.size.x);
 		y += item_height + gap;
 	}
 }
 
 Vec2i Nav_Rail::layout(Recti bounding_box)
 {
-	// FIXME - Adjustable height?
-	
-	m_position = bounding_box.position;
-	return Vec2i{80, GetScreenHeight()};
+	// Calculate width
+	int width = Theme::NAV_WIDTH;
+	for (auto& item : m_items) {
+		width = max(width, item->get_width());
+	}
+
+	m_bounding_box = {
+		.position = bounding_box.position,
+		.size = {width, bounding_box.size.y}
+	};
+
+	return m_bounding_box.size;
 }
 
 

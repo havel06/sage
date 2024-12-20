@@ -6,6 +6,8 @@
 #include "map/map.hpp"
 #include "io/user_directory_provider.hpp"
 #include "utils/own_ptr.hpp"
+#include "graphics/editor_ui/theme.hpp"
+#include "graphics/editor_ui/widgets/nav_rail.hpp"
 
 Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
 	m_user_dir_provider{dir_provider},
@@ -17,6 +19,20 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 
 	ImGui::GetIO().IniFilename = NULL;
 	ImGui::LoadIniSettingsFromDisk(dir_provider.get_imgui_inifile_path().data());
+
+	// Set up GUI
+
+	// Nav
+	// FIXME - use window height
+	auto& nav_pane = m_context.add_pane({{0, 0}, {Editor_UI::Theme::NAV_WIDTH, 10000}}, false);
+	auto nav_rail = make_own_ptr<Editor_UI::Widgets::Nav_Rail>();
+	nav_rail->add_item(
+		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(m_gui.get_font(), m_gui.ICON_SAVE, "Sequences"));
+	nav_rail->add_item(
+		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(m_gui.get_font(), m_gui.ICON_SAVE, "Entities"));
+	nav_rail->add_item(
+		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(m_gui.get_font(), m_gui.ICON_SAVE, "Items"));
+	nav_pane.column.add_child(move(nav_rail));
 }
 
 Dev_Tools::~Dev_Tools()
@@ -27,6 +43,8 @@ Dev_Tools::~Dev_Tools()
 
 void Dev_Tools::draw(Map& map, const String& map_filename)
 {
+	m_context.draw();
+
 	rlImGuiBegin();
 
 	//draw_main_menu();

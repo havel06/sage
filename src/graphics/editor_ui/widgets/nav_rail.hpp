@@ -16,7 +16,8 @@ class Nav_Rail_Item
 {
 public:	
 	Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const String& label);
-	void draw(Vec2i position);
+	void draw(Vec2i position, int width);
+	int get_width() const;
 private:
 	const Font& m_font;
 	const Icon_Resource& m_icon;
@@ -30,7 +31,7 @@ public:
 	void draw() override;
 	Vec2i layout(Recti bounding_box) override;
 private:
-	Vec2i m_position;
+	Recti m_bounding_box;
 	Array<Own_Ptr<Nav_Rail_Item>> m_items;
 };
 

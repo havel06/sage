@@ -28,6 +28,7 @@ src = [
   'src/graphics/combat_renderer/combat_renderer.cpp',
   'src/graphics/combat_renderer/combat_renderer_unit.cpp',
   'src/graphics/debug_entity_renderer.cpp',
+  'src/graphics/editor_ui/context.cpp',
   'src/graphics/editor_ui/data/font_data.cpp',
   'src/graphics/editor_ui/data/icon_data.cpp',
   'src/graphics/editor_ui/icon_resource.cpp',

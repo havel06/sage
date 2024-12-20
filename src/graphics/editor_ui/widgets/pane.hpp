@@ -7,14 +7,16 @@
 namespace Editor_UI::Widgets
 {
 
+// FIXME - Pane probably doesn't need to be a widget!
 class Pane : public Widget
 {
 public:
-	Column column;
-	Pane(Recti transform);
+	Column column; // Use this to get elements inside pane
+	Pane(Recti transform, bool padding);
 	void draw() override;
 	Vec2i layout(Recti bounding_box) override;
 private:
+	bool m_padding = true;
 	Recti m_transform;
 };
 

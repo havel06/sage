@@ -28,6 +28,7 @@
 #include "sequence/sequence.hpp"
 #include "combat/combat_controller.hpp"
 #include "utils/optional.hpp"
+#include "graphics/imgui/theme.hpp"
 
 struct Project_Description;
 

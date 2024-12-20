@@ -2,6 +2,7 @@
 #include "game/game_logic.hpp"
 #include "game_facade.hpp"
 #include "graphics/imgui/widgets/button.hpp"
+#include "graphics/imgui/widgets/icon.hpp"
 #include "graphics/imgui/widgets/text.hpp"
 #include "graphics/imgui/theme.hpp"
 #include "graphics/ui/widget.hpp"
@@ -13,6 +14,7 @@
 #include "sequence/event.hpp"
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
+#include "utils/own_ptr.hpp"
 #include "utils/profiler.hpp"
 #include "graphics/imgui/widgets/pane.hpp"
 #include <raylib/raylib.h>
@@ -167,6 +169,7 @@ void Game::draw_frame(float time_delta)
 	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("This is a line", IMGUI::Theme::ON_SURFACE));
 	pane.column.add_child(move(button));
 	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("Testing!", IMGUI::Theme::ON_SURFACE));
+	//pane.column.add_child(make_own_ptr<IMGUI::Widgets::Icon>(IMGUI::Theme::ICON_SAVE));
 	pane.layout(Recti{Vec2i{0, 0}, Vec2i{1000, 1000}});
 	pane.draw();
 }

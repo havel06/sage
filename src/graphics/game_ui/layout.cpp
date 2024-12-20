@@ -2,7 +2,7 @@
 #include "widget.hpp"
 #include "utils/log.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 Layout::Layout(const Array<Size>& rows, const Array<Size>& columns)

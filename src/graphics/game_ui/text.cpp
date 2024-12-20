@@ -1,10 +1,10 @@
 #include "text.hpp"
-#include "graphics/ui/formatted_text.hpp"
+#include "formatted_text.hpp"
 #include "raylib/raylib.h"
 #include "utils/log.hpp"
 #include "widget_visitor.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 Text::Text(Resource_Handle<Font> font, Layout&& layout) :

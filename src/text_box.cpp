@@ -1,5 +1,5 @@
 #include "text_box.hpp"
-#include "graphics/ui/formatted_text.hpp"
+#include "graphics/game_ui/formatted_text.hpp"
 #include "utils/log.hpp"
 #include "utils/minmax.hpp"
 
@@ -8,7 +8,7 @@ bool Text_Box::contains_message() const
 	return !m_messages.empty();
 }
 
-const UI::Formatted_Text& Text_Box::get_displayed_message() const
+const Game_UI::Formatted_Text& Text_Box::get_displayed_message() const
 {
 	assert(contains_message());
 	return m_messages[m_current_message];
@@ -21,7 +21,7 @@ int Text_Box::get_displayed_character_count() const
 	return min((int)(m_time_shown / time_per_character), m_messages[m_current_message].length());
 }
 
-void Text_Box::push_message(const UI::Formatted_Text& message)
+void Text_Box::push_message(const Game_UI::Formatted_Text& message)
 {
 	m_messages.push_back(message);
 }

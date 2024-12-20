@@ -6,7 +6,7 @@
 #include "formatted_text.hpp"
 #include <raylib/raylib.h>
 
-namespace UI
+namespace Game_UI
 {
 
 enum class Text_Align

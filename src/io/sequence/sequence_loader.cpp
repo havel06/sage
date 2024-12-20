@@ -1,7 +1,6 @@
 #include "sequence_loader.hpp"
 #include "character_profile.hpp"
 #include "combat/battle_desc.hpp"
-#include "graphics/ui/layout.hpp"
 #include "io/gui_loader.hpp"
 #include "io/resource/texture_manager.hpp"
 #include "sequence/condition.hpp"

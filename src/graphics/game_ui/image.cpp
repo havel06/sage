@@ -3,7 +3,7 @@
 #include "utils/own_ptr.hpp"
 #include "widget_visitor.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 Image::Image(Layout&& layout) :

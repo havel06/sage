@@ -1,6 +1,6 @@
 #pragma once
 #include "utils/string.hpp"
-#include "graphics/ui/widget.hpp"
+#include "graphics/game_ui/widget.hpp"
 #include "combat.hpp"
 #include "graphics/inventory_renderer.hpp"
 
@@ -46,7 +46,7 @@ private:
 	Combat& m_combat;
 	Inventory_Renderer& m_inventory_renderer;
 
-	UI::Widget_Ptr m_action_menu_widget;
-	UI::Widget_Ptr m_ability_menu_widget;
-	UI::Widget_Ptr m_option_widget;
+	Game_UI::Widget_Ptr m_action_menu_widget;
+	Game_UI::Widget_Ptr m_ability_menu_widget;
+	Game_UI::Widget_Ptr m_option_widget;
 };

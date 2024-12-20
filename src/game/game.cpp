@@ -1,7 +1,6 @@
 #include "game.hpp"
 #include "game/game_logic.hpp"
 #include "game_facade.hpp"
-#include "graphics/ui/widget.hpp"
 #include "input/input_event_provider.hpp"
 #include "input/user_input.hpp"
 #include "io/gui_loader.hpp"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../event.hpp"
-#include "graphics/ui/layout.hpp"
+#include "graphics/game_ui/layout.hpp"
 
 namespace Events
 {

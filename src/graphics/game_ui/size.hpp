@@ -2,7 +2,7 @@
 
 #include "utils/vec2.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 

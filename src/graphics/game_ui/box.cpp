@@ -3,7 +3,7 @@
 #include "utils/log.hpp"
 #include "widget_visitor.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 Box::Box(Layout&& layout) :

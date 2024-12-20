@@ -2,7 +2,7 @@
 
 #include "layout.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 class Widget_Visitor;

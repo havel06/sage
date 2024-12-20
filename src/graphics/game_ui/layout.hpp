@@ -7,7 +7,7 @@
 #include "utils/direction.hpp"
 #include "utils/rect.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 //fwd

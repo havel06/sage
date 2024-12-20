@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ui/widget.hpp"
+#include "game_ui/widget.hpp"
 
 class GUI_Loader;
 
@@ -18,5 +18,5 @@ private:
 	GUI_Loader& m_loader;
 
 	String m_filename;
-	UI::Widget_Ptr m_widget;
+	Game_UI::Widget_Ptr m_widget;
 };

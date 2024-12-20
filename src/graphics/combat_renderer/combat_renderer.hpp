@@ -5,7 +5,7 @@
 #include "graphics/animated_sprite.hpp"
 #include "utils/vec2.hpp"
 #include "combat/combat.hpp"
-#include "../ui/size.hpp"
+#include "../game_ui/size.hpp"
 #include "../shader.hpp"
 
 class Party;

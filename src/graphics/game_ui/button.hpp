@@ -3,7 +3,7 @@
 #include "widget.hpp"
 #include "utils/function_wrapper.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 class Button : public Widget

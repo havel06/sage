@@ -4,12 +4,12 @@
 #include "combat/battle_desc.hpp"
 #include "combat/combat.hpp"
 #include "combat/target_selection_type.hpp"
-#include "graphics/ui/formatted_text.hpp"
+#include "graphics/game_ui/formatted_text.hpp"
 #include "utils/direction.hpp"
 #include "utils/string.hpp"
 #include "utils/vec2.hpp"
 #include "utils/array.hpp"
-#include "graphics/ui/widget.hpp"
+#include "graphics/game_ui/widget.hpp"
 #include "io/resource/resource_handle.hpp"
 #include <raylib/raylib.h>
 
@@ -49,7 +49,7 @@ public:
 	void move_entity(const String& entity_name, const Position& position);
 	void rotate_entity(const String& entity_name, Direction);
 	void rotate_player(Direction);
-	void display_text(const UI::Formatted_Text& message);
+	void display_text(const Game_UI::Formatted_Text& message);
 	bool is_text_box_shown() const;
 	void give_item(const String& id, int count);
 	void remove_item(const String& id, int count);

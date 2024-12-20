@@ -5,7 +5,7 @@
 namespace Events
 {
 
-Display_Text::Display_Text(Game_Facade& facade, const UI::Formatted_Text& message) :
+Display_Text::Display_Text(Game_Facade& facade, const Game_UI::Formatted_Text& message) :
 	Event(facade)
 {
 	m_message = message;

@@ -1,6 +1,6 @@
 #include "formatted_text.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 String Formatted_Text::to_string() const

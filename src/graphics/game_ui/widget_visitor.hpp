@@ -2,7 +2,7 @@
 
 #include "utils/concepts.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 class Box;

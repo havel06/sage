@@ -2,8 +2,8 @@
 #include "io/gui_loader.hpp"
 #include "text_box.hpp"
 #include "raylib/raylib.h"
-#include "ui/text.hpp"
-#include "ui/widget_visitor.hpp"
+#include "game_ui/text.hpp"
+#include "game_ui/widget_visitor.hpp"
 
 Text_Box_Renderer::Text_Box_Renderer(const Text_Box& text_box) :
 	m_text_box{text_box}
@@ -31,10 +31,10 @@ void Text_Box_Renderer::draw(float time_delta)
 	if (m_text_box.contains_message()) {
 		assert(m_widget);
 
-		UI::Widget* widget = m_widget->get_widget_by_name("Text");
+		Game_UI::Widget* widget = m_widget->get_widget_by_name("Text");
 
 		if (widget) {
-			UI::Text_Widget_Visitor visitor{[&](UI::Text& text_widget){
+			Game_UI::Text_Widget_Visitor visitor{[&](Game_UI::Text& text_widget){
 				text_widget.text = m_text_box.get_displayed_message().substring(m_text_box.get_displayed_character_count());
 			}};
 

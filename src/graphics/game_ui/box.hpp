@@ -1,20 +1,18 @@
 #pragma once
 
 #include "widget.hpp"
-#include "utils/string.hpp"
-#include "graphics/sprite.hpp"
+#include "utils/colour.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
-class Image : public Widget
+class Box : public Widget
 {
 public:
-	Sprite sprite;
-	Image(Layout&&);
+	Box(Layout&&);
+	Colour colour = {0, 0, 0, 0};
 	void accept_visitor(Widget_Visitor&) override;
 private:
-
 	void draw_impl(Recti parent_area, float opacity, float time_delta) override;
 	Widget_Ptr clone_impl(Layout&&) const override;
 	bool is_focusable() const override { return false; }

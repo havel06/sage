@@ -5,7 +5,7 @@
 #include "utils/array.hpp"
 #include "utils/optional.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 struct Formatted_Text_Fragment

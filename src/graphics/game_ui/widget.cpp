@@ -4,7 +4,7 @@
 #include "utils/log.hpp"
 #include "utils/minmax.hpp"
 
-namespace UI
+namespace Game_UI
 {
 
 

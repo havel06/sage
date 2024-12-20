@@ -106,7 +106,7 @@ void Game_Facade::teleport_entity(const String& entity_name, const Position& pos
 	entity->position = resolve_position(position).round();
 }
 
-void Game_Facade::display_text(const UI::Formatted_Text& message)
+void Game_Facade::display_text(const Game_UI::Formatted_Text& message)
 {
 	m_logic_normal.text_box.push_message(message);
 }

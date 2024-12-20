@@ -1,15 +1,15 @@
 #include "gui_loader.hpp"
-#include "graphics/ui/button.hpp"
-#include "graphics/ui/image.hpp"
-#include "graphics/ui/layout.hpp"
-#include "graphics/ui/widget.hpp"
+#include "graphics/game_ui/button.hpp"
+#include "graphics/game_ui/image.hpp"
+#include "graphics/game_ui/layout.hpp"
+#include "graphics/game_ui/widget.hpp"
 #include "io/json_types.hpp"
 #include "io/resource/texture_manager.hpp"
 #include "utils/json.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
-#include "graphics/ui/text.hpp"
-#include "graphics/ui/box.hpp"
+#include "graphics/game_ui/text.hpp"
+#include "graphics/game_ui/box.hpp"
 #include "io/resource/font_manager.hpp"
 #include "io/template.hpp"
 
@@ -19,10 +19,10 @@ GUI_Loader::GUI_Loader(Font_Manager& font_mgr, Texture_Manager& tex_mgr, const S
 {
 	m_project_root = project_root;
 
-	m_fallback_widget = make_own_ptr<UI::Box>(UI::Layout{});
+	m_fallback_widget = make_own_ptr<Game_UI::Box>(Game_UI::Layout{});
 }
 
-UI::Widget_Ptr GUI_Loader::load(const String& filename)
+Game_UI::Widget_Ptr GUI_Loader::load(const String& filename)
 {
 	String path = m_project_root;
 	path.append('/');
@@ -31,7 +31,7 @@ UI::Widget_Ptr GUI_Loader::load(const String& filename)
 	JSON::Object json = JSON::Object::from_file(path.data());
 
 	JSON::Object empty_params;
-	UI::Widget_Ptr loaded_widget = parse_widget(json.get_view(), empty_params.get_view());
+	Game_UI::Widget_Ptr loaded_widget = parse_widget(json.get_view(), empty_params.get_view());
 
 	if (loaded_widget) {
 		SG_INFO("Loaded GUI widget \"%s\"", filename.data());
@@ -43,7 +43,7 @@ UI::Widget_Ptr GUI_Loader::load(const String& filename)
 }
 
 
-UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json, const JSON::Object_View& template_params)
+Game_UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json, const JSON::Object_View& template_params)
 {
 	if (json.has("from_template")) {
 		// Use widget template
@@ -62,7 +62,7 @@ UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json, const JSO
 	}
 }
 
-UI::Widget_Ptr GUI_Loader::parse_templated_widget(const JSON::Object_View& widget_json, const JSON::Object_View& template_params)
+Game_UI::Widget_Ptr GUI_Loader::parse_templated_widget(const JSON::Object_View& widget_json, const JSON::Object_View& template_params)
 {
 	String type = widget_json["type"].as_string("");
 
@@ -73,12 +73,12 @@ UI::Widget_Ptr GUI_Loader::parse_templated_widget(const JSON::Object_View& widge
 
 	JSON::Object_View params = widget_json["parameters"].as_object();
 	// Layout
-	UI::Layout layout = widget_json.has("layout") ? parse_layout(widget_json["layout"].as_object(), template_params) : UI::Layout{};
+	Game_UI::Layout layout = widget_json.has("layout") ? parse_layout(widget_json["layout"].as_object(), template_params) : Game_UI::Layout{};
 	// Children
 	if (widget_json.has("children"))
 		parse_widget_children(widget_json["children"].as_array(), layout, template_params);
 
-	UI::Widget_Ptr widget = create_widget_from_type_name(type, move(layout), params, template_params);
+	Game_UI::Widget_Ptr widget = create_widget_from_type_name(type, move(layout), params, template_params);
 	// Name
 	if (widget_json.has("name"))
 		widget->set_name(resolve_templated_value(widget_json["name"], template_params).as_string(""));
@@ -89,7 +89,7 @@ UI::Widget_Ptr GUI_Loader::parse_templated_widget(const JSON::Object_View& widge
 	return widget;
 }
 
-void GUI_Loader::parse_widget_children(const JSON::Array_View& children, UI::Layout& layout, const JSON::Object_View& template_params)
+void GUI_Loader::parse_widget_children(const JSON::Array_View& children, Game_UI::Layout& layout, const JSON::Object_View& template_params)
 {
 	children.for_each([&](const JSON::Value_View& value){
 		JSON::Object_View child = resolve_templated_value(value, template_params).as_object();
@@ -103,27 +103,27 @@ void GUI_Loader::parse_widget_children(const JSON::Array_View& children, UI::Lay
 	});
 }
 
-UI::Widget_Ptr GUI_Loader::create_widget_from_type_name(const String& type_name, UI::Layout&& layout, const JSON::Object_View& params, const JSON::Object_View& template_params)
+Game_UI::Widget_Ptr GUI_Loader::create_widget_from_type_name(const String& type_name, Game_UI::Layout&& layout, const JSON::Object_View& params, const JSON::Object_View& template_params)
 {
 	if (type_name == "box") {
-		return parse_box((UI::Layout&&)layout, params, template_params);
+		return parse_box((Game_UI::Layout&&)layout, params, template_params);
 	} else if (type_name == "text") {
-		return parse_text((UI::Layout&&)layout, params, template_params);
+		return parse_text((Game_UI::Layout&&)layout, params, template_params);
 	} else if (type_name == "image") {
-		return parse_image((UI::Layout&&)layout, params, template_params);
+		return parse_image((Game_UI::Layout&&)layout, params, template_params);
 	} else if (type_name == "button") {
-		return parse_button((UI::Layout&&)layout, params, template_params);
+		return parse_button((Game_UI::Layout&&)layout, params, template_params);
 	} else {
 		SG_ERROR("Invalid widget type \"%s\"", type_name.data());
-		return make_own_ptr<UI::Box>(UI::Layout{});
+		return make_own_ptr<Game_UI::Box>(Game_UI::Layout{});
 	}
 }
 
-UI::Layout GUI_Loader::parse_layout(const JSON::Object_View& json, const JSON::Object_View& template_params)
+Game_UI::Layout GUI_Loader::parse_layout(const JSON::Object_View& json, const JSON::Object_View& template_params)
 {
 	// FIXME - what if the numbers don't add up to 1??
-	Array<UI::Size> rows;
-	Array<UI::Size> columns;
+	Array<Game_UI::Size> rows;
+	Array<Game_UI::Size> columns;
 
 	json["rows"].as_array().for_each([&](const JSON::Value_View& row){
 		rows.push_back(JSON_Types::parse_size(row.as_object(), template_params));
@@ -133,12 +133,12 @@ UI::Layout GUI_Loader::parse_layout(const JSON::Object_View& json, const JSON::O
 		columns.push_back(JSON_Types::parse_size(column.as_object(), template_params));
 	});
 
-	return UI::Layout{rows, columns};
+	return Game_UI::Layout{rows, columns};
 }
 
-UI::Widget_Ptr GUI_Loader::parse_box(UI::Layout&& layout, const JSON::Object_View& params, const JSON::Object_View& template_params)
+Game_UI::Widget_Ptr GUI_Loader::parse_box(Game_UI::Layout&& layout, const JSON::Object_View& params, const JSON::Object_View& template_params)
 {
-	Own_Ptr<UI::Box> widget = make_own_ptr<UI::Box>((UI::Layout&&)layout);
+	Own_Ptr<Game_UI::Box> widget = make_own_ptr<Game_UI::Box>((Game_UI::Layout&&)layout);
 
 	if (params.has("colour")) {
 		widget->colour = JSON_Types::parse_colour(params["colour"].as_object(), template_params);
@@ -147,10 +147,10 @@ UI::Widget_Ptr GUI_Loader::parse_box(UI::Layout&& layout, const JSON::Object_Vie
 	return widget;
 }
 
-UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const JSON::Object_View& params, const JSON::Object_View& template_params)
+Game_UI::Widget_Ptr GUI_Loader::parse_text(Game_UI::Layout&& layout, const JSON::Object_View& params, const JSON::Object_View& template_params)
 {
 	Resource_Handle<Font> font = m_font_manager.get(resolve_templated_value(params["font"], template_params).as_string(""), false);
-	Own_Ptr<UI::Text> widget = make_own_ptr<UI::Text>(font, (UI::Layout&&)layout);
+	Own_Ptr<Game_UI::Text> widget = make_own_ptr<Game_UI::Text>(font, (Game_UI::Layout&&)layout);
 
 	widget->text = JSON_Types::parse_formatted_text(resolve_templated_value(params["text"], template_params));
 	widget->size = resolve_templated_value(params["size"], template_params).as_int(16);
@@ -161,20 +161,20 @@ UI::Widget_Ptr GUI_Loader::parse_text(UI::Layout&& layout, const JSON::Object_Vi
 	return widget;
 }
 
-UI::Text_Align GUI_Loader::parse_align(const String& text)
+Game_UI::Text_Align GUI_Loader::parse_align(const String& text)
 {
 	if (text == "center")
-		return UI::Text_Align::center;
+		return Game_UI::Text_Align::center;
 	if (text == "left")
-		return UI::Text_Align::left;
+		return Game_UI::Text_Align::left;
 
 	SG_ERROR("Unknown align value \"%s\"", text.data());
-	return UI::Text_Align::left;
+	return Game_UI::Text_Align::left;
 }
 
-UI::Widget_Ptr GUI_Loader::parse_image(UI::Layout&& layout, const JSON::Object_View& params, const JSON::Object_View& template_params)
+Game_UI::Widget_Ptr GUI_Loader::parse_image(Game_UI::Layout&& layout, const JSON::Object_View& params, const JSON::Object_View& template_params)
 {
-	Own_Ptr<UI::Image> widget = make_own_ptr<UI::Image>((UI::Layout&&)layout);
+	Own_Ptr<Game_UI::Image> widget = make_own_ptr<Game_UI::Image>((Game_UI::Layout&&)layout);
 
 	if (params.has("sprite")) {
 		widget->sprite = JSON_Types::parse_sprite(
@@ -186,10 +186,10 @@ UI::Widget_Ptr GUI_Loader::parse_image(UI::Layout&& layout, const JSON::Object_V
 	return widget;
 }
 
-UI::Widget_Ptr GUI_Loader::parse_button(UI::Layout&& layout, const JSON::Object_View& params, const JSON::Object_View& template_params)
+Game_UI::Widget_Ptr GUI_Loader::parse_button(Game_UI::Layout&& layout, const JSON::Object_View& params, const JSON::Object_View& template_params)
 {
-	UI::Widget_Ptr content_normal = parse_widget(resolve_templated_value(params["normal"], template_params).as_object(), template_params);
-	UI::Widget_Ptr content_focused = parse_widget(resolve_templated_value(params["focused"], template_params).as_object(), template_params);
+	Game_UI::Widget_Ptr content_normal = parse_widget(resolve_templated_value(params["normal"], template_params).as_object(), template_params);
+	Game_UI::Widget_Ptr content_focused = parse_widget(resolve_templated_value(params["focused"], template_params).as_object(), template_params);
 
-	return make_own_ptr<UI::Button>((UI::Widget_Ptr&&)content_normal, (UI::Widget_Ptr&&)content_focused, (UI::Layout&&)layout);
+	return make_own_ptr<Game_UI::Button>((Game_UI::Widget_Ptr&&)content_normal, (Game_UI::Widget_Ptr&&)content_focused, (Game_UI::Layout&&)layout);
 }

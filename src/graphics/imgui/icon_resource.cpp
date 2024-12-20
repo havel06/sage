@@ -1,9 +1,6 @@
-#include "theme.hpp"
-#include "graphics/texture.hpp"
-#include "utils/log.hpp"
-#include <raylib/raylib.h>
+#include "icon_resource.hpp"
 
-namespace IMGUI::Theme
+namespace IMGUI
 {
 
 Icon_Resource::Icon_Resource(const unsigned char* data, int size)

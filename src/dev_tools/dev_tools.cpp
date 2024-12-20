@@ -6,6 +6,12 @@
 #include "map/map.hpp"
 #include "io/user_directory_provider.hpp"
 
+#include "graphics/imgui/widgets/button.hpp"
+#include "graphics/imgui/widgets/icon.hpp"
+#include "graphics/imgui/widgets/text.hpp"
+#include "graphics/imgui/theme.hpp"
+#include "graphics/imgui/widgets/pane.hpp"
+
 Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
 	m_user_dir_provider{dir_provider},
 	m_general(facade, logic, project_root),
@@ -46,6 +52,17 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 	}
 
 	rlImGuiEnd();
+
+	// FIXME - remove test code!!!!
+	IMGUI::Widgets::Pane pane{Recti{Vec2i{100, 100}, Vec2i{200, 200}}};
+	auto button = make_own_ptr<IMGUI::Widgets::Button>();
+	button->row.add_child(make_own_ptr<IMGUI::Widgets::Text>("Hello", IMGUI::Theme::ON_PRIMARY));
+	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("This is a line", IMGUI::Theme::ON_SURFACE));
+	pane.column.add_child(move(button));
+	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("Testing!", IMGUI::Theme::ON_SURFACE));
+	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Icon>(m_imgui.ICON_SAVE));
+	pane.layout(Recti{Vec2i{0, 0}, Vec2i{1000, 1000}});
+	pane.draw();
 }
 
 void Dev_Tools::draw_main_menu()

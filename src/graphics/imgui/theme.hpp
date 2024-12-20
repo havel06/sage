@@ -1,8 +1,6 @@
 #pragma once
 
 #include "utils/colour.hpp"
-#include "icon_data.hpp"
-#include <raylib/raylib.h>
 
 // fwd
 
@@ -21,20 +19,4 @@ const int FONT_SIZE_DEFAULT = 20;
 const int PADDING_DEFAULT = 16;
 
 const int ICON_SIZE = 24;
-
-class Icon_Resource
-{
-public:
-	Icon_Resource(const unsigned char* data, int size);
-	~Icon_Resource();
-	const Texture& get() const { return m_texture; }
-private:
-	Texture m_texture;
-};
-
-struct Default_Icons
-{
-	const Icon_Resource ICON_SAVE{Icon_Data::ICON_SAVE_DATA, Icon_Data::ICON_SAVE_SIZE};
-};
-
 }

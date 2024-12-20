@@ -2,10 +2,18 @@
 #include "utils/log.hpp"
 #include "utils/minmax.hpp"
 #include "../theme.hpp"
+#include "../icon_resource.hpp"
 #include <raylib/raylib.h>
 
 namespace IMGUI::Widgets
 {
+
+Button::Button(const Font& font, const String& label, const Icon_Resource* icon) :
+	m_font{font}
+{
+	m_label = label;
+	m_icon = icon;
+}
 
 void Button::draw()
 {
@@ -29,34 +37,59 @@ void Button::draw()
 		}
 	);
 
-	row.draw();
+	// Content
+	const int padding_horizontal = 24;
+	int x = m_bounding_box.position.x + padding_horizontal;
+	if (m_icon) {
+		const int icon_padding_top = (40 - Theme::ICON_SIZE) / 2;
+		DrawTexture(
+			m_icon->get(),
+			x,
+			m_bounding_box.position.y + icon_padding_top,
+			Color {
+				Theme::ON_PRIMARY.r,
+				Theme::ON_PRIMARY.g,
+				Theme::ON_PRIMARY.b,
+				Theme::ON_PRIMARY.a,
+			}
+		);
+		x += Theme::ICON_SIZE + 8;
+	}
+	
+	const int label_padding_top = (40 - Theme::FONT_SIZE_DEFAULT) / 2;
+	DrawTextEx(
+		m_font,
+		m_label.data(),
+		{(float)x, (float)m_bounding_box.position.y + label_padding_top},
+		Theme::FONT_SIZE_DEFAULT,
+		0,
+		Color {
+			Theme::ON_PRIMARY.r,
+			Theme::ON_PRIMARY.g,
+			Theme::ON_PRIMARY.b,
+			Theme::ON_PRIMARY.a,
+		}
+	);
 }
 
 Vec2i Button::layout(Recti bounding_box)
 {
 	const int min_width = 40;
-	const int min_height = 40;
-	const int padding_vertical = 10;
+	const int height = 40;
 	const int padding_horizontal = 24;
 
-	const Recti children_bounding_box = {
-		.position = {
-			bounding_box.position.x + padding_horizontal,
-			bounding_box.position.y + padding_vertical,
-		},
-		.size = {
-			bounding_box.size.x - 2 * padding_horizontal,
-			bounding_box.size.y - 2 * padding_vertical,
-		}
-	};
-	Vec2i child_size = row.layout(children_bounding_box);
+	const int label_width = MeasureTextEx(m_font, m_label.data(), Theme::FONT_SIZE_DEFAULT, 0).x;
+	const int content_width =
+		m_icon ?
+			label_width + Theme::PADDING_DEFAULT + Theme::PADDING_DEFAULT :
+			label_width;
 
 	// Calculate bounding box
 	m_bounding_box = Recti {
 		.position = bounding_box.position,
 		.size = {
-			.x = max(child_size.x + 2 * padding_horizontal, min_width),
-			.y = max(child_size.y + 2 * padding_vertical, min_height),
+			.x = max(content_width + 2 * padding_horizontal, min_width),
+			.y = height
 		}
 	};
 

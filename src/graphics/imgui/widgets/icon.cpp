@@ -20,7 +20,12 @@ void Icon::draw()
 		{(float)m_position.x, (float)m_position.y, Theme::ICON_SIZE, Theme::ICON_SIZE},
 		{0, 0},
 		0,
-		WHITE
+		Color {
+			Theme::ON_SURFACE.r,
+			Theme::ON_SURFACE.g,
+			Theme::ON_SURFACE.b,
+			Theme::ON_SURFACE.a,
+		}
 	);
 }
 

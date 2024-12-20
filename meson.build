@@ -33,6 +33,7 @@ src = [
   'src/graphics/imgui/widgets/button.cpp',
   'src/graphics/imgui/widgets/column.cpp',
   'src/graphics/imgui/widgets/icon.cpp',
+  'src/graphics/imgui/widgets/input.cpp',
   'src/graphics/imgui/widgets/image.cpp',
   'src/graphics/imgui/widgets/nav_rail.cpp',
   'src/graphics/imgui/widgets/pane.cpp',

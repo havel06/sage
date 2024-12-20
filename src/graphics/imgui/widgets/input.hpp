@@ -1,21 +1,19 @@
 #pragma once
 
-#include "utils/rect.hpp"
 #include "../widget.hpp"
-#include "utils/own_ptr.hpp"
-#include "utils/array.hpp"
-#include "row.hpp"
+#include "utils/string.hpp"
 
 namespace IMGUI::Widgets
 {
 
-class Button : public Widget
+class Input : public Widget
 {
 public:
-	Row row;
+	Input(const String& label);
 	void draw() override;
 	Vec2i layout(Recti bounding_box) override;
 private:
+	String m_label;
 	Recti m_bounding_box;
 };
 

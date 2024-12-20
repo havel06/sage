@@ -7,7 +7,8 @@
 namespace IMGUI::Widgets
 {
 
-Nav_Rail_Item::Nav_Rail_Item(const Icon_Resource& icon, const String& label) :
+Nav_Rail_Item::Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const String& label) :
+	m_font{font},
 	m_icon{icon},
 	m_label{label}
 {
@@ -34,11 +35,15 @@ void Nav_Rail_Item::draw(Vec2i position)
 	const int label_width = MeasureText(m_label.data(), Theme::FONT_SIZE_DEFAULT);
 	const int label_padding_left = (width - label_width) / 2;
 	const int label_pos_y = position.y + Theme::ICON_SIZE + gap;
-	DrawText(
+	DrawTextEx(
+		m_font,
 		m_label.data(),
-		position.x + label_padding_left,
-		label_pos_y,
+		Vector2 {
+			(float)position.x + label_padding_left,
+			(float)label_pos_y,
+		},
 		Theme::FONT_SIZE_DEFAULT,
+		0,
 		Color {
 			.r = Theme::ON_SURFACE.r,
 			.g = Theme::ON_SURFACE.g,
@@ -47,7 +52,6 @@ void Nav_Rail_Item::draw(Vec2i position)
 		}
 	);
 }
-
 
 void Nav_Rail::add_item(Own_Ptr<Nav_Rail_Item>&& item)
 {

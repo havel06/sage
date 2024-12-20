@@ -5,7 +5,8 @@
 namespace IMGUI::Widgets
 {
 
-Input::Input(const String& label, String& content, bool active) :
+Input::Input(const Font& font, const String& label, String& content, bool active) :
+	m_font{font},
 	m_content{content}
 {
 	m_label = label;
@@ -54,11 +55,15 @@ void Input::draw()
 				.a = Theme::SURFACE.a,
 			}
 		);
-		DrawText(
+		DrawTextEx(
+			m_font,
 			m_label.data(),
-			m_bounding_box.position.x + padding_left,
-			label_pos_y,
+			Vector2{
+				(float)m_bounding_box.position.x + padding_left,
+				(float)label_pos_y,
+			},
 			font_size,
+			0,
 			Color {
 				.r = Theme::ON_SURFACE.r,
 				.g = Theme::ON_SURFACE.g,
@@ -68,11 +73,15 @@ void Input::draw()
 		);
 	} else {
 		const int padding_top = (48 - Theme::FONT_SIZE_DEFAULT) / 2;
-		DrawText(
+		DrawTextEx(
+			m_font,
 			m_label.data(),
-			m_bounding_box.position.x + padding_left,
-			m_bounding_box.position.y + padding_top,
+			Vector2 {
+				(float)m_bounding_box.position.x + padding_left,
+				(float)m_bounding_box.position.y + padding_top,
+			},
 			Theme::FONT_SIZE_DEFAULT,
+			0,
 			Color {
 				.r = Theme::ON_SURFACE.r,
 				.g = Theme::ON_SURFACE.g,
@@ -85,11 +94,15 @@ void Input::draw()
 	// Draw content
 	// FIXME - duplicate code with label drawing
 	const int padding_top = (48 - Theme::FONT_SIZE_DEFAULT) / 2;
-	DrawText(
+	DrawTextEx(
+		m_font,
 		m_content.data(),
-		m_bounding_box.position.x + padding_left,
-		m_bounding_box.position.y + padding_top,
+		Vector2 {
+			(float)m_bounding_box.position.x + padding_left,
+			(float)m_bounding_box.position.y + padding_top,
+		},
 		Theme::FONT_SIZE_DEFAULT,
+		0,
 		Color {
 			.r = Theme::ON_SURFACE.r,
 			.g = Theme::ON_SURFACE.g,

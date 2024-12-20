@@ -3,16 +3,20 @@
 #include "../widget.hpp"
 #include "utils/string.hpp"
 
+// fwd
+struct Font;
+
 namespace IMGUI::Widgets
 {
 
 class Input : public Widget
 {
 public:
-	Input(const String& label, String& content, bool active);
+	Input(const Font& font, const String& label, String& content, bool active);
 	void draw() override;
 	Vec2i layout(Recti bounding_box) override;
 private:
+	const Font& m_font;
 	String& m_content;
 	String m_label;
 	Recti m_bounding_box;

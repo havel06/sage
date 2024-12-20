@@ -6,15 +6,19 @@
 #include "utils/array.hpp"
 #include "utils/string.hpp"
 
+// fwd
+struct Font;
+
 namespace IMGUI::Widgets
 {
 
 class Nav_Rail_Item
 {
 public:	
-	Nav_Rail_Item(const Icon_Resource& icon, const String& label);
+	Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const String& label);
 	void draw(Vec2i position);
 private:
+	const Font& m_font;
 	const Icon_Resource& m_icon;
 	String m_label;
 };

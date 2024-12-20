@@ -58,9 +58,9 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 
 	// FIXME - remove test code!!!!
 	IMGUI::Widgets::Nav_Rail nav_rail;
-	nav_rail.add_item(make_own_ptr<IMGUI::Widgets::Nav_Rail_Item>(m_imgui.ICON_SAVE, "Save"));
-	nav_rail.add_item(make_own_ptr<IMGUI::Widgets::Nav_Rail_Item>(m_imgui.ICON_SAVE, "Load"));
-	nav_rail.add_item(make_own_ptr<IMGUI::Widgets::Nav_Rail_Item>(m_imgui.ICON_SAVE, "Something"));
+	nav_rail.add_item(make_own_ptr<IMGUI::Widgets::Nav_Rail_Item>(m_imgui.get_font(), m_imgui.ICON_SAVE, "Save"));
+	nav_rail.add_item(make_own_ptr<IMGUI::Widgets::Nav_Rail_Item>(m_imgui.get_font(), m_imgui.ICON_SAVE, "Load"));
+	nav_rail.add_item(make_own_ptr<IMGUI::Widgets::Nav_Rail_Item>(m_imgui.get_font(), m_imgui.ICON_SAVE, "Something"));
 	IMGUI::Widgets::Pane pane{Recti{Vec2i{200, 100}, Vec2i{200, 400}}};
 	auto button = make_own_ptr<IMGUI::Widgets::Button>();
 	button->row.add_child(make_own_ptr<IMGUI::Widgets::Text>("Hello", m_imgui.get_font(), IMGUI::Theme::ON_PRIMARY));
@@ -69,7 +69,7 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("Testing!", m_imgui.get_font(), IMGUI::Theme::ON_SURFACE));
 	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Icon>(m_imgui.ICON_SAVE));
 	String content = "";
-	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Input>("Name", content, true));
+	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Input>(m_imgui.get_font(), "Name", content, false));
 	pane.layout(Recti{Vec2i{0, 0}, Vec2i{1000, 1000}});
 	pane.draw();
 	nav_rail.layout(Recti{Vec2i{0, 0}, Vec2i{1000, 1000}});

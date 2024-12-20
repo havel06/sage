@@ -4,7 +4,7 @@
 #include "mode_sequence.hpp"
 #include "mode_entity.hpp"
 #include "mode_items.hpp"
-#include "graphics/imgui/system.hpp"
+#include "graphics/editor_ui/system.hpp"
 
 // fwd
 class User_Directory_Provider;
@@ -29,7 +29,7 @@ private:
 
 	User_Directory_Provider& m_user_dir_provider;
 
-	IMGUI::System m_imgui;
+	Editor_UI::System m_gui;
 	Dev_Tools_Mode_General m_general;
 	Dev_Tools_Mode_Sequence m_sequence;
 	Dev_Tools_Mode_Entity m_entity;

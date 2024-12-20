@@ -1,5 +1,6 @@
 #include "dev_tools.hpp"
 #include "dev_tools/mode_sequence.hpp"
+#include "graphics/imgui/widgets/nav_rail.hpp"
 #include "imgui.h"
 #include "utils/log.hpp"
 #include "rlImGui.h"
@@ -11,6 +12,7 @@
 #include "graphics/imgui/widgets/text.hpp"
 #include "graphics/imgui/theme.hpp"
 #include "graphics/imgui/widgets/pane.hpp"
+#include "utils/own_ptr.hpp"
 
 Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
 	m_user_dir_provider{dir_provider},
@@ -34,7 +36,7 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 {
 	rlImGuiBegin();
 
-	draw_main_menu();
+	//draw_main_menu();
 
 	switch (m_mode) {
 		case Dev_Tools_Mode::general:
@@ -54,7 +56,11 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 	rlImGuiEnd();
 
 	// FIXME - remove test code!!!!
-	IMGUI::Widgets::Pane pane{Recti{Vec2i{100, 100}, Vec2i{200, 200}}};
+	IMGUI::Widgets::Nav_Rail nav_rail;
+	nav_rail.add_item(make_own_ptr<IMGUI::Widgets::Nav_Rail_Item>(m_imgui.ICON_SAVE, "Save"));
+	nav_rail.add_item(make_own_ptr<IMGUI::Widgets::Nav_Rail_Item>(m_imgui.ICON_SAVE, "Load"));
+	nav_rail.add_item(make_own_ptr<IMGUI::Widgets::Nav_Rail_Item>(m_imgui.ICON_SAVE, "Something"));
+	IMGUI::Widgets::Pane pane{Recti{Vec2i{200, 100}, Vec2i{200, 200}}};
 	auto button = make_own_ptr<IMGUI::Widgets::Button>();
 	button->row.add_child(make_own_ptr<IMGUI::Widgets::Text>("Hello", IMGUI::Theme::ON_PRIMARY));
 	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("This is a line", IMGUI::Theme::ON_SURFACE));
@@ -63,6 +69,8 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Icon>(m_imgui.ICON_SAVE));
 	pane.layout(Recti{Vec2i{0, 0}, Vec2i{1000, 1000}});
 	pane.draw();
+	nav_rail.layout(Recti{Vec2i{0, 0}, Vec2i{1000, 1000}});
+	nav_rail.draw();
 }
 
 void Dev_Tools::draw_main_menu()

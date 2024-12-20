@@ -34,6 +34,7 @@ src = [
   'src/graphics/imgui/widgets/column.cpp',
   'src/graphics/imgui/widgets/icon.cpp',
   'src/graphics/imgui/widgets/image.cpp',
+  'src/graphics/imgui/widgets/nav_rail.cpp',
   'src/graphics/imgui/widgets/pane.cpp',
   'src/graphics/imgui/widgets/row.cpp',
   'src/graphics/imgui/widgets/text.cpp',

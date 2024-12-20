@@ -14,9 +14,7 @@ const Colour SURFACE = {17, 19, 24, 255};
 const Colour ON_SURFACE = {226, 226, 233, 255};
 const Colour OUTLINE = {142, 144, 153, 255};
 
-//const int FONT_SIZE_DEFAULT = 14;
-const int FONT_SIZE_DEFAULT = 20;
+const int FONT_SIZE_DEFAULT = 14;
 const int PADDING_DEFAULT = 16;
-
 const int ICON_SIZE = 24;
 }

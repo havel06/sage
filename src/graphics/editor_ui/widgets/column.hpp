@@ -13,6 +13,7 @@ public:
 	void add_child(Own_Ptr<Widget>&&);
 	void draw() override;
 	Vec2i layout(Recti bounding_box) override;
+	void handle_mouse(Vec2i position, bool click) override;
 private:
 	Array<Own_Ptr<Widget>> m_children;
 

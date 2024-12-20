@@ -43,4 +43,11 @@ Vec2i Row::layout(Recti bounding_box)
 	return Vec2i{width, height};
 }
 
+void Row::handle_mouse(Vec2i position, bool click)
+{
+	for (auto& child : m_children) {
+		child->handle_mouse(position, click);
+	}
+}
+
 }

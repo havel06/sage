@@ -52,4 +52,11 @@ Vec2i Pane::layout(Recti bounding_box)
 	return m_transform.size;
 }
 
+void Pane::handle_mouse(Vec2i position, bool click)
+{
+	(void)position;
+	(void)click;
+	column.handle_mouse(position, click);
+}
+
 }

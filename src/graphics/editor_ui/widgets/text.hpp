@@ -16,6 +16,7 @@ public:
 	Text(const String&, const Font& font, Colour colour);
 	void draw() override;
 	Vec2i layout(Recti bounding_box) override;
+	void handle_mouse(Vec2i, bool) override {}
 private:
 	const Font& m_font;
 	String m_text;

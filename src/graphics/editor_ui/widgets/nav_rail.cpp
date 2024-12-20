@@ -24,11 +24,32 @@ int Nav_Rail_Item::get_width() const
 	return max(min_width, label_width + 2 * label_padding_left);
 }
 
-void Nav_Rail_Item::draw(Vec2i position, int width)
+void Nav_Rail_Item::draw()
 {
 	const int gap = 4;
-	//const int padding_horizontal = 16;
+	const int width = get_width();
 	const int icon_padding_left = (width - Theme::ICON_SIZE) / 2;
+
+	if (m_hover) {
+		// Draw icon background highlight
+		const int highlight_padding_left = icon_padding_left - 16;
+		DrawRectangleRounded(
+			Rectangle{
+				(float)position.x + highlight_padding_left,
+				(float)position.y,
+				56,
+				Theme::ICON_SIZE
+			},
+			(float)56 / 2,
+			8,
+			Color {
+				.r = Theme::SECONDARY_CONTAINER.r,
+				.g = Theme::SECONDARY_CONTAINER.g,
+				.b = Theme::SECONDARY_CONTAINER.b,
+				.a = Theme::SECONDARY_CONTAINER.a,
+			}
+		);
+	}
 	
 	// Draw icon
 	DrawTexturePro(
@@ -67,6 +88,17 @@ void Nav_Rail_Item::draw(Vec2i position, int width)
 	);
 }
 
+void Nav_Rail_Item::handle_mouse(Vec2i mouse_position, bool click)
+{
+	Recti bounding_box = {
+		position,
+		Vec2i{get_width(), 52}
+	};
+
+	m_hover = bounding_box.contains(mouse_position);
+	(void)click;
+}
+
 void Nav_Rail::add_item(Own_Ptr<Nav_Rail_Item>&& item)
 {
 	m_items.push_back(move(item));
@@ -88,15 +120,8 @@ void Nav_Rail::draw()
 		}
 	);
 
-	const int item_height = 52;
-	const int gap = 16;
-	const int padding_top = 8;
-
-	int y = m_bounding_box.position.y + padding_top;
-
 	for (auto& item : m_items) {
-		item->draw(Vec2i{m_bounding_box.position.x, y}, m_bounding_box.size.x);
-		y += item_height + gap;
+		item->draw();
 	}
 }
 
@@ -108,6 +133,20 @@ Vec2i Nav_Rail::layout(Recti bounding_box)
 		width = max(width, item->get_width());
 	}
 
+	// Layout children
+	const int item_height = 52;
+	const int gap = 16;
+	const int padding_top = 8;
+
+	int y = m_bounding_box.position.y + padding_top;
+
+	for (auto& item : m_items) {
+		const int padding_left = (width - item->get_width()) / 2;
+		item->position = Vec2i{m_bounding_box.position.x + padding_left, y};
+		y += item_height + gap;
+	}
+	
+	// Set self bounding box
 	m_bounding_box = {
 		.position = bounding_box.position,
 		.size = {width, bounding_box.size.y}
@@ -116,5 +155,14 @@ Vec2i Nav_Rail::layout(Recti bounding_box)
 	return m_bounding_box.size;
 }
 
+void Nav_Rail::handle_mouse(Vec2i position, bool click)
+{
+	//if (!m_bounding_box.contains(position))
+	//	return;
+
+	for (auto& item : m_items) {
+		item->handle_mouse(position, click);
+	}
+}
 
 }

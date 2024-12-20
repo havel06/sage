@@ -13,6 +13,7 @@ public:
 	Image(const Sprite& sprite, Vec2i size);
 	void draw() override;
 	Vec2i layout(Recti bounding_box) override;
+	void handle_mouse(Vec2i, bool) override {}
 private:
 	Sprite m_sprite;
 	Vec2i m_size;

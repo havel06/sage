@@ -125,4 +125,11 @@ Vec2i Input::layout(Recti bounding_box)
 	return m_bounding_box.size;
 }
 
+void Input::handle_mouse(Vec2i position, bool click)
+{
+	(void)position;
+	(void)click;
+	// FIXME
+}
+
 }

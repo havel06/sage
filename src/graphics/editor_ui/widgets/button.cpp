@@ -96,4 +96,11 @@ Vec2i Button::layout(Recti bounding_box)
 	return m_bounding_box.size;
 }
 
+void Button::handle_mouse(Vec2i position, bool click)
+{
+	(void)position;
+	(void)click;
+	// FIXME
+}
+
 }

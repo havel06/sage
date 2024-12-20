@@ -15,6 +15,7 @@ public:
 	Pane(Recti transform, bool padding);
 	void draw() override;
 	Vec2i layout(Recti bounding_box) override;
+	void handle_mouse(Vec2i position, bool click) override;
 private:
 	bool m_padding = true;
 	Recti m_transform;

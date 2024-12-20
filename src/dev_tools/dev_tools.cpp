@@ -68,7 +68,8 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 	pane.column.add_child(move(button));
 	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("Testing!", IMGUI::Theme::ON_SURFACE));
 	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Icon>(m_imgui.ICON_SAVE));
-	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Input>("Name"));
+	String content = "";
+	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Input>("Name", content, true));
 	pane.layout(Recti{Vec2i{0, 0}, Vec2i{1000, 1000}});
 	pane.draw();
 	nav_rail.layout(Recti{Vec2i{0, 0}, Vec2i{1000, 1000}});

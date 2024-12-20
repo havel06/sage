@@ -4,6 +4,6 @@ namespace IMGUI::Icon_Data
 {
 
 extern unsigned char ICON_SAVE_DATA[];
-const int ICON_SAVE_SIZE = 563;
+const int ICON_SAVE_DATA_SIZE = 563;
 
 }

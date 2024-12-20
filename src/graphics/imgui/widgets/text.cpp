@@ -6,7 +6,8 @@
 namespace IMGUI::Widgets
 {
 
-Text::Text(const String& str, Colour colour)
+Text::Text(const String& str, const Font& font, Colour colour) :
+	m_font{font}
 {
 	m_text = str;
 	m_colour = colour;
@@ -14,11 +15,15 @@ Text::Text(const String& str, Colour colour)
 
 void Text::draw()
 {
-	DrawText(
+	DrawTextEx(
+		m_font,
 		m_text.data(),
-		m_position.x,
-		m_position.y,
+		Vector2{
+			(float)m_position.x,
+			(float)m_position.y,
+		},
 		Theme::FONT_SIZE_DEFAULT,
+		0,
 		Color {
 			m_colour.r,	
 			m_colour.g,	

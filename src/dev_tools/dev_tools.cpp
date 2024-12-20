@@ -63,10 +63,10 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 	nav_rail.add_item(make_own_ptr<IMGUI::Widgets::Nav_Rail_Item>(m_imgui.ICON_SAVE, "Something"));
 	IMGUI::Widgets::Pane pane{Recti{Vec2i{200, 100}, Vec2i{200, 400}}};
 	auto button = make_own_ptr<IMGUI::Widgets::Button>();
-	button->row.add_child(make_own_ptr<IMGUI::Widgets::Text>("Hello", IMGUI::Theme::ON_PRIMARY));
-	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("This is a line", IMGUI::Theme::ON_SURFACE));
+	button->row.add_child(make_own_ptr<IMGUI::Widgets::Text>("Hello", m_imgui.get_font(), IMGUI::Theme::ON_PRIMARY));
+	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("This is a line", m_imgui.get_font(), IMGUI::Theme::ON_SURFACE));
 	pane.column.add_child(move(button));
-	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("Testing!", IMGUI::Theme::ON_SURFACE));
+	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Text>("Testing!", m_imgui.get_font(), IMGUI::Theme::ON_SURFACE));
 	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Icon>(m_imgui.ICON_SAVE));
 	String content = "";
 	pane.column.add_child(make_own_ptr<IMGUI::Widgets::Input>("Name", content, true));

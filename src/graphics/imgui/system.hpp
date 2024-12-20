@@ -1,6 +1,6 @@
 #pragma once
 #include "icon_resource.hpp"
-#include "icon_data.hpp"
+#include "data/icon_data.hpp"
 #include "raylib/raylib.h"
 
 namespace IMGUI

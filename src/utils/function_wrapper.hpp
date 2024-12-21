@@ -30,7 +30,7 @@ public:
 		};
 	}
 
-	Function_Wrapper(const Function_Wrapper&) = delete;
+	Function_Wrapper(const Function_Wrapper&) = delete; // FIXME - implement?
 	Function_Wrapper(Function_Wrapper&& other)
 	{
 		// Just reuse move assignment operator

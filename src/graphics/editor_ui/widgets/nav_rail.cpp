@@ -8,10 +8,11 @@
 namespace Editor_UI::Widgets
 {
 
-Nav_Rail_Item::Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const String& label) :
+Nav_Rail_Item::Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const String& label, Callback&& callback) :
 	m_font{font},
 	m_icon{icon},
-	m_label{label}
+	m_label{label},
+	m_callback{move(callback)}
 {
 }
 
@@ -96,7 +97,9 @@ void Nav_Rail_Item::handle_mouse(Vec2i mouse_position, bool click)
 	};
 
 	m_hover = bounding_box.contains(mouse_position);
-	(void)click;
+	if (m_hover && click) {
+		m_callback();
+	}
 }
 
 void Nav_Rail::add_item(Own_Ptr<Nav_Rail_Item>&& item)

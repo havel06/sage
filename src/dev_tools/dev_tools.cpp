@@ -27,11 +27,35 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 	auto& nav_pane = m_context.add_pane({{0, 0}, {Editor_UI::Theme::NAV_WIDTH, 10000}}, false);
 	auto nav_rail = make_own_ptr<Editor_UI::Widgets::Nav_Rail>();
 	nav_rail->add_item(
-		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(m_gui.get_font(), m_gui.ICON_SAVE, "Sequences"));
+		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(
+			m_gui.get_font(),
+			m_gui.ICON_SAVE,
+			"Sequences",
+			[](){
+				SG_DEBUG("Nav sequences");
+			}
+		)
+	);
 	nav_rail->add_item(
-		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(m_gui.get_font(), m_gui.ICON_SAVE, "Entities"));
+		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(
+			m_gui.get_font(),
+			m_gui.ICON_SAVE,
+			"Entities",
+			[](){
+				SG_DEBUG("Nav entities");
+			}
+		)
+	);
 	nav_rail->add_item(
-		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(m_gui.get_font(), m_gui.ICON_SAVE, "Items"));
+		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(
+			m_gui.get_font(),
+			m_gui.ICON_SAVE,
+			"Items",
+			[](){
+				SG_DEBUG("Nav items");
+			}
+		)
+	);
 	nav_pane.column.add_child(move(nav_rail));
 }
 

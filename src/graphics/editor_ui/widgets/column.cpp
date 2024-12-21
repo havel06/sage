@@ -6,6 +6,11 @@
 namespace Editor_UI::Widgets
 {
 
+void Column::clear()
+{
+	m_children.clear();
+}
+
 void Column::add_child(Own_Ptr<Widget>&& child)
 {
 	m_children.push_back(move(child));

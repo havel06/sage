@@ -10,6 +10,7 @@ namespace Editor_UI::Widgets
 class Column : public Widget
 {
 public:
+	void clear();
 	void add_child(Own_Ptr<Widget>&&);
 	void draw() override;
 	Vec2i layout(Recti bounding_box) override;

@@ -13,7 +13,7 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 	m_user_dir_provider{dir_provider},
 	m_general(facade, logic, project_root),
 	m_sequence(seq_mgr, project_root),
-	m_items(item_reg, inv)
+	m_items(item_reg, inv, m_gui.get_font())
 {
 	rlImGuiSetup(true);
 
@@ -32,8 +32,9 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 			m_gui.get_font(),
 			m_gui.ICON_SEQUENCE,
 			"Sequences",
-			[rail = nav_rail.get()](){
+			[this, rail = nav_rail.get()](){
 				rail->set_active_index(0);
+				m_mode = Dev_Tools_Mode::sequence;
 			}
 		)
 	);
@@ -42,8 +43,9 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 			m_gui.get_font(),
 			m_gui.ICON_ENTITY,
 			"Entities",
-			[rail = nav_rail.get()](){
+			[this, rail = nav_rail.get()](){
 				rail->set_active_index(1);
+				m_mode = Dev_Tools_Mode::entities;
 			}
 		)
 	);
@@ -52,8 +54,9 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 			m_gui.get_font(),
 			m_gui.ICON_ITEMS,
 			"Items",
-			[rail = nav_rail.get()](){
+			[this, rail = nav_rail.get()](){
 				rail->set_active_index(2);
+				m_mode = Dev_Tools_Mode::items;
 			}
 		)
 	);
@@ -71,9 +74,7 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 	m_context.draw();
 
 	rlImGuiBegin();
-
-	//draw_main_menu();
-
+	draw_main_menu();
 	switch (m_mode) {
 		case Dev_Tools_Mode::general:
 			m_general.draw(map_filename);
@@ -85,10 +86,11 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 			m_entity.draw(map.entities);
 			break;
 		case Dev_Tools_Mode::items:
-			m_items.draw();
+			m_items.rebuild();
+			m_items.get_context().draw();
+			//m_items.draw();
 			break;
 	}
-
 	rlImGuiEnd();
 }
 

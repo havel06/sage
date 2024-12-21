@@ -21,7 +21,8 @@ void Button::draw()
 	const int segments = 10;
 
 	// Background
-	Colour background_colour = m_hover ? Theme::PRIMARY_BUTTON_HOVER : Theme::PRIMARY;
+	Colour background_colour = get_background_colour();
+
 	DrawRectangleRounded(
 		Rectangle{
 			(float)m_bounding_box.position.x,
@@ -40,7 +41,9 @@ void Button::draw()
 	);
 
 	// Content
-	const int padding_horizontal = 24;
+	//const Colour content_colour = transparent ? Theme::ON_SURFACE : Theme::ON_PRIMARY;
+	const Colour content_colour = transparent ? Theme::ON_SURFACE : Theme::ON_PRIMARY;
+	const int padding_horizontal = get_horizontal_padding();
 	int x = m_bounding_box.position.x + padding_horizontal;
 	if (m_icon) {
 		const int icon_padding_top = (40 - Theme::ICON_SIZE) / 2;
@@ -49,10 +52,10 @@ void Button::draw()
 			x,
 			m_bounding_box.position.y + icon_padding_top,
 			Color {
-				Theme::ON_PRIMARY.r,
-				Theme::ON_PRIMARY.g,
-				Theme::ON_PRIMARY.b,
-				Theme::ON_PRIMARY.a,
+				content_colour.r,
+				content_colour.g,
+				content_colour.b,
+				content_colour.a,
 			}
 		);
 		x += Theme::ICON_SIZE + 8;
@@ -66,10 +69,10 @@ void Button::draw()
 		Theme::FONT_SIZE_DEFAULT,
 		0,
 		Color {
-			Theme::ON_PRIMARY.r,
-			Theme::ON_PRIMARY.g,
-			Theme::ON_PRIMARY.b,
-			Theme::ON_PRIMARY.a,
+			content_colour.r,
+			content_colour.g,
+			content_colour.b,
+			content_colour.a,
 		}
 	);
 }
@@ -78,13 +81,20 @@ Vec2i Button::layout(Recti bounding_box)
 {
 	const int min_width = 40;
 	const int height = 40;
-	const int padding_horizontal = 24;
+	const int padding_horizontal = get_horizontal_padding();
 
 	const int label_width = MeasureTextEx(m_font, m_label.data(), Theme::FONT_SIZE_DEFAULT, 0).x;
-	const int content_width =
-		m_icon ?
-			label_width + Theme::PADDING_DEFAULT + Theme::PADDING_DEFAULT :
-			label_width;
+	const int content_width = [&](){
+		if (m_icon) {
+			if (m_label.empty()) {
+				return Theme::ICON_SIZE;
+			} else {
+				return label_width + Theme::ICON_SIZE + 8;
+			}
+		} else {
+			return label_width;
+		}
+	}();
 
 	// Calculate bounding box
 	m_bounding_box = Recti {
@@ -98,11 +108,34 @@ Vec2i Button::layout(Recti bounding_box)
 	return m_bounding_box.size;
 }
 
+int Button::get_horizontal_padding()
+{
+	if (narrow)
+		return 8;
+	else
+		return 24;
+}
+
 void Button::handle_mouse(Vec2i position, bool click)
 {
 	m_hover = m_bounding_box.contains(position);
 	if (m_hover && click) {
 		callback();
+	}
+}
+
+Colour Button::get_background_colour()
+{
+	if (transparent) {
+		if (m_hover)
+			return Theme::TRANSPARENT_BUTTON_HOVER;
+		else
+			return Colour{0, 0, 0, 0};
+	} else {
+		if (m_hover)
+			return Theme::FILLED_BUTTON_HOVER;
+		else
+			return Theme::PRIMARY;
 	}
 }
 

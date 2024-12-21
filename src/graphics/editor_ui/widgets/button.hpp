@@ -8,6 +8,7 @@
 
 // fwd
 struct Font;
+struct Colour;
 namespace Editor_UI {
 	class Icon_Resource;
 }
@@ -19,6 +20,8 @@ class Button : public Widget
 {
 public:
 	Function_Wrapper<void()> callback = [](){};
+	bool narrow = false; // Narrower padding, for icon buttons
+	bool transparent = false; // Transparent background
 
 	// Icon is optional
 	Button(const Font& font, const String& label, const Icon_Resource* icon);
@@ -27,6 +30,9 @@ public:
 	Vec2i layout(Recti bounding_box) override;
 	void handle_mouse(Vec2i position, bool click) override;
 private:
+	int get_horizontal_padding();
+	Colour get_background_colour();
+
 	const Font& m_font;
 	String m_label;
 	const Icon_Resource* m_icon = nullptr;

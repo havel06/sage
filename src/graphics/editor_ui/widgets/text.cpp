@@ -37,7 +37,7 @@ Vec2i Text::layout(Recti bounding_box)
 {
 	m_position = bounding_box.position;
 
-	const int width = MeasureText(m_text.data(), Theme::FONT_SIZE_DEFAULT);
+	const int width = MeasureTextEx(m_font, m_text.data(), Theme::FONT_SIZE_DEFAULT, 0).x;
 	const int height = Theme::FONT_SIZE_DEFAULT;
 
 	return Vec2i{width, height};

@@ -13,7 +13,7 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 	m_user_dir_provider{dir_provider},
 	m_general(facade, logic, project_root),
 	m_sequence(seq_mgr, project_root),
-	m_items(item_reg, inv, m_gui.get_font())
+	m_items(m_gui, item_reg, inv, m_gui.get_font())
 {
 	rlImGuiSetup(true);
 
@@ -86,8 +86,7 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 			m_entity.draw(map.entities);
 			break;
 		case Dev_Tools_Mode::items:
-			m_items.rebuild();
-			m_items.get_context().draw();
+			m_items.draw();
 			//m_items.draw();
 			break;
 	}

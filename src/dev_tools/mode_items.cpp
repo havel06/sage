@@ -1,35 +1,52 @@
 #include "mode_items.hpp"
 #include "graphics/editor_ui/theme.hpp"
+#include "graphics/editor_ui/widgets/button.hpp"
+#include "graphics/editor_ui/widgets/divider.hpp"
 #include "graphics/editor_ui/widgets/row.hpp"
 #include "graphics/editor_ui/widgets/text.hpp"
+#include "graphics/editor_ui/system.hpp"
 #include "item/item_registry.hpp"
 #include "item/inventory.hpp"
 #include "imgui.h"
+#include "raylib/raylib.h"
 
-Dev_Tools_Mode_Items::Dev_Tools_Mode_Items(const Item_Registry& reg, Inventory& inv, const Font& font) :
+static const int LIST_PANE_WIDTH = 400;
+
+Dev_Tools_Mode_Items::Dev_Tools_Mode_Items(const Editor_UI::System& system, const Item_Registry& reg, Inventory& inv, const Font& font) :
 	m_item_registry{reg},
 	m_inventory{inv},
-	m_font{font}
+	m_font{font},
+	m_gui_system{system}
 {
 	// Build GUI
-	// FIXME - use screen size
-	// Build list pane
-	const int list_pane_width = 400;
-	const int list_pane_height = 5000;
-	auto& pane = m_context.add_pane({{1000, 0}, {list_pane_width, list_pane_height}});
-	m_column = &pane.column;
+	m_pane = &m_context.add_pane({{GetScreenWidth() - LIST_PANE_WIDTH, 0}, {LIST_PANE_WIDTH, GetScreenHeight()}});
 
 	(void)m_inventory;
 }
 
+void Dev_Tools_Mode_Items::draw()
+{
+	rebuild();
+	m_context.draw();
+}
+
 void Dev_Tools_Mode_Items::rebuild()
 {
-	m_column->clear();
+	// Update pane layout
+	m_pane->transform = {{GetScreenWidth() - LIST_PANE_WIDTH, 0}, {LIST_PANE_WIDTH, GetScreenHeight()}};	
+
+	// Build list
+	m_pane->column.clear();
 	m_item_registry.for_each([&](const Item& item){
 		auto row = make_own_ptr<Editor_UI::Widgets::Row>();
 		auto label = make_own_ptr<Editor_UI::Widgets::Text>(item.id, m_font, Editor_UI::Theme::ON_SURFACE);
+		auto button = make_own_ptr<Editor_UI::Widgets::Button>(m_font, "", &m_gui_system.ICON_SAVE);
+		auto divider = make_own_ptr<Editor_UI::Widgets::Divider>();
 		row->add_child(move(label));
-		m_column->add_child(move(row));
+		row->add_child(move(button));
+		row->stretch = true;
+		m_pane->column.add_child(move(row));
+		m_pane->column.add_child(move(divider));
 	});
 }
 

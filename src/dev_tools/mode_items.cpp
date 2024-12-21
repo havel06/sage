@@ -40,7 +40,7 @@ void Dev_Tools_Mode_Items::rebuild()
 	m_item_registry.for_each([&](const Item& item){
 		auto row = make_own_ptr<Editor_UI::Widgets::Row>();
 		auto label = make_own_ptr<Editor_UI::Widgets::Text>(item.id, m_font, Editor_UI::Theme::ON_SURFACE);
-		auto button = make_own_ptr<Editor_UI::Widgets::Button>(m_font, "", &m_gui_system.ICON_SAVE);
+		auto button = make_own_ptr<Editor_UI::Widgets::Button>(m_font, "", &m_gui_system.ICON_ADD);
 		auto divider = make_own_ptr<Editor_UI::Widgets::Divider>();
 		row->add_child(move(label));
 		row->add_child(move(button));

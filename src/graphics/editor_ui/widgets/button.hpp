@@ -1,5 +1,6 @@
 #pragma once
 
+#include "utils/function_wrapper.hpp"
 #include "utils/rect.hpp"
 #include "../widget.hpp"
 #include "utils/string.hpp"
@@ -17,6 +18,8 @@ namespace Editor_UI::Widgets
 class Button : public Widget
 {
 public:
+	Function_Wrapper<void()> callback = [](){};
+
 	// Icon is optional
 	Button(const Font& font, const String& label, const Icon_Resource* icon);
 
@@ -28,6 +31,7 @@ private:
 	String m_label;
 	const Icon_Resource* m_icon = nullptr;
 	Recti m_bounding_box;
+	bool m_hover = false;
 };
 
 }

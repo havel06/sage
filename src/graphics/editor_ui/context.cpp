@@ -14,8 +14,8 @@ void Context::draw()
 	};
 
 	for (auto& pane : m_panes) {
-		pane->handle_mouse(mouse_pos, IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
 		pane->layout({{0, 0}, {5000, 5000}});
+		pane->handle_mouse(mouse_pos, IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
 		pane->draw();
 	}
 }

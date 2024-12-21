@@ -20,6 +20,8 @@ void Button::draw()
 	const int corner_radius = 20;
 	const int segments = 10;
 
+	// Background
+	Colour background_colour = m_hover ? Theme::PRIMARY_BUTTON_HOVER : Theme::PRIMARY;
 	DrawRectangleRounded(
 		Rectangle{
 			(float)m_bounding_box.position.x,
@@ -30,10 +32,10 @@ void Button::draw()
 		corner_radius,
 		segments,
 		Color {
-			Theme::PRIMARY.r,
-			Theme::PRIMARY.g,
-			Theme::PRIMARY.b,
-			Theme::PRIMARY.a,
+			background_colour.r,
+			background_colour.g,
+			background_colour.b,
+			background_colour.a,
 		}
 	);
 
@@ -98,9 +100,10 @@ Vec2i Button::layout(Recti bounding_box)
 
 void Button::handle_mouse(Vec2i position, bool click)
 {
-	(void)position;
-	(void)click;
-	// FIXME
+	m_hover = m_bounding_box.contains(position);
+	if (m_hover && click) {
+		callback();
+	}
 }
 
 }

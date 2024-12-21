@@ -15,4 +15,7 @@ const int ICON_SEQUENCE_DATA_SIZE = 554;
 extern unsigned char ICON_ITEMS_DATA[];
 const int ICON_ITEMS_DATA_SIZE = 662;
 
+extern unsigned char ICON_ADD_DATA[];
+const int ICON_ADD_DATA_SIZE = 380;
+
 }

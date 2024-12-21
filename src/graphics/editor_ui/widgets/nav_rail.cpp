@@ -25,13 +25,13 @@ int Nav_Rail_Item::get_width() const
 	return max(min_width, label_width + 2 * label_padding_left);
 }
 
-void Nav_Rail_Item::draw()
+void Nav_Rail_Item::draw(bool active)
 {
 	const int gap = 4;
 	const int width = get_width();
 	const int icon_padding_left = (width - Theme::ICON_SIZE) / 2;
 
-	if (m_hover) {
+	if (m_hover || active) {
 		// Draw icon background highlight
 		const int highlight_padding_left = icon_padding_left - 16;
 		DrawRectangleRounded(
@@ -123,8 +123,8 @@ void Nav_Rail::draw()
 		}
 	);
 
-	for (auto& item : m_items) {
-		item->draw();
+	for (int i = 0; i < m_items.size(); i++) {
+		m_items[i]->draw(m_index_active == i);
 	}
 }
 
@@ -139,7 +139,7 @@ Vec2i Nav_Rail::layout(Recti bounding_box)
 	// Layout children
 	const int item_height = 52;
 	const int gap = 16;
-	const int padding_top = 8;
+	const int padding_top = 16;
 
 	int y = m_bounding_box.position.y + padding_top;
 
@@ -166,6 +166,11 @@ void Nav_Rail::handle_mouse(Vec2i position, bool click)
 	for (auto& item : m_items) {
 		item->handle_mouse(position, click);
 	}
+}
+
+void Nav_Rail::set_active_index(int index)
+{
+	m_index_active = index;
 }
 
 }

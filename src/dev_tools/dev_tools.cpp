@@ -23,36 +23,37 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 	// Set up GUI
 
 	// Nav
-	// FIXME - use window height
+	// FIXME - refactor building code
+	// FIXME - use window height somehow
 	auto& nav_pane = m_context.add_pane({{0, 0}, {Editor_UI::Theme::NAV_WIDTH, 10000}}, false);
 	auto nav_rail = make_own_ptr<Editor_UI::Widgets::Nav_Rail>();
 	nav_rail->add_item(
 		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(
 			m_gui.get_font(),
-			m_gui.ICON_SAVE,
+			m_gui.ICON_SEQUENCE,
 			"Sequences",
-			[](){
-				SG_DEBUG("Nav sequences");
+			[rail = nav_rail.get()](){
+				rail->set_active_index(0);
 			}
 		)
 	);
 	nav_rail->add_item(
 		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(
 			m_gui.get_font(),
-			m_gui.ICON_SAVE,
+			m_gui.ICON_ENTITY,
 			"Entities",
-			[](){
-				SG_DEBUG("Nav entities");
+			[rail = nav_rail.get()](){
+				rail->set_active_index(1);
 			}
 		)
 	);
 	nav_rail->add_item(
 		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(
 			m_gui.get_font(),
-			m_gui.ICON_SAVE,
+			m_gui.ICON_ITEMS,
 			"Items",
-			[](){
-				SG_DEBUG("Nav items");
+			[rail = nav_rail.get()](){
+				rail->set_active_index(2);
 			}
 		)
 	);

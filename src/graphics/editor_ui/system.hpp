@@ -11,6 +11,9 @@ class System
 public:
 	// Icons
 	const Icon_Resource ICON_SAVE{Icon_Data::ICON_SAVE_DATA, Icon_Data::ICON_SAVE_DATA_SIZE};
+	const Icon_Resource ICON_ENTITY{Icon_Data::ICON_ENTITY_DATA, Icon_Data::ICON_ENTITY_DATA_SIZE};
+	const Icon_Resource ICON_SEQUENCE{Icon_Data::ICON_SEQUENCE_DATA, Icon_Data::ICON_SEQUENCE_DATA_SIZE};
+	const Icon_Resource ICON_ITEMS{Icon_Data::ICON_ITEMS_DATA, Icon_Data::ICON_ITEMS_DATA_SIZE};
 
 	System();
 	~System();

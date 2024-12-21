@@ -20,7 +20,7 @@ public:
 
 	Vec2i position = {0, 0};
 	Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const String& label, Callback&& callback);
-	void draw();
+	void draw(bool active);
 	int get_width() const;
 	void handle_mouse(Vec2i position, bool click);
 private:
@@ -36,6 +36,7 @@ class Nav_Rail : public Widget
 public:
 	// FIXME - refactor - don't let user construct Nav_Rail_Item directly?
 	void add_item(Own_Ptr<Nav_Rail_Item>&&);
+	void set_active_index(int index);
 private:
 	// Widget overrides
 	void draw() override;
@@ -44,6 +45,7 @@ private:
 
 	Recti m_bounding_box;
 	Array<Own_Ptr<Nav_Rail_Item>> m_items;
+	int m_index_active = -1;
 };
 
 }

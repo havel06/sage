@@ -18,6 +18,7 @@ void Row::draw()
 
 Vec2i Row::layout(Recti bounding_box)
 {
+	// FIXME - refactor (and rethink) whole layout process for this widget
 	if (stretch && m_children.size() > 1)
 		return layout_stretch(bounding_box);
 	else
@@ -26,7 +27,8 @@ Vec2i Row::layout(Recti bounding_box)
 
 Vec2i Row::layout_stretch(Recti bounding_box)
 {
-	// First, get the total width of children.
+	// First, get the total width and max height of children.
+	Array<Vec2i> child_sizes;
 	int children_total_width = 0;
 
 	for (auto& child : m_children)
@@ -43,7 +45,14 @@ Vec2i Row::layout_stretch(Recti bounding_box)
 			},
 		};
 		const Vec2i child_size = child->layout(child_transfom);
+		child_sizes.push_back(child_size);
 		children_total_width += child_size.x;
+	}
+
+	// Determine required height
+	int height = 0;
+	for (const auto& child_size : child_sizes) {
+		height = max(height, child_size.y);
 	}
 
 	// Determine size of space between children
@@ -53,24 +62,22 @@ Vec2i Row::layout_stretch(Recti bounding_box)
 	// Do a second pass, now with correct positions
 
 	int x = 0;
-	int height = 0;
 
-	for (auto& child : m_children)
+	for (int i = 0; i < m_children.size(); i++)
 	{
 		// Layout child
 		const Recti child_transfom = {
 			.position = {
 				bounding_box.position.x + x,
-				bounding_box.position.y
+				bounding_box.position.y + (height - child_sizes[i].y) / 2
 			},
 			.size = {
 				bounding_box.size.x - x,
-				bounding_box.size.y
+				child_sizes[i].y
 			},
 		};
-		const Vec2i child_size = child->layout(child_transfom);
+		const Vec2i child_size = m_children[i]->layout(child_transfom);
 
-		height = max(height, child_size.y); // Height is maximum child height
 		x += child_size.x;
 		x += gap_width;
 	}
@@ -82,7 +89,9 @@ Vec2i Row::layout_normal(Recti bounding_box)
 {
 	int height = 0;
 	int width = 0;
+	Array<Vec2i> child_sizes;
 
+	// First pass to determine sizes
 	for (auto& child : m_children)
 	{
 		// Layout child
@@ -98,9 +107,30 @@ Vec2i Row::layout_normal(Recti bounding_box)
 		};
 		const Vec2i child_size = child->layout(child_transfom);
 
+		child_sizes.push_back(child_size);
 		height = max(height, child_size.y); // Height is maximum child height
 		width += child_size.x; // Width is the sum of children widths
 	}
+
+	// Second pass for correct alignment
+	width = 0;
+	for (int i = 0; i < m_children.size(); i++) {
+		// Layout child
+		const Recti child_transfom = {
+			.position = {
+				bounding_box.position.x + width,
+				bounding_box.position.y + (height - child_sizes[i].y) / 2
+			},
+			.size = {
+				bounding_box.size.x - width,
+				height
+			},
+		};
+		const Vec2i child_size = m_children[i]->layout(child_transfom);
+
+		width += child_size.x; // Width is the sum of children widths
+	}
+
 
 	return Vec2i{width, height};
 }

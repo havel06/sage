@@ -24,7 +24,6 @@ void Column::draw()
 
 Vec2i Column::layout(Recti bounding_box)
 {
-	const int padding = Theme::PADDING_DEFAULT;
 	int height = 0;
 	int width = 0;
 

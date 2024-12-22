@@ -39,12 +39,13 @@ void Dev_Tools_Mode_Items::rebuild()
 
 	// Build list
 	m_pane->column.clear();
+	m_pane->column.padding = Editor_UI::Theme::PADDING_SMALL;
 	m_item_registry.for_each([&](const Item& item){
 		auto label = make_own_ptr<Editor_UI::Widgets::Text>(item.id, m_font, Editor_UI::Theme::ON_SURFACE);
 		auto image = make_own_ptr<Editor_UI::Widgets::Image>(item.sprite, Vec2i{32, 32});
 		auto row_left = make_own_ptr<Editor_UI::Widgets::Row>();
 		row_left->add_child(move(image));
-		// FIXME - replace with a spacer widget
+		// FIXME - replace with some sort of a spacer widget
 		row_left->add_child(make_own_ptr<Editor_UI::Widgets::Text>("      ", m_font, Editor_UI::Theme::ON_SURFACE));
 		row_left->add_child(move(label));
 

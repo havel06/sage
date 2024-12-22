@@ -78,11 +78,11 @@ void Game_Saveloader::save()
 		json.add("scriptable_gui_widget", m_scriptable_gui.get_current_widget_filename().data());
 	}
 
-	Combat_Saveloader combat_saveloader{m_combat, m_seq_manager, m_character_manager, m_texture_manager, m_logic, m_project_dir};
-
-	if (m_combat.is_active()) {
-		json.add("battle", combat_saveloader.save());
-	}
+	// TODO - maybe reimplement
+	//Combat_Saveloader combat_saveloader{m_combat, m_seq_manager, m_character_manager, m_texture_manager, m_logic, m_project_dir};
+	//if (m_combat.is_active()) {
+	//	json.add("battle", combat_saveloader.save());
+	//}
 	
 	// Write to file
 	String savefile_path = get_savefile_path();
@@ -128,10 +128,10 @@ void Game_Saveloader::load()
 		m_scriptable_gui.show_widget(view["scriptable_gui_widget"].as_string(""));
 	}
 
-	if (view.has("battle")) {
-		Combat_Saveloader combat_saveloader{m_combat, m_seq_manager, m_character_manager, m_texture_manager, m_logic, m_project_dir};
-		combat_saveloader.load(view["battle"].as_object());
-	}
+	//if (view.has("battle")) {
+	//	Combat_Saveloader combat_saveloader{m_combat, m_seq_manager, m_character_manager, m_texture_manager, m_logic, m_project_dir};
+	//	combat_saveloader.load(view["battle"].as_object());
+	//}
 
 	SG_INFO("Loaded game state.");
 }

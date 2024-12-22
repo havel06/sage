@@ -227,6 +227,10 @@ void Game_Facade::add_to_party(Resource_Handle<Character_Profile> profile)
 
 void Game_Facade::enter_combat(const Battle_Description& description)
 {
+	// Save game before going to combat
+	// FIXME - should this happen in game_logic?
+	save_game();
+
 	m_game_logic.enter_combat(description);
 }
 
@@ -343,9 +347,13 @@ void Game_Facade::zoom_camera(int amount)
 void Game_Facade::save_game()
 {
 	// FIXME - should this happend in game_logic instead?
-	m_game_saveloader.save();
-	m_map_saveloader.save(m_logic_normal.get_map(), m_logic_normal.get_map_filename());
-	m_sequence_manager.save();
+	
+	// Only save when out of combat
+	if (m_game_logic.get_state() != Game_Logic_State::combat) {
+		m_game_saveloader.save();
+		m_map_saveloader.save(m_logic_normal.get_map(), m_logic_normal.get_map_filename());
+		m_sequence_manager.save();
+	}
 }
 
 void Game_Facade::show_gui(const String& filename)

@@ -39,6 +39,7 @@ public:
 	void draw_frame(float time_delta);
 	bool should_exit() const;
 private:
+	void render(float dt);
 	void handle_input_event(Input_Event) override;
 	void handle_input_main_menu(Input_Event);
 	void handle_input_normal(Input_Event);

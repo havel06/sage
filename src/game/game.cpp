@@ -77,17 +77,15 @@ bool Game::should_exit() const
 
 void Game::draw_frame(float time_delta)
 {
-	// FIXME - refactor this function
-	
-	m_resource_system.unload_free_resources();
-	m_music_player.update();
-
+	// Window size reset
 	if (IsKeyPressed(KEY_F1))
 		SetWindowSize(m_initial_window_size.x, m_initial_window_size.y);
 
+	// Dev mode switch
 	if (IsKeyPressed(KEY_F3))
 		m_dev_mode = !m_dev_mode;
 
+	// Dev mode
 	if (m_dev_mode) {
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
 		if (!m_headless) {
@@ -106,52 +104,61 @@ void Game::draw_frame(float time_delta)
 		m_input.process(*this);
 	}
 
-	// Main menu
-	if (m_logic.get_state() == Game_Logic_State::main_menu_to_normal ||
-		m_logic.get_state() == Game_Logic_State::main_menu_to_combat)
-	{
-		if (!m_headless)
-			m_main_menu.draw(time_delta);
-		return;
-	}
-
 	// Close inventory if empty
-	if (m_show_inventory && m_logic_normal.inventory.is_empty())	
+	if (m_show_inventory && m_logic_normal.inventory.is_empty())
 		m_show_inventory = false;
+	
+	m_resource_system.unload_free_resources();
+	m_music_player.update(); // FIXME - should this be in Game_Logic?
 
 	// Main logic update
 	m_logic.update(time_delta);
 
+	// Normal mode update
 	if (m_logic.get_state() == Game_Logic_State::normal) {
-		// Normal mode
 		if (!m_show_inventory && !m_show_quest_log)
 			do_player_movement();
 
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
-
-		if (!m_headless) {
-			m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
-			m_scriptable_gui.draw(time_delta);
-			m_text_box_renderer.draw(time_delta);
-
-			m_quest_log_renderer.show(m_show_quest_log);
-			m_quest_log_renderer.draw(time_delta);
-
-			m_inventory_renderer.show(m_show_inventory);
-		}
-	} else {
-		// Combat mode
-		if (!m_headless) {
-			m_combat_renderer.draw(time_delta);
-			m_combat_controller.draw(time_delta);
-			m_scriptable_gui.draw(time_delta);
-		}
 	}
 
+	// Render
 	if (!m_headless)
-		m_inventory_renderer.draw(time_delta);
+		render(time_delta);
+}
 
-	if (m_display_fps && !m_headless) {
+void Game::render(float time_delta)
+{
+	// Main menu rendering
+	if (m_logic.get_state() == Game_Logic_State::main_menu_to_normal ||
+		m_logic.get_state() == Game_Logic_State::main_menu_to_combat)
+	{
+		m_main_menu.draw(time_delta);
+	}
+
+	// Normal rendering
+	if (m_logic.get_state() == Game_Logic_State::normal) {
+		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
+		m_scriptable_gui.draw(time_delta);
+		m_text_box_renderer.draw(time_delta);
+
+		m_quest_log_renderer.show(m_show_quest_log);
+		m_quest_log_renderer.draw(time_delta);
+
+		m_inventory_renderer.show(m_show_inventory);
+		m_inventory_renderer.draw(time_delta);
+	}
+
+	// Combat rendering
+	if (m_logic.get_state() == Game_Logic_State::combat) {
+		m_combat_renderer.draw(time_delta);
+		m_combat_controller.draw(time_delta);
+		m_inventory_renderer.draw(time_delta);
+		m_scriptable_gui.draw(time_delta);
+	}
+
+	// FPS
+	if (m_display_fps) {
 		DrawRectangle(0, 0, 120, 40, Color{0, 0, 0, 200});
 		DrawFPS(10, 10);
 	}

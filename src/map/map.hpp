@@ -27,7 +27,6 @@ private:
 class Map
 {
 public:
-	Optional<Resource_Handle<Sequence>> assigned_sequence;
 	Tile_Layers layers;
 	Map_Entities entities;
 

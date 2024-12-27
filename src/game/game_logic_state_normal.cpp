@@ -73,9 +73,6 @@ void Game_Logic_State_Normal::set_current_map(const String& filename)
 	// NOTE - map loading has to happen here, because we need the player entity to be present.
 	m_map_saveloader.load(m_map.value().get(), m_map.value().get_path()); // Load progress
 
-	if (m_map.value().get().assigned_sequence.has_value())
-		m_map.value().get().assigned_sequence.value().get().try_activate();
-
 	SG_INFO("Set current map to \"%s\"", filename.data());
 }
 

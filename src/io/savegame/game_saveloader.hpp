@@ -30,6 +30,7 @@ public:
 
 	void save();
 	void load();
+	bool can_load(); // Whether a savefile even exists
 	void new_game();
 private:
 	JSON::Array serialise_active_sequences();

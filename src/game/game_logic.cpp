@@ -39,6 +39,9 @@ void Game_Logic::exit_game()
 
 void Game_Logic::continue_game()
 {
+	if (!m_saveloader.can_load())
+		return;
+
 	m_saveloader.load();
 	m_sequence_manager.reload_sequences();
 

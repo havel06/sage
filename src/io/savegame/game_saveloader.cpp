@@ -92,10 +92,16 @@ void Game_Saveloader::save()
 	SG_INFO("Saved game state.");
 }
 
+bool Game_Saveloader::can_load()
+{
+	return file_exists(get_savefile_path());
+}
+
 void Game_Saveloader::load()
 {
 	String savefile_path = get_savefile_path();
-	if (!file_exists(savefile_path))
+
+	if (!can_load())
 		return;
 
 	JSON::Object json = JSON::Object::from_file(savefile_path.data());

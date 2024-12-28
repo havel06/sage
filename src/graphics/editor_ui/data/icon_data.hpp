@@ -18,4 +18,7 @@ const int ICON_ITEMS_DATA_SIZE = 662;
 extern unsigned char ICON_ADD_DATA[];
 const int ICON_ADD_DATA_SIZE = 397;
 
+extern unsigned char ICON_DELETE_DATA[];
+const int ICON_DELETE_DATA_SIZE = 505;
+
 }

@@ -49,17 +49,36 @@ void Dev_Tools_Mode_Items::rebuild()
 		row_left->add_child(make_own_ptr<Editor_UI::Widgets::Text>("      ", m_font, Editor_UI::Theme::ON_SURFACE));
 		row_left->add_child(move(label));
 
-		auto row = make_own_ptr<Editor_UI::Widgets::Row>();
-		row->add_child(move(row_left));
+		auto row_right = make_own_ptr<Editor_UI::Widgets::Row>();
+		auto count = make_own_ptr<Editor_UI::Widgets::Text>(
+			String::from_int(m_inventory.get_item_count(item.id)),
+			m_font,
+			Editor_UI::Theme::ON_SURFACE
+		);
 		auto button = make_own_ptr<Editor_UI::Widgets::Button>(m_font, "", &m_gui_system.ICON_ADD);
 		button->narrow = true;
 		button->transparent = true;
-		row->add_child(move(button));
-		row->stretch = true;
-		m_pane->column.add_child(move(row));
+		button->callback = [this, id=item.id](){
+			m_inventory.add_item(id, 1);
+		};
+		row_right->add_child(move(count));
+		row_right->add_child(move(button));
+
+		auto row_main = make_own_ptr<Editor_UI::Widgets::Row>();
+		row_main->stretch = true;
+		row_main->add_child(move(row_left));
+		row_main->add_child(move(row_right));
+		m_pane->column.add_child(move(row_main));
 		auto divider = make_own_ptr<Editor_UI::Widgets::Divider>();
 		m_pane->column.add_child(move(divider));
 	});
+
+	auto delete_button = make_own_ptr<Editor_UI::Widgets::Button>(m_font, "Clear", &m_gui_system.ICON_DELETE);
+	delete_button->transparent = false;
+	delete_button->callback = [this](){
+		m_inventory.clear();
+	};
+	m_pane->column.add_child(move(delete_button));
 }
 
 //void Dev_Tools_Mode_Items::draw()

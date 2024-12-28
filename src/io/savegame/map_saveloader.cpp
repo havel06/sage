@@ -8,6 +8,7 @@
 #include "utils/json.hpp"
 #include "utils/log.hpp"
 #include "io/user_directory_provider.hpp"
+#include "utils/optional.hpp"
 
 Map_Saveloader::Map_Saveloader(Texture_Manager& tex_mgr, User_Directory_Provider& dir_provider, const String& project_dir) :
 	m_user_dir_provider{dir_provider},
@@ -131,7 +132,7 @@ void Map_Saveloader::deserialise_entity(Entity& entity, const JSON::Object_View&
 		entity.sprite = JSON_Types::parse_animated_sprite(sprite_json, m_texture_manager);
 	}
 
-	entity.look(direction_from_string(entity_json["direction"].as_string("down")));
+	entity.look(direction_from_string(entity_json["direction"].as_string("down"), Direction::down));
 
 	if (entity_json["moving"].as_bool(false)) {
 		entity.move(entity.get_look_direction());

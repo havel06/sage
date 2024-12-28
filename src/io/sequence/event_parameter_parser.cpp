@@ -39,7 +39,7 @@ public:
 	}
 
 	void visit(Direction_Event_Parameter& param) override {
-		param.value = direction_from_string(m_param_json.as_string("down"));
+		param.value = direction_from_string(m_param_json.as_string("down"), Direction::down);
 	}
 	
 	void visit(String_Array_Event_Parameter& param) override {

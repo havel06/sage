@@ -193,8 +193,7 @@ void Game_Facade::move_entity(const String& entity_name, const Position& positio
 	if (entity->position == pos_resolved)
 		return;
 
-	Direction direction = vec2i_to_direction(pos_resolved - entity->position);
-	entity->move(direction);
+	entity->move(vec2i_to_direction(pos_resolved - entity->position, Direction::down));
 }
 
 void Game_Facade::rotate_player(Direction direction)

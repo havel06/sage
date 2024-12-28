@@ -215,7 +215,7 @@ void Map_Loader::parse_object(const JSON::Object_View& object)
 			} else if (name == "area_trigger") {
 				entity.area_trigger = property["value"].as_bool(false);
 			} else if (name == "direction") {
-				entity.look(direction_from_string(property["value"].as_string("down")));
+				entity.look(direction_from_string(property["value"].as_string("down"), Direction::down));
 			} else {
 				SG_WARNING("Object property \"%s\" is not supported.", name.data());
 			}

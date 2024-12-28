@@ -1,5 +1,7 @@
 #pragma once
 
+#include "utils/optional.hpp"
+#include "utils/log.hpp"
 #include "vec2.hpp"
 #include <assert.h>
 #include <string.h>
@@ -27,7 +29,7 @@ Vec2<T> direction_to_vec2(Direction dir)
 }
 
 template<typename T>
-Direction vec2_to_direction(Vec2<T> vec)
+Direction vec2_to_direction(Vec2<T> vec, Direction fallback)
 {
 	if (vec.y < 0) {
 		return Direction::up;
@@ -38,7 +40,7 @@ Direction vec2_to_direction(Vec2<T> vec)
 	} else if (vec.x > 0) {
 		return Direction::right;
 	} else {
-		assert(false);
+		return fallback;
 	}
 }
 
@@ -56,7 +58,7 @@ inline const char* direction_to_string(Direction dir)
 	}
 }
 
-inline Direction direction_from_string(const char* str)
+inline Direction direction_from_string(const char* str, Direction fallback)
 {
 	if (strcmp(str, "up") == 0) {
 		return Direction::up;
@@ -74,7 +76,8 @@ inline Direction direction_from_string(const char* str)
 		return Direction::left;
 	}
 
-	assert(false);
+	SG_ERROR("Invalid direction value: \"%s\".", str);
+	return fallback;
 }
 
 const auto direction_to_vec2i = direction_to_vec2<int>;

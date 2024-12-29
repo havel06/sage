@@ -21,10 +21,10 @@ void Pane::draw()
 		transform.size.x,
 		transform.size.y,
 		Color {
-			.r = Theme::SURFACE.r,
-			.g = Theme::SURFACE.g,
-			.b = Theme::SURFACE.b,
-			.a = Theme::SURFACE.a
+			.r = colour.r,
+			.g = colour.g,
+			.b = colour.b,
+			.a = colour.a
 		}
 	);
 

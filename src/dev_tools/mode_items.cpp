@@ -35,7 +35,7 @@ void Dev_Tools_Mode_Items::draw()
 void Dev_Tools_Mode_Items::rebuild()
 {
 	// Update pane layout
-	m_pane->transform = {{GetScreenWidth() - LIST_PANE_WIDTH, 0}, {LIST_PANE_WIDTH, GetScreenHeight()}};	
+	m_pane->transform = {{GetScreenWidth() - LIST_PANE_WIDTH, Editor_UI::Theme::HEADER_HEIGHT}, {LIST_PANE_WIDTH, GetScreenHeight()}};	
 
 	// Build list
 	m_pane->column.clear();

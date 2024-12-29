@@ -1,5 +1,6 @@
 #pragma once
 #include "../widget.hpp"
+#include "graphics/editor_ui/theme.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/array.hpp"
 #include "column.hpp"
@@ -13,6 +14,7 @@ class Pane : public Widget
 public:
 	Column column; // Use this to get elements inside pane
 	Recti transform;
+	Colour colour = Theme::SURFACE;
 	Pane(Recti transform, bool padding);
 	void draw() override;
 	Vec2i layout(Recti bounding_box) override;

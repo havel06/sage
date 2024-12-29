@@ -11,7 +11,7 @@
 
 Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
 	m_user_dir_provider{dir_provider},
-	m_general(facade, logic, project_root),
+	m_header(facade, logic, m_gui, project_root),
 	m_sequence(seq_mgr, project_root),
 	m_items(m_gui, item_reg, inv)
 {
@@ -25,7 +25,7 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 	// Nav
 	// FIXME - refactor building code
 	// FIXME - update based on window height????
-	auto& nav_pane = m_context.add_pane({{0, 0}, {Editor_UI::Theme::NAV_WIDTH, 10000}}, false);
+	auto& nav_pane = m_context.add_pane({{0, Editor_UI::Theme::HEADER_HEIGHT}, {Editor_UI::Theme::NAV_WIDTH, 10000}}, false);
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 	auto nav_rail = factory.make_nav_rail();
 	nav_rail->add_item(
@@ -70,12 +70,10 @@ Dev_Tools::~Dev_Tools()
 void Dev_Tools::draw(Map& map, const String& map_filename)
 {
 	m_context.draw();
+	m_header.draw(map_filename);
 
 	rlImGuiBegin();
 	switch (m_mode) {
-		case Dev_Tools_Mode::general:
-			m_general.draw(map_filename);
-			break;
 		case Dev_Tools_Mode::sequence:
 			m_sequence.draw();
 			break;

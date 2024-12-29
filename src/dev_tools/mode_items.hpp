@@ -21,7 +21,7 @@ public:
 	Dev_Tools_Mode_Items(const Editor_UI::System&, const Item_Registry&, Inventory&);
 	void draw();
 private:
-	void rebuild(); // FIXME - maybe eliminate this by constructing dev tools after item registry is loaded?
+	void rebuild();
 	const Item_Registry& m_item_registry;
 	Inventory& m_inventory;
 	const Editor_UI::System& m_gui_system;

@@ -37,10 +37,10 @@ void Input::draw()
 
 	const int padding_left = 16;
 	// Draw label
-	if (m_active || !m_content.empty()) {
-		const int font_size = 12;
+	if (m_active || !content.empty()) {
+		const int font_size = 14;
 		const int label_pos_y = m_bounding_box.position.y - font_size / 2;
-		const int width = MeasureText(m_label.data(), font_size);
+		const int width = MeasureTextEx(m_font, m_label.data(), font_size, 0).x;
 		DrawRectangle(
 			m_bounding_box.position.x + padding_left - 2, // Extra padding
 			m_bounding_box.position.y - font_size / 2,
@@ -94,7 +94,7 @@ void Input::draw()
 	const int padding_top = (48 - Theme::FONT_SIZE_DEFAULT) / 2;
 	DrawTextEx(
 		m_font,
-		m_content.data(),
+		content.data(),
 		Vector2 {
 			(float)m_bounding_box.position.x + padding_left,
 			(float)m_bounding_box.position.y + padding_top,

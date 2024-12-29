@@ -16,6 +16,8 @@ const Colour ON_SURFACE = {226, 226, 233, 255};
 const Colour OUTLINE = {142, 144, 153, 255};
 const Colour OUTLINE_VARIANT = {68, 71, 78, 255};
 const Colour SECONDARY_CONTAINER = {62, 71, 89, 255};
+const Colour SURFACE_CONTAINER = {29, 32, 36, 255};
+const Colour SURFACE_CONTAINER_HIGHEST = {51, 53, 58, 255};
 
 const Colour FILLED_BUTTON_HOVER = {129, 167, 240, 255}; // NOTE - This doesn't comply with material design
 const Colour TRANSPARENT_BUTTON_HOVER = {170, 199, 255, 25};
@@ -25,4 +27,5 @@ const int PADDING_DEFAULT = 16;
 const int PADDING_SMALL = 8;
 const int ICON_SIZE = 24;
 const int NAV_WIDTH = 80;
+const int HEADER_HEIGHT = 80;
 }

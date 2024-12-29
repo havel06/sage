@@ -68,6 +68,7 @@ void Application::run(int argc, const char* argv[])
 		if (!headless) {
 			BeginDrawing();
 			ClearBackground(BLACK);
+			SetMouseCursor(MOUSE_CURSOR_DEFAULT);
 		}
 
 		if (do_replay) {

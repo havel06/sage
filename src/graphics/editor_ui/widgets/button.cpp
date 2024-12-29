@@ -119,6 +119,11 @@ int Button::get_horizontal_padding()
 void Button::handle_mouse(Vec2i position, bool click)
 {
 	m_hover = m_bounding_box.contains(position);
+
+	if (m_hover) {
+		SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
+	}
+
 	if (m_hover && click) {
 		callback();
 	}

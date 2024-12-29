@@ -8,6 +8,8 @@ namespace Editor_UI
 
 void Context::draw()
 {
+	SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+
 	Vec2i mouse_pos = {
 		GetMouseX(),
 		GetMouseY()

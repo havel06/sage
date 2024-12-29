@@ -97,6 +97,11 @@ void Nav_Rail_Item::handle_mouse(Vec2i mouse_position, bool click)
 	};
 
 	m_hover = bounding_box.contains(mouse_position);
+
+	if (m_hover) {
+		SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
+	}
+
 	if (m_hover && click) {
 		m_callback();
 	}

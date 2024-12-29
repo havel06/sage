@@ -24,12 +24,12 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 
 	// Nav
 	// FIXME - refactor building code
-	// FIXME - use window height somehow
+	// FIXME - update based on window height????
 	auto& nav_pane = m_context.add_pane({{0, 0}, {Editor_UI::Theme::NAV_WIDTH, 10000}}, false);
-	auto nav_rail = make_own_ptr<Editor_UI::Widgets::Nav_Rail>();
+	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
+	auto nav_rail = factory.make_nav_rail();
 	nav_rail->add_item(
-		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(
-			m_gui.get_font(),
+		factory.make_nav_rail_item(
 			m_gui.ICON_SEQUENCE,
 			"Sequences",
 			[this, rail = nav_rail.get()](){
@@ -39,8 +39,7 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 		)
 	);
 	nav_rail->add_item(
-		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(
-			m_gui.get_font(),
+		factory.make_nav_rail_item(
 			m_gui.ICON_ENTITY,
 			"Entities",
 			[this, rail = nav_rail.get()](){
@@ -50,8 +49,7 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 		)
 	);
 	nav_rail->add_item(
-		make_own_ptr<Editor_UI::Widgets::Nav_Rail_Item>(
-			m_gui.get_font(),
+		factory.make_nav_rail_item(
 			m_gui.ICON_ITEMS,
 			"Items",
 			[this, rail = nav_rail.get()](){

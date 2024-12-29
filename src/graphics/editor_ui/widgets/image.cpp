@@ -9,8 +9,9 @@ Image::Image(const Sprite& sprite, Vec2i size)
 	m_size = size;
 }
 
-void Image::draw()
+void Image::draw(float dt)
 {
+	(void)dt;
 	m_sprite.draw(Rectf{
 		.position = m_position,
 		.size = m_size

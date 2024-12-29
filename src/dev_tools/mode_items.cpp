@@ -26,10 +26,10 @@ Dev_Tools_Mode_Items::Dev_Tools_Mode_Items(const Editor_UI::System& system, cons
 	(void)m_inventory;
 }
 
-void Dev_Tools_Mode_Items::draw()
+void Dev_Tools_Mode_Items::draw(float dt)
 {
 	rebuild();
-	m_context.draw();
+	m_context.draw(dt);
 }
 
 void Dev_Tools_Mode_Items::rebuild()

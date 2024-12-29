@@ -15,8 +15,10 @@ Button::Button(const Font& font, const String& label, const Icon_Resource* icon)
 	m_icon = icon;
 }
 
-void Button::draw()
+void Button::draw(float dt)
 {
+	(void)dt;
+
 	const int corner_radius = 20;
 	const int segments = 10;
 

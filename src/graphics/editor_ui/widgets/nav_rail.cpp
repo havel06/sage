@@ -112,8 +112,9 @@ void Nav_Rail::add_item(Own_Ptr<Nav_Rail_Item>&& item)
 	m_items.push_back(move(item));
 }
 
-void Nav_Rail::draw()
+void Nav_Rail::draw(float dt)
 {
+	(void)dt;
 	// Draw background
 	DrawRectangle(
 		m_bounding_box.position.x,

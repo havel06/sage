@@ -16,9 +16,11 @@ public:
 	Recti transform;
 	Colour colour = Theme::SURFACE;
 	Pane(Recti transform, bool padding);
-	void draw() override;
+	void draw(float dt) override;
 	Vec2i layout(Recti bounding_box) override;
 	void handle_mouse(Vec2i position, bool click) override;
+	void handle_character(char) override;
+	void handle_key(int) override;
 private:
 	bool m_padding = true;
 };

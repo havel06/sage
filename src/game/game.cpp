@@ -91,9 +91,19 @@ void Game::draw_frame(float time_delta)
 	if (m_dev_mode) {
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
 		if (!m_headless) {
+			while (int character = GetCharPressed()) {
+				if (character > 127) {
+					SG_ERROR("Tried to input non-ascii character.");
+				} else {
+					m_dev_tools.input_char(character);
+				}
+			}
+			while (int key = GetKeyPressed()) {
+				m_dev_tools.input_key(key);
+			}
 			m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
 			m_debug_entity_renderer.draw(m_logic_normal.get_map().entities);
-			m_dev_tools.draw(m_logic_normal.get_map(), m_logic_normal.get_map_filename());
+			m_dev_tools.draw(m_logic_normal.get_map(), m_logic_normal.get_map_filename(), time_delta);
 		}
 		return;
 	}

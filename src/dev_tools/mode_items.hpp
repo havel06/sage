@@ -19,7 +19,7 @@ class Dev_Tools_Mode_Items
 {
 public:
 	Dev_Tools_Mode_Items(const Editor_UI::System&, const Item_Registry&, Inventory&);
-	void draw();
+	void draw(float dt);
 private:
 	void rebuild();
 	const Item_Registry& m_item_registry;

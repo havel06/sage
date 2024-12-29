@@ -10,10 +10,10 @@ void Row::add_child(Own_Ptr<Widget>&& child)
 	m_children.push_back(move(child));
 }
 
-void Row::draw()
+void Row::draw(float dt)
 {
 	for (auto& child : m_children)
-		child->draw();
+		child->draw(dt);
 }
 
 Vec2i Row::layout(Recti bounding_box)
@@ -139,6 +139,20 @@ void Row::handle_mouse(Vec2i position, bool click)
 {
 	for (auto& child : m_children) {
 		child->handle_mouse(position, click);
+	}
+}
+
+void Row::handle_character(char character)
+{
+	for (auto& child : m_children) {
+		child->handle_character(character);
+	}
+}
+
+void Row::handle_key(int key)
+{
+	for (auto& child : m_children) {
+		child->handle_key(key);
 	}
 }
 

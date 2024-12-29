@@ -14,9 +14,11 @@ class Text : public Widget
 {
 public:
 	Text(const String&, const Font& font, Colour colour);
-	void draw() override;
+	void draw(float dt) override;
 	Vec2i layout(Recti bounding_box) override;
 	void handle_mouse(Vec2i, bool) override {}
+	void handle_character(char) override {}
+	void handle_key(int) override {}
 private:
 	const Font& m_font;
 	String m_text;

@@ -67,10 +67,10 @@ Dev_Tools::~Dev_Tools()
 	rlImGuiShutdown();
 }
 
-void Dev_Tools::draw(Map& map, const String& map_filename)
+void Dev_Tools::draw(Map& map, const String& map_filename, float dt)
 {
-	m_context.draw();
-	m_header.draw(map_filename);
+	m_context.draw(dt);
+	m_header.draw(map_filename, dt);
 
 	rlImGuiBegin();
 	switch (m_mode) {
@@ -81,9 +81,19 @@ void Dev_Tools::draw(Map& map, const String& map_filename)
 			m_entity.draw(map.entities);
 			break;
 		case Dev_Tools_Mode::items:
-			m_items.draw();
+			m_items.draw(dt);
 			//m_items.draw();
 			break;
 	}
 	rlImGuiEnd();
+}
+
+void Dev_Tools::input_char(char character)
+{
+	m_header.input_char(character);
+}
+
+void Dev_Tools::input_key(int key)
+{
+	m_header.input_key(key);
 }

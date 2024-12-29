@@ -19,7 +19,9 @@ class Dev_Tools_Header
 {
 public:
 	Dev_Tools_Header(Game_Facade&, Game_Logic&, const Editor_UI::System& gui, const String& project_root);
-	void draw(const String& map_filename);
+	void draw(const String& map_filename, float dt);
+	void input_char(char character);
+	void input_key(int key);
 private:
 	Game_Facade& m_game_facade;
 	Game_Logic& m_game_logic;

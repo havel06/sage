@@ -23,7 +23,9 @@ public:
 	// FIXME - use DI???
 	Dev_Tools(User_Directory_Provider&, Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const Item_Registry&, Inventory&, const String& project_root);
 	~Dev_Tools();
-	void draw(Map& map, const String& map_filename); // FIXME - remove these
+	void draw(Map& map, const String& map_filename, float dt); // FIXME - remove map and filename
+	void input_char(char character);
+	void input_key(int key);
 private:
 	User_Directory_Provider& m_user_dir_provider;
 

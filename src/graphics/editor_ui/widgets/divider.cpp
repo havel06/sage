@@ -5,8 +5,9 @@
 namespace Editor_UI::Widgets
 {
 
-void Divider::draw()
+void Divider::draw(float dt)
 {
+	(void)dt;
 	DrawLine(
 		m_position.x,
 		m_position.y,

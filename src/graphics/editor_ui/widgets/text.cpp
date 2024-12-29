@@ -13,8 +13,9 @@ Text::Text(const String& str, const Font& font, Colour colour) :
 	m_colour = colour;
 }
 
-void Text::draw()
+void Text::draw(float dt)
 {
+	(void)dt;
 	DrawTextEx(
 		m_font,
 		m_text.data(),

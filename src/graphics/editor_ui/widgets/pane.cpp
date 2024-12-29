@@ -13,7 +13,7 @@ Pane::Pane(Recti transform, bool padding)
 	m_padding = padding;
 }
 
-void Pane::draw()
+void Pane::draw(float dt)
 {
 	DrawRectangle(
 		transform.position.x,
@@ -28,7 +28,7 @@ void Pane::draw()
 		}
 	);
 
-	column.draw();
+	column.draw(dt);
 }
 
 Vec2i Pane::layout(Recti bounding_box)
@@ -57,6 +57,16 @@ void Pane::handle_mouse(Vec2i position, bool click)
 	(void)position;
 	(void)click;
 	column.handle_mouse(position, click);
+}
+
+void Pane::handle_character(char character)
+{
+	column.handle_character(character);
+}
+
+void Pane::handle_key(int key)
+{
+	column.handle_key(key);
 }
 
 }

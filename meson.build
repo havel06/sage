@@ -189,6 +189,7 @@ src = [
   'src/sequence/events/zoom_camera.cpp',
   'src/sequence/sequence.cpp',
   'src/text_box.cpp',
+  'src/utils/colour.cpp',
   'src/utils/file.cpp',
   'src/utils/filesystem.cpp',
   'src/utils/json.cpp',

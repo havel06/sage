@@ -23,7 +23,7 @@ Dev_Tools_Header::Dev_Tools_Header(Game_Facade& facade, Game_Logic& game_logic, 
 	m_pane->column.add_child(move(map_input));
 }
 
-void Dev_Tools_Header::draw(const String& map_filename)
+void Dev_Tools_Header::draw(const String& map_filename, float dt)
 {
 	// Adjust pane size
 	m_pane->transform.size.x = GetScreenWidth();
@@ -31,6 +31,18 @@ void Dev_Tools_Header::draw(const String& map_filename)
 	(void)m_game_logic;
 	(void)m_game_facade;
 
-	m_map_input->content = map_filename;
-	m_context.draw();
+	if (!m_map_input->active)
+		m_map_input->content = map_filename;
+
+	m_context.draw(dt);
+}
+
+void Dev_Tools_Header::input_char(char character)
+{
+	m_context.input_char(character);
+}
+
+void Dev_Tools_Header::input_key(int key)
+{
+	m_context.input_key(key);
 }

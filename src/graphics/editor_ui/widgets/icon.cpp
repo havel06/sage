@@ -12,8 +12,9 @@ Icon::Icon(const Icon_Resource& res) :
 {
 }
 
-void Icon::draw()
+void Icon::draw(float dt)
 {
+	(void)dt;
 	DrawTexturePro(
 		m_icon_resource.get(),
 		{0, 0, (float)m_icon_resource.get().width, (float)m_icon_resource.get().height},

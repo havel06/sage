@@ -37,9 +37,11 @@ public:
 	// FIXME - refactor - don't let user construct Nav_Rail_Item directly?
 	void add_item(Own_Ptr<Nav_Rail_Item>&&);
 	void set_active_index(int index);
+	void handle_character(char) override {}
+	void handle_key(int) override {}
 private:
 	// Widget overrides
-	void draw() override;
+	void draw(float dt) override;
 	Vec2i layout(Recti bounding_box) override;
 	void handle_mouse(Vec2i position, bool click) override;
 

@@ -26,8 +26,6 @@ public:
 	~Dev_Tools();
 	void draw(Map& map, const String& map_filename);
 private:
-	void draw_main_menu();
-
 	User_Directory_Provider& m_user_dir_provider;
 
 	Editor_UI::System m_gui;

@@ -5,12 +5,10 @@
 namespace Editor_UI::Widgets
 {
 
-Input::Input(const Font& font, const String& label, String& content, bool active) :
-	m_font{font},
-	m_content{content}
+Input::Input(const Font& font, const String& label) :
+	m_font{font}
 {
 	m_label = label;
-	m_active = active;
 }
 
 void Input::draw()

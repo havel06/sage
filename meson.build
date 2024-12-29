@@ -32,6 +32,7 @@ src = [
   'src/graphics/editor_ui/data/font_data.cpp',
   'src/graphics/editor_ui/data/icon_data.cpp',
   'src/graphics/editor_ui/icon_resource.cpp',
+  'src/graphics/editor_ui/widget_factory.cpp',
   'src/graphics/editor_ui/widgets/button.cpp',
   'src/graphics/editor_ui/widgets/column.cpp',
   'src/graphics/editor_ui/widgets/divider.cpp',

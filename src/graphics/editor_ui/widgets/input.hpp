@@ -12,16 +12,16 @@ namespace Editor_UI::Widgets
 class Input : public Widget
 {
 public:
-	Input(const Font& font, const String& label, String& content, bool active);
+	Input(const Font& font, const String& label);
 	void draw() override;
 	Vec2i layout(Recti bounding_box) override;
 	void handle_mouse(Vec2i position, bool click) override;
 private:
 	const Font& m_font;
-	String& m_content;
+	String m_content = "";
 	String m_label;
 	Recti m_bounding_box;
-	bool m_active;
+	bool m_active = false;
 };
 
 }

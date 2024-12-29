@@ -2,6 +2,7 @@
 #include "icon_resource.hpp"
 #include "data/icon_data.hpp"
 #include "raylib/raylib.h"
+#include "widget_factory.hpp"
 
 namespace Editor_UI
 {
@@ -20,6 +21,7 @@ public:
 	System();
 	~System();
 
+	Widget_Factory get_widget_factory() const { return Widget_Factory{m_font}; }
 	const Font& get_font() const { return m_font; }
 private:
 	Font m_font;

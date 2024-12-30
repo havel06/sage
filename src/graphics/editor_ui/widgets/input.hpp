@@ -14,7 +14,7 @@ class Input : public Widget
 public:
 	// FIXME - encapsulate
 	String content = "";
-	bool active = true;
+	bool active = false;
 
 	Input(const Font& font, const String& label);
 	void draw(float dt) override;

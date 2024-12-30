@@ -114,9 +114,16 @@ Vec2i Input::layout(Recti bounding_box)
 
 void Input::handle_mouse(Vec2i position, bool click)
 {
-	(void)position;
-	(void)click;
-	// FIXME
+	const bool hover = m_bounding_box.contains(position);
+
+	if (hover) {
+		SetMouseCursor(MOUSE_CURSOR_IBEAM);
+	}
+
+	if (click) {
+		m_time_since_cursor_blink = 0;
+		active = hover;
+	}
 }
 
 void Input::handle_character(char character)

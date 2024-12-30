@@ -24,9 +24,10 @@
 #include "utils/json.hpp"
 #include <stdio.h>
 
-Game_Saveloader::Game_Saveloader(User_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic_normal, Camera_Controller& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager, Party& party, Scriptable_GUI& gui, Combat& combat, Texture_Manager& tex_mgr, Game_Logic& logic) :
+Game_Saveloader::Game_Saveloader(User_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic_normal, Camera_Controller& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager, Party& party, Scriptable_GUI& gui, Game_Logic_State_Combat& logic_combat, Texture_Manager& tex_mgr, Game_Logic& logic) :
 	m_logic{logic},
 	m_logic_normal{logic_normal},
+	m_logic_combat{logic_combat},
 	m_camera_controller{camera},
 	m_inventory{inv},
 	m_quest_log{quest_log},
@@ -35,8 +36,7 @@ Game_Saveloader::Game_Saveloader(User_Directory_Provider& dir_provider, const St
 	m_character_manager{character_manager},
 	m_texture_manager{tex_mgr},
 	m_party{party},
-	m_scriptable_gui{gui},
-	m_combat{combat}
+	m_scriptable_gui{gui}
 {
 	m_project_dir = project_dir;
 }

@@ -50,17 +50,16 @@ private:
 
 	Input_Event_Provider& m_input;
 
-	Game_Facade m_game_facade;
 	Resource_System m_resource_system;
 	User_Directory_Provider m_user_dir_provider;
 	Map_Saveloader m_map_saveloader;
 	Sequence_Saveloader m_sequence_saveloader;
 	Game_Saveloader m_game_saveloader;
 	Party m_party;
-	Combat m_combat;
 	Game_Logic_State_Normal m_logic_normal;
 	Game_Logic_State_Combat m_logic_combat;
 	Game_Logic m_logic;
+	Game_Facade m_game_facade;
 	Music_Player m_music_player;
 
 	// Rendering

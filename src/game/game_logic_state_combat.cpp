@@ -4,10 +4,10 @@
 #include "combat/battle_desc.hpp"
 #include "io/resource/sequence_manager.hpp"
 
-Game_Logic_State_Combat::Game_Logic_State_Combat(Game_Logic& logic, Combat& combat, Sequence_Manager& seq_mgr) :
+Game_Logic_State_Combat::Game_Logic_State_Combat(Game_Logic& logic, Sequence_Manager& seq_mgr, const Party& party) :
 	m_logic{logic},
-	m_combat{combat},
-	m_sequence_manager{seq_mgr}
+	m_sequence_manager{seq_mgr},
+	m_combat{party}
 {
 }
 

@@ -27,7 +27,7 @@ private:
 
 	String m_resource_root_path;
 	Event_Parameter_Parser m_event_parameter_parser;
-	Event_Parser m_event_parser; // FIXME - DI
+	Event_Parser m_event_parser; // FIXME - DI???
 	Condition_Parser m_condition_parser;
 	Game_Facade& m_facade;
 	Resource_System& m_resource_system;

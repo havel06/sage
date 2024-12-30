@@ -2,9 +2,10 @@
 
 #include "utils/string.hpp"
 #include "party.hpp"
+#include "game_logic_state_normal.hpp"
+#include "game_logic_state_combat.hpp"
 
 // fwd
-class Game_Logic_State_Normal;
 class Game_Logic_State_Combat;
 class Game_Saveloader;
 class Sequence_Manager;
@@ -24,8 +25,10 @@ class Game_Logic
 {
 public:
 	Party party;
+	Game_Logic_State_Normal state_normal;
+	Game_Logic_State_Combat state_combat;
 
-	Game_Logic(Game_Saveloader&, Sequence_Saveloader&, Sequence_Manager&, Game_Logic_State_Normal&, Game_Logic_State_Combat&, const String& start_sequence, Resource_Handle<Character_Profile> main_character);
+	Game_Logic(Game_Saveloader&, Sequence_Saveloader&, Map_Saveloader&, Sequence_Manager&, Map_Manager&, const String& start_sequence, Resource_Handle<Character_Profile> main_character);
 
 	void update(float time_delta);
 	Game_Logic_State get_state() const { return m_state; }
@@ -39,12 +42,10 @@ public:
 	void enter_combat(const Battle_Description&);
 	void enter_normal_mode();
 private:
-	Game_Logic_State m_state = Game_Logic_State::main_menu_to_normal;
-
 	Game_Saveloader& m_saveloader;
 	Sequence_Manager& m_sequence_manager;
 	Sequence_Saveloader& m_sequence_saveloader;
-	Game_Logic_State_Normal& m_state_normal;
-	Game_Logic_State_Combat& m_state_combat;
+
+	Game_Logic_State m_state = Game_Logic_State::main_menu_to_normal;
 	String m_start_sequence;
 };

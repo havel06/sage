@@ -17,30 +17,28 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	m_input{input},
 	m_user_dir_provider(description.name.data()),
 	m_resource_system(description.path, m_game_facade),
-	m_logic{m_game_saveloader, m_sequence_saveloader, m_resource_system.sequence_manager, m_logic_normal, m_logic_combat, description.start_sequence, m_resource_system.character_profile_manager.get(description.default_character.data(), false)},
-	m_logic_normal(m_logic.party, m_resource_system.sequence_manager,m_map_saveloader, m_resource_system.map_manager),
-	m_logic_combat(m_logic, m_resource_system.sequence_manager, m_logic.party),
-	m_game_facade(m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui, m_logic_combat.get_combat(), m_logic.party, m_sequence_saveloader, no_auto_save),
+	m_logic{m_game_saveloader, m_sequence_saveloader, m_map_saveloader, m_resource_system.sequence_manager, m_resource_system.map_manager, description.start_sequence, m_resource_system.character_profile_manager.get(description.default_character.data(), false)},
+	m_game_facade(m_music_player, m_logic.state_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui, m_logic.state_combat.get_combat(), m_logic.party, m_sequence_saveloader, no_auto_save),
 	m_map_saveloader(m_resource_system.texture_manager, m_user_dir_provider, description.path),
 	m_sequence_saveloader(m_resource_system.sequence_manager, m_user_dir_provider, description.path),
-	m_game_saveloader(m_user_dir_provider, description.path, m_logic_normal, m_camera_controller, m_logic_normal.inventory, m_logic_normal.quest_log, m_resource_system.sequence_manager, m_resource_system.character_profile_manager, m_logic.party, m_scriptable_gui, m_logic_combat, m_resource_system.texture_manager, m_logic),
+	m_game_saveloader(m_user_dir_provider, description.path, m_logic.state_normal, m_camera_controller, m_logic.state_normal.inventory, m_logic.state_normal.quest_log, m_resource_system.sequence_manager, m_resource_system.character_profile_manager, m_logic.party, m_scriptable_gui, m_logic.state_combat, m_resource_system.texture_manager, m_logic),
 	m_camera_controller(m_camera),
-	m_text_box_renderer(m_logic_normal.text_box),
-	m_inventory_renderer(m_logic_normal.item_registry, m_logic_normal.inventory, m_resource_system.font_manager.get_default_font()),
-	m_combat_controller(m_logic_combat.get_combat(), m_inventory_renderer),
-	m_combat_renderer(m_logic_combat.get_combat(), m_combat_controller),
-	m_quest_log_renderer(m_logic_normal.quest_log),
+	m_text_box_renderer(m_logic.state_normal.text_box),
+	m_inventory_renderer(m_logic.state_normal.item_registry, m_logic.state_normal.inventory, m_resource_system.font_manager.get_default_font()),
+	m_combat_controller(m_logic.state_combat.get_combat(), m_inventory_renderer),
+	m_combat_renderer(m_logic.state_combat.get_combat(), m_combat_controller),
+	m_quest_log_renderer(m_logic.state_normal.quest_log),
 	m_main_menu(m_logic, m_resource_system.font_manager.get_default_font()),
 	m_scriptable_gui{m_resource_system.gui_loader},
 	m_debug_entity_renderer{m_camera},
-	m_dev_tools(m_user_dir_provider, m_game_facade, m_logic, m_resource_system.sequence_manager, m_logic_normal.item_registry, m_logic_normal.inventory, description.path),
+	m_dev_tools(m_user_dir_provider, m_game_facade, m_logic, m_resource_system.sequence_manager, m_logic.state_normal.item_registry, m_logic.state_normal.inventory, description.path),
 	m_display_fps{display_fps}
 {
 	{
 		SG_PROFILE_SCOPE("Item registry loading");
 		// Item registry
 		Item_Registry_Loader item_registry_loader(m_resource_system.texture_manager, m_resource_system.sequence_manager);
-		item_registry_loader.load(m_logic_normal.item_registry, description.path);
+		item_registry_loader.load(m_logic.state_normal.item_registry, description.path);
 	}
 
 	{
@@ -83,11 +81,11 @@ void Game::draw_frame(float time_delta)
 
 	// Dev mode
 	if (m_dev_mode) {
-		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
+		m_camera_controller.update(m_logic.state_normal.get_map(), m_logic.state_normal.get_player(), time_delta);
 		if (!m_headless) {
-			m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
-			m_debug_entity_renderer.draw(m_logic_normal.get_map().entities);
-			m_dev_tools.draw(m_logic_normal.get_map(), m_logic_normal.get_map_filename());
+			m_map_renderer.draw(m_logic.state_normal.get_map(), m_camera, time_delta);
+			m_debug_entity_renderer.draw(m_logic.state_normal.get_map().entities);
+			m_dev_tools.draw(m_logic.state_normal.get_map(), m_logic.state_normal.get_map_filename());
 		}
 		return;
 	}
@@ -101,7 +99,7 @@ void Game::draw_frame(float time_delta)
 	}
 
 	// Close inventory if empty
-	if (m_show_inventory && m_logic_normal.inventory.is_empty())
+	if (m_show_inventory && m_logic.state_normal.inventory.is_empty())
 		m_show_inventory = false;
 	
 	m_resource_system.unload_free_resources();
@@ -115,7 +113,7 @@ void Game::draw_frame(float time_delta)
 		if (!m_show_inventory && !m_show_quest_log)
 			do_player_movement();
 
-		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);
+		m_camera_controller.update(m_logic.state_normal.get_map(), m_logic.state_normal.get_player(), time_delta);
 	}
 
 	// Render
@@ -134,7 +132,7 @@ void Game::render(float time_delta)
 
 	// Normal rendering
 	if (m_logic.get_state() == Game_Logic_State::normal) {
-		m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
+		m_map_renderer.draw(m_logic.state_normal.get_map(), m_camera, time_delta);
 		m_scriptable_gui.draw(time_delta);
 		m_text_box_renderer.draw(time_delta);
 
@@ -163,13 +161,13 @@ void Game::render(float time_delta)
 void Game::do_player_movement()
 {
 	if (m_go_up) {
-		m_logic_normal.move_player(Direction::up);
+		m_logic.state_normal.move_player(Direction::up);
 	} else if (m_go_down) {
-		m_logic_normal.move_player(Direction::down);
+		m_logic.state_normal.move_player(Direction::down);
 	} else if (m_go_right) {
-		m_logic_normal.move_player(Direction::right);
+		m_logic.state_normal.move_player(Direction::right);
 	} else if (m_go_left) {
-		m_logic_normal.move_player(Direction::left);
+		m_logic.state_normal.move_player(Direction::left);
 	}
 }
 
@@ -233,14 +231,14 @@ void Game::handle_input_normal(Input_Event event)
 {
 	switch (event) {
 		case Input_Event::accept:
-			if (m_logic_normal.text_box.contains_message())
-				m_logic_normal.text_box.advance();
+			if (m_logic.state_normal.text_box.contains_message())
+				m_logic.state_normal.text_box.advance();
 			else
-				m_logic_normal.player_interact();
+				m_logic.state_normal.player_interact();
 			break;
 
 		case Input_Event::open_inventory:
-			if (!m_logic_normal.inventory.is_empty())
+			if (!m_logic.state_normal.inventory.is_empty())
 				m_show_inventory = true;
 			break;
 

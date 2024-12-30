@@ -19,7 +19,7 @@ Game_Logic_State_Normal::Game_Logic_State_Normal(Party& party, Sequence_Manager&
 	spawn_player();
 }
 
-void Game_Logic_State_Normal::update(float time_delta)
+void Game_Logic_State_Normal::update(Passkey<Game_Logic>, float time_delta)
 {
 	text_box.update(time_delta);
 	

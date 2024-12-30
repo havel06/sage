@@ -20,7 +20,7 @@ class Map_Saveloader;
 class Game_Logic_State_Normal
 {
 public:
-	Text_Box text_box; // TODO - shouldn't this be private?
+	Text_Box text_box;
 	Item_Registry item_registry;
 	Inventory inventory;
 	Quest_Log quest_log;
@@ -31,7 +31,7 @@ public:
 	Map& get_map(); // FIXME - should this be here?
 	String get_map_filename(); // FIXME - should this be here?
 	void set_current_map(const String& filename);
-	void update(float time_delta); // Should only be called by Game_Logic
+	void update(Passkey<Game_Logic>, float time_delta); // Should only be called by Game_Logic
 	Entity& get_player();
 	void player_interact();
 	void move_player(Direction direction);
@@ -44,5 +44,5 @@ private:
 	Party& m_party;
 
 	Optional<Resource_Handle<Map>> m_map;
-	Map m_empty_map;
+	Map m_empty_map; // Used as default map
 };

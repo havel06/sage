@@ -55,10 +55,8 @@ private:
 	Resource_System m_resource_system;
 	// Logic
 	Game_Logic m_logic;
-	Game_Logic_State_Normal m_logic_normal;
-	Game_Logic_State_Combat m_logic_combat;
-	Game_Facade m_game_facade;
 	Music_Player m_music_player;
+	Game_Facade m_game_facade;
 	// Saveload
 	Map_Saveloader m_map_saveloader;
 	Sequence_Saveloader m_sequence_saveloader;

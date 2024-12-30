@@ -11,7 +11,7 @@ Game_Logic_State_Combat::Game_Logic_State_Combat(Game_Logic& logic, Sequence_Man
 {
 }
 
-void Game_Logic_State_Combat::update(float time_delta)
+void Game_Logic_State_Combat::update(Passkey<Game_Logic>, float time_delta)
 {
 	// Update sequences
 	m_sequence_manager.update(time_delta);
@@ -22,7 +22,7 @@ void Game_Logic_State_Combat::update(float time_delta)
 	}
 }
 
-void Game_Logic_State_Combat::start_battle(const Battle_Description& description)
+void Game_Logic_State_Combat::start_battle(Passkey<Game_Logic>, const Battle_Description& description)
 {
 	m_combat.start_battle(description);
 }

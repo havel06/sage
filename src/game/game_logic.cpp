@@ -6,13 +6,13 @@
 #include "io/resource/sequence_manager.hpp"
 #include "utils/log.hpp"
 
-Game_Logic::Game_Logic(Game_Saveloader& saveloader, Sequence_Saveloader& seq_saveloader, Sequence_Manager& seq_mgr, Game_Logic_State_Normal& normal, Game_Logic_State_Combat& combat, const String& start_sequence, Resource_Handle<Character_Profile> main_character) :
+Game_Logic::Game_Logic(Game_Saveloader& game_saveloader, Sequence_Saveloader& seq_saveloader, Map_Saveloader& map_saveloader, Sequence_Manager& seq_mgr, Map_Manager& map_mgr, const String& start_sequence, Resource_Handle<Character_Profile> main_character) :
 	party{main_character},
-	m_saveloader{saveloader},
+	state_normal{party, seq_mgr, map_saveloader, map_mgr},
+	state_combat{*this, seq_mgr, party},
+	m_saveloader{game_saveloader},
 	m_sequence_manager{seq_mgr},
 	m_sequence_saveloader{seq_saveloader},
-	m_state_normal{normal},
-	m_state_combat{combat},
 	m_start_sequence{start_sequence}
 {
 }
@@ -21,10 +21,10 @@ void Game_Logic::update(float time_delta)
 {
 	switch (m_state) {
 		case Game_Logic_State::normal:
-			m_state_normal.update(time_delta);
+			state_normal.update({}, time_delta);
 			break;
 		case Game_Logic_State::combat:
-			m_state_combat.update(time_delta);
+			state_combat.update({}, time_delta);
 			break;
 		case Game_Logic_State::main_menu_to_normal:
 		case Game_Logic_State::main_menu_to_combat:
@@ -66,7 +66,7 @@ void Game_Logic::new_game()
 
 void Game_Logic::enter_combat(const Battle_Description& description)
 {
-	m_state_combat.start_battle(description);
+	state_combat.start_battle({}, description);
 
 	if (m_state == Game_Logic_State::main_menu_to_normal)
 		m_state = Game_Logic_State::main_menu_to_combat;

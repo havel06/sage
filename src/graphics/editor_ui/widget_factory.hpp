@@ -1,5 +1,6 @@
 #pragma once
 #include "utils/vec2.hpp"
+#include "theme.hpp"
 
 // fwd
 template<typename T>
@@ -42,7 +43,7 @@ public:
 	Own_Ptr<Widgets::Divider> make_divider();
 	Own_Ptr<Widgets::Icon> make_icon(const Icon_Resource& icon);
 	Own_Ptr<Widgets::Image> make_image(const Sprite& sprite, Vec2i size);
-	Own_Ptr<Widgets::Input> make_input(const String& label);
+	Own_Ptr<Widgets::Input> make_input(const String& label, Colour background = Theme::SURFACE);
 	Own_Ptr<Widgets::Nav_Rail> make_nav_rail();
 	Own_Ptr<Widgets::Nav_Rail_Item> make_nav_rail_item(const Icon_Resource& icon, const String& label, Function_Wrapper<void()>&& callback);
 	Own_Ptr<Widgets::Row> make_row(bool stretch = false);

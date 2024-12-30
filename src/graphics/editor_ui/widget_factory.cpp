@@ -55,9 +55,11 @@ Own_Ptr<Widgets::Image> Widget_Factory::make_image(const Sprite& sprite, Vec2i s
 	return make_own_ptr<Widgets::Image>(sprite, size);
 }
 
-Own_Ptr<Widgets::Input> Widget_Factory::make_input(const String& label)
+Own_Ptr<Widgets::Input> Widget_Factory::make_input(const String& label, Colour background)
 {
-	return make_own_ptr<Widgets::Input>(m_font, label);
+	auto input = make_own_ptr<Widgets::Input>(m_font, label);
+	input->background = background;
+	return input;
 }
 
 Own_Ptr<Widgets::Nav_Rail> Widget_Factory::make_nav_rail()

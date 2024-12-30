@@ -27,5 +27,6 @@ const int PADDING_DEFAULT = 16;
 const int PADDING_SMALL = 8;
 const int ICON_SIZE = 24;
 const int NAV_WIDTH = 80;
-const int HEADER_HEIGHT = 80;
+const int HEADER_HEIGHT = 64;
+const int HEADER_HEIGHT_BIG = 80;
 }

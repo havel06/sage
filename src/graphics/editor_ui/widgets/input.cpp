@@ -42,7 +42,7 @@ void Input::draw(float dt)
 			m_bounding_box.position.y - font_size / 2,
 			width + 4, // Extra padding
 			font_size,
-			Theme::SURFACE.to_ray_color()
+			background.to_ray_color()
 		);
 		DrawTextEx(
 			m_font,

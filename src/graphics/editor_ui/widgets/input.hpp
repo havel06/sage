@@ -1,7 +1,9 @@
 #pragma once
 
 #include "../widget.hpp"
+#include "../theme.hpp"
 #include "utils/string.hpp"
+#include "utils/colour.hpp"
 
 // fwd
 struct Font;
@@ -15,6 +17,7 @@ public:
 	// FIXME - encapsulate
 	String content = "";
 	bool active = false;
+	Colour background = Theme::SURFACE;
 
 	Input(const Font& font, const String& label);
 	void draw(float dt) override;

@@ -6,6 +6,7 @@ class Map;
 class Game_Facade;
 class Game_Logic;
 
+// FIXME - delete
 class Dev_Tools_Mode_General
 {
 public:

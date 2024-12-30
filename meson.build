@@ -14,6 +14,7 @@ src = [
   'src/combat/stances.cpp',
   'src/dev_tools/dev_tools.cpp',
   'src/dev_tools/header.cpp',
+  'src/dev_tools/map_dialog.cpp',
   'src/dev_tools/mode_entity.cpp',
   'src/dev_tools/mode_items.cpp',
   'src/dev_tools/mode_sequence.cpp',

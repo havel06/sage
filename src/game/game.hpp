@@ -50,17 +50,19 @@ private:
 
 	Input_Event_Provider& m_input;
 
-	Resource_System m_resource_system;
 	User_Directory_Provider m_user_dir_provider;
+	// Resources
+	Resource_System m_resource_system;
+	// Logic
+	Game_Logic m_logic;
+	Game_Logic_State_Normal m_logic_normal;
+	Game_Logic_State_Combat m_logic_combat;
+	Game_Facade m_game_facade;
+	Music_Player m_music_player;
+	// Saveload
 	Map_Saveloader m_map_saveloader;
 	Sequence_Saveloader m_sequence_saveloader;
 	Game_Saveloader m_game_saveloader;
-	Party m_party;
-	Game_Logic_State_Normal m_logic_normal;
-	Game_Logic_State_Combat m_logic_combat;
-	Game_Logic m_logic;
-	Game_Facade m_game_facade;
-	Music_Player m_music_player;
 
 	// Rendering
 	Game_Camera m_camera;
@@ -75,6 +77,7 @@ private:
 	Scriptable_GUI m_scriptable_gui;
 	Debug_Entity_Renderer m_debug_entity_renderer;
 
+	// Misc
 	Replay_Recorder m_replay_recorder;
 	Dev_Tools m_dev_tools;
 

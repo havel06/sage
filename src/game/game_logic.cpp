@@ -6,7 +6,8 @@
 #include "io/resource/sequence_manager.hpp"
 #include "utils/log.hpp"
 
-Game_Logic::Game_Logic(Game_Saveloader& saveloader, Sequence_Saveloader& seq_saveloader, Sequence_Manager& seq_mgr, Game_Logic_State_Normal& normal, Game_Logic_State_Combat& combat, const String& start_sequence) :
+Game_Logic::Game_Logic(Game_Saveloader& saveloader, Sequence_Saveloader& seq_saveloader, Sequence_Manager& seq_mgr, Game_Logic_State_Normal& normal, Game_Logic_State_Combat& combat, const String& start_sequence, Resource_Handle<Character_Profile> main_character) :
+	party{main_character},
 	m_saveloader{saveloader},
 	m_sequence_manager{seq_mgr},
 	m_sequence_saveloader{seq_saveloader},

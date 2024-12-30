@@ -1,6 +1,7 @@
 #pragma once
 
 #include "utils/string.hpp"
+#include "party.hpp"
 
 // fwd
 class Game_Logic_State_Normal;
@@ -22,7 +23,9 @@ enum class Game_Logic_State
 class Game_Logic
 {
 public:
-	Game_Logic(Game_Saveloader&, Sequence_Saveloader&, Sequence_Manager&, Game_Logic_State_Normal&, Game_Logic_State_Combat&, const String& start_sequence);
+	Party party;
+
+	Game_Logic(Game_Saveloader&, Sequence_Saveloader&, Sequence_Manager&, Game_Logic_State_Normal&, Game_Logic_State_Combat&, const String& start_sequence, Resource_Handle<Character_Profile> main_character);
 
 	void update(float time_delta);
 	Game_Logic_State get_state() const { return m_state; }

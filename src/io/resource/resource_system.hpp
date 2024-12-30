@@ -14,6 +14,7 @@ public:
 	Texture_Manager texture_manager;
 	Font_Manager font_manager;
 	Sound_Manager sound_manager;
+	GUI_Loader gui_loader;
 	Sequence_Manager sequence_manager;
 	Character_Profile_Manager character_profile_manager;
 	Map_Manager map_manager;

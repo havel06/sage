@@ -16,7 +16,7 @@
 Game::Game(const Project_Description& description, bool display_fps, bool no_auto_save, const Optional<String>& record_filename, Input_Event_Provider& input, bool headless) :
 	m_input{input},
 	m_game_facade(m_resource_system.sequence_manager, m_music_player, m_logic_normal, m_camera_controller, m_map_saveloader, m_game_saveloader, m_logic, m_scriptable_gui, m_combat, m_party, no_auto_save),
-	m_sequence_loader(description.path, m_resource_system, m_game_facade, m_gui_loader),
+	m_sequence_loader(description.path, m_resource_system, m_game_facade, m_resource_system.gui_loader),
 	m_resource_system(description.path, m_sequence_loader, m_sequence_saveloader),
 	m_user_dir_provider(description.name.data()),
 	m_map_saveloader(m_resource_system.texture_manager, m_user_dir_provider, description.path),
@@ -27,7 +27,6 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	m_logic_normal(m_party, m_resource_system.sequence_manager,m_map_saveloader, m_resource_system.map_manager),
 	m_logic_combat(m_logic, m_combat, m_resource_system.sequence_manager),
 	m_logic{m_game_saveloader, m_resource_system.sequence_manager, m_logic_normal, m_logic_combat, description.start_sequence},
-	m_gui_loader(m_resource_system.font_manager, m_resource_system.texture_manager, description.path),
 	m_camera_controller(m_camera),
 	m_text_box_renderer(m_logic_normal.text_box),
 	m_inventory_renderer(m_logic_normal.item_registry, m_logic_normal.inventory, m_resource_system.font_manager.get_default_font()),
@@ -35,7 +34,7 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	m_combat_renderer(m_combat, m_combat_controller),
 	m_quest_log_renderer(m_logic_normal.quest_log),
 	m_main_menu(m_logic, m_resource_system.font_manager.get_default_font()),
-	m_scriptable_gui{m_gui_loader},
+	m_scriptable_gui{m_resource_system.gui_loader},
 	m_debug_entity_renderer{m_camera},
 	m_dev_tools(m_user_dir_provider, m_game_facade, m_logic, m_resource_system.sequence_manager, m_logic_normal.item_registry, m_logic_normal.inventory, description.path),
 	m_display_fps{display_fps}
@@ -50,11 +49,11 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	{
 		SG_PROFILE_SCOPE("GUI loading");
 		// UI
-		m_text_box_renderer.load(m_gui_loader, description.gui_description.textbox_path);
-		m_quest_log_renderer.load(m_gui_loader, description.gui_description.quest_log_path, description.gui_description.quest_path);
-		m_inventory_renderer.load(m_gui_loader, description.gui_description.inventory_path, description.gui_description.inventory_slot_path);
-		m_combat_controller.load(m_gui_loader, description.gui_description.combat_menu_path, description.gui_description.combat_option_path);
-		m_main_menu.load(m_gui_loader, description.gui_description.main_menu_path, description.gui_description.main_menu_option_path);
+		m_text_box_renderer.load(m_resource_system.gui_loader, description.gui_description.textbox_path);
+		m_quest_log_renderer.load(m_resource_system.gui_loader, description.gui_description.quest_log_path, description.gui_description.quest_path);
+		m_inventory_renderer.load(m_resource_system.gui_loader, description.gui_description.inventory_path, description.gui_description.inventory_slot_path);
+		m_combat_controller.load(m_resource_system.gui_loader, description.gui_description.combat_menu_path, description.gui_description.combat_option_path);
+		m_main_menu.load(m_resource_system.gui_loader, description.gui_description.main_menu_path, description.gui_description.main_menu_option_path);
 	}
 
 	m_record_filename = record_filename;

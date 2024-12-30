@@ -10,6 +10,7 @@ Resource_System::Resource_System(const String& resource_root_path, Sequence_Load
 	texture_manager(resource_root_path),
 	font_manager(resource_root_path),
 	sound_manager(resource_root_path),
+	gui_loader{font_manager, texture_manager, resource_root_path},
 	sequence_manager(resource_root_path, seq_loader, saveloader),
 	character_profile_manager(resource_root_path, texture_manager, sequence_manager),
 	map_manager(resource_root_path, *this)

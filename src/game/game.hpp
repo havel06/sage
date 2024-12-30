@@ -63,7 +63,6 @@ private:
 	Game_Logic_State_Combat m_logic_combat;
 	Game_Logic m_logic;
 	Music_Player m_music_player;
-	GUI_Loader m_gui_loader;
 
 	// Rendering
 	Game_Camera m_camera;

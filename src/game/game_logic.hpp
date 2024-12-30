@@ -7,7 +7,7 @@
 
 // fwd
 class Game_Logic_State_Combat;
-class Game_Saveloader;
+class Saveload_System;
 class Sequence_Manager;
 class Sequence_Saveloader;
 struct Battle_Description;
@@ -28,7 +28,7 @@ public:
 	Game_Logic_State_Normal state_normal;
 	Game_Logic_State_Combat state_combat;
 
-	Game_Logic(Game_Saveloader&, Sequence_Saveloader&, Map_Saveloader&, Sequence_Manager&, Map_Manager&, const String& start_sequence, Resource_Handle<Character_Profile> main_character);
+	Game_Logic(Saveload_System&, Sequence_Manager&, Map_Manager&, const String& start_sequence, Resource_Handle<Character_Profile> main_character);
 
 	void update(float time_delta);
 	Game_Logic_State get_state() const { return m_state; }
@@ -42,9 +42,8 @@ public:
 	void enter_combat(const Battle_Description&);
 	void enter_normal_mode();
 private:
-	Game_Saveloader& m_saveloader;
+	Saveload_System& m_saveloader;
 	Sequence_Manager& m_sequence_manager;
-	Sequence_Saveloader& m_sequence_saveloader;
 
 	Game_Logic_State m_state = Game_Logic_State::main_menu_to_normal;
 	String m_start_sequence;

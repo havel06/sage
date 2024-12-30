@@ -1,5 +1,6 @@
 #pragma once
 
+// FIXME - reduce includes
 #include "character_profile.hpp"
 #include "combat/battle_desc.hpp"
 #include "combat/combat.hpp"
@@ -25,18 +26,19 @@ class Sequence_Saveloader;
 class Game_Saveloader;
 class Game_Logic;
 class Scriptable_GUI;
+class Saveload_System;
 class Combat;
 struct Position;
 enum class Battle_Turn_State;
 
-// FIXME - maybe too many responsibilities
+// FIXME - maybe too many responsibilities??
 
 // Facade for sequence events to interface with the rest of the game.
 class Game_Facade
 {
 public:
 	// FIXME - maybe too many arguments
-	Game_Facade(Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&, Scriptable_GUI&, Combat& combat, Party& party, Sequence_Saveloader&, bool no_auto_save);
+	Game_Facade(Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Saveload_System&, Game_Logic&, Scriptable_GUI&, Party& party, bool no_auto_save);
 	Vec2f resolve_position(const Position&);
 	bool is_passable(const Position& position);
 	void set_current_map(const String& filename);
@@ -84,13 +86,10 @@ private:
 	Music_Player& m_music_player;
 	Game_Logic_State_Normal& m_logic_normal;
 	Camera_Controller& m_camera_controller;
-	Map_Saveloader& m_map_saveloader;
-	Game_Saveloader& m_game_saveloader;
+	Saveload_System& m_saveloader;
 	Game_Logic& m_game_logic;
 	Scriptable_GUI& m_scriptable_gui;
-	Combat& m_combat;
 	Party& m_party;
-	Sequence_Saveloader& m_sequence_saveloader;
 
 	bool m_no_auto_save = false; // Disable auto saving
 };

@@ -1,5 +1,6 @@
 #pragma once
 
+// FIXME - reduce includes
 #include "dev_tools/dev_tools.hpp"
 #include "game_logic.hpp"
 #include "game_logic_state_combat.hpp"
@@ -19,9 +20,7 @@
 #include "io/resource/resource_system.hpp"
 #include "io/user_directory_provider.hpp"
 #include "io/sequence/sequence_loader.hpp"
-#include "io/savegame/map_saveloader.hpp"
-#include "io/savegame/sequence_saveloader.hpp"
-#include "io/savegame/game_saveloader.hpp"
+#include "io/savegame/saveload_system.hpp"
 #include "map/map.hpp"
 #include "music_player.hpp"
 #include "replay/replay_recorder.hpp"
@@ -58,9 +57,7 @@ private:
 	Music_Player m_music_player;
 	Game_Facade m_game_facade;
 	// Saveload
-	Map_Saveloader m_map_saveloader;
-	Sequence_Saveloader m_sequence_saveloader;
-	Game_Saveloader m_game_saveloader;
+	Saveload_System m_saveloader;
 
 	// Rendering
 	Game_Camera m_camera;

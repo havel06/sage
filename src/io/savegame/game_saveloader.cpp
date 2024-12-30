@@ -96,8 +96,7 @@ void Game_Saveloader::load()
 {
 	String savefile_path = get_savefile_path();
 
-	if (!can_load())
-		return;
+	assert(can_load());
 
 	JSON::Object json = JSON::Object::from_file(savefile_path.data());
 	JSON::Object_View view = json.get_view();
@@ -139,6 +138,7 @@ void Game_Saveloader::load()
 
 void Game_Saveloader::new_game()
 {
+	// FIXME - move to saveload_system
 	String savefile_path = get_savefile_path();
 	if (!file_exists(savefile_path))
 		return;

@@ -2,17 +2,16 @@
 #include "game/game_logic_state_normal.hpp"
 #include "game/game_logic_state_combat.hpp"
 #include "combat/battle_desc.hpp"
-#include "io/savegame/game_saveloader.hpp"
+#include "io/savegame/saveload_system.hpp"
 #include "io/resource/sequence_manager.hpp"
 #include "utils/log.hpp"
 
-Game_Logic::Game_Logic(Game_Saveloader& game_saveloader, Sequence_Saveloader& seq_saveloader, Map_Saveloader& map_saveloader, Sequence_Manager& seq_mgr, Map_Manager& map_mgr, const String& start_sequence, Resource_Handle<Character_Profile> main_character) :
+Game_Logic::Game_Logic(Saveload_System& saveload_system, Sequence_Manager& seq_mgr, Map_Manager& map_mgr, const String& start_sequence, Resource_Handle<Character_Profile> main_character) :
 	party{main_character},
-	state_normal{party, seq_mgr, map_saveloader, map_mgr},
+	state_normal{party, seq_mgr, saveload_system, map_mgr},
 	state_combat{*this, seq_mgr, party},
-	m_saveloader{game_saveloader},
+	m_saveloader{saveload_system},
 	m_sequence_manager{seq_mgr},
-	m_sequence_saveloader{seq_saveloader},
 	m_start_sequence{start_sequence}
 {
 }
@@ -44,8 +43,7 @@ void Game_Logic::continue_game()
 	if (!m_saveloader.can_load())
 		return;
 
-	m_saveloader.load();
-	m_sequence_saveloader.reload_all();
+	m_saveloader.load_game();
 
 	if (m_state == Game_Logic_State::main_menu_to_normal)
 		m_state = Game_Logic_State::normal;

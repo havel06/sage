@@ -15,7 +15,7 @@
 class Sequence;
 class Resource_Manager_old;
 class Music_Player;
-class Map_Saveloader;
+class Saveload_System;
 
 class Game_Logic_State_Normal
 {
@@ -26,7 +26,7 @@ public:
 	Quest_Log quest_log;
 	bool player_actions_disabled = false;
 
-	Game_Logic_State_Normal(Party&, Sequence_Manager&, Map_Saveloader&, Map_Manager&);
+	Game_Logic_State_Normal(Party&, Sequence_Manager&, Saveload_System&, Map_Manager&);
 
 	Map& get_map(); // FIXME - should this be here?
 	String get_map_filename(); // FIXME - should this be here?
@@ -39,7 +39,7 @@ private:
 	void spawn_player();
 
 	Sequence_Manager& m_sequence_manager;
-	Map_Saveloader& m_map_saveloader;
+	Saveload_System& m_saveloader;
 	Map_Manager& m_map_manager;
 	Party& m_party;
 

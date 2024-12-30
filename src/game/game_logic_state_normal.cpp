@@ -6,13 +6,13 @@
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
 #include "io/resource/sequence_manager.hpp"
-#include "io/savegame/map_saveloader.hpp"
+#include "io/savegame/saveload_system.hpp"
 #include "io/resource/map_manager.hpp"
 
-Game_Logic_State_Normal::Game_Logic_State_Normal(Party& party, Sequence_Manager& seq_mgr, Map_Saveloader& map_saveloader, Map_Manager& map_mgr) :
+Game_Logic_State_Normal::Game_Logic_State_Normal(Party& party, Sequence_Manager& seq_mgr, Saveload_System& saveload_system, Map_Manager& map_mgr) :
 	inventory{item_registry},
 	m_sequence_manager{seq_mgr},
-	m_map_saveloader{map_saveloader},
+	m_saveloader{saveload_system},
 	m_map_manager{map_mgr},
 	m_party{party}
 {
@@ -71,7 +71,7 @@ void Game_Logic_State_Normal::set_current_map(const String& filename)
 	m_map = m_map_manager.get(filename, false);
 	spawn_player();
 	// NOTE - map loading has to happen here, because we need the player entity to be present.
-	m_map_saveloader.load(m_map.value().get(), m_map.value().get_path()); // Load progress
+	m_saveloader.load_map(m_map.value().get(), m_map.value().get_path()); // Load progress
 
 	SG_INFO("Set current map to \"%s\"", filename.data());
 }

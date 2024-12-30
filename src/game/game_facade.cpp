@@ -4,6 +4,7 @@
 #include "combat/battle_desc.hpp"
 #include "combat/battle_turn.hpp"
 #include "game/game_logic.hpp"
+#include "io/savegame/saveload_system.hpp"
 #include "utils/move.hpp"
 #include "io/savegame/map_saveloader.hpp"
 #include "io/savegame/sequence_saveloader.hpp"
@@ -23,24 +24,18 @@ Game_Facade::Game_Facade(
 		Music_Player& music_player,
 		Game_Logic_State_Normal& logic,
 		Camera_Controller& controller,
-		Map_Saveloader& map_saveloader,
-		Game_Saveloader& game_saveloader,
+		Saveload_System& saveload_system,
 		Game_Logic& game_logic,
 		Scriptable_GUI& scriptable_gui,
-		Combat& combat,
 		Party& party,
-		Sequence_Saveloader& sequence_saveloader,
 		bool no_auto_save) :
 	m_music_player{music_player},
 	m_logic_normal{logic},
 	m_camera_controller{controller},
-	m_map_saveloader{map_saveloader},
-	m_game_saveloader{game_saveloader},
+	m_saveloader{saveload_system},
 	m_game_logic{game_logic},
 	m_scriptable_gui{scriptable_gui},
-	m_combat{combat},
 	m_party{party},
-	m_sequence_saveloader{sequence_saveloader},
 	m_no_auto_save{no_auto_save}
 {
 }
@@ -240,87 +235,87 @@ bool Game_Facade::is_in_combat() const
 
 void Game_Facade::combat_change_target_hp(int amount)
 {
-	if (!m_combat.is_active()) {
+	if (!m_game_logic.state_combat.get_combat().is_active()) {
 		SG_ERROR("No active battle.");
 		return;
 	}
 
-	m_combat.get_battle().get_current_turn().change_target_hp(amount);
+	m_game_logic.state_combat.get_combat().get_battle().get_current_turn().change_target_hp(amount);
 }
 
 void Game_Facade::combat_change_all_enemy_units_hp(int amount)
 {
-	if (!m_combat.is_active()) {
+	if (!m_game_logic.state_combat.get_combat().is_active()) {
 		SG_ERROR("No active battle.");
 		return;
 	}
 
-	m_combat.get_battle().get_current_turn().change_all_enemy_units_hp(amount);
+	m_game_logic.state_combat.get_combat().get_battle().get_current_turn().change_all_enemy_units_hp(amount);
 }
 
 void Game_Facade::combat_change_all_ally_units_hp(int amount)
 {
-	if (!m_combat.is_active()) {
+	if (!m_game_logic.state_combat.get_combat().is_active()) {
 		SG_ERROR("No active battle.");
 		return;
 	}
 
-	m_combat.get_battle().get_current_turn().change_all_ally_units_hp(amount);
+	m_game_logic.state_combat.get_combat().get_battle().get_current_turn().change_all_ally_units_hp(amount);
 }
 
 void Game_Facade::combat_change_current_unit_hp(int amount)
 {
-	if (!m_combat.is_active()) {
+	if (!m_game_logic.state_combat.get_combat().is_active()) {
 		SG_ERROR("No active battle.");
 		return;
 	}
-	m_combat.get_battle().get_current_turn().change_current_unit_hp(amount);
+	m_game_logic.state_combat.get_combat().get_battle().get_current_turn().change_current_unit_hp(amount);
 }
 
 void Game_Facade::combat_enter_target_selection(Target_Selection_Type type)
 {
-	if (!m_combat.is_active()) {
+	if (!m_game_logic.state_combat.get_combat().is_active()) {
 		SG_ERROR("No active battle.");
 		return;
 	}
-	m_combat.get_battle().get_current_turn().enter_target_selection(type);
+	m_game_logic.state_combat.get_combat().get_battle().get_current_turn().enter_target_selection(type);
 }
 
 void Game_Facade::combat_end_turn()
 {
-	if (!m_combat.is_active()) {
+	if (!m_game_logic.state_combat.get_combat().is_active()) {
 		SG_ERROR("No active battle.");
 		return;
 	}
-	m_combat.get_battle().get_current_turn().advance_turn();
+	m_game_logic.state_combat.get_combat().get_battle().get_current_turn().advance_turn();
 }
 
 void Game_Facade::combat_set_current_unit_sprite(const Animated_Sprite& sprite)
 {
-	if (!m_combat.is_active()) {
+	if (!m_game_logic.state_combat.get_combat().is_active()) {
 		SG_ERROR("No active battle.");
 		return;
 	}
-	m_combat.get_battle().get_current_turn().set_current_unit_sprite(sprite);
+	m_game_logic.state_combat.get_combat().get_battle().get_current_turn().set_current_unit_sprite(sprite);
 }
 
 void Game_Facade::combat_reset_current_unit_sprite()
 {
-	if (!m_combat.is_active()) {
+	if (!m_game_logic.state_combat.get_combat().is_active()) {
 		SG_ERROR("No active battle.");
 		return;
 	}
-	m_combat.get_battle().get_current_turn().reset_current_unit_sprite();
+	m_game_logic.state_combat.get_combat().get_battle().get_current_turn().reset_current_unit_sprite();
 }
 
 Battle_Turn_State Game_Facade::combat_get_battle_turn_state() const
 {
-	if (!m_combat.is_active()) {
+	if (!m_game_logic.state_combat.get_combat().is_active()) {
 		SG_ERROR("No active battle.");
 		return Battle_Turn_State::finished;
 	}
 
-	return m_combat.get_battle().get_current_turn().get_state();
+	return m_game_logic.state_combat.get_combat().get_battle().get_current_turn().get_state();
 }
 
 void Game_Facade::add_quest(const String& id, const String& name, const String& description)
@@ -349,9 +344,7 @@ void Game_Facade::save_game()
 	
 	// Only save when out of combat
 	if (m_game_logic.get_state() != Game_Logic_State::combat) {
-		m_game_saveloader.save();
-		m_map_saveloader.save(m_logic_normal.get_map(), m_logic_normal.get_map_filename());
-		m_sequence_saveloader.save_all();
+		m_saveloader.save_game();
 	}
 }
 

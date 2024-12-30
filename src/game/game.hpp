@@ -51,7 +51,6 @@ private:
 	Input_Event_Provider& m_input;
 
 	Game_Facade m_game_facade;
-	Sequence_Loader m_sequence_loader;
 	Resource_System m_resource_system;
 	User_Directory_Provider m_user_dir_provider;
 	Map_Saveloader m_map_saveloader;

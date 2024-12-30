@@ -36,7 +36,7 @@ class Game_Facade
 {
 public:
 	// FIXME - maybe too many arguments
-	Game_Facade(Sequence_Manager&, Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&, Scriptable_GUI&, Combat& combat, Party& party, bool no_auto_save);
+	Game_Facade(Music_Player&, Game_Logic_State_Normal&, Camera_Controller&, Map_Saveloader&, Game_Saveloader&, Game_Logic&, Scriptable_GUI&, Combat& combat, Party& party, Sequence_Saveloader&, bool no_auto_save);
 	Vec2f resolve_position(const Position&);
 	bool is_passable(const Position& position);
 	void set_current_map(const String& filename);
@@ -81,8 +81,6 @@ public:
 	void teleport_camera_to_player();
 	Vec2f get_camera_position() const;
 private:
-
-	Sequence_Manager& m_sequence_manager;
 	Music_Player& m_music_player;
 	Game_Logic_State_Normal& m_logic_normal;
 	Camera_Controller& m_camera_controller;
@@ -92,6 +90,7 @@ private:
 	Scriptable_GUI& m_scriptable_gui;
 	Combat& m_combat;
 	Party& m_party;
+	Sequence_Saveloader& m_sequence_saveloader;
 
 	bool m_no_auto_save = false; // Disable auto saving
 };

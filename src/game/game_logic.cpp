@@ -6,9 +6,10 @@
 #include "io/resource/sequence_manager.hpp"
 #include "utils/log.hpp"
 
-Game_Logic::Game_Logic(Game_Saveloader& saveloader, Sequence_Manager& seq_mgr, Game_Logic_State_Normal& normal, Game_Logic_State_Combat& combat, const String& start_sequence) :
+Game_Logic::Game_Logic(Game_Saveloader& saveloader, Sequence_Saveloader& seq_saveloader, Sequence_Manager& seq_mgr, Game_Logic_State_Normal& normal, Game_Logic_State_Combat& combat, const String& start_sequence) :
 	m_saveloader{saveloader},
 	m_sequence_manager{seq_mgr},
+	m_sequence_saveloader{seq_saveloader},
 	m_state_normal{normal},
 	m_state_combat{combat},
 	m_start_sequence{start_sequence}
@@ -43,7 +44,7 @@ void Game_Logic::continue_game()
 		return;
 
 	m_saveloader.load();
-	m_sequence_manager.reload_sequences();
+	m_sequence_saveloader.reload_all();
 
 	if (m_state == Game_Logic_State::main_menu_to_normal)
 		m_state = Game_Logic_State::normal;

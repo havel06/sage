@@ -6,12 +6,12 @@
 #include "io/sequence/sequence_loader.hpp"
 #include "utils/log.hpp"
 
-Resource_System::Resource_System(const String& resource_root_path, Game_Facade& facade, Sequence_Saveloader& saveloader) :
+Resource_System::Resource_System(const String& resource_root_path, Game_Facade& facade) :
 	texture_manager(resource_root_path),
 	font_manager(resource_root_path),
 	sound_manager(resource_root_path),
 	gui_loader{font_manager, texture_manager, resource_root_path},
-	sequence_manager(resource_root_path, m_sequence_loader, saveloader),
+	sequence_manager(resource_root_path, m_sequence_loader),
 	character_profile_manager(resource_root_path, texture_manager, sequence_manager),
 	map_manager(resource_root_path, *this),
 	m_sequence_loader{resource_root_path, *this, facade, gui_loader}

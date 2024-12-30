@@ -20,7 +20,6 @@
 #include "map/position.hpp"
 
 Game_Facade::Game_Facade(
-		Sequence_Manager& seq_mgr,
 		Music_Player& music_player,
 		Game_Logic_State_Normal& logic,
 		Camera_Controller& controller,
@@ -30,8 +29,8 @@ Game_Facade::Game_Facade(
 		Scriptable_GUI& scriptable_gui,
 		Combat& combat,
 		Party& party,
+		Sequence_Saveloader& sequence_saveloader,
 		bool no_auto_save) :
-	m_sequence_manager{seq_mgr},
 	m_music_player{music_player},
 	m_logic_normal{logic},
 	m_camera_controller{controller},
@@ -41,6 +40,7 @@ Game_Facade::Game_Facade(
 	m_scriptable_gui{scriptable_gui},
 	m_combat{combat},
 	m_party{party},
+	m_sequence_saveloader{sequence_saveloader},
 	m_no_auto_save{no_auto_save}
 {
 }
@@ -351,7 +351,7 @@ void Game_Facade::save_game()
 	if (m_game_logic.get_state() != Game_Logic_State::combat) {
 		m_game_saveloader.save();
 		m_map_saveloader.save(m_logic_normal.get_map(), m_logic_normal.get_map_filename());
-		m_sequence_manager.save();
+		m_sequence_saveloader.save_all();
 	}
 }
 

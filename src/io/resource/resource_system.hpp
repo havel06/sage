@@ -25,7 +25,7 @@ public:
 
 	~Resource_System();
 
-	Resource_System(const String& resource_root_path, Game_Facade&, Sequence_Saveloader&);
+	Resource_System(const String& resource_root_path, Game_Facade&);
 	void unload_free_resources();
 private:
 	Sequence_Loader m_sequence_loader;

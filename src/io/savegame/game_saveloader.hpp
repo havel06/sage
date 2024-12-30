@@ -27,7 +27,7 @@ namespace JSON {
 class Game_Saveloader
 {
 public:
-	Game_Saveloader(User_Directory_Provider&, const String& project_dir, Game_Logic_State_Normal& logic_normal, Camera_Controller&, Inventory& inventory, Quest_Log& quest_log, Sequence_Manager&, Character_Profile_Manager&, Party& party, Scriptable_GUI& scriptable_gui, Game_Logic_State_Combat& combat, Texture_Manager&, Game_Logic& logic);
+	Game_Saveloader(User_Directory_Provider&, const String& project_dir, Camera_Controller&, Sequence_Manager&, Character_Profile_Manager&, Scriptable_GUI& scriptable_gui, Texture_Manager&, Game_Logic& logic);
 
 	void save();
 	void load();
@@ -42,16 +42,11 @@ private:
 	String get_savefile_path();
 
 	Game_Logic& m_logic;
-	Game_Logic_State_Normal& m_logic_normal;
-	Game_Logic_State_Combat& m_logic_combat;
 	Camera_Controller& m_camera_controller;
-	Inventory& m_inventory;
-	Quest_Log& m_quest_log;
 	Sequence_Manager& m_seq_manager;
 	User_Directory_Provider& m_user_dir_provider;
 	Character_Profile_Manager& m_character_manager;
 	Texture_Manager& m_texture_manager;
-	Party& m_party;
 	Scriptable_GUI& m_scriptable_gui;
 
 	String m_project_dir;

@@ -24,18 +24,13 @@
 #include "utils/json.hpp"
 #include <stdio.h>
 
-Game_Saveloader::Game_Saveloader(User_Directory_Provider& dir_provider, const String& project_dir, Game_Logic_State_Normal& logic_normal, Camera_Controller& camera, Inventory& inv, Quest_Log& quest_log, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager, Party& party, Scriptable_GUI& gui, Game_Logic_State_Combat& logic_combat, Texture_Manager& tex_mgr, Game_Logic& logic) :
+Game_Saveloader::Game_Saveloader(User_Directory_Provider& dir_provider, const String& project_dir, Camera_Controller& camera, Sequence_Manager& seq_manager, Character_Profile_Manager& character_manager, Scriptable_GUI& gui, Texture_Manager& tex_mgr, Game_Logic& logic) :
 	m_logic{logic},
-	m_logic_normal{logic_normal},
-	m_logic_combat{logic_combat},
 	m_camera_controller{camera},
-	m_inventory{inv},
-	m_quest_log{quest_log},
 	m_seq_manager{seq_manager},
 	m_user_dir_provider{dir_provider},
 	m_character_manager{character_manager},
 	m_texture_manager{tex_mgr},
-	m_party{party},
 	m_scriptable_gui{gui}
 {
 	m_project_dir = project_dir;
@@ -50,7 +45,7 @@ String Game_Saveloader::get_savefile_path()
 
 void Game_Saveloader::save()
 {
-	String map_absolute_path = m_logic_normal.get_map_filename();
+	String map_absolute_path = m_logic.state_normal.get_map_filename();
 
 	if (map_absolute_path.empty())
 		return;
@@ -67,12 +62,12 @@ void Game_Saveloader::save()
 	json.add("camera_fixed", camera_fixed);
 
 	Inventory_Saveloader inv_saveloader;
-	json.add("inventory", inv_saveloader.save(m_inventory));
-	Quest_Saveloader quest_saveloader(m_quest_log);
+	json.add("inventory", inv_saveloader.save(m_logic.state_normal.inventory));
+	Quest_Saveloader quest_saveloader(m_logic.state_normal.quest_log);
 	json.add("quests", quest_saveloader.save());
 	json.add("active_sequences", serialise_active_sequences());
 	json.add("party", serialise_party());
-	json.add("player_actions_disabled", m_logic_normal.player_actions_disabled);
+	json.add("player_actions_disabled", m_logic.state_normal.player_actions_disabled);
 
 	if (!m_scriptable_gui.get_current_widget_filename().empty()) {
 		json.add("scriptable_gui_widget", m_scriptable_gui.get_current_widget_filename().data());
@@ -107,8 +102,8 @@ void Game_Saveloader::load()
 	JSON::Object json = JSON::Object::from_file(savefile_path.data());
 	JSON::Object_View view = json.get_view();
 
-	const char* current_map = view["current_map"].as_string(m_logic_normal.get_map_filename().data());
-	m_logic_normal.set_current_map(current_map);
+	const char* current_map = view["current_map"].as_string(m_logic.state_normal.get_map_filename().data());
+	m_logic.state_normal.set_current_map(current_map);
 
 	m_camera_controller.set_zoom(view["camera_zoom"].as_float(m_camera_controller.get_zoom()));
 	// Camera
@@ -123,12 +118,12 @@ void Game_Saveloader::load()
 	}
 
 	Inventory_Saveloader inv_saveloader;
-	inv_saveloader.load(m_inventory, view["inventory"].as_array());
-	Quest_Saveloader quest_saveloader(m_quest_log);
+	inv_saveloader.load(m_logic.state_normal.inventory, view["inventory"].as_array());
+	Quest_Saveloader quest_saveloader(m_logic.state_normal.quest_log);
 	quest_saveloader.load(view["quests"].as_array());
 	load_active_sequences(view["active_sequences"].as_array());
 	load_party(view["party"].as_array());
-	m_logic_normal.player_actions_disabled = view["player_actions_disabled"].as_bool(false);
+	m_logic.state_normal.player_actions_disabled = view["player_actions_disabled"].as_bool(false);
 
 	if (view.has("scriptable_gui_widget")) {
 		m_scriptable_gui.show_widget(view["scriptable_gui_widget"].as_string(""));
@@ -177,9 +172,9 @@ JSON::Array Game_Saveloader::serialise_party()
 {
 	JSON::Array json;
 
-	for (int i = 0; i < m_party.get_character_count(); i++) {
-		const Character_Profile& profile = m_party.get_character(i).get();
-		if (&profile != &m_party.main_character().get())
+	for (int i = 0; i < m_logic.party.get_character_count(); i++) {
+		const Character_Profile& profile = m_logic.party.get_character(i).get();
+		if (&profile != &m_logic.party.main_character().get())
 			json.add(profile.filename.data());
 	}
 
@@ -190,6 +185,6 @@ void Game_Saveloader::load_party(const JSON::Array_View& json)
 {
 	json.for_each([&](const JSON::Value_View& value){
 		auto profile = m_character_manager.get(value.as_string(""), true);
-		m_party.add_character(profile);
+		m_logic.party.add_character(profile);
 	});
 }

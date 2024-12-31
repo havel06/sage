@@ -12,7 +12,7 @@
 Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade, Game_Logic& logic, Game_Logic_State_Normal& logic_normal, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
 	m_user_dir_provider{dir_provider},
 	m_header(facade, logic, logic_normal, m_gui, project_root),
-	m_sequence(seq_mgr, project_root),
+	m_sequence(m_gui, seq_mgr, project_root),
 	m_items(m_gui, item_reg, inv)
 {
 	rlImGuiSetup(true);
@@ -74,7 +74,7 @@ void Dev_Tools::draw(Map& map, const String& map_filename, float dt)
 	rlImGuiBegin();
 	switch (m_mode) {
 		case Dev_Tools_Mode::sequence:
-			m_sequence.draw();
+			m_sequence.draw(dt);
 			break;
 		case Dev_Tools_Mode::entities:
 			m_entity.draw(map.entities);

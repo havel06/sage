@@ -30,4 +30,7 @@ const int ICON_CLOSE_DATA_SIZE = 435;
 extern unsigned char ICON_RELOAD_DATA[];
 const int ICON_RELOAD_DATA_SIZE = 716;
 
+extern unsigned char ICON_INFO_DATA[];
+const int ICON_INFO_DATA_SIZE = 730;
+
 }

@@ -20,6 +20,7 @@ public:
 	const Icon_Resource ICON_MAP{Icon_Data::ICON_MAP_DATA, Icon_Data::ICON_MAP_DATA_SIZE};
 	const Icon_Resource ICON_CLOSE{Icon_Data::ICON_CLOSE_DATA, Icon_Data::ICON_CLOSE_DATA_SIZE};
 	const Icon_Resource ICON_RELOAD{Icon_Data::ICON_RELOAD_DATA, Icon_Data::ICON_RELOAD_DATA_SIZE};
+	const Icon_Resource ICON_INFO{Icon_Data::ICON_INFO_DATA, Icon_Data::ICON_INFO_DATA_SIZE};
 
 	System();
 	~System();

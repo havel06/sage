@@ -1,55 +1,102 @@
 #include "mode_sequence.hpp"
+#include "graphics/editor_ui/theme.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
+#include "graphics/editor_ui/system.hpp"
+#include "graphics/editor_ui/widgets/row.hpp"
+#include "graphics/editor_ui/widgets/button.hpp"
+#include "graphics/editor_ui/widgets/divider.hpp"
+#include "graphics/editor_ui/widgets/text.hpp"
 #include "io/resource/sequence_manager.hpp"
-#include "imgui.h"
+#include "raylib/raylib.h"
+#include "sequence/sequence.hpp"
 #include "utils/filesystem.hpp"
 #include "utils/log.hpp"
+#include "utils/function_wrapper.hpp"
 
-Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Sequence_Manager& seq_manager, const String& resource_root_path) :
-	m_sequence_manager{seq_manager}
+static const int LIST_PANE_WIDTH = 400;
+
+Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Editor_UI::System& gui, Sequence_Manager& seq_manager, const String& resource_root_path) :
+	m_sequence_manager{seq_manager},
+	m_gui{gui},
+	m_resource_root{resource_root_path}
 {
-	m_resource_root = resource_root_path;
+	m_pane_list = &m_context.add_pane({});
+	m_pane_list->column.padding = Editor_UI::Theme::PADDING_SMALL;
+	m_pane_detail = &m_context.add_pane({});
 }
 
-void Dev_Tools_Mode_Sequence::draw()
+void Dev_Tools_Mode_Sequence::draw(float dt)
 {
-	ImGui::Begin("Sequences");
+	// Update pane layout
+	m_pane_list->transform = {{GetScreenWidth() - LIST_PANE_WIDTH, Editor_UI::Theme::HEADER_HEIGHT}, {LIST_PANE_WIDTH, GetScreenHeight() / 2}};
+	m_pane_detail->transform =
+		{{GetScreenWidth() - LIST_PANE_WIDTH, Editor_UI::Theme::HEADER_HEIGHT + GetScreenHeight() / 2}, {LIST_PANE_WIDTH, GetScreenHeight() / 2}};
 
-	m_sequence_manager.for_each([&](const String& path, Sequence& sequence){
-		const bool is_selected = m_selected_sequence.has_value() && &m_selected_sequence.value().get() == &sequence;
-		const String relative_path = get_relative_path(path, m_resource_root);
-		if (ImGui::Selectable(relative_path.data(), is_selected)) {
-			m_selected_sequence = m_sequence_manager.get(path, true);
-		}
+	rebuild_list();
+	m_context.draw(dt);
+}
+
+void Dev_Tools_Mode_Sequence::rebuild_list()
+{
+	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
+	m_pane_list->column.clear();
+
+	m_sequence_manager.for_each([&](const String& path, Sequence&){
+		const String path_relative = get_relative_path(path, m_resource_root);
+		auto row = factory.make_row(true);
+		row->add_child(factory.make_text(path_relative));
+		row->add_child(
+			factory.make_icon_button(
+				m_gui.ICON_INFO,
+				[this, path=path](){
+					m_selected_sequence = m_sequence_manager.get(path, true);
+					rebuild_sequence_edit();
+				}
+			)
+		);
+		m_pane_list->column.add_child(move(row));
+		m_pane_list->column.add_child(factory.make_divider());
 	});
-
-	ImGui::End();
-
-	if (m_selected_sequence.has_value()) {
-		draw_sequence_edit(m_selected_sequence.value().get());
-	}
 }
 
-void Dev_Tools_Mode_Sequence::draw_sequence_edit(Sequence& sequence)
+void Dev_Tools_Mode_Sequence::rebuild_sequence_edit()
 {
-	ImGui::Begin("Edit sequence");
+	Sequence& sequence = m_selected_sequence.value().get();
+	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
+	m_pane_detail->column.clear();
+
+	auto path_relative = get_relative_path(m_selected_sequence.value().get_path(), m_resource_root);
+	m_pane_detail->column.add_child(factory.make_text(path_relative));
 
 	if (sequence.is_active()) {
-		ImGui::Text("State: active");
+		m_pane_detail->column.add_child(factory.make_text("State: Active"));
 	} else {
 		if (sequence.has_finished()) {
-			ImGui::Text("State: finished");
+			m_pane_detail->column.add_child(factory.make_text("State: Finished"));
 		} else {
-			ImGui::Text("State: inactive");
+			m_pane_detail->column.add_child(factory.make_text("State: Inactive"));
 		}
 	}
 
-	ImGui::Text("Current event: %d", sequence.get_current_event_index());
-	if (ImGui::Button("Reset sequence")) {
-		sequence.reset();
-	}
-	if (ImGui::Button("Activate sequence")) {
-		sequence.try_activate();
-	}
+	m_pane_detail->column.add_child(
+		factory.make_button(
+			"Reset sequence",
+			nullptr,
+			[this](){
+				Sequence& sequence = m_selected_sequence.value().get();
+				sequence.reset();
+			}
+		)
+	);
 
-	ImGui::End();
+	m_pane_detail->column.add_child(
+		factory.make_button(
+			"Activate sequence",
+			nullptr,
+			[this](){
+				Sequence& sequence = m_selected_sequence.value().get();
+				sequence.try_activate();
+			}
+		)
+	);
 }

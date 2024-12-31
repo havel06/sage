@@ -2,6 +2,14 @@
 #include "graphics/shader.hpp"
 #include "combat/combat_unit.hpp"
 
+// <math.h> fwd
+extern "C"
+{
+double sin(double);
+double cos(double);
+}
+
+
 Combat_Renderer_Unit::Combat_Renderer_Unit(Sage_Shader& shader, float hp_shown, const Battle_Unit_Placement& placement_) :
 	m_shader{shader}
 {

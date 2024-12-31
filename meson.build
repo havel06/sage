@@ -208,5 +208,7 @@ executable('sage', src,
   dependencies : deps,
   include_directories : [vendor_inc, 'src'],
   override_options : build_options,
+  cpp_args : '-ftime-trace',
+  link_args : '-lm',
   link_with : vendor_lib
 )

@@ -17,7 +17,6 @@ Saveload_System::Saveload_System(
 		resource_system.sequence_manager,
 		resource_system.character_profile_manager,
 		scriptable_gui,
-		resource_system.texture_manager,
 		logic
 	},
 	m_map_saveloader{

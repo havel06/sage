@@ -18,7 +18,7 @@ namespace JSON {
 class Sequence_Loader
 {
 public:
-	Sequence_Loader(const String& resource_root_path, Resource_System&, Game_Facade&, GUI_Loader&);
+	Sequence_Loader(const String& resource_root_path, Resource_System&, Game_Facade&);
 	Sequence load(const String& filename);
 
 private:
@@ -29,7 +29,4 @@ private:
 	Event_Parameter_Parser m_event_parameter_parser;
 	Event_Parser m_event_parser; // FIXME - DI???
 	Condition_Parser m_condition_parser;
-	Game_Facade& m_facade;
-	Resource_System& m_resource_system;
-	GUI_Loader& m_gui_loader;
 };

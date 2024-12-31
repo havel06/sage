@@ -44,11 +44,10 @@
 #include "sequence/event_factories/reset_current_unit_sprite.hpp"
 #include "sequence/event_factories/set_layer_opacity.hpp"
 
-Event_Parser::Event_Parser(Event_Parameter_Parser& param_parser, Resource_System& res_system, GUI_Loader& gui_loader, Game_Facade& game_facade) :
+Event_Parser::Event_Parser(Event_Parameter_Parser& param_parser, Resource_System& res_system, Game_Facade& game_facade) :
 	m_event_parameter_parser{param_parser},
 	m_facade{game_facade},
-	m_resource_system{res_system},
-	m_gui_loader{gui_loader}
+	m_resource_system{res_system}
 {
 }
 

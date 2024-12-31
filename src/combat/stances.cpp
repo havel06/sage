@@ -1,6 +1,12 @@
 #include "stances.hpp"
-#include <math.h>
 #include <assert.h>
+
+// <math.h> fwd
+extern "C"
+{
+double sqrt(double);
+double pow(double, double);
+}
 
 Combat_Stances Combat_Stances::normalised() const
 {

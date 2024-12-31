@@ -17,13 +17,10 @@
 #include "../json_types.hpp"
 #include "../resource/resource_system.hpp"
 
-Sequence_Loader::Sequence_Loader(const String& resource_root_path, Resource_System& res_system, Game_Facade& facade, GUI_Loader& gui_loader) :
+Sequence_Loader::Sequence_Loader(const String& resource_root_path, Resource_System& res_system, Game_Facade& facade) :
 	m_event_parameter_parser(m_condition_parser, res_system.texture_manager),
-	m_event_parser{m_event_parameter_parser, res_system, gui_loader, facade},
-	m_condition_parser{m_event_parameter_parser, facade},
-	m_facade{facade},
-	m_resource_system{res_system},
-	m_gui_loader{gui_loader}
+	m_event_parser{m_event_parameter_parser, res_system, facade},
+	m_condition_parser{m_event_parameter_parser, facade}
 {
 	m_resource_root_path = resource_root_path;
 }

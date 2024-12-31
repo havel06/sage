@@ -1,7 +1,14 @@
 #pragma once
 
 #include "abs.hpp"
-#include <math.h>
+
+// <math.h> fwd
+extern "C"
+{
+double round(double);
+double sqrt(double);
+}
+
 
 template<typename T>
 struct Vec2
@@ -22,7 +29,7 @@ struct Vec2
 
 	Vec2<T> round() const
 	{
-		return {::round(x), ::round(y)};
+		return {(float)::round(x), (float)::round(y)};
 	}
 
 	T manhattan() const
@@ -37,7 +44,7 @@ struct Vec2
 
 	float length() const
 	{
-		return sqrt(x * x + y * y);
+		return ::sqrt(x * x + y * y);
 	}
 
 	Vec2<T> normalised() const

@@ -14,7 +14,7 @@ Resource_System::Resource_System(const String& resource_root_path, Game_Facade& 
 	sequence_manager(resource_root_path, m_sequence_loader),
 	character_profile_manager(resource_root_path, texture_manager, sequence_manager),
 	map_manager(resource_root_path, *this),
-	m_sequence_loader{resource_root_path, *this, facade, gui_loader}
+	m_sequence_loader{resource_root_path, *this, facade}
 {
 }
 

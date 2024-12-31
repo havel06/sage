@@ -17,7 +17,7 @@ namespace JSON {
 class Event_Parser
 {
 public:
-	Event_Parser(Event_Parameter_Parser&, Resource_System&, GUI_Loader&, Game_Facade&);
+	Event_Parser(Event_Parameter_Parser&, Resource_System&, Game_Facade&);
 	Own_Ptr<Event> parse_event(const JSON::Object_View&, const JSON::Object_View& template_parameters);
 private:
 	Own_Ptr<Event_Factory> get_factory_for_event_type(const String& type);
@@ -28,5 +28,4 @@ private:
 	Event_Parameter_Parser& m_event_parameter_parser;
 	Game_Facade& m_facade;
 	Resource_System& m_resource_system;
-	GUI_Loader& m_gui_loader;
 };

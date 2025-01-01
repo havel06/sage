@@ -64,6 +64,12 @@ void Game_Logic::new_game()
 
 void Game_Logic::enter_combat(const Battle_Description& description)
 {
+	// Make sure that battle desc has got at least one enemy
+	if (description.enemies.empty()) {
+		SG_ERROR("Battle has no enemies.");
+		return;
+	}
+
 	state_combat.start_battle({}, description);
 
 	if (m_state == Game_Logic_State::main_menu_to_normal)

@@ -23,6 +23,7 @@ private:
 	int m_scroll_amount = 0;
 	bool m_hover = false;
 	Recti m_bounding_box; // Set by layout
+	int m_child_height; // Set by layout
 };
 
 }

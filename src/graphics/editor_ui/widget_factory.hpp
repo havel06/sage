@@ -23,6 +23,7 @@ namespace Editor_UI::Widgets {
 	class Input;
 	class Nav_Rail;
 	class Nav_Rail_Item;
+	class Progress_Bar;
 	class Row;
 	class Text;
 }
@@ -48,6 +49,7 @@ public:
 	Own_Ptr<Widgets::Nav_Rail_Item> make_nav_rail_item(const Icon_Resource& icon, const String& label, Function_Wrapper<void()>&& callback);
 	Own_Ptr<Widgets::Row> make_row(bool stretch = false);
 	Own_Ptr<Widgets::Text> make_text(const String& content);
+	Own_Ptr<Widgets::Progress_Bar> make_progress_bar(float progress);
 private:
 	const Font& m_font;
 };

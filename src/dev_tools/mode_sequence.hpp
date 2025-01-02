@@ -22,7 +22,7 @@ public:
 	void draw(float dt);
 private:
 	void rebuild_list();
-	void rebuild_sequence_edit();
+	void try_rebuild_sequence_edit();
 
 	Sequence_Manager& m_sequence_manager;
 	Editor_UI::System& m_gui;

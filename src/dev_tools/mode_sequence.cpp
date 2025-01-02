@@ -6,6 +6,7 @@
 #include "graphics/editor_ui/widgets/button.hpp"
 #include "graphics/editor_ui/widgets/divider.hpp"
 #include "graphics/editor_ui/widgets/text.hpp"
+#include "graphics/editor_ui/widgets/progress_bar.hpp"
 #include "io/resource/sequence_manager.hpp"
 #include "raylib/raylib.h"
 #include "sequence/sequence.hpp"
@@ -33,6 +34,7 @@ void Dev_Tools_Mode_Sequence::draw(float dt)
 		{{GetScreenWidth() - LIST_PANE_WIDTH, Editor_UI::Theme::HEADER_HEIGHT + GetScreenHeight() / 2}, {LIST_PANE_WIDTH, GetScreenHeight() / 2}};
 
 	rebuild_list();
+	try_rebuild_sequence_edit();
 	m_context.draw(dt);
 }
 
@@ -50,7 +52,6 @@ void Dev_Tools_Mode_Sequence::rebuild_list()
 				m_gui.ICON_INFO,
 				[this, path=path](){
 					m_selected_sequence = m_sequence_manager.get(path, true);
-					rebuild_sequence_edit();
 				}
 			)
 		);
@@ -59,8 +60,11 @@ void Dev_Tools_Mode_Sequence::rebuild_list()
 	});
 }
 
-void Dev_Tools_Mode_Sequence::rebuild_sequence_edit()
+void Dev_Tools_Mode_Sequence::try_rebuild_sequence_edit()
 {
+	if (!m_selected_sequence.has_value())
+		return;
+
 	Sequence& sequence = m_selected_sequence.value().get();
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 	m_pane_detail->column.clear();
@@ -77,6 +81,8 @@ void Dev_Tools_Mode_Sequence::rebuild_sequence_edit()
 			m_pane_detail->column.add_child(factory.make_text("State: Inactive"));
 		}
 	}
+
+	m_pane_detail->column.add_child(factory.make_progress_bar((float)sequence.get_current_event_index() / sequence.get_event_count()));
 
 	m_pane_detail->column.add_child(
 		factory.make_button(

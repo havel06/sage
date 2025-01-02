@@ -10,6 +10,7 @@
 #include "graphics/editor_ui/widgets/button.hpp"
 #include "utils/move.hpp"
 #include "graphics/editor_ui/widgets/image.hpp"
+#include "graphics/editor_ui/widgets/progress_bar.hpp"
 
 namespace Editor_UI
 {
@@ -82,6 +83,11 @@ Own_Ptr<Widgets::Row> Widget_Factory::make_row(bool stretch)
 Own_Ptr<Widgets::Text> Widget_Factory::make_text(const String& content)
 {
 	return make_own_ptr<Widgets::Text>(content, m_font, Theme::ON_SURFACE);
+}
+
+Own_Ptr<Widgets::Progress_Bar> Widget_Factory::make_progress_bar(float progress)
+{
+	return make_own_ptr<Widgets::Progress_Bar>(progress);
 }
 
 }

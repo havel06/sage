@@ -25,6 +25,7 @@ public:
 	// Only makes sense to use for non-repeatable sequences
 	bool has_finished() const { return m_finished; }
 	int get_current_event_index() const { return m_current_event; }
+	int get_event_count() const { return m_events.size(); }
 private:
 	void end_or_reset();
 

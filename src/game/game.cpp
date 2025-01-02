@@ -85,8 +85,13 @@ void Game::draw_frame(float time_delta)
 	if (IsKeyPressed(KEY_F1))
 		SetWindowSize(m_initial_window_size.x, m_initial_window_size.y);
 
-	if (IsKeyPressed(KEY_F3))
+	if (IsKeyPressed(KEY_F3)) {
 		m_dev_mode = !m_dev_mode;
+		if (m_dev_mode) {
+			// Just opened
+			m_dev_tools.update();
+		}
+	}
 
 	if (m_dev_mode) {
 		m_camera_controller.update(m_logic_normal.get_map(), m_logic_normal.get_player(), time_delta);

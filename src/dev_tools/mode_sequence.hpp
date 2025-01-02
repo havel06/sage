@@ -20,6 +20,7 @@ class Dev_Tools_Mode_Sequence
 public:
 	Dev_Tools_Mode_Sequence(Editor_UI::System&, Sequence_Manager&, const String& resource_root_path);
 	void draw(float dt);
+	void update(); // Call when opened
 private:
 	void rebuild_list();
 	void try_rebuild_sequence_edit();

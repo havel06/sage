@@ -37,6 +37,7 @@ Vec2i Scroll::layout(Recti bounding_box)
 	// Limit scroll amount
 	const int scroll_max = max(child_size.y - m_bounding_box.size.y, 0);
 	m_scroll_amount = min(m_scroll_amount, scroll_max);
+	m_scroll_amount = max(m_scroll_amount, 0);
 
 	// Second layout pass to position the child correctly
 	m_child->layout(
@@ -66,7 +67,7 @@ void Scroll::handle_key(int key)
 
 void Scroll::handle_scroll(float amount)
 {
-	m_scroll_amount += amount * 20;
+	m_scroll_amount -= amount * 20;
 }
 
 }

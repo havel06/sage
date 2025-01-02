@@ -25,7 +25,6 @@ Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Editor_UI::System& gui, Sequenc
 	m_resource_root{resource_root_path}
 {
 	m_pane_list = &m_context.add_pane({});
-	m_pane_list->column.padding = Editor_UI::Theme::PADDING_SMALL;
 	m_pane_detail = &m_context.add_pane({});
 }
 
@@ -36,15 +35,20 @@ void Dev_Tools_Mode_Sequence::draw(float dt)
 	m_pane_detail->transform =
 		{{GetScreenWidth() - LIST_PANE_WIDTH, Editor_UI::Theme::HEADER_HEIGHT + GetScreenHeight() / 2}, {LIST_PANE_WIDTH, GetScreenHeight() / 2}};
 
-	rebuild_list();
 	try_rebuild_sequence_edit();
 	m_context.draw(dt);
+}
+
+void Dev_Tools_Mode_Sequence::update()
+{
+	rebuild_list();
 }
 
 void Dev_Tools_Mode_Sequence::rebuild_list()
 {
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 	Own_Ptr<Editor_UI::Widgets::Column> column = factory.make_column();
+	column->padding = Editor_UI::Theme::PADDING_SMALL;
 
 	m_sequence_manager.for_each([&](const String& path, Sequence&){
 		const String path_relative = get_relative_path(path, m_resource_root);

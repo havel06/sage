@@ -87,6 +87,11 @@ void Dev_Tools::draw(Map& map, const String& map_filename, float dt)
 	rlImGuiEnd();
 }
 
+void Dev_Tools::update()
+{
+	m_sequence.update();	
+}
+
 void Dev_Tools::input_char(char character)
 {
 	m_header.input_char(character);

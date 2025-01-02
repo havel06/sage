@@ -54,9 +54,11 @@ Array<Formatted_Text_Fragment> Text::split_text_to_words(const Formatted_Text& t
 
 		for (int i = 0; i < fragment.text.length(); i++) {
 			char c = fragment.text[i];
-			if (c == ' ' && !word.text.empty()) {
-				words.push_back(word);
-				word.text.clear();
+			if (c == ' ') {
+				if (!word.text.empty()) {
+					words.push_back(word);
+					word.text.clear();
+				}
 			} else if (c == '\n') {
 				words.push_back(word);
 				words.push_back(Formatted_Text_Fragment{.text = "\n"});

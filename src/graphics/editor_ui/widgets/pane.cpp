@@ -69,4 +69,9 @@ void Pane::handle_key(int key)
 	column.handle_key(key);
 }
 
+void Pane::handle_scroll(float amount)
+{
+	column.handle_scroll(amount);
+}
+
 }

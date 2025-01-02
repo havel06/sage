@@ -6,11 +6,13 @@
 #include "graphics/editor_ui/widgets/input.hpp"
 #include "graphics/editor_ui/widgets/nav_rail.hpp"
 #include "graphics/editor_ui/widgets/row.hpp"
+#include "graphics/editor_ui/widgets/scroll.hpp"
 #include "graphics/editor_ui/widgets/text.hpp"
 #include "graphics/editor_ui/widgets/button.hpp"
 #include "utils/move.hpp"
 #include "graphics/editor_ui/widgets/image.hpp"
 #include "graphics/editor_ui/widgets/progress_bar.hpp"
+#include "utils/own_ptr.hpp"
 
 namespace Editor_UI
 {
@@ -88,6 +90,11 @@ Own_Ptr<Widgets::Text> Widget_Factory::make_text(const String& content)
 Own_Ptr<Widgets::Progress_Bar> Widget_Factory::make_progress_bar(float progress)
 {
 	return make_own_ptr<Widgets::Progress_Bar>(progress);
+}
+
+Own_Ptr<Widgets::Scroll> Widget_Factory::make_scroll(Own_Ptr<Widget>&& child)
+{
+	return make_own_ptr<Widgets::Scroll>(move(child));
 }
 
 }

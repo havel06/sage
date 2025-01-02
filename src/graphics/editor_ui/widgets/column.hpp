@@ -20,6 +20,7 @@ public:
 	void handle_mouse(Vec2i position, bool click) override;
 	void handle_character(char) override;
 	void handle_key(int key) override;
+	void handle_scroll(float amount) override;
 private:
 	Array<Own_Ptr<Widget>> m_children;
 

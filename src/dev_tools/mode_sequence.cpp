@@ -2,9 +2,11 @@
 #include "graphics/editor_ui/theme.hpp"
 #include "graphics/editor_ui/widget_factory.hpp"
 #include "graphics/editor_ui/system.hpp"
+#include "graphics/editor_ui/widgets/column.hpp"
 #include "graphics/editor_ui/widgets/row.hpp"
 #include "graphics/editor_ui/widgets/button.hpp"
 #include "graphics/editor_ui/widgets/divider.hpp"
+#include "graphics/editor_ui/widgets/scroll.hpp"
 #include "graphics/editor_ui/widgets/text.hpp"
 #include "graphics/editor_ui/widgets/progress_bar.hpp"
 #include "io/resource/sequence_manager.hpp"
@@ -13,6 +15,7 @@
 #include "utils/filesystem.hpp"
 #include "utils/log.hpp"
 #include "utils/function_wrapper.hpp"
+#include "utils/own_ptr.hpp"
 
 static const int LIST_PANE_WIDTH = 400;
 
@@ -41,7 +44,7 @@ void Dev_Tools_Mode_Sequence::draw(float dt)
 void Dev_Tools_Mode_Sequence::rebuild_list()
 {
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
-	m_pane_list->column.clear();
+	Own_Ptr<Editor_UI::Widgets::Column> column = factory.make_column();
 
 	m_sequence_manager.for_each([&](const String& path, Sequence&){
 		const String path_relative = get_relative_path(path, m_resource_root);
@@ -55,9 +58,13 @@ void Dev_Tools_Mode_Sequence::rebuild_list()
 				}
 			)
 		);
-		m_pane_list->column.add_child(move(row));
-		m_pane_list->column.add_child(factory.make_divider());
+		column->add_child(move(row));
+		column->add_child(factory.make_divider());
 	});
+
+	// Add to main pane
+	m_pane_list->column.clear();
+	m_pane_list->column.add_child(factory.make_scroll(move(column)));
 }
 
 void Dev_Tools_Mode_Sequence::try_rebuild_sequence_edit()

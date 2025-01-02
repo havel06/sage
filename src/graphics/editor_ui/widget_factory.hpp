@@ -13,6 +13,7 @@ class Sprite;
 struct Colour;
 namespace Editor_UI {
 	class Icon_Resource;
+	class Widget;
 }
 namespace Editor_UI::Widgets {
 	class Button;
@@ -25,6 +26,7 @@ namespace Editor_UI::Widgets {
 	class Nav_Rail_Item;
 	class Progress_Bar;
 	class Row;
+	class Scroll;
 	class Text;
 }
 
@@ -50,6 +52,7 @@ public:
 	Own_Ptr<Widgets::Row> make_row(bool stretch = false);
 	Own_Ptr<Widgets::Text> make_text(const String& content);
 	Own_Ptr<Widgets::Progress_Bar> make_progress_bar(float progress);
+	Own_Ptr<Widgets::Scroll> make_scroll(Own_Ptr<Widget>&& child);
 private:
 	const Font& m_font;
 };

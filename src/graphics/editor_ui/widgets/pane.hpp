@@ -21,6 +21,7 @@ public:
 	void handle_mouse(Vec2i position, bool click) override;
 	void handle_character(char) override;
 	void handle_key(int) override;
+	void handle_scroll(float amount) override;
 private:
 	bool m_padding = true;
 };

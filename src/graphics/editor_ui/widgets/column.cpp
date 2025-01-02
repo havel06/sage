@@ -70,4 +70,11 @@ void Column::handle_key(int key)
 	}
 }
 
+void Column::handle_scroll(float amount)
+{
+	for (auto& child : m_children) {
+		child->handle_scroll(amount);
+	}
+}
+
 }

@@ -44,6 +44,7 @@ src = [
   'src/graphics/editor_ui/widgets/pane.cpp',
   'src/graphics/editor_ui/widgets/progress_bar.cpp',
   'src/graphics/editor_ui/widgets/row.cpp',
+  'src/graphics/editor_ui/widgets/scroll.cpp',
   'src/graphics/editor_ui/widgets/text.cpp',
   'src/graphics/editor_ui/system.cpp',
   'src/graphics/inventory_renderer.cpp',

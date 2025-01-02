@@ -21,6 +21,7 @@ public:
 private:
 	Own_Ptr<Widget> m_child;
 	int m_scroll_amount = 0;
+	bool m_hover = false;
 	Recti m_bounding_box; // Set by layout
 };
 

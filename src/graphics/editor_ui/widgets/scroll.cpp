@@ -53,6 +53,7 @@ Vec2i Scroll::layout(Recti bounding_box)
 void Scroll::handle_mouse(Vec2i pos, bool click)
 {
 	m_child->handle_mouse(pos, click);
+	m_hover = m_bounding_box.contains(pos);
 }
 
 void Scroll::handle_character(char input)
@@ -67,7 +68,8 @@ void Scroll::handle_key(int key)
 
 void Scroll::handle_scroll(float amount)
 {
-	m_scroll_amount -= amount * 20;
+	if (m_hover)
+		m_scroll_amount -= amount * 20;
 }
 
 }

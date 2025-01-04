@@ -5,10 +5,10 @@
 #include "graphics/editor_ui/widgets/column.hpp"
 #include "graphics/editor_ui/widgets/row.hpp"
 #include "graphics/editor_ui/widgets/button.hpp"
-#include "graphics/editor_ui/widgets/divider.hpp"
 #include "graphics/editor_ui/widgets/scroll.hpp"
+#include "graphics/editor_ui/widgets/divider.hpp"
+#include "graphics/editor_ui/widgets/view_model_holder.hpp"
 #include "graphics/editor_ui/widgets/text.hpp"
-#include "graphics/editor_ui/widgets/progress_bar.hpp"
 #include "io/resource/sequence_manager.hpp"
 #include "raylib/raylib.h"
 #include "sequence/sequence.hpp"
@@ -20,7 +20,8 @@
 Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Editor_UI::System& gui, Sequence_Manager& seq_manager, const String& resource_root_path) :
 	m_sequence_manager{seq_manager},
 	m_gui{gui},
-	m_resource_root{resource_root_path}
+	m_resource_root{resource_root_path},
+	m_detail{gui, resource_root_path}
 {
 }
 
@@ -42,12 +43,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Sequence::build()
 	auto column = factory.make_column();
 
 	column->add_child(build_list());
-
-	auto edit = try_build_sequence_edit();
-	if (edit) {
-		column->add_child(factory.make_divider());
-		column->add_child(move(edit));
-	}
+	column->add_child(factory.make_view_model_holder(m_detail));
 
 	m_dirty = false;
 	return column;
@@ -67,9 +63,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Sequence::build_list()
 			factory.make_icon_button(
 				m_gui.ICON_INFO,
 				[this, path=path](){
-					m_selected_sequence = m_sequence_manager.get(path, true);
-					m_dirty = true;
-					SG_DEBUG("Click");
+					m_detail.set_sequence(m_sequence_manager.get(path, true));
 				}
 			)
 		);
@@ -79,56 +73,4 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Sequence::build_list()
 
 	// Add to main pane
 	return factory.make_scroll(move(column));
-}
-
-Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Sequence::try_build_sequence_edit()
-{
-	if (!m_selected_sequence.has_value())
-		return {};
-
-	Sequence& sequence = m_selected_sequence.value().get();
-
-	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
-	auto column = factory.make_column();
-
-	auto path_relative = get_relative_path(m_selected_sequence.value().get_path(), m_resource_root);
-	column->add_child(factory.make_text(path_relative));
-
-	if (sequence.is_active()) {
-		column->add_child(factory.make_text("State: Active"));
-	} else {
-		if (sequence.has_finished()) {
-			column->add_child(factory.make_text("State: Finished"));
-		} else {
-			column->add_child(factory.make_text("State: Inactive"));
-		}
-	}
-
-	column->add_child(factory.make_progress_bar((float)sequence.get_current_event_index() / sequence.get_event_count()));
-
-	column->add_child(
-		factory.make_button(
-			"Reset sequence",
-			nullptr,
-			[this](){
-				Sequence& sequence = m_selected_sequence.value().get();
-				m_dirty = true;
-				sequence.reset();
-			}
-		)
-	);
-
-	column->add_child(
-		factory.make_button(
-			"Activate sequence",
-			nullptr,
-			[this](){
-				Sequence& sequence = m_selected_sequence.value().get();
-				m_dirty = true;
-				sequence.try_activate();
-			}
-		)
-	);
-
-	return column;
 }

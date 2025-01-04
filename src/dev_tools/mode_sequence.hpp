@@ -1,4 +1,5 @@
 #pragma once
+#include "sequence_detail.hpp"
 #include "graphics/editor_ui/context.hpp"
 #include "graphics/editor_ui/view_model.hpp"
 #include "io/resource/resource_handle.hpp"
@@ -25,13 +26,11 @@ public:
 	bool is_dirty() const override;
 private:
 	Own_Ptr<Editor_UI::Widget> build_list();
-	Own_Ptr<Editor_UI::Widget> try_build_sequence_edit();
 
 	Sequence_Manager& m_sequence_manager;
 	Editor_UI::System& m_gui;
 	String m_resource_root;
-
-	Optional<Resource_Handle<Sequence>> m_selected_sequence;
+	Dev_Tools_Sequence_Detail m_detail;
 
 	bool m_dirty = true;
 };

@@ -39,6 +39,7 @@ private:
 
 	Editor_UI::Context m_context;
 	Editor_UI::Widgets::Pane* m_right_pane = nullptr;
+	Editor_UI::Widgets::Stack* m_right_pane_stack = nullptr;
 
 	Dev_Tools_Mode m_mode = Dev_Tools_Mode::items;
 };

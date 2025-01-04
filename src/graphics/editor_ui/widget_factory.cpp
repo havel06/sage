@@ -10,6 +10,7 @@
 #include "graphics/editor_ui/widgets/text.hpp"
 #include "graphics/editor_ui/widgets/button.hpp"
 #include "graphics/editor_ui/widgets/view_model_holder.hpp"
+#include "graphics/editor_ui/widgets/stack.hpp"
 #include "utils/move.hpp"
 #include "graphics/editor_ui/widgets/image.hpp"
 #include "graphics/editor_ui/widgets/progress_bar.hpp"
@@ -101,6 +102,11 @@ Own_Ptr<Widgets::Scroll> Widget_Factory::make_scroll(Own_Ptr<Widget>&& child)
 Own_Ptr<Widgets::View_Model_Holder> Widget_Factory::make_view_model_holder(View_Model& view_model)
 {
 	return make_own_ptr<Widgets::View_Model_Holder>(view_model);
+}
+
+Own_Ptr<Widgets::Stack> Widget_Factory::make_stack()
+{
+	return make_own_ptr<Widgets::Stack>();
 }
 
 }

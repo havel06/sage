@@ -17,34 +17,43 @@
 #include "utils/function_wrapper.hpp"
 #include "utils/own_ptr.hpp"
 
-static const int LIST_PANE_WIDTH = 400;
-
 Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Editor_UI::System& gui, Sequence_Manager& seq_manager, const String& resource_root_path) :
 	m_sequence_manager{seq_manager},
 	m_gui{gui},
 	m_resource_root{resource_root_path}
 {
-	m_pane_list = &m_context.add_pane({});
-	m_pane_detail = &m_context.add_pane({});
 }
 
-void Dev_Tools_Mode_Sequence::draw(float dt)
-{
-	// Update pane layout
-	m_pane_list->transform = {{GetScreenWidth() - LIST_PANE_WIDTH, Editor_UI::Theme::HEADER_HEIGHT}, {LIST_PANE_WIDTH, GetScreenHeight() / 2}};
-	m_pane_detail->transform =
-		{{GetScreenWidth() - LIST_PANE_WIDTH, Editor_UI::Theme::HEADER_HEIGHT + GetScreenHeight() / 2}, {LIST_PANE_WIDTH, GetScreenHeight() / 2}};
-
-	try_rebuild_sequence_edit();
-	m_context.draw(dt);
-}
 
 void Dev_Tools_Mode_Sequence::update()
 {
-	rebuild_list();
+	m_dirty = true;
 }
 
-void Dev_Tools_Mode_Sequence::rebuild_list()
+bool Dev_Tools_Mode_Sequence::is_dirty() const
+{
+	return m_dirty;
+}
+
+Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Sequence::build()
+{
+	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
+
+	auto column = factory.make_column();
+
+	column->add_child(build_list());
+
+	auto edit = try_build_sequence_edit();
+	if (edit) {
+		column->add_child(factory.make_divider());
+		column->add_child(move(edit));
+	}
+
+	m_dirty = false;
+	return column;
+}
+
+Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Sequence::build_list()
 {
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 	Own_Ptr<Editor_UI::Widgets::Column> column = factory.make_column();
@@ -59,6 +68,8 @@ void Dev_Tools_Mode_Sequence::rebuild_list()
 				m_gui.ICON_INFO,
 				[this, path=path](){
 					m_selected_sequence = m_sequence_manager.get(path, true);
+					m_dirty = true;
+					SG_DEBUG("Click");
 				}
 			)
 		);
@@ -67,53 +78,57 @@ void Dev_Tools_Mode_Sequence::rebuild_list()
 	});
 
 	// Add to main pane
-	m_pane_list->column.clear();
-	m_pane_list->column.add_child(factory.make_scroll(move(column)));
+	return factory.make_scroll(move(column));
 }
 
-void Dev_Tools_Mode_Sequence::try_rebuild_sequence_edit()
+Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Sequence::try_build_sequence_edit()
 {
 	if (!m_selected_sequence.has_value())
-		return;
+		return {};
 
 	Sequence& sequence = m_selected_sequence.value().get();
+
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
-	m_pane_detail->column.clear();
+	auto column = factory.make_column();
 
 	auto path_relative = get_relative_path(m_selected_sequence.value().get_path(), m_resource_root);
-	m_pane_detail->column.add_child(factory.make_text(path_relative));
+	column->add_child(factory.make_text(path_relative));
 
 	if (sequence.is_active()) {
-		m_pane_detail->column.add_child(factory.make_text("State: Active"));
+		column->add_child(factory.make_text("State: Active"));
 	} else {
 		if (sequence.has_finished()) {
-			m_pane_detail->column.add_child(factory.make_text("State: Finished"));
+			column->add_child(factory.make_text("State: Finished"));
 		} else {
-			m_pane_detail->column.add_child(factory.make_text("State: Inactive"));
+			column->add_child(factory.make_text("State: Inactive"));
 		}
 	}
 
-	m_pane_detail->column.add_child(factory.make_progress_bar((float)sequence.get_current_event_index() / sequence.get_event_count()));
+	column->add_child(factory.make_progress_bar((float)sequence.get_current_event_index() / sequence.get_event_count()));
 
-	m_pane_detail->column.add_child(
+	column->add_child(
 		factory.make_button(
 			"Reset sequence",
 			nullptr,
 			[this](){
 				Sequence& sequence = m_selected_sequence.value().get();
+				m_dirty = true;
 				sequence.reset();
 			}
 		)
 	);
 
-	m_pane_detail->column.add_child(
+	column->add_child(
 		factory.make_button(
 			"Activate sequence",
 			nullptr,
 			[this](){
 				Sequence& sequence = m_selected_sequence.value().get();
+				m_dirty = true;
 				sequence.try_activate();
 			}
 		)
 	);
+
+	return column;
 }

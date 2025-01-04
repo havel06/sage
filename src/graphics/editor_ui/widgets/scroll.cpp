@@ -59,6 +59,7 @@ Vec2i Scroll::layout(Recti bounding_box)
 	m_bounding_box.position = bounding_box.position;
 	m_bounding_box.size.x = bounding_box.size.x;
 	m_bounding_box.size.y = min(bounding_box.size.y, child_size.y);
+	m_bounding_box.size.y = min(m_bounding_box.size.y, max_height);
 
 	// Second layout pass to position the child correctly
 	child_bounding_box.position.y -= m_scroll_amount;

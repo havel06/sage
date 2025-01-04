@@ -28,6 +28,7 @@ namespace Editor_UI::Widgets {
 	class Progress_Bar;
 	class Row;
 	class Scroll;
+	class Stack;
 	class Text;
 	class View_Model_Holder;
 }
@@ -56,6 +57,7 @@ public:
 	Own_Ptr<Widgets::Progress_Bar> make_progress_bar(float progress);
 	Own_Ptr<Widgets::Scroll> make_scroll(Own_Ptr<Widget>&& child);
 	Own_Ptr<Widgets::View_Model_Holder> make_view_model_holder(View_Model&);
+	Own_Ptr<Widgets::Stack> make_stack();
 private:
 	const Font& m_font;
 };

@@ -9,6 +9,7 @@
 #include "graphics/editor_ui/theme.hpp"
 #include "graphics/editor_ui/widgets/nav_rail.hpp"
 #include "graphics/editor_ui/widgets/view_model_holder.hpp"
+#include "graphics/editor_ui/widgets/stack.hpp"
 
 Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade, Game_Logic& logic, Game_Logic_State_Normal& logic_normal, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
 	m_user_dir_provider{dir_provider},
@@ -34,6 +35,7 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 			"Sequences",
 			[this, rail = nav_rail.get()](){
 				rail->set_active_index(0);
+				m_right_pane_stack->set_current_widget(1);
 				m_mode = Dev_Tools_Mode::sequence;
 			}
 		)
@@ -44,6 +46,7 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 			"Entities",
 			[this, rail = nav_rail.get()](){
 				rail->set_active_index(1);
+				m_right_pane_stack->set_current_widget(0);
 				m_mode = Dev_Tools_Mode::entities;
 			}
 		)
@@ -54,6 +57,7 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 			"Items",
 			[this, rail = nav_rail.get()](){
 				rail->set_active_index(2);
+				m_right_pane_stack->set_current_widget(0);
 				m_mode = Dev_Tools_Mode::items;
 			}
 		)
@@ -62,7 +66,13 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 
 	// Right pane
 	m_right_pane = &m_context.add_pane({});
-	m_right_pane->column.add_child(factory.make_view_model_holder(m_items));
+
+	auto stack = factory.make_stack();
+	m_right_pane_stack = stack.get();
+	stack->add_child(factory.make_view_model_holder(m_items));
+	stack->add_child(factory.make_view_model_holder(m_sequence));
+
+	m_right_pane->column.add_child(move(stack));
 }
 
 Dev_Tools::~Dev_Tools()
@@ -84,7 +94,7 @@ void Dev_Tools::draw(Map& map, const String& map_filename, float dt)
 	rlImGuiBegin();
 	switch (m_mode) {
 		case Dev_Tools_Mode::sequence:
-			m_sequence.draw(dt);
+			//m_sequence.draw(dt);
 			break;
 		case Dev_Tools_Mode::entities:
 			m_entity.draw(map.entities);

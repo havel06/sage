@@ -64,7 +64,6 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Items::build()
 
 	column->add_child(move(delete_button));
 
-	m_dirty = false;
 	return column;
 }
 

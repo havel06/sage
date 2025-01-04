@@ -1,5 +1,6 @@
 #pragma once
 #include "graphics/editor_ui/context.hpp"
+#include "graphics/editor_ui/view_model.hpp"
 #include "io/resource/resource_handle.hpp"
 #include "utils/string.hpp"
 #include "utils/optional.hpp"
@@ -15,15 +16,16 @@ namespace Editor_UI {
 }
 
 // Sequence edit mode UI
-class Dev_Tools_Mode_Sequence
+class Dev_Tools_Mode_Sequence : public Editor_UI::View_Model
 {
 public:
 	Dev_Tools_Mode_Sequence(Editor_UI::System&, Sequence_Manager&, const String& resource_root_path);
-	void draw(float dt);
 	void update(); // Call when opened
+	Own_Ptr<Editor_UI::Widget> build() override;
+	bool is_dirty() const override;
 private:
-	void rebuild_list();
-	void try_rebuild_sequence_edit();
+	Own_Ptr<Editor_UI::Widget> build_list();
+	Own_Ptr<Editor_UI::Widget> try_build_sequence_edit();
 
 	Sequence_Manager& m_sequence_manager;
 	Editor_UI::System& m_gui;
@@ -31,7 +33,5 @@ private:
 
 	Optional<Resource_Handle<Sequence>> m_selected_sequence;
 
-	Editor_UI::Context m_context;
-	Editor_UI::Widgets::Pane* m_pane_list;
-	Editor_UI::Widgets::Pane* m_pane_detail;
+	bool m_dirty = true;
 };

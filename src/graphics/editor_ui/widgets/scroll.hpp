@@ -10,6 +10,7 @@ namespace Editor_UI::Widgets
 class Scroll : public Widget
 {
 public:
+	int max_height = 300;
 	Scroll(Own_Ptr<Widget>&& child);
 
 	void update() override;

@@ -43,4 +43,9 @@ void View_Model_Holder::handle_key(int key)
 	m_child->handle_key(key);
 }
 
+void View_Model_Holder::handle_scroll(float amount)
+{
+	m_child->handle_scroll(amount);
+}
+
 }

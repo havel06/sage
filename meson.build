@@ -45,6 +45,7 @@ src = [
   'src/graphics/editor_ui/widgets/progress_bar.cpp',
   'src/graphics/editor_ui/widgets/row.cpp',
   'src/graphics/editor_ui/widgets/scroll.cpp',
+  'src/graphics/editor_ui/widgets/stack.cpp',
   'src/graphics/editor_ui/widgets/text.cpp',
   'src/graphics/editor_ui/widgets/view_model_holder.cpp',
   'src/graphics/editor_ui/system.cpp',

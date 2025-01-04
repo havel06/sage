@@ -2,28 +2,28 @@
 
 #include "../widget.hpp"
 #include "utils/own_ptr.hpp"
-
-// fwd
-namespace Editor_UI { class View_Model; }
+#include "utils/array.hpp"
 
 namespace Editor_UI::Widgets
 {
 
-class View_Model_Holder : public Widget
+// Stack contains multiple widgets and allows switching between them.
+class Stack : public Widget
 {
 public:
-	View_Model_Holder(View_Model&);
+	void add_child(Own_Ptr<Widget>&& child);
+	void set_current_widget(int index);
 
-	void draw(float dt) override;
 	void update() override;
+	void draw(float dt) override;
 	Vec2i layout(Recti bounding_box) override;
 	void handle_mouse(Vec2i, bool) override;
 	void handle_character(char) override;
 	void handle_key(int) override;
 	void handle_scroll(float amount) override;
 private:
-	View_Model& m_view_model;
-	Own_Ptr<Widget> m_child;
+	Array<Own_Ptr<Widget>> m_children;
+	int m_current = 0;
 };
 
 }

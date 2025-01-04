@@ -17,6 +17,7 @@ void Context::draw(float dt)
 	const float scroll = GetMouseWheelMove();
 
 	for (auto& pane : m_panes) {
+		pane->update();
 		pane->layout({{0, 0}, {5000, 5000}});
 		pane->handle_mouse(mouse_pos, IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
 		pane->handle_scroll(scroll);

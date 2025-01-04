@@ -16,6 +16,12 @@ void Row::draw(float dt)
 		child->draw(dt);
 }
 
+void Row::update()
+{
+	for (auto& child : m_children)
+		child->update();
+}
+
 Vec2i Row::layout(Recti bounding_box)
 {
 	// FIXME - refactor (and rethink) whole layout process for this widget

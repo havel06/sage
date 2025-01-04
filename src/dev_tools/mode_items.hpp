@@ -2,6 +2,7 @@
 
 #include "utils/string.hpp"
 #include "graphics/editor_ui/context.hpp"
+#include "graphics/editor_ui/view_model.hpp"
 
 // fwd
 class Item_Registry;
@@ -15,17 +16,15 @@ namespace Editor_UI::Widgets {
 	class Column;
 }
 
-class Dev_Tools_Mode_Items
+class Dev_Tools_Mode_Items : public Editor_UI::View_Model
 {
 public:
 	Dev_Tools_Mode_Items(const Editor_UI::System&, const Item_Registry&, Inventory&);
-	void draw(float dt);
+
+	Own_Ptr<Editor_UI::Widget> build() override;
+	bool is_dirty() const override;
 private:
-	void rebuild();
 	const Item_Registry& m_item_registry;
 	Inventory& m_inventory;
 	const Editor_UI::System& m_gui_system;
-
-	Editor_UI::Context m_context;
-	Editor_UI::Widgets::Pane* m_pane = nullptr;
 };

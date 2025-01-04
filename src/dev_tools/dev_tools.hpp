@@ -31,13 +31,14 @@ private:
 	User_Directory_Provider& m_user_dir_provider;
 
 	Editor_UI::System m_gui;
-	Editor_UI::Context m_context;
 
 	Dev_Tools_Header m_header;
 	Dev_Tools_Mode_Sequence m_sequence;
 	Dev_Tools_Mode_Entity m_entity;
 	Dev_Tools_Mode_Items m_items;
 
-	Dev_Tools_Mode m_mode = Dev_Tools_Mode::items;
+	Editor_UI::Context m_context;
+	Editor_UI::Widgets::Pane* m_right_pane = nullptr;
 
+	Dev_Tools_Mode m_mode = Dev_Tools_Mode::items;
 };

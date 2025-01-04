@@ -16,6 +16,11 @@ Scroll::Scroll(Own_Ptr<Widget>&& child)
 	m_child = move(child);
 }
 
+void Scroll::update()
+{
+	m_child->update();
+}
+
 void Scroll::draw(float dt)
 {
 	// Draw child

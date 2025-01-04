@@ -46,6 +46,7 @@ src = [
   'src/graphics/editor_ui/widgets/row.cpp',
   'src/graphics/editor_ui/widgets/scroll.cpp',
   'src/graphics/editor_ui/widgets/text.cpp',
+  'src/graphics/editor_ui/widgets/view_model_holder.cpp',
   'src/graphics/editor_ui/system.cpp',
   'src/graphics/inventory_renderer.cpp',
   'src/graphics/main_menu_renderer.cpp',

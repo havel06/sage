@@ -14,6 +14,7 @@ struct Colour;
 namespace Editor_UI {
 	class Icon_Resource;
 	class Widget;
+	class View_Model;
 }
 namespace Editor_UI::Widgets {
 	class Button;
@@ -28,6 +29,7 @@ namespace Editor_UI::Widgets {
 	class Row;
 	class Scroll;
 	class Text;
+	class View_Model_Holder;
 }
 
 
@@ -53,6 +55,7 @@ public:
 	Own_Ptr<Widgets::Text> make_text(const String& content);
 	Own_Ptr<Widgets::Progress_Bar> make_progress_bar(float progress);
 	Own_Ptr<Widgets::Scroll> make_scroll(Own_Ptr<Widget>&& child);
+	Own_Ptr<Widgets::View_Model_Holder> make_view_model_holder(View_Model&);
 private:
 	const Font& m_font;
 };

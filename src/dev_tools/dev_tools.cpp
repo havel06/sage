@@ -8,6 +8,7 @@
 #include "utils/own_ptr.hpp"
 #include "graphics/editor_ui/theme.hpp"
 #include "graphics/editor_ui/widgets/nav_rail.hpp"
+#include "graphics/editor_ui/widgets/view_model_holder.hpp"
 
 Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade, Game_Logic& logic, Game_Logic_State_Normal& logic_normal, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
 	m_user_dir_provider{dir_provider},
@@ -58,6 +59,10 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 		)
 	);
 	nav_pane.column.add_child(move(nav_rail));
+
+	// Right pane
+	m_right_pane = &m_context.add_pane({});
+	m_right_pane->column.add_child(factory.make_view_model_holder(m_items));
 }
 
 Dev_Tools::~Dev_Tools()
@@ -68,6 +73,11 @@ Dev_Tools::~Dev_Tools()
 
 void Dev_Tools::draw(Map& map, const String& map_filename, float dt)
 {
+	// Update pane size
+	const int RIGHT_PANE_WIDTH = 400;
+	m_right_pane->transform =
+		{{GetScreenWidth() - RIGHT_PANE_WIDTH, Editor_UI::Theme::HEADER_HEIGHT}, {RIGHT_PANE_WIDTH, GetScreenHeight()}};
+
 	m_context.draw(dt);
 	m_header.draw(map_filename, dt);
 
@@ -80,7 +90,7 @@ void Dev_Tools::draw(Map& map, const String& map_filename, float dt)
 			m_entity.draw(map.entities);
 			break;
 		case Dev_Tools_Mode::items:
-			m_items.draw(dt);
+			//m_items.draw(dt);
 			//m_items.draw();
 			break;
 	}
@@ -89,15 +99,17 @@ void Dev_Tools::draw(Map& map, const String& map_filename, float dt)
 
 void Dev_Tools::update()
 {
-	m_sequence.update();	
+	m_sequence.update();
 }
 
 void Dev_Tools::input_char(char character)
 {
 	m_header.input_char(character);
+	m_context.input_char(character);
 }
 
 void Dev_Tools::input_key(int key)
 {
 	m_header.input_key(key);
+	m_context.input_key(key);
 }

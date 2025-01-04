@@ -13,6 +13,11 @@ Pane::Pane(Recti transform, bool padding)
 	m_padding = padding;
 }
 
+void Pane::update()
+{
+	column.update();
+}
+
 void Pane::draw(float dt)
 {
 	DrawRectangle(

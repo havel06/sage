@@ -13,34 +13,20 @@
 #include "raylib/raylib.h"
 #include "utils/own_ptr.hpp"
 
-static const int LIST_PANE_WIDTH = 400;
-
 Dev_Tools_Mode_Items::Dev_Tools_Mode_Items(const Editor_UI::System& system, const Item_Registry& reg, Inventory& inv) :
 	m_item_registry{reg},
 	m_inventory{inv},
 	m_gui_system{system}
 {
-	// Build GUI
-	m_pane = &m_context.add_pane({{GetScreenWidth() - LIST_PANE_WIDTH, 0}, {LIST_PANE_WIDTH, GetScreenHeight()}});
-
-	(void)m_inventory;
 }
 
-void Dev_Tools_Mode_Items::draw(float dt)
+Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Items::build()
 {
-	rebuild();
-	m_context.draw(dt);
-}
-
-void Dev_Tools_Mode_Items::rebuild()
-{
-	// Update pane layout
-	m_pane->transform = {{GetScreenWidth() - LIST_PANE_WIDTH, Editor_UI::Theme::HEADER_HEIGHT}, {LIST_PANE_WIDTH, GetScreenHeight()}};
-
-	// Build list
-	m_pane->column.clear();
-	m_pane->column.padding = Editor_UI::Theme::PADDING_SMALL;
 	Editor_UI::Widget_Factory factory = m_gui_system.get_widget_factory();
+
+	auto column = factory.make_column();
+	column->padding = Editor_UI::Theme::PADDING_SMALL;
+
 	m_item_registry.for_each([&](const Item& item){
 		// Left side
 		auto row_left = factory.make_row();
@@ -64,8 +50,8 @@ void Dev_Tools_Mode_Items::rebuild()
 		auto row_main = factory.make_row(true);
 		row_main->add_child(move(row_left));
 		row_main->add_child(move(row_right));
-		m_pane->column.add_child(move(row_main));
-		m_pane->column.add_child(factory.make_divider());
+		column->add_child(move(row_main));
+		column->add_child(factory.make_divider());
 	});
 
 	auto delete_button = factory.make_button(
@@ -75,5 +61,14 @@ void Dev_Tools_Mode_Items::rebuild()
 			m_inventory.clear();
 		}
 	);
-	m_pane->column.add_child(move(delete_button));
+
+	column->add_child(move(delete_button));
+
+	m_dirty = false;
+	return column;
+}
+
+bool Dev_Tools_Mode_Items::is_dirty() const
+{
+	return true; // FIXME - don't rebuild all the time?
 }

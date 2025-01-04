@@ -13,6 +13,7 @@ public:
 	bool stretch = false; // Items will have maximum distance between them
 
 	void add_child(Own_Ptr<Widget>&&);
+	void update() override;
 	void draw(float dt) override;
 	Vec2i layout(Recti bounding_box) override;
 	void handle_mouse(Vec2i position, bool click) override;

@@ -22,6 +22,12 @@ void Column::draw(float dt)
 		child->draw(dt);
 }
 
+void Column::update()
+{
+	for (auto& child : m_children)
+		child->update();
+}
+
 Vec2i Column::layout(Recti bounding_box)
 {
 	int height = 0;

@@ -3,28 +3,26 @@
 #include "../widget.hpp"
 #include "utils/own_ptr.hpp"
 
+// fwd
+namespace Editor_UI { class View_Model; }
 
 namespace Editor_UI::Widgets
 {
 
-class Scroll : public Widget
+class View_Model_Holder : public Widget
 {
 public:
-	Scroll(Own_Ptr<Widget>&& child);
+	View_Model_Holder(View_Model&);
 
-	void update() override;
 	void draw(float dt) override;
+	void update() override;
 	Vec2i layout(Recti bounding_box) override;
 	void handle_mouse(Vec2i, bool) override;
 	void handle_character(char) override;
 	void handle_key(int) override;
-	void handle_scroll(float amount) override;
 private:
+	View_Model& m_view_model;
 	Own_Ptr<Widget> m_child;
-	int m_scroll_amount = 0;
-	bool m_hover = false;
-	Recti m_bounding_box; // Set by layout
-	int m_child_height; // Set by layout
 };
 
 }

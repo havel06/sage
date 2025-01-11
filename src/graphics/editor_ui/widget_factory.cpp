@@ -1,5 +1,6 @@
 #include "widget_factory.hpp"
 #include "graphics/editor_ui/theme.hpp"
+#include "graphics/editor_ui/widgets/card.hpp"
 #include "graphics/editor_ui/widgets/column.hpp"
 #include "graphics/editor_ui/widgets/divider.hpp"
 #include "graphics/editor_ui/widgets/icon.hpp"
@@ -107,6 +108,11 @@ Own_Ptr<Widgets::View_Model_Holder> Widget_Factory::make_view_model_holder(View_
 Own_Ptr<Widgets::Stack> Widget_Factory::make_stack()
 {
 	return make_own_ptr<Widgets::Stack>();
+}
+
+Own_Ptr<Widgets::Card> Widget_Factory::make_card(Widgets::Card_Type type)
+{
+	return make_own_ptr<Widgets::Card>(type);
 }
 
 }

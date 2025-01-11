@@ -1,4 +1,6 @@
 #include "sequence_detail.hpp"
+#include "graphics/editor_ui/widgets/card.hpp"
+#include "graphics/editor_ui/widgets/card_type.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/function_wrapper.hpp"
 #include "graphics/editor_ui/system.hpp"
@@ -30,29 +32,29 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Sequence_Detail::build()
 	if (!m_sequence.has_value())
 		return factory.make_column();
 
-	auto column = factory.make_column();
-	column->add_child(factory.make_divider());
+	auto card = factory.make_card(Editor_UI::Widgets::Card_Type::filled);
+	auto& column = card->column;
 
 	auto path_relative = get_relative_path(m_sequence.value().get_path(), m_resource_root);
-	column->add_child(factory.make_text(path_relative));
+	column.add_child(factory.make_text(path_relative));
 
 	// Active indicator
 	if (m_sequence.value().get().is_active()) {
-		column->add_child(factory.make_text("State: Active"));
+		column.add_child(factory.make_text("State: Active"));
 	} else {
 		if (m_sequence.value().get().has_finished()) {
-			column->add_child(factory.make_text("State: Finished"));
+			column.add_child(factory.make_text("State: Finished"));
 		} else {
-			column->add_child(factory.make_text("State: Inactive"));
+			column.add_child(factory.make_text("State: Inactive"));
 		}
 	}
 
 	// Progress bar
-	column->add_child(factory.make_progress_bar(
+	column.add_child(factory.make_progress_bar(
 		(float)m_sequence.value().get().get_current_event_index() / m_sequence.value().get().get_event_count())
 	);
 
-	column->add_child(
+	column.add_child(
 		factory.make_button(
 			"Reset sequence",
 			nullptr,
@@ -64,7 +66,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Sequence_Detail::build()
 		)
 	);
 
-	column->add_child(
+	column.add_child(
 		factory.make_button(
 			"Activate sequence",
 			nullptr,
@@ -77,7 +79,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Sequence_Detail::build()
 	);
 
 	m_dirty = false;
-	return column;
+	return card;
 }
 
 bool Dev_Tools_Sequence_Detail::is_dirty() const

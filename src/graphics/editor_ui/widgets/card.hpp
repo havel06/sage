@@ -4,18 +4,19 @@
 #include "utils/own_ptr.hpp"
 #include "utils/array.hpp"
 #include "column.hpp"
+#include "utils/rect.hpp"
+#include "card_type.hpp"
 
 namespace Editor_UI::Widgets
 {
 
-// FIXME - Maybe, pane doesn't need to be a widget!
-class Pane : public Widget
+class Card : public Widget
 {
 public:
-	Column column; // Use this to get elements inside pane
-	Recti transform;
-	Colour colour = Theme::SURFACE;
-	Pane(Recti transform, bool padding);
+	Card_Type type = Card_Type::filled;
+	Column column; // Use this to get elements inside card
+
+	Card(Card_Type type);
 	void update() override;
 	void draw(float dt) override;
 	Vec2i layout(Recti bounding_box) override;
@@ -24,7 +25,7 @@ public:
 	void handle_key(int) override;
 	void handle_scroll(float amount) override;
 private:
-	bool m_padding = true;
+	Recti m_bounding_box;
 };
 
 }

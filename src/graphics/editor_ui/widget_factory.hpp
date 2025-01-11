@@ -1,4 +1,5 @@
 #pragma once
+#include "graphics/editor_ui/widgets/card_type.hpp"
 #include "utils/vec2.hpp"
 #include "theme.hpp"
 
@@ -18,6 +19,7 @@ namespace Editor_UI {
 }
 namespace Editor_UI::Widgets {
 	class Button;
+	class Card;
 	class Column;
 	class Divider;
 	class Icon;
@@ -58,6 +60,7 @@ public:
 	Own_Ptr<Widgets::Scroll> make_scroll(Own_Ptr<Widget>&& child);
 	Own_Ptr<Widgets::View_Model_Holder> make_view_model_holder(View_Model&);
 	Own_Ptr<Widgets::Stack> make_stack();
+	Own_Ptr<Widgets::Card> make_card(Widgets::Card_Type type);
 private:
 	const Font& m_font;
 };

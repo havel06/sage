@@ -1,15 +1,43 @@
 #include "input.hpp"
 #include "../theme.hpp"
 #include "utils/log.hpp"
+#include "utils/move.hpp"
+#include <ctype.h>
 #include <raylib/raylib.h>
 
 namespace Editor_UI::Widgets
 {
 
-Input::Input(const Font& font, const String& label) :
+bool Input_Constraint_Integer::is_valid(const String& input) const
+{
+	for (int i = 0; i < input.length(); i++) {
+		if (!isdigit(input[i]))
+			return false;
+	}
+
+	return true;
+}
+
+bool Input_Constraint_Number::is_valid(const String& input) const
+{
+	// First, check it normally
+	{
+		char* ptr = nullptr;
+		strtof(input.data(), &ptr);
+
+		// Check for valid conversion
+		if (ptr != input.data())
+			return true;
+	}
+
+	return false;
+}
+
+Input::Input(const Font& font, const String& label, Own_Ptr<Input_Constraint>&& constraint) :
 	m_font{font}
 {
 	m_label = label;
+	m_constraint = move(constraint);
 }
 
 void Input::draw(float dt)
@@ -33,7 +61,7 @@ void Input::draw(float dt)
 
 	const int padding_left = 16;
 	// Draw label
-	if (active || !content.empty()) {
+	if (active || !m_content.empty()) {
 		const int font_size = 14;
 		const int label_pos_y = m_bounding_box.position.y - font_size / 2;
 		const int width = MeasureTextEx(m_font, m_label.data(), font_size, 0).x;
@@ -75,7 +103,7 @@ void Input::draw(float dt)
 	const int padding_top = (48 - Theme::FONT_SIZE_DEFAULT) / 2;
 	DrawTextEx(
 		m_font,
-		content.data(),
+		m_content.data(),
 		Vector2 {
 			(float)m_bounding_box.position.x + padding_left,
 			(float)m_bounding_box.position.y + padding_top,
@@ -87,7 +115,7 @@ void Input::draw(float dt)
 
 	// Draw cursor
 	if (active && m_time_since_cursor_blink < 0.5) {
-		const int content_width = MeasureTextEx(m_font, content.data(), Theme::FONT_SIZE_DEFAULT, 0).x;
+		const int content_width = MeasureTextEx(m_font, m_content.data(), Theme::FONT_SIZE_DEFAULT, 0).x;
 		const int cursor_added_height = 3;
 		const int cursor_x = m_bounding_box.position.x + padding_left + content_width + 2;
 		const int cursor_y = m_bounding_box.position.y + padding_top - cursor_added_height;
@@ -112,6 +140,12 @@ Vec2i Input::layout(Recti bounding_box)
 	return m_bounding_box.size;
 }
 
+void Input::set_content(const String& new_content)
+{
+	if (m_constraint->is_valid(new_content))
+		m_content = new_content;
+}
+
 void Input::handle_mouse(Vec2i position, bool click)
 {
 	const bool hover = m_bounding_box.contains(position);
@@ -128,7 +162,11 @@ void Input::handle_mouse(Vec2i position, bool click)
 
 void Input::handle_character(char character)
 {
-	content.append(character);
+	// We use set_content here so that it gets validated
+	String new_content = m_content;
+	new_content.append(character);
+	set_content(new_content);
+
 	m_time_since_cursor_blink = 0;
 }
 
@@ -136,9 +174,9 @@ void Input::handle_key(int key)
 {
 	if (key == KEY_BACKSPACE) {
 		if (IsKeyDown(KEY_LEFT_CONTROL)) {
-			content.clear();
+			m_content.clear();
 		} else {
-			content.pop();
+			m_content.pop();
 		}
 	} else if (key == KEY_ESCAPE) {
 		active = false;

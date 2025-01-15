@@ -63,7 +63,21 @@ Own_Ptr<Widgets::Image> Widget_Factory::make_image(const Sprite& sprite, Vec2i s
 
 Own_Ptr<Widgets::Input> Widget_Factory::make_input(const String& label, Colour background)
 {
-	auto input = make_own_ptr<Widgets::Input>(m_font, label);
+	auto input = make_own_ptr<Widgets::Input>(m_font, label, make_own_ptr<Widgets::Input_Constraint_None>());
+	input->background = background;
+	return input;
+}
+
+Own_Ptr<Widgets::Input> Widget_Factory::make_input_int(const String& label, Colour background)
+{
+	auto input = make_own_ptr<Widgets::Input>(m_font, label, make_own_ptr<Widgets::Input_Constraint_Integer>());
+	input->background = background;
+	return input;
+}
+
+Own_Ptr<Widgets::Input> Widget_Factory::make_input_number(const String& label, Colour background)
+{
+	auto input = make_own_ptr<Widgets::Input>(m_font, label, make_own_ptr<Widgets::Input_Constraint_Number>());
 	input->background = background;
 	return input;
 }

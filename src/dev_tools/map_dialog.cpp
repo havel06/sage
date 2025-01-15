@@ -31,7 +31,7 @@ Dev_Tools_Map_Dialog::Dev_Tools_Map_Dialog(const Editor_UI::System& gui, Game_Lo
 			"Change map",
 			nullptr,
 			[this](){
-				m_facade.set_current_map(m_input->content);
+				m_facade.set_current_map(m_input->get_content());
 			}
 		)
 	);
@@ -60,5 +60,5 @@ void Dev_Tools_Map_Dialog::input_key(int key)
 
 void Dev_Tools_Map_Dialog::reset_map_input()
 {
-	m_input->content = get_relative_path(m_logic.get_map_filename(), m_project_root);
+	m_input->set_content(get_relative_path(m_logic.get_map_filename(), m_project_root));
 }

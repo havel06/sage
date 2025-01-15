@@ -45,6 +45,17 @@ void Input::draw(float dt)
 	const int segments = 4;
 	const int radius = 4;
 
+	Colour colour_outline = Theme::OUTLINE;
+	Colour colour_fg = Theme::ON_SURFACE;
+
+	if (!is_valid()) {
+		colour_outline = Theme::ERROR;
+		colour_fg = Theme::ERROR;
+	} else if (active) {
+		colour_outline = Theme::PRIMARY;
+		colour_fg = Theme::PRIMARY;
+	}
+
 	// Draw outline
 	DrawRectangleRoundedLines(
 		Rectangle{
@@ -56,7 +67,7 @@ void Input::draw(float dt)
 		radius,
 		segments,
 		1,
-		Theme::OUTLINE.to_ray_color()
+		colour_outline.to_ray_color()
 	);
 
 	const int padding_left = 16;
@@ -81,7 +92,7 @@ void Input::draw(float dt)
 			},
 			font_size,
 			0,
-			Theme::ON_SURFACE.to_ray_color()
+			colour_fg.to_ray_color()
 		);
 	} else {
 		const int padding_top = (48 - Theme::FONT_SIZE_DEFAULT) / 2;
@@ -94,7 +105,7 @@ void Input::draw(float dt)
 			},
 			Theme::FONT_SIZE_DEFAULT,
 			0,
-			Theme::ON_SURFACE.to_ray_color()
+			colour_fg.to_ray_color()
 		);
 	}
 
@@ -127,6 +138,11 @@ void Input::draw(float dt)
 	m_time_since_cursor_blink = fmod(m_time_since_cursor_blink + dt, 1);
 }
 
+bool Input::is_valid() const
+{
+	return m_constraint->is_valid(m_content);
+}
+
 Vec2i Input::layout(Recti bounding_box)
 {
 	m_bounding_box = Recti{
@@ -142,8 +158,7 @@ Vec2i Input::layout(Recti bounding_box)
 
 void Input::set_content(const String& new_content)
 {
-	if (m_constraint->is_valid(new_content))
-		m_content = new_content;
+	m_content = new_content;
 }
 
 void Input::handle_mouse(Vec2i position, bool click)
@@ -162,11 +177,7 @@ void Input::handle_mouse(Vec2i position, bool click)
 
 void Input::handle_character(char character)
 {
-	// We use set_content here so that it gets validated
-	String new_content = m_content;
-	new_content.append(character);
-	set_content(new_content);
-
+	m_content.append(character);
 	m_time_since_cursor_blink = 0;
 }
 

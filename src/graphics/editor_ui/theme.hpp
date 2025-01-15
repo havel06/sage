@@ -10,6 +10,7 @@ namespace Editor_UI::Theme
 // Based on #4C566A
 const Colour PRIMARY = {170, 199, 255, 255};
 const Colour INVERSE_PRIMARY = {65, 95, 145, 255};
+const Colour ERROR = {255, 180, 171};
 const Colour ON_PRIMARY = {10, 48, 95, 255};
 const Colour SURFACE = {17, 19, 24, 255};
 const Colour ON_SURFACE = {226, 226, 233, 255};

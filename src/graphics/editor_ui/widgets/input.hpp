@@ -42,10 +42,12 @@ public:
 	Colour background = Theme::SURFACE;
 
 	Input(const Font& font, const String& label, Own_Ptr<Input_Constraint>&&);
+	const String& get_content() { return m_content; }
+	bool is_valid() const;
+
 	void draw(float dt) override;
 	Vec2i layout(Recti bounding_box) override;
 	void set_content(const String&);
-	const String& get_content() { return m_content; }
 	void handle_mouse(Vec2i position, bool click) override;
 	void handle_character(char) override;
 	void handle_key(int key) override;

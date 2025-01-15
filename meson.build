@@ -19,6 +19,7 @@ src = [
   'src/dev_tools/mode_items.cpp',
   'src/dev_tools/mode_sequence.cpp',
   'src/dev_tools/sequence_detail.cpp',
+  'src/dev_tools/sequence_list.cpp',
   'src/game/game.cpp',
   'src/game/game_facade.cpp',
   'src/game/game_logic.cpp',

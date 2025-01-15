@@ -179,6 +179,7 @@ void Input::handle_character(char character)
 {
 	m_content.append(character);
 	m_time_since_cursor_blink = 0;
+	on_edit();
 }
 
 void Input::handle_key(int key)
@@ -189,8 +190,10 @@ void Input::handle_key(int key)
 		} else {
 			m_content.pop();
 		}
+		on_edit();
 	} else if (key == KEY_ESCAPE) {
 		active = false;
+		on_edit();
 	}
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "dev_tools/sequence_list.hpp"
 #include "sequence_detail.hpp"
 #include "graphics/editor_ui/context.hpp"
 #include "graphics/editor_ui/view_model.hpp"
@@ -25,12 +26,12 @@ public:
 	Own_Ptr<Editor_UI::Widget> build() override;
 	bool is_dirty() const override;
 private:
-	Own_Ptr<Editor_UI::Widget> build_list();
+	Own_Ptr<Editor_UI::Widget> create_search_bar();
 
-	Sequence_Manager& m_sequence_manager;
 	Editor_UI::System& m_gui;
 	String m_resource_root;
 	Dev_Tools_Sequence_Detail m_detail;
+	Dev_Tools_Sequence_List m_list;
 
 	bool m_dirty = true;
 };

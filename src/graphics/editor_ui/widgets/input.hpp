@@ -2,6 +2,7 @@
 
 #include "../widget.hpp"
 #include "../theme.hpp"
+#include "utils/function_wrapper.hpp"
 #include "utils/string.hpp"
 #include "utils/colour.hpp"
 #include "utils/own_ptr.hpp"
@@ -40,6 +41,7 @@ class Input : public Widget
 public:
 	bool active = false;
 	Colour background = Theme::SURFACE;
+	Function_Wrapper<void()> on_edit = [](){};
 
 	Input(const Font& font, const String& label, Own_Ptr<Input_Constraint>&&);
 	const String& get_content() { return m_content; }

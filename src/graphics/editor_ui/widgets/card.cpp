@@ -88,7 +88,7 @@ void Card::handle_character(char character)
 
 void Card::handle_key(int key)
 {
-	column.handle_scroll(key);
+	column.handle_key(key);
 }
 
 void Card::handle_scroll(float amount)

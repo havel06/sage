@@ -15,6 +15,7 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 	m_user_dir_provider{dir_provider},
 	m_header(facade, logic, logic_normal, m_gui, project_root),
 	m_sequence(m_gui, seq_mgr, project_root),
+	m_entity{m_gui},
 	m_items(m_gui, item_reg, inv)
 {
 	rlImGuiSetup(true);
@@ -46,7 +47,7 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 			"Entities",
 			[this, rail = nav_rail.get()](){
 				rail->set_active_index(1);
-				m_right_pane_stack->set_current_widget(0);
+				m_right_pane_stack->set_current_widget(2);
 				m_mode = Dev_Tools_Mode::entities;
 			}
 		)
@@ -71,6 +72,7 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 	m_right_pane_stack = stack.get();
 	stack->add_child(factory.make_view_model_holder(m_items));
 	stack->add_child(factory.make_view_model_holder(m_sequence));
+	stack->add_child(factory.make_view_model_holder(m_entity));
 
 	m_right_pane->column.add_child(move(stack));
 }
@@ -81,7 +83,7 @@ Dev_Tools::~Dev_Tools()
 	rlImGuiShutdown();
 }
 
-void Dev_Tools::draw(Map& map, const String& map_filename, float dt)
+void Dev_Tools::draw(const String& map_filename, float dt)
 {
 	// Update pane size
 	const int RIGHT_PANE_WIDTH = 400;
@@ -90,26 +92,12 @@ void Dev_Tools::draw(Map& map, const String& map_filename, float dt)
 
 	m_context.draw(dt);
 	m_header.draw(map_filename, dt);
-
-	rlImGuiBegin();
-	switch (m_mode) {
-		case Dev_Tools_Mode::sequence:
-			//m_sequence.draw(dt);
-			break;
-		case Dev_Tools_Mode::entities:
-			m_entity.draw(map.entities);
-			break;
-		case Dev_Tools_Mode::items:
-			//m_items.draw(dt);
-			//m_items.draw();
-			break;
-	}
-	rlImGuiEnd();
 }
 
-void Dev_Tools::update()
+void Dev_Tools::update(Map& map)
 {
-	m_sequence.update();
+	m_sequence.rebuild();
+	m_entity.rebuild(map.entities);
 }
 
 void Dev_Tools::input_char(char character)

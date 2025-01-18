@@ -28,7 +28,7 @@ Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Editor_UI::System& gui, Sequenc
 }
 
 
-void Dev_Tools_Mode_Sequence::update()
+void Dev_Tools_Mode_Sequence::rebuild()
 {
 	m_dirty = true;
 }

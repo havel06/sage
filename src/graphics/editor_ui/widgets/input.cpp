@@ -10,6 +10,9 @@ namespace Editor_UI::Widgets
 
 bool Input_Constraint_Integer::is_valid(const String& input) const
 {
+	if (input.empty())
+		return false;
+
 	for (int i = 0; i < input.length(); i++) {
 		if (!isdigit(input[i]))
 			return false;
@@ -20,7 +23,9 @@ bool Input_Constraint_Integer::is_valid(const String& input) const
 
 bool Input_Constraint_Number::is_valid(const String& input) const
 {
-	// First, check it normally
+	if (input.empty())
+		return false;
+
 	{
 		char* ptr = nullptr;
 		strtof(input.data(), &ptr);
@@ -177,6 +182,9 @@ void Input::handle_mouse(Vec2i position, bool click)
 
 void Input::handle_character(char character)
 {
+	if (!active)
+		return;
+
 	m_content.append(character);
 	m_time_since_cursor_blink = 0;
 	on_edit();
@@ -184,6 +192,9 @@ void Input::handle_character(char character)
 
 void Input::handle_key(int key)
 {
+	if (!active)
+		return;
+
 	if (key == KEY_BACKSPACE) {
 		if (IsKeyDown(KEY_LEFT_CONTROL)) {
 			m_content.clear();

@@ -22,7 +22,7 @@ class Dev_Tools_Mode_Sequence : public Editor_UI::View_Model
 {
 public:
 	Dev_Tools_Mode_Sequence(Editor_UI::System&, Sequence_Manager&, const String& resource_root_path);
-	void update(); // Call when opened
+	void rebuild(); // Call when opened
 	Own_Ptr<Editor_UI::Widget> build() override;
 	bool is_dirty() const override;
 private:

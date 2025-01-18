@@ -12,6 +12,13 @@ String String::from_int(int value)
 	return String{str};
 }
 
+String String::from_float(float value)
+{
+	char str[32];
+	snprintf(str, sizeof(str), "%f", value);
+	return String{str};
+}
+
 String::String(const char* init)
 {
 	int len = strlen(init);

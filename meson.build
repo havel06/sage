@@ -13,6 +13,8 @@ src = [
   'src/combat/combat_unit.cpp',
   'src/combat/stances.cpp',
   'src/dev_tools/dev_tools.cpp',
+  'src/dev_tools/entity_list.cpp',
+  'src/dev_tools/entity_detail.cpp',
   'src/dev_tools/header.cpp',
   'src/dev_tools/map_dialog.cpp',
   'src/dev_tools/mode_entity.cpp',

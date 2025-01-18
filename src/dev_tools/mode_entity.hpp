@@ -1,17 +1,28 @@
 #pragma once
 
+#include "dev_tools/entity_detail.hpp"
+#include "dev_tools/entity_list.hpp"
 #include "utils/string.hpp"
+#include "graphics/editor_ui/view_model.hpp"
 
 class Map_Entities;
 class Entity;
+namespace Editor_UI {
+	class System;
+}
 
-class Dev_Tools_Mode_Entity
+class Dev_Tools_Mode_Entity : public Editor_UI::View_Model
 {
 public:
-	//Dev_Tools_Mode_Entity();
-	void draw(Map_Entities&);
+	Dev_Tools_Mode_Entity(Editor_UI::System&);
+	
+	void rebuild(Map_Entities&); // Call when opened
+	Own_Ptr<Editor_UI::Widget> build() override;
+	bool is_dirty() const override;
 private:
-	void draw_entity_edit();
+	Editor_UI::System& m_gui;
+	Dev_Tools_Entity_Detail m_detail;
+	Dev_Tools_Entity_List m_list;
 
-	Entity* m_selected_entity = nullptr;
+	bool m_dirty = true;
 };

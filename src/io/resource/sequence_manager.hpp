@@ -15,11 +15,6 @@ public:
 	Sequence_Manager(const String& resource_root_path, Sequence_Loader&);
 	void update(float time_delta);
 	void add_observer(Sequence_Manager_Observer&);
-
-	// Callable must take two arguments, const String& (path) and Sequence&
-	template<typename Fn>
-	requires Concepts::Callable<Fn, const String&, Sequence&>
-	void for_each(Fn c);
 private:
 	Own_Ptr<Resource<Sequence>> load_resource(const String& filename) override;
 	void unload_resource(Sequence&, const String& path) override;
@@ -28,14 +23,3 @@ private:
 	Sequence_Loader& m_loader;
 	Array<Sequence_Manager_Observer*> m_observers;
 };
-
-
-// IMPL
-template<typename Fn>
-requires Concepts::Callable<Fn, const String&, Sequence&>
-void Sequence_Manager::for_each(Fn c)
-{
-	for_each_resource([&](Resource<Sequence>& res){
-		c(res.get_path(), res.get());
-	});
-}

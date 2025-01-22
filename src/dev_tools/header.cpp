@@ -15,10 +15,11 @@ Dev_Tools_Header::Dev_Tools_Header(Game_Facade& facade, Game_Logic& game_logic, 
 	m_gui_system{gui},
 	m_map_dialog{gui, logic_normal, project_root}
 {
-	// Build GUI
+}
+
+Own_Ptr<Editor_UI::Widget> Dev_Tools_Header::build()
+{
 	Editor_UI::Widget_Factory factory = m_gui_system.get_widget_factory();
-	m_pane = &m_context.add_pane(Recti{{0, 0}, {10000, Editor_UI::Theme::HEADER_HEIGHT}});
-	//pane.colour = Editor_UI::Theme::SURFACE_CONTAINER;
 
 	auto map_button = factory.make_icon_button(
 		m_gui_system.ICON_MAP,
@@ -45,29 +46,12 @@ Dev_Tools_Header::Dev_Tools_Header(Game_Facade& facade, Game_Logic& game_logic, 
 	row->add_child(move(map_button));
 	row->add_child(move(save_button));
 	row->add_child(move(load_button));
+	row->add_child(factory.make_view_model_holder(m_map_dialog));
 
-	m_pane->column.add_child(move(row));
-	m_pane->column.add_child(factory.make_view_model_holder(m_map_dialog));
+	return row;
 }
 
-void Dev_Tools_Header::draw(const String& map_filename, float dt)
+bool Dev_Tools_Header::is_dirty() const
 {
-	// Adjust pane size
-	m_pane->transform.size.x = GetScreenWidth();
-
-	(void)m_game_logic;
-	(void)m_game_facade;
-	(void)map_filename;
-
-	m_context.draw(dt);
-}
-
-void Dev_Tools_Header::input_char(char character)
-{
-	m_context.input_char(character);
-}
-
-void Dev_Tools_Header::input_key(int key)
-{
-	m_context.input_key(key);
+	return m_dirty;	
 }

@@ -108,7 +108,7 @@ void Game::draw_frame(float time_delta)
 			}
 			m_map_renderer.draw(m_logic_normal.get_map(), m_camera, time_delta);
 			m_debug_entity_renderer.draw(m_logic_normal.get_map().entities);
-			m_dev_tools.draw(m_logic_normal.get_map_filename(), time_delta);
+			m_dev_tools.draw(time_delta);
 		}
 		return;
 	}

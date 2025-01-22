@@ -24,7 +24,7 @@ public:
 	Dev_Tools(User_Directory_Provider&, Game_Facade& facade, Game_Logic& logic, Game_Logic_State_Normal&, Sequence_Manager& seq_mgr, const Item_Registry&, Inventory&, const String& project_root);
 	~Dev_Tools();
 	void update(Map& map); // Call when opened
-	void draw(const String& map_filename, float dt); // FIXME - remove map and filename
+	void draw(float dt);
 	void input_char(char character);
 	void input_key(int key);
 private:
@@ -38,6 +38,7 @@ private:
 	Dev_Tools_Mode_Items m_items;
 
 	Editor_UI::Context m_context;
+	Editor_UI::Widgets::Pane* m_header_pane = nullptr;
 	Editor_UI::Widgets::Pane* m_right_pane = nullptr;
 	Editor_UI::Widgets::Stack* m_right_pane_stack = nullptr;
 

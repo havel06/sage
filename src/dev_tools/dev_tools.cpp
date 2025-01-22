@@ -24,11 +24,15 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 	ImGui::LoadIniSettingsFromDisk(dir_provider.get_imgui_inifile_path().data());
 
 	// Set up GUI
+	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
+
+	// Header
+	m_header_pane = &m_context.add_pane(Recti{{0, 0}, {10000, Editor_UI::Theme::HEADER_HEIGHT}});
+	m_header_pane->column.add_child(factory.make_view_model_holder(m_header));
 
 	// Nav
 	// FIXME - update based on window height????
 	auto& nav_pane = m_context.add_pane({{0, Editor_UI::Theme::HEADER_HEIGHT}, {Editor_UI::Theme::NAV_WIDTH, 10000}}, false);
-	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 	auto nav_rail = factory.make_nav_rail();
 	nav_rail->add_item(
 		factory.make_nav_rail_item(
@@ -83,7 +87,7 @@ Dev_Tools::~Dev_Tools()
 	rlImGuiShutdown();
 }
 
-void Dev_Tools::draw(const String& map_filename, float dt)
+void Dev_Tools::draw(float dt)
 {
 	// Update pane size
 	const int RIGHT_PANE_WIDTH = 400;
@@ -91,7 +95,6 @@ void Dev_Tools::draw(const String& map_filename, float dt)
 		{{GetScreenWidth() - RIGHT_PANE_WIDTH, Editor_UI::Theme::HEADER_HEIGHT}, {RIGHT_PANE_WIDTH, GetScreenHeight()}};
 
 	m_context.draw(dt);
-	m_header.draw(map_filename, dt);
 }
 
 void Dev_Tools::update(Map& map)
@@ -102,12 +105,10 @@ void Dev_Tools::update(Map& map)
 
 void Dev_Tools::input_char(char character)
 {
-	m_header.input_char(character);
 	m_context.input_char(character);
 }
 
 void Dev_Tools::input_key(int key)
 {
-	m_header.input_key(key);
 	m_context.input_key(key);
 }

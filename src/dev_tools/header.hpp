@@ -1,6 +1,7 @@
 #pragma once
 
 #include "dev_tools/map_dialog.hpp"
+#include "graphics/editor_ui/view_model.hpp"
 #include "utils/string.hpp"
 #include "graphics/editor_ui/context.hpp"
 
@@ -17,19 +18,18 @@ namespace Editor_UI {
 	}
 }
 
-class Dev_Tools_Header
+class Dev_Tools_Header : public Editor_UI::View_Model
 {
 public:
 	Dev_Tools_Header(Game_Facade&, Game_Logic&, Game_Logic_State_Normal&, const Editor_UI::System& gui, const String& project_root);
-	void draw(const String& map_filename, float dt);
-	void input_char(char character);
-	void input_key(int key);
+
+	Own_Ptr<Editor_UI::Widget> build() override;
+	bool is_dirty() const override;
 private:
-	Game_Facade& m_game_facade;
+	Game_Facade& m_game_facade; // FIXME - don't pass this
 	Game_Logic& m_game_logic;
 	const Editor_UI::System& m_gui_system;
 
 	Dev_Tools_Map_Dialog m_map_dialog;
-	Editor_UI::Context m_context;
-	Editor_UI::Widgets::Pane* m_pane = nullptr;
+	bool m_dirty = true;
 };

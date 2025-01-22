@@ -5,6 +5,9 @@
 // fwd
 namespace Editor_UI {
 	class System;
+	namespace Widgets {
+		class Input;
+	}
 }
 class Entity;
 

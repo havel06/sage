@@ -17,6 +17,7 @@ public:
 	Dev_Tools_Mode_Entity(Editor_UI::System&);
 	
 	void rebuild(Map_Entities&); // Call when opened
+
 	Own_Ptr<Editor_UI::Widget> build() override;
 	bool is_dirty() const override;
 private:

@@ -8,6 +8,7 @@
 #include "graphics/editor_ui/widgets/input.hpp"
 #include "graphics/editor_ui/widgets/card.hpp"
 #include "graphics/editor_ui/widgets/column.hpp"
+#include <cstdlib>
 
 Dev_Tools_Entity_Detail::Dev_Tools_Entity_Detail(Editor_UI::System& system) :
 	m_system{system}
@@ -38,6 +39,21 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Entity_Detail::build()
 	x->set_content(String::from_int(m_current_entity->position.x));
 	y->set_content(String::from_int(m_current_entity->position.y));
 	speed->set_content(String::from_float(m_current_entity->move_speed));
+
+	x->on_edit = [this, x=x.get()](){
+		if (x->is_valid())
+			m_current_entity->position.x = atoi(x->get_content().data());
+	};
+
+	y->on_edit = [this, y=y.get()](){
+		if (y->is_valid())
+			m_current_entity->position.y = atoi(y->get_content().data());
+	};
+
+	speed->on_edit = [this, speed=speed.get()](){
+		if (speed->is_valid())
+			m_current_entity->move_speed = atof(speed->get_content().data());
+	};
 
 	card->column.add_child(move(x));
 	card->column.add_child(move(y));

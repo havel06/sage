@@ -48,6 +48,8 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Header::build()
 	row->add_child(move(load_button));
 	row->add_child(factory.make_view_model_holder(m_map_dialog));
 
+	m_dirty = false;
+
 	return row;
 }
 

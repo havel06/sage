@@ -21,9 +21,12 @@ public:
 	Own_Ptr<Editor_UI::Widget> build() override;
 	bool is_dirty() const override;
 private:
+	Own_Ptr<Editor_UI::Widget> create_search_bar();
+
 	Editor_UI::System& m_gui;
 	Dev_Tools_Entity_Detail m_detail;
 	Dev_Tools_Entity_List m_list;
+	Map_Entities* m_map_entities = nullptr;
 
 	bool m_dirty = true;
 };

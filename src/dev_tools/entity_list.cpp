@@ -38,6 +38,10 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Entity_List::build()
 
 	for (int i = 0; i < m_entities->get_entity_count(); i++) {
 		Entity& entity = m_entities->get_entity(i);
+
+		if (!entity.name.has_prefix(m_searched_term))
+			continue;
+
 		auto row = factory.make_row(true);
 		row->add_child(factory.make_text(entity.name));
 		row->add_child(

@@ -3,6 +3,7 @@
 #include "graphics/editor_ui/widget_factory.hpp"
 #include "graphics/editor_ui/system.hpp"
 #include "graphics/editor_ui/widgets/button.hpp"
+#include "graphics/editor_ui/widgets/view_model_holder.hpp"
 #include "game/game_logic.hpp"
 #include "raylib/raylib.h"
 #include "utils/move.hpp"
@@ -12,7 +13,7 @@ Dev_Tools_Header::Dev_Tools_Header(Game_Facade& facade, Game_Logic& game_logic, 
 	m_game_facade{facade},
 	m_game_logic{game_logic},
 	m_gui_system{gui},
-	m_map_dialog{gui, logic_normal, facade, project_root}
+	m_map_dialog{gui, logic_normal, project_root}
 {
 	// Build GUI
 	Editor_UI::Widget_Factory factory = m_gui_system.get_widget_factory();
@@ -22,10 +23,7 @@ Dev_Tools_Header::Dev_Tools_Header(Game_Facade& facade, Game_Logic& game_logic, 
 	auto map_button = factory.make_icon_button(
 		m_gui_system.ICON_MAP,
 		[this](){
-			m_show_map_dialog = !m_show_map_dialog;
-			if (m_show_map_dialog) {
-				m_map_dialog.reset_map_input();
-			}
+			m_map_dialog.toggle();
 		}
 	);
 
@@ -49,6 +47,7 @@ Dev_Tools_Header::Dev_Tools_Header(Game_Facade& facade, Game_Logic& game_logic, 
 	row->add_child(move(load_button));
 
 	m_pane->column.add_child(move(row));
+	m_pane->column.add_child(factory.make_view_model_holder(m_map_dialog));
 }
 
 void Dev_Tools_Header::draw(const String& map_filename, float dt)
@@ -61,21 +60,14 @@ void Dev_Tools_Header::draw(const String& map_filename, float dt)
 	(void)map_filename;
 
 	m_context.draw(dt);
-	if (m_show_map_dialog) {
-		m_map_dialog.draw(dt);
-	}
 }
 
 void Dev_Tools_Header::input_char(char character)
 {
 	m_context.input_char(character);
-	if (m_show_map_dialog)
-		m_map_dialog.input_char(character);
 }
 
 void Dev_Tools_Header::input_key(int key)
 {
 	m_context.input_key(key);
-	if (m_show_map_dialog)
-		m_map_dialog.input_key(key);
 }

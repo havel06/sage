@@ -2,6 +2,7 @@
 #include "graphics/editor_ui/theme.hpp"
 #include "graphics/editor_ui/widgets/card.hpp"
 #include "graphics/editor_ui/widgets/column.hpp"
+#include "graphics/editor_ui/widgets/dialog.hpp"
 #include "graphics/editor_ui/widgets/divider.hpp"
 #include "graphics/editor_ui/widgets/icon.hpp"
 #include "graphics/editor_ui/widgets/input.hpp"
@@ -16,6 +17,7 @@
 #include "graphics/editor_ui/widgets/image.hpp"
 #include "graphics/editor_ui/widgets/progress_bar.hpp"
 #include "utils/own_ptr.hpp"
+#include "utils/vec2.hpp"
 
 namespace Editor_UI
 {
@@ -127,6 +129,11 @@ Own_Ptr<Widgets::Stack> Widget_Factory::make_stack()
 Own_Ptr<Widgets::Card> Widget_Factory::make_card(Widgets::Card_Type type)
 {
 	return make_own_ptr<Widgets::Card>(type);
+}
+
+Own_Ptr<Widgets::Dialog> Widget_Factory::make_dialog(Vec2i size)
+{
+	return make_own_ptr<Widgets::Dialog>(size);
 }
 
 }

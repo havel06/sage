@@ -32,5 +32,4 @@ private:
 	Dev_Tools_Map_Dialog m_map_dialog;
 	Editor_UI::Context m_context;
 	Editor_UI::Widgets::Pane* m_pane = nullptr;
-	bool m_show_map_dialog = false;
 };

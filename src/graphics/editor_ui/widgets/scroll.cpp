@@ -5,8 +5,8 @@
 #include "utils/minmax.hpp"
 #include "raylib/raylib.h"
 
-static const int SCROLLBAR_WIDTH = 4;
-static const int SCROLLBAR_GAP = 4;
+static const int SCROLLBAR_WIDTH = 8;
+static const int SCROLLBAR_GAP = 6;
 
 namespace Editor_UI::Widgets
 {
@@ -34,18 +34,37 @@ void Scroll::draw(float dt)
 	EndScissorMode();
 
 	// Draw scrollbar
+	Recti scrollbar_transform = get_scrollbar_transform();
+
+	DrawRectangleRounded(
+		{
+			(float)scrollbar_transform.position.x,
+			(float)scrollbar_transform.position.y,
+			(float)scrollbar_transform.size.x,
+			(float)scrollbar_transform.size.y
+		},
+		(float)SCROLLBAR_WIDTH / 2,
+		8,
+		Theme::PRIMARY.to_ray_color()
+	);
+}
+
+Recti Scroll::get_scrollbar_transform()
+{
 	const int scrollbar_x = m_bounding_box.position.x + m_bounding_box.size.x - SCROLLBAR_WIDTH;
 	const int scrollbar_height = (float)m_bounding_box.size.y / m_child_height * m_bounding_box.size.y;
 	const int scrollbar_leeway = m_bounding_box.size.y - scrollbar_height;
 	const float scrollbar_progress = (float)m_scroll_amount / (m_child_height - m_bounding_box.size.y);
 	const int scrollbar_y = m_bounding_box.position.y + scrollbar_leeway * scrollbar_progress;
 
-	DrawRectangleRounded(
-		{(float)scrollbar_x, (float)scrollbar_y, SCROLLBAR_WIDTH, (float)scrollbar_height},
-		(float)SCROLLBAR_WIDTH / 2,
-		3,
-		Theme::PRIMARY.to_ray_color()
-	);
+	return Recti{
+		.position = Vec2i{
+			scrollbar_x, scrollbar_y
+		},
+		.size = Vec2i{
+			SCROLLBAR_WIDTH, scrollbar_height	
+		}
+	};
 }
 
 Vec2i Scroll::layout(Recti bounding_box)
@@ -72,6 +91,23 @@ void Scroll::handle_mouse(Vec2i pos, bool click)
 {
 	m_child->handle_mouse(pos, click);
 	m_hover = m_bounding_box.contains(pos);
+
+	// Scrollbar mouse move
+	if (m_scrollbar_held) {
+		int scrollbar_delta_px = pos.y - m_scrollbar_hold_last_y;
+		m_scroll_amount += scrollbar_delta_px * ((float)m_child_height / m_bounding_box.size.y);
+		fix_scroll();
+	}
+	m_scrollbar_hold_last_y = pos.y;
+
+	// Scrollbar hold
+	if (!m_scrollbar_held) {
+		m_scrollbar_held = get_scrollbar_transform().contains(pos) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+	} else {
+		if (!IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+			m_scrollbar_held = false;
+		}
+	}
 }
 
 void Scroll::handle_character(char input)
@@ -88,13 +124,15 @@ void Scroll::handle_scroll(float amount)
 {
 	if (m_hover) {
 		m_scroll_amount -= amount * 40;
-
-		// Limit scroll amount
-		const int scroll_max = max(m_child_height - m_bounding_box.size.y, 0);
-		m_scroll_amount = min(m_scroll_amount, scroll_max);
-		m_scroll_amount = max(m_scroll_amount, 0);
-
+		fix_scroll();
 	}
+}
+
+void Scroll::fix_scroll()
+{
+	const int scroll_max = max(m_child_height - m_bounding_box.size.y, 0);
+	m_scroll_amount = min(m_scroll_amount, scroll_max);
+	m_scroll_amount = max(m_scroll_amount, 0);
 }
 
 }

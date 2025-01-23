@@ -21,11 +21,17 @@ public:
 	void handle_key(int) override;
 	void handle_scroll(float amount) override;
 private:
+	Recti get_scrollbar_transform();
+	void fix_scroll();
+
 	Own_Ptr<Widget> m_child;
-	int m_scroll_amount = 0;
+	float m_scroll_amount = 0;
 	bool m_hover = false;
 	Recti m_bounding_box; // Set by layout
 	int m_child_height; // Set by layout
+
+	bool m_scrollbar_held = false;
+	int m_scrollbar_hold_last_y = 0;
 };
 
 }

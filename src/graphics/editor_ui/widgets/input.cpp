@@ -131,7 +131,10 @@ void Input::draw(float dt)
 
 	// Draw cursor
 	if (active && m_time_since_cursor_blink < 0.5) {
-		const int content_width = MeasureTextEx(m_font, m_content.data(), Theme::FONT_SIZE_DEFAULT, 0).x;
+		const int content_width =
+			m_content.empty() ?
+				0 :
+				MeasureTextEx(m_font, m_content.substring(0, m_cursor_position).data(), Theme::FONT_SIZE_DEFAULT, 0).x;
 		const int cursor_added_height = 3;
 		const int cursor_x = m_bounding_box.position.x + padding_left + content_width + 2;
 		const int cursor_y = m_bounding_box.position.y + padding_top - cursor_added_height;
@@ -164,6 +167,7 @@ Vec2i Input::layout(Recti bounding_box)
 void Input::set_content(const String& new_content)
 {
 	m_content = new_content;
+	m_cursor_position = m_content.length();
 }
 
 void Input::handle_mouse(Vec2i position, bool click)
@@ -185,7 +189,22 @@ void Input::handle_character(char character)
 	if (!active)
 		return;
 
-	m_content.append(character);
+	if (m_cursor_position == m_content.length()) {
+		// Cursor on end
+		m_content.append(character);
+	} else {
+		// Insert text on cursor position
+		String before_cursor = m_content.substring(0, m_cursor_position);
+		String after_cursor = m_content.substring(m_cursor_position, m_content.length() - m_cursor_position);
+
+		m_content = before_cursor;
+		m_content.append(character);
+		m_content.append(after_cursor);
+	}
+
+	m_cursor_position++;
+	fix_cursor_position();
+
 	m_time_since_cursor_blink = 0;
 	on_edit();
 }
@@ -199,13 +218,41 @@ void Input::handle_key(int key)
 		if (IsKeyDown(KEY_LEFT_CONTROL)) {
 			m_content.clear();
 		} else {
-			m_content.pop();
+			if (m_cursor_position == m_content.length()) {
+				// Remove last character
+				m_content.pop();
+			} else if (m_cursor_position != 0) {
+				// Remove character at position
+				String content_before = m_content.substring(0, m_cursor_position - 1);
+				String content_after = m_content.substring(m_cursor_position, m_content.length() - m_cursor_position);
+				m_content = content_before;
+				m_content.append(content_after);
+				m_cursor_position--;
+			}
 		}
+		m_time_since_cursor_blink = 0;
+		fix_cursor_position();
 		on_edit();
 	} else if (key == KEY_ESCAPE) {
 		active = false;
 		on_edit();
+	} else if (key == KEY_LEFT) {
+		m_cursor_position--;
+		m_time_since_cursor_blink = 0;
+		fix_cursor_position();
+	} else if (key == KEY_RIGHT) {
+		m_cursor_position++;
+		m_time_since_cursor_blink = 0;
+		fix_cursor_position();
 	}
+}
+
+void Input::fix_cursor_position()
+{
+	if (m_cursor_position < 0)
+		m_cursor_position = 0;
+	else if (m_cursor_position > m_content.length())
+		m_cursor_position = m_content.length();
 }
 
 }

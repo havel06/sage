@@ -54,11 +54,14 @@ public:
 	void handle_character(char) override;
 	void handle_key(int key) override;
 private:
+	void fix_cursor_position();
+
 	const Font& m_font;
 	Own_Ptr<Input_Constraint> m_constraint;
 	String m_label;
 	String m_content;
-	Recti m_bounding_box;
+	Recti m_bounding_box; // Set by layout()
+	int m_cursor_position = 0;
 	float m_time_since_cursor_blink = 0;
 };
 

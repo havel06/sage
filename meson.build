@@ -203,6 +203,7 @@ src = [
   'src/utils/colour.cpp',
   'src/utils/file.cpp',
   'src/utils/filesystem.cpp',
+  'src/utils/fuzzy_match.cpp',
   'src/utils/json.cpp',
   'src/utils/log.cpp',
   'src/utils/string.cpp',

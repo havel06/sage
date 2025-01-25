@@ -35,7 +35,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Entity_List::build()
 		return factory.make_text(""); // FIXME - dummy widget?
 
 	Own_Ptr<Editor_UI::Widgets::Column> column = factory.make_column();
-	column->padding = Editor_UI::Theme::PADDING_SMALL;
+	column->padding = Editor_UI::Widgets::Column_Padding::small;
 
 	for (int i = 0; i < m_entities->get_entity_count(); i++) {
 		Entity& entity = m_entities->get_entity(i);

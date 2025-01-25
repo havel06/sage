@@ -17,7 +17,7 @@ void Card::update()
 	column.update();
 }
 
-void Card::draw(float dt)
+void Card::draw(const Theme& theme, float dt)
 {
 	const float border_radius = 24;
 	const float roundness = border_radius / min(m_bounding_box.size.x, m_bounding_box.size.y);
@@ -32,7 +32,7 @@ void Card::draw(float dt)
 			},
 			roundness,
 			4,
-			Theme::SURFACE_CONTAINER_HIGHEST.to_ray_color()
+			theme.SURFACE_CONTAINER_HIGHEST.to_ray_color()
 		);
 	} else {
 		DrawRectangleRoundedLines(
@@ -45,30 +45,30 @@ void Card::draw(float dt)
 			roundness,
 			4,
 			1,
-			Theme::OUTLINE_VARIANT.to_ray_color()
+			theme.OUTLINE_VARIANT.to_ray_color()
 		);
 	}
 
-	column.draw(dt);
+	column.draw(theme, dt);
 }
 
-Vec2i Card::layout(Recti bounding_box)
+Vec2i Card::layout(const Theme& theme, Recti bounding_box)
 {
 	Recti child_bounding_box = Recti{
 		.position = {
-			.x = bounding_box.position.x + Theme::PADDING_DEFAULT,
-			.y = bounding_box.position.y + Theme::PADDING_DEFAULT,
+			.x = bounding_box.position.x + theme.PADDING_DEFAULT,
+			.y = bounding_box.position.y + theme.PADDING_DEFAULT,
 		},
 		.size = {
-			.x = bounding_box.size.x - 2 * Theme::PADDING_DEFAULT,
-			.y = bounding_box.size.y - 2 * Theme::PADDING_DEFAULT,
+			.x = bounding_box.size.x - 2 * theme.PADDING_DEFAULT,
+			.y = bounding_box.size.y - 2 * theme.PADDING_DEFAULT,
 		}
 	};
 
-	Vec2i child_size = column.layout(child_bounding_box);
+	Vec2i child_size = column.layout(theme, child_bounding_box);
 	Vec2i size = Vec2i {
-		.x = child_size.x + 2 * Theme::PADDING_DEFAULT,
-		.y = child_size.y + 2 * Theme::PADDING_DEFAULT
+		.x = child_size.x + 2 * theme.PADDING_DEFAULT,
+		.y = child_size.y + 2 * theme.PADDING_DEFAULT
 	};
 
 	m_bounding_box = {bounding_box.position, size};

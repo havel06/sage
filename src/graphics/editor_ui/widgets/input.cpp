@@ -45,20 +45,20 @@ Input::Input(const Font& font, const String& label, Own_Ptr<Input_Constraint>&& 
 	m_constraint = move(constraint);
 }
 
-void Input::draw(float dt)
+void Input::draw(const Theme& theme, float dt)
 {
 	const int segments = 4;
 	const int radius = 4;
 
-	Colour colour_outline = Theme::OUTLINE;
-	Colour colour_fg = Theme::ON_SURFACE;
+	Colour colour_outline = theme.OUTLINE;
+	Colour colour_fg = theme.ON_SURFACE;
 
 	if (!is_valid()) {
-		colour_outline = Theme::ERROR;
-		colour_fg = Theme::ERROR;
+		colour_outline = theme.ERROR;
+		colour_fg = theme.ERROR;
 	} else if (active) {
-		colour_outline = Theme::PRIMARY;
-		colour_fg = Theme::PRIMARY;
+		colour_outline = theme.PRIMARY;
+		colour_fg = theme.PRIMARY;
 	}
 
 	// Draw outline
@@ -86,7 +86,7 @@ void Input::draw(float dt)
 			m_bounding_box.position.y - font_size / 2,
 			width + 4, // Extra padding
 			font_size,
-			background.to_ray_color()
+			theme.SURFACE.to_ray_color()
 		);
 		DrawTextEx(
 			m_font,
@@ -100,7 +100,7 @@ void Input::draw(float dt)
 			colour_fg.to_ray_color()
 		);
 	} else {
-		const int padding_top = (48 - Theme::FONT_SIZE_DEFAULT) / 2;
+		const int padding_top = (48 - theme.FONT_SIZE_DEFAULT) / 2;
 		DrawTextEx(
 			m_font,
 			m_label.data(),
@@ -108,7 +108,7 @@ void Input::draw(float dt)
 				(float)m_bounding_box.position.x + padding_left,
 				(float)m_bounding_box.position.y + padding_top,
 			},
-			Theme::FONT_SIZE_DEFAULT,
+			theme.FONT_SIZE_DEFAULT,
 			0,
 			colour_fg.to_ray_color()
 		);
@@ -116,7 +116,7 @@ void Input::draw(float dt)
 
 	// Draw content
 	// FIXME - duplicate code with label drawing
-	const int padding_top = (48 - Theme::FONT_SIZE_DEFAULT) / 2;
+	const int padding_top = (48 - theme.FONT_SIZE_DEFAULT) / 2;
 	DrawTextEx(
 		m_font,
 		m_content.data(),
@@ -124,9 +124,9 @@ void Input::draw(float dt)
 			(float)m_bounding_box.position.x + padding_left,
 			(float)m_bounding_box.position.y + padding_top,
 		},
-		Theme::FONT_SIZE_DEFAULT,
+		theme.FONT_SIZE_DEFAULT,
 		0,
-		Theme::ON_SURFACE.to_ray_color()
+		theme.ON_SURFACE.to_ray_color()
 	);
 
 	// Draw cursor
@@ -134,13 +134,13 @@ void Input::draw(float dt)
 		const int content_width =
 			m_content.empty() ?
 				0 :
-				MeasureTextEx(m_font, m_content.substring(0, m_cursor_position).data(), Theme::FONT_SIZE_DEFAULT, 0).x;
+				MeasureTextEx(m_font, m_content.substring(0, m_cursor_position).data(), theme.FONT_SIZE_DEFAULT, 0).x;
 		const int cursor_added_height = 3;
 		const int cursor_x = m_bounding_box.position.x + padding_left + content_width + 2;
 		const int cursor_y = m_bounding_box.position.y + padding_top - cursor_added_height;
 		const int cursor_width = 1;
-		const int cursor_height = Theme::FONT_SIZE_DEFAULT + 2 * cursor_added_height;
-		DrawRectangle(cursor_x, cursor_y, cursor_width, cursor_height, Theme::ON_SURFACE.to_ray_color());
+		const int cursor_height = theme.FONT_SIZE_DEFAULT + 2 * cursor_added_height;
+		DrawRectangle(cursor_x, cursor_y, cursor_width, cursor_height, theme.ON_SURFACE.to_ray_color());
 	}
 
 	m_time_since_cursor_blink = fmod(m_time_since_cursor_blink + dt, 1);
@@ -151,8 +151,9 @@ bool Input::is_valid() const
 	return m_constraint->is_valid(m_content);
 }
 
-Vec2i Input::layout(Recti bounding_box)
+Vec2i Input::layout(const Theme& theme, Recti bounding_box)
 {
+	(void)theme;
 	m_bounding_box = Recti{
 		.position = bounding_box.position,
 		.size = Vec2i{

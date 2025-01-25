@@ -15,7 +15,7 @@ Button::Button(const Font& font, const String& label, const Icon_Resource* icon)
 	m_icon = icon;
 }
 
-void Button::draw(float dt)
+void Button::draw(const Theme& theme, float dt)
 {
 	(void)dt;
 
@@ -23,7 +23,7 @@ void Button::draw(float dt)
 	const int segments = 10;
 
 	// Background
-	Colour background_colour = get_background_colour();
+	Colour background_colour = get_background_colour(theme);
 
 	DrawRectangleRounded(
 		Rectangle{
@@ -44,11 +44,11 @@ void Button::draw(float dt)
 
 	// Content
 	//const Colour content_colour = transparent ? Theme::ON_SURFACE : Theme::ON_PRIMARY;
-	const Colour content_colour = transparent ? Theme::ON_SURFACE : Theme::ON_PRIMARY;
+	const Colour content_colour = transparent ? theme.ON_SURFACE : theme.ON_PRIMARY;
 	const int padding_horizontal = get_horizontal_padding();
 	int x = m_bounding_box.position.x + padding_horizontal;
 	if (m_icon) {
-		const int icon_padding_top = (40 - Theme::ICON_SIZE) / 2;
+		const int icon_padding_top = (40 - theme.ICON_SIZE) / 2;
 		DrawTexture(
 			m_icon->get(),
 			x,
@@ -60,15 +60,15 @@ void Button::draw(float dt)
 				content_colour.a,
 			}
 		);
-		x += Theme::ICON_SIZE + 8;
+		x += theme.ICON_SIZE + 8;
 	}
 	
-	const int label_padding_top = (40 - Theme::FONT_SIZE_DEFAULT) / 2;
+	const int label_padding_top = (40 - theme.FONT_SIZE_DEFAULT) / 2;
 	DrawTextEx(
 		m_font,
 		m_label.data(),
 		{(float)x, (float)m_bounding_box.position.y + label_padding_top},
-		Theme::FONT_SIZE_DEFAULT,
+		theme.FONT_SIZE_DEFAULT,
 		0,
 		Color {
 			content_colour.r,
@@ -79,19 +79,19 @@ void Button::draw(float dt)
 	);
 }
 
-Vec2i Button::layout(Recti bounding_box)
+Vec2i Button::layout(const Theme& theme, Recti bounding_box)
 {
 	const int min_width = 40;
 	const int height = 40;
 	const int padding_horizontal = get_horizontal_padding();
 
-	const int label_width = MeasureTextEx(m_font, m_label.data(), Theme::FONT_SIZE_DEFAULT, 0).x;
+	const int label_width = MeasureTextEx(m_font, m_label.data(), theme.FONT_SIZE_DEFAULT, 0).x;
 	const int content_width = [&](){
 		if (m_icon) {
 			if (m_label.empty()) {
-				return Theme::ICON_SIZE;
+				return theme.ICON_SIZE;
 			} else {
-				return label_width + Theme::ICON_SIZE + 8;
+				return label_width + theme.ICON_SIZE + 8;
 			}
 		} else {
 			return label_width;
@@ -131,18 +131,18 @@ void Button::handle_mouse(Vec2i position, bool click)
 	}
 }
 
-Colour Button::get_background_colour()
+Colour Button::get_background_colour(const Theme& theme)
 {
 	if (transparent) {
 		if (m_hover)
-			return Theme::TRANSPARENT_BUTTON_HOVER;
+			return theme.TRANSPARENT_BUTTON_HOVER;
 		else
 			return Colour{0, 0, 0, 0};
 	} else {
 		if (m_hover)
-			return Theme::FILLED_BUTTON_HOVER;
+			return theme.FILLED_BUTTON_HOVER;
 		else
-			return Theme::PRIMARY;
+			return theme.PRIMARY;
 	}
 }
 

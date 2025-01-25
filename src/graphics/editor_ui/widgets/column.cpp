@@ -16,10 +16,10 @@ void Column::add_child(Own_Ptr<Widget>&& child)
 	m_children.push_back(move(child));
 }
 
-void Column::draw(float dt)
+void Column::draw(const Theme& theme, float dt)
 {
 	for (auto& child : m_children)
-		child->draw(dt);
+		child->draw(theme, dt);
 }
 
 void Column::update()
@@ -28,10 +28,11 @@ void Column::update()
 		child->update();
 }
 
-Vec2i Column::layout(Recti bounding_box)
+Vec2i Column::layout(const Theme& theme, Recti bounding_box)
 {
 	int height = 0;
 	int width = 0;
+	const int padding_px = padding == Column_Padding::normal ? theme.PADDING_DEFAULT : theme.PADDING_SMALL;
 
 	for (auto& child : m_children)
 	{
@@ -46,10 +47,10 @@ Vec2i Column::layout(Recti bounding_box)
 				bounding_box.size.y - height
 			},
 		};
-		const Vec2i child_size = child->layout(child_transfom);
+		const Vec2i child_size = child->layout(theme, child_transfom);
 
 		width = max(width, child_size.x); // Width is maximum child width
-		height += child_size.y + padding; // Height is the sum of children heights
+		height += child_size.y + padding_px; // Height is the sum of children heights
 	}
 
 	return Vec2i{width, height};

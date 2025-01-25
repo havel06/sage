@@ -18,7 +18,7 @@ void Pane::update()
 	column.update();
 }
 
-void Pane::draw(float dt)
+void Pane::draw(const Theme& theme, float dt)
 {
 	DrawRectangle(
 		transform.position.x,
@@ -26,22 +26,22 @@ void Pane::draw(float dt)
 		transform.size.x,
 		transform.size.y,
 		Color {
-			.r = colour.r,
-			.g = colour.g,
-			.b = colour.b,
-			.a = colour.a
+			.r = theme.SURFACE.r,
+			.g = theme.SURFACE.g,
+			.b = theme.SURFACE.b,
+			.a = theme.SURFACE.a
 		}
 	);
 
-	column.draw(dt);
+	column.draw(theme, dt);
 }
 
-Vec2i Pane::layout(Recti bounding_box)
+Vec2i Pane::layout(const Theme& theme, Recti bounding_box)
 {
 	// NOTE - bounding_box is ignored, since panes are positioned absolutely
 	(void)bounding_box;
 
-	const int padding = m_padding ? Theme::PADDING_DEFAULT : 0;
+	const int padding = m_padding ? theme.PADDING_DEFAULT : 0;
 	const Recti children_bounding_box = {
 		.position = {
 			transform.position.x + padding,
@@ -53,7 +53,7 @@ Vec2i Pane::layout(Recti bounding_box)
 		}
 	};
 
-	column.layout(children_bounding_box);
+	column.layout(theme, children_bounding_box);
 	return transform.size;
 }
 

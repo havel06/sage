@@ -5,7 +5,7 @@
 namespace Editor_UI::Widgets
 {
 
-void Divider::draw(float dt)
+void Divider::draw(const Theme& theme, float dt)
 {
 	(void)dt;
 	DrawLine(
@@ -14,16 +14,17 @@ void Divider::draw(float dt)
 		m_position.x + m_width,
 		m_position.y,
 		Color {
-			.r = Theme::OUTLINE_VARIANT.r,
-			.g = Theme::OUTLINE_VARIANT.g,
-			.b = Theme::OUTLINE_VARIANT.b,
-			.a = Theme::OUTLINE_VARIANT.a,
+			.r = theme.OUTLINE_VARIANT.r,
+			.g = theme.OUTLINE_VARIANT.g,
+			.b = theme.OUTLINE_VARIANT.b,
+			.a = theme.OUTLINE_VARIANT.a,
 		}
 	);
 }
 
-Vec2i Divider::layout(Recti bounding_box)
+Vec2i Divider::layout(const Theme& theme, Recti bounding_box)
 {
+	(void)theme;
 	m_position = bounding_box.position;
 	m_width = bounding_box.size.x;
 	return {m_width, 1};

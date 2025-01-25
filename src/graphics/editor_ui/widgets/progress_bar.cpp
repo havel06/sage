@@ -22,7 +22,7 @@ Progress_Bar::Progress_Bar(float value)
 	set_progress(value);
 }
 
-void Progress_Bar::draw(float dt)
+void Progress_Bar::draw(const Theme& theme, float dt)
 {
 	(void)dt;
 	const int active_width = m_width * m_progress; // Including padding
@@ -35,7 +35,7 @@ void Progress_Bar::draw(float dt)
 			{(float)m_position.x, (float)m_position.y, (float)indicator_width, THICKNESS},
 			(float)THICKNESS / 2,
 			3,
-			Theme::PRIMARY.to_ray_color()
+			theme.PRIMARY.to_ray_color()
 		);
 	}
 
@@ -48,13 +48,14 @@ void Progress_Bar::draw(float dt)
 			{(float)track_pos_x, (float)m_position.y, (float)track_width, THICKNESS},
 			(float)THICKNESS / 2,
 			3,
-			Theme::SECONDARY_CONTAINER.to_ray_color()
+			theme.SECONDARY_CONTAINER.to_ray_color()
 		);
 	}
 }
 
-Vec2i Progress_Bar::layout(Recti bounding_box)
+Vec2i Progress_Bar::layout(const Theme& theme, Recti bounding_box)
 {
+	(void)theme;
 	m_width = bounding_box.size.x;
 	m_position = bounding_box.position;
 	return {m_width, THICKNESS};

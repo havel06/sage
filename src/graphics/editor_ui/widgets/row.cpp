@@ -10,10 +10,10 @@ void Row::add_child(Own_Ptr<Widget>&& child)
 	m_children.push_back(move(child));
 }
 
-void Row::draw(float dt)
+void Row::draw(const Theme& theme, float dt)
 {
 	for (auto& child : m_children)
-		child->draw(dt);
+		child->draw(theme, dt);
 }
 
 void Row::update()
@@ -22,16 +22,17 @@ void Row::update()
 		child->update();
 }
 
-Vec2i Row::layout(Recti bounding_box)
+Vec2i Row::layout(const Theme& theme, Recti bounding_box)
 {
+	(void)theme;
 	// FIXME - refactor (and rethink) whole layout process for this widget
 	if (stretch && m_children.size() > 1)
-		return layout_stretch(bounding_box);
+		return layout_stretch(theme, bounding_box);
 	else
-		return layout_normal(bounding_box);
+		return layout_normal(theme, bounding_box);
 }
 
-Vec2i Row::layout_stretch(Recti bounding_box)
+Vec2i Row::layout_stretch(const Theme& theme, Recti bounding_box)
 {
 	// First, get the total width and max height of children.
 	Array<Vec2i> child_sizes;
@@ -50,7 +51,7 @@ Vec2i Row::layout_stretch(Recti bounding_box)
 				bounding_box.size.y
 			},
 		};
-		const Vec2i child_size = child->layout(child_transfom);
+		const Vec2i child_size = child->layout(theme, child_transfom);
 		child_sizes.push_back(child_size);
 		children_total_width += child_size.x;
 	}
@@ -82,7 +83,7 @@ Vec2i Row::layout_stretch(Recti bounding_box)
 				child_sizes[i].y
 			},
 		};
-		const Vec2i child_size = m_children[i]->layout(child_transfom);
+		const Vec2i child_size = m_children[i]->layout(theme, child_transfom);
 
 		x += child_size.x;
 		x += gap_width;
@@ -91,7 +92,7 @@ Vec2i Row::layout_stretch(Recti bounding_box)
 	return Vec2i{bounding_box.size.x, height};
 }
 
-Vec2i Row::layout_normal(Recti bounding_box)
+Vec2i Row::layout_normal(const Theme& theme, Recti bounding_box)
 {
 	int height = 0;
 	int width = 0;
@@ -111,7 +112,7 @@ Vec2i Row::layout_normal(Recti bounding_box)
 				bounding_box.size.y
 			},
 		};
-		const Vec2i child_size = child->layout(child_transfom);
+		const Vec2i child_size = child->layout(theme, child_transfom);
 
 		child_sizes.push_back(child_size);
 		height = max(height, child_size.y); // Height is maximum child height
@@ -132,7 +133,7 @@ Vec2i Row::layout_normal(Recti bounding_box)
 				height
 			},
 		};
-		const Vec2i child_size = m_children[i]->layout(child_transfom);
+		const Vec2i child_size = m_children[i]->layout(theme, child_transfom);
 
 		width += child_size.x; // Width is the sum of children widths
 	}

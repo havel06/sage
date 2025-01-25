@@ -20,15 +20,19 @@ public:
 
 	Vec2i position = {0, 0};
 	Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const String& label, Callback&& callback);
-	void draw(bool active);
-	int get_width() const;
+	void layout(const Theme& theme);
+	void draw(const Theme& theme, bool active);
 	void handle_mouse(Vec2i position, bool click);
+	int get_width() const { return m_width; }
 private:
+	int calculate_width(const Theme& theme) const;
+
 	const Font& m_font;
 	const Icon_Resource& m_icon;
 	String m_label;
 	Callback m_callback;
 	bool m_hover = false;
+	int m_width = 0;
 };
 
 class Nav_Rail : public Widget
@@ -41,8 +45,8 @@ public:
 	void handle_key(int) override {}
 private:
 	// Widget overrides
-	void draw(float dt) override;
-	Vec2i layout(Recti bounding_box) override;
+	void draw(const Theme& theme, float dt) override;
+	Vec2i layout(const Theme& theme, Recti bounding_box) override;
 	void handle_mouse(Vec2i position, bool click) override;
 
 	Recti m_bounding_box;

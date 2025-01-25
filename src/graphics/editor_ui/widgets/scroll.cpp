@@ -21,7 +21,7 @@ void Scroll::update()
 	m_child->update();
 }
 
-void Scroll::draw(float dt)
+void Scroll::draw(const Theme& theme, float dt)
 {
 	// Draw child
 	BeginScissorMode(
@@ -30,7 +30,7 @@ void Scroll::draw(float dt)
 		m_bounding_box.size.x,
 		m_bounding_box.size.y
 	);
-	m_child->draw(dt);
+	m_child->draw(theme, dt);
 	EndScissorMode();
 
 	// Draw scrollbar
@@ -45,7 +45,7 @@ void Scroll::draw(float dt)
 		},
 		(float)SCROLLBAR_WIDTH / 2,
 		8,
-		Theme::PRIMARY.to_ray_color()
+		theme.PRIMARY.to_ray_color()
 	);
 }
 
@@ -67,12 +67,12 @@ Recti Scroll::get_scrollbar_transform()
 	};
 }
 
-Vec2i Scroll::layout(Recti bounding_box)
+Vec2i Scroll::layout(const Theme& theme, Recti bounding_box)
 {
 	Recti child_bounding_box = bounding_box;
 	child_bounding_box.size.x -= (SCROLLBAR_WIDTH + SCROLLBAR_GAP);
 
-	Vec2i child_size = m_child->layout(child_bounding_box);
+	Vec2i child_size = m_child->layout(theme, child_bounding_box);
 
 	m_child_height = child_size.y;
 	m_bounding_box.position = bounding_box.position;
@@ -82,7 +82,7 @@ Vec2i Scroll::layout(Recti bounding_box)
 
 	// Second layout pass to position the child correctly
 	child_bounding_box.position.y -= m_scroll_amount;
-	m_child->layout(child_bounding_box);
+	m_child->layout(theme, child_bounding_box);
 
 	return m_bounding_box.size;
 }

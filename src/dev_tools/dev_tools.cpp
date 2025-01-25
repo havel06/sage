@@ -23,16 +23,18 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 	ImGui::GetIO().IniFilename = NULL;
 	ImGui::LoadIniSettingsFromDisk(dir_provider.get_imgui_inifile_path().data());
 
+	Editor_UI::Theme theme; // Default theme
+
 	// Set up GUI
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 
 	// Header
-	m_header_pane = &m_context.add_pane(Recti{{0, 0}, {10000, Editor_UI::Theme::HEADER_HEIGHT}});
+	m_header_pane = &m_context.add_pane(Recti{{0, 0}, {10000, theme.HEADER_HEIGHT}});
 	m_header_pane->column.add_child(factory.make_view_model_holder(m_header));
 
 	// Nav
 	// FIXME - update based on window height????
-	auto& nav_pane = m_context.add_pane({{0, Editor_UI::Theme::HEADER_HEIGHT}, {Editor_UI::Theme::NAV_WIDTH, 10000}}, false);
+	auto& nav_pane = m_context.add_pane({{0, theme.HEADER_HEIGHT}, {theme.NAV_WIDTH, 10000}}, false);
 	auto nav_rail = factory.make_nav_rail();
 	nav_rail->add_item(
 		factory.make_nav_rail_item(
@@ -89,10 +91,12 @@ Dev_Tools::~Dev_Tools()
 
 void Dev_Tools::draw(float dt)
 {
+	Editor_UI::Theme theme; // Default theme
+
 	// Update pane size
 	const int RIGHT_PANE_WIDTH = 400;
 	m_right_pane->transform =
-		{{GetScreenWidth() - RIGHT_PANE_WIDTH, Editor_UI::Theme::HEADER_HEIGHT}, {RIGHT_PANE_WIDTH, GetScreenHeight()}};
+		{{GetScreenWidth() - RIGHT_PANE_WIDTH, theme.HEADER_HEIGHT}, {RIGHT_PANE_WIDTH, GetScreenHeight()}};
 
 	m_context.draw(dt);
 }

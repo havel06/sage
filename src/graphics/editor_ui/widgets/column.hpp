@@ -8,16 +8,22 @@
 namespace Editor_UI::Widgets
 {
 
+enum class Column_Padding
+{
+	normal,
+	small
+};
+
 class Column : public Widget
 {
 public:
-	int padding = Theme::PADDING_DEFAULT;
+	Column_Padding padding = Column_Padding::normal;
 
 	void clear();
 	void add_child(Own_Ptr<Widget>&&);
 	void update() override;
-	void draw(float dt) override;
-	Vec2i layout(Recti bounding_box) override;
+	void draw(const Theme&, float dt) override;
+	Vec2i layout(const Theme&, Recti bounding_box) override;
 	void handle_mouse(Vec2i position, bool click) override;
 	void handle_character(char) override;
 	void handle_key(int key) override;

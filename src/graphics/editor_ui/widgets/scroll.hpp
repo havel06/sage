@@ -14,8 +14,8 @@ public:
 	Scroll(Own_Ptr<Widget>&& child);
 
 	void update() override;
-	void draw(float dt) override;
-	Vec2i layout(Recti bounding_box) override;
+	void draw(const Theme&, float dt) override;
+	Vec2i layout(const Theme&, Recti bounding_box) override;
 	void handle_mouse(Vec2i, bool) override;
 	void handle_character(char) override;
 	void handle_key(int) override;

@@ -16,20 +16,24 @@ Nav_Rail_Item::Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const 
 {
 }
 
-int Nav_Rail_Item::get_width() const
+void Nav_Rail_Item::layout(const Theme& theme)
+{
+	m_width = calculate_width(theme);
+}
+
+int Nav_Rail_Item::calculate_width(const Theme& theme) const
 {
 	const int min_width = 80;
 	const int label_padding_left = 16;
-	const int label_width = MeasureText(m_label.data(), Theme::FONT_SIZE_DEFAULT);
+	const int label_width = MeasureText(m_label.data(), theme.FONT_SIZE_DEFAULT);
 
 	return max(min_width, label_width + 2 * label_padding_left);
 }
 
-void Nav_Rail_Item::draw(bool active)
+void Nav_Rail_Item::draw(const Theme& theme, bool active)
 {
 	const int gap = 4;
-	const int width = get_width();
-	const int icon_padding_left = (width - Theme::ICON_SIZE) / 2;
+	const int icon_padding_left = (m_width - theme.ICON_SIZE) / 2;
 
 	if (m_hover || active) {
 		// Draw icon background highlight
@@ -39,15 +43,15 @@ void Nav_Rail_Item::draw(bool active)
 				(float)position.x + highlight_padding_left,
 				(float)position.y,
 				56,
-				Theme::ICON_SIZE
+				(float)theme.ICON_SIZE
 			},
 			(float)56 / 2,
 			8,
 			Color {
-				.r = Theme::SECONDARY_CONTAINER.r,
-				.g = Theme::SECONDARY_CONTAINER.g,
-				.b = Theme::SECONDARY_CONTAINER.b,
-				.a = Theme::SECONDARY_CONTAINER.a,
+				.r = theme.SECONDARY_CONTAINER.r,
+				.g = theme.SECONDARY_CONTAINER.g,
+				.b = theme.SECONDARY_CONTAINER.b,
+				.a = theme.SECONDARY_CONTAINER.a,
 			}
 		);
 	}
@@ -55,22 +59,22 @@ void Nav_Rail_Item::draw(bool active)
 	// Draw icon
 	DrawTexturePro(
 		m_icon.get(),
-		{0, 0, Theme::ICON_SIZE, Theme::ICON_SIZE},
-		{(float)position.x + icon_padding_left, (float)position.y, Theme::ICON_SIZE, Theme::ICON_SIZE},
+		{0, 0, (float)theme.ICON_SIZE, (float)theme.ICON_SIZE},
+		{(float)position.x + icon_padding_left, (float)position.y, (float)theme.ICON_SIZE, (float)theme.ICON_SIZE},
 		{0, 0},
 		0,
 		Color {
-			Theme::ON_SURFACE.r,
-			Theme::ON_SURFACE.g,
-			Theme::ON_SURFACE.b,
-			Theme::ON_SURFACE.a,
+			theme.ON_SURFACE.r,
+			theme.ON_SURFACE.g,
+			theme.ON_SURFACE.b,
+			theme.ON_SURFACE.a,
 		}
 	);
 	
 	// Draw label
-	const int label_width = MeasureTextEx(m_font, m_label.data(), Theme::FONT_SIZE_DEFAULT, 0).x;
-	const int label_padding_left = (width - label_width) / 2;
-	const int label_pos_y = position.y + Theme::ICON_SIZE + gap;
+	const int label_width = MeasureTextEx(m_font, m_label.data(), theme.FONT_SIZE_DEFAULT, 0).x;
+	const int label_padding_left = (m_width - label_width) / 2;
+	const int label_pos_y = position.y + theme.ICON_SIZE + gap;
 	DrawTextEx(
 		m_font,
 		m_label.data(),
@@ -78,13 +82,13 @@ void Nav_Rail_Item::draw(bool active)
 			(float)position.x + label_padding_left,
 			(float)label_pos_y,
 		},
-		Theme::FONT_SIZE_DEFAULT,
+		theme.FONT_SIZE_DEFAULT,
 		0,
 		Color {
-			.r = Theme::ON_SURFACE.r,
-			.g = Theme::ON_SURFACE.g,
-			.b = Theme::ON_SURFACE.b,
-			.a = Theme::ON_SURFACE.a,
+			.r = theme.ON_SURFACE.r,
+			.g = theme.ON_SURFACE.g,
+			.b = theme.ON_SURFACE.b,
+			.a = theme.ON_SURFACE.a,
 		}
 	);
 }
@@ -93,7 +97,7 @@ void Nav_Rail_Item::handle_mouse(Vec2i mouse_position, bool click)
 {
 	Recti bounding_box = {
 		position,
-		Vec2i{get_width(), 52}
+		Vec2i{m_width, 52}
 	};
 
 	m_hover = bounding_box.contains(mouse_position);
@@ -112,7 +116,7 @@ void Nav_Rail::add_item(Own_Ptr<Nav_Rail_Item>&& item)
 	m_items.push_back(move(item));
 }
 
-void Nav_Rail::draw(float dt)
+void Nav_Rail::draw(const Theme& theme, float dt)
 {
 	(void)dt;
 	// Draw background
@@ -122,22 +126,22 @@ void Nav_Rail::draw(float dt)
 		m_bounding_box.size.x,
 		m_bounding_box.size.y,
 		Color {
-			.r = Theme::SURFACE.r,
-			.g = Theme::SURFACE.g,
-			.b = Theme::SURFACE.b,
-			.a = Theme::SURFACE.a,
+			.r = theme.SURFACE.r,
+			.g = theme.SURFACE.g,
+			.b = theme.SURFACE.b,
+			.a = theme.SURFACE.a,
 		}
 	);
 
 	for (int i = 0; i < m_items.size(); i++) {
-		m_items[i]->draw(m_index_active == i);
+		m_items[i]->draw(theme, m_index_active == i);
 	}
 }
 
-Vec2i Nav_Rail::layout(Recti bounding_box)
+Vec2i Nav_Rail::layout(const Theme& theme, Recti bounding_box)
 {
 	// Calculate width
-	int width = Theme::NAV_WIDTH;
+	int width = theme.NAV_WIDTH;
 	for (auto& item : m_items) {
 		width = max(width, item->get_width());
 	}
@@ -150,6 +154,7 @@ Vec2i Nav_Rail::layout(Recti bounding_box)
 	int y = m_bounding_box.position.y + padding_top;
 
 	for (auto& item : m_items) {
+		item->layout(theme);
 		const int padding_left = (width - item->get_width()) / 2;
 		item->position = Vec2i{m_bounding_box.position.x + padding_left, y};
 		y += item_height + gap;

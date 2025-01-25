@@ -10,9 +10,9 @@ View_Model_Holder::View_Model_Holder(View_Model& view_model) :
 	m_child = m_view_model.build();
 }
 
-void View_Model_Holder::draw(float dt)
+void View_Model_Holder::draw(const Theme& theme, float dt)
 {
-	m_child->draw(dt);
+	m_child->draw(theme, dt);
 }
 
 void View_Model_Holder::update()
@@ -23,9 +23,9 @@ void View_Model_Holder::update()
 	m_child->update();
 }
 
-Vec2i View_Model_Holder::layout(Recti bounding_box)
+Vec2i View_Model_Holder::layout(const Theme& theme, Recti bounding_box)
 {
-	return m_child->layout(bounding_box);
+	return m_child->layout(theme, bounding_box);
 }
 
 void View_Model_Holder::handle_mouse(Vec2i pos, bool click)

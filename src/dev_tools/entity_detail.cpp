@@ -32,9 +32,9 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Entity_Detail::build()
 	
 	card->column.add_child(factory.make_text(m_current_entity->name));
 
-	auto x = factory.make_input_int("X", Editor_UI::Theme::SURFACE_CONTAINER_HIGHEST);
-	auto y = factory.make_input_int("Y", Editor_UI::Theme::SURFACE_CONTAINER_HIGHEST);
-	auto speed = factory.make_input_number("Move speed", Editor_UI::Theme::SURFACE_CONTAINER_HIGHEST);
+	auto x = factory.make_input_int("X");
+	auto y = factory.make_input_int("Y");
+	auto speed = factory.make_input_number("Move speed");
 
 	x->set_content(String::from_int(m_current_entity->position.x));
 	y->set_content(String::from_int(m_current_entity->position.y));

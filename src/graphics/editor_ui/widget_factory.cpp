@@ -63,24 +63,21 @@ Own_Ptr<Widgets::Image> Widget_Factory::make_image(const Sprite& sprite, Vec2i s
 	return make_own_ptr<Widgets::Image>(sprite, size);
 }
 
-Own_Ptr<Widgets::Input> Widget_Factory::make_input(const String& label, Colour background)
+Own_Ptr<Widgets::Input> Widget_Factory::make_input(const String& label)
 {
 	auto input = make_own_ptr<Widgets::Input>(m_font, label, make_own_ptr<Widgets::Input_Constraint_None>());
-	input->background = background;
 	return input;
 }
 
-Own_Ptr<Widgets::Input> Widget_Factory::make_input_int(const String& label, Colour background)
+Own_Ptr<Widgets::Input> Widget_Factory::make_input_int(const String& label)
 {
 	auto input = make_own_ptr<Widgets::Input>(m_font, label, make_own_ptr<Widgets::Input_Constraint_Integer>());
-	input->background = background;
 	return input;
 }
 
-Own_Ptr<Widgets::Input> Widget_Factory::make_input_number(const String& label, Colour background)
+Own_Ptr<Widgets::Input> Widget_Factory::make_input_number(const String& label)
 {
 	auto input = make_own_ptr<Widgets::Input>(m_font, label, make_own_ptr<Widgets::Input_Constraint_Number>());
-	input->background = background;
 	return input;
 }
 
@@ -103,7 +100,7 @@ Own_Ptr<Widgets::Row> Widget_Factory::make_row(bool stretch)
 
 Own_Ptr<Widgets::Text> Widget_Factory::make_text(const String& content)
 {
-	return make_own_ptr<Widgets::Text>(content, m_font, Theme::ON_SURFACE);
+	return make_own_ptr<Widgets::Text>(content, m_font);
 }
 
 Own_Ptr<Widgets::Progress_Bar> Widget_Factory::make_progress_bar(float progress)

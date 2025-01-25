@@ -27,20 +27,21 @@ void Stack::update()
 	m_children[m_current]->update();
 }
 
-void Stack::draw(float dt)
+void Stack::draw(const Theme& theme, float dt)
 {
 	if (m_children.empty())
 		return;
 
-	m_children[m_current]->draw(dt);
+	m_children[m_current]->draw(theme, dt);
 }
 
-Vec2i Stack::layout(Recti bounding_box)
+Vec2i Stack::layout(const Theme& theme, Recti bounding_box)
 {
+	(void)theme;
 	if (m_children.empty())
 		return {0, 0};
 
-	return m_children[m_current]->layout(bounding_box);
+	return m_children[m_current]->layout(theme, bounding_box);
 }
 
 void Stack::handle_mouse(Vec2i pos, bool click)

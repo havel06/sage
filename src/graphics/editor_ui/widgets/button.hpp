@@ -26,14 +26,14 @@ public:
 	// Icon is optional
 	Button(const Font& font, const String& label, const Icon_Resource* icon);
 
-	void draw(float dt) override;
-	Vec2i layout(Recti bounding_box) override;
+	void draw(const Theme& theme, float dt) override;
+	Vec2i layout(const Theme& theme, Recti bounding_box) override;
 	void handle_mouse(Vec2i position, bool click) override;
 	void handle_character(char) override {}
 	void handle_key(int) override {}
 private:
 	int get_horizontal_padding();
-	Colour get_background_colour();
+	Colour get_background_colour(const Theme& theme);
 
 	const Font& m_font;
 	String m_label;

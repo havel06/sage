@@ -1,4 +1,5 @@
 #include "dialog.hpp"
+#include "graphics/editor_ui/theme.hpp"
 #include "raylib/raylib.h"
 #include "utils/minmax.hpp"
 
@@ -15,7 +16,7 @@ void Dialog::update()
 {
 }
 
-void Dialog::draw(float dt)
+void Dialog::draw(const Theme& theme, float dt)
 {
 	const float border_radius = 24;
 	const float roundness = border_radius / min(m_size.x, m_size.y);
@@ -29,13 +30,13 @@ void Dialog::draw(float dt)
 		},
 		roundness,
 		6,
-		Theme::SURFACE_CONTAINER_HIGHEST.to_ray_color()
+		theme.SURFACE_CONTAINER_HIGHEST.to_ray_color()
 	);
 
-	column.draw(dt);
+	column.draw(theme, dt);
 }
 
-Vec2i Dialog::layout(Recti bounding_box)
+Vec2i Dialog::layout(const Theme& theme, Recti bounding_box)
 {
 	(void)bounding_box;
 
@@ -45,7 +46,7 @@ Vec2i Dialog::layout(Recti bounding_box)
 
 	m_position = {x, y};
 
-	const int padding = Theme::PADDING_DEFAULT;
+	const int padding = theme.PADDING_DEFAULT;
 	const Recti children_bounding_box = {
 		.position = {
 			m_position.x + padding,
@@ -57,7 +58,7 @@ Vec2i Dialog::layout(Recti bounding_box)
 		}
 	};
 
-	column.layout(children_bounding_box);
+	column.layout(theme, children_bounding_box);
 
 	return {0, 0}; // Returns 0, so it doesn't mess with containers
 }

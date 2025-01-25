@@ -13,16 +13,15 @@ namespace Editor_UI::Widgets
 class Text : public Widget
 {
 public:
-	Text(const String&, const Font& font, Colour colour);
-	void draw(float dt) override;
-	Vec2i layout(Recti bounding_box) override;
+	Text(const String&, const Font& font);
+	void draw(const Theme& theme, float dt) override;
+	Vec2i layout(const Theme& theme, Recti bounding_box) override;
 	void handle_mouse(Vec2i, bool) override {}
 	void handle_character(char) override {}
 	void handle_key(int) override {}
 private:
 	const Font& m_font;
 	String m_text;
-	Colour m_colour;
 	Vec2i m_position;
 };
 

@@ -5,6 +5,8 @@
 namespace Editor_UI
 {
 
+struct Theme;
+
 class Widget
 {
 public:
@@ -13,9 +15,9 @@ public:
 	virtual void update() {}
 	// Position the widget and calculate its size. Called before draw, after update.
 	// Returns widget's calculated size
-	virtual Vec2i layout(Recti bounding_box) = 0;
+	virtual Vec2i layout(const Theme& theme, Recti bounding_box) = 0;
 	// Finally draw the widget, after update and layout.
-	virtual void draw(float dt) = 0;
+	virtual void draw(const Theme& theme, float dt) = 0;
 
 	// Input handling functions
 	virtual void handle_mouse(Vec2i position, bool click) { (void)position; (void)click; }

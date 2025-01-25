@@ -1,5 +1,4 @@
 #include "mode_entity.hpp"
-#include "imgui.h"
 #include "map/map.hpp"
 #include "utils/log.hpp"
 #include "graphics/editor_ui/system.hpp"

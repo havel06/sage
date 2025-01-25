@@ -21,15 +21,12 @@ class Dev_Tools
 {
 public:
 	// FIXME - use DI???
-	Dev_Tools(User_Directory_Provider&, Game_Facade& facade, Game_Logic& logic, Game_Logic_State_Normal&, Sequence_Manager& seq_mgr, const Item_Registry&, Inventory&, const String& project_root);
-	~Dev_Tools();
+	Dev_Tools(Game_Facade& facade, Game_Logic& logic, Game_Logic_State_Normal&, Sequence_Manager& seq_mgr, const Item_Registry&, Inventory&, const String& project_root);
 	void update(Map& map); // Call when opened
 	void draw(float dt);
 	void input_char(char character);
 	void input_key(int key);
 private:
-	User_Directory_Provider& m_user_dir_provider;
-
 	Editor_UI::System m_gui;
 
 	Dev_Tools_Header m_header;

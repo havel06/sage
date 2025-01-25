@@ -16,19 +16,15 @@ User_Directory_Provider::User_Directory_Provider(const char* project_name)
 	appdata_folder.append("/sage");
 
 	m_savegame_path = appdata_folder;
-	m_inifile_path = appdata_folder;
 #else
 	String home_path = getpwuid(getuid())->pw_dir;
 	home_path.append("/.local/share/sage");
 
 	m_savegame_path = home_path;
-	m_inifile_path = home_path;
 #endif
 
 	// OS-independent
 
 	m_savegame_path.append("/savegame/");
 	m_savegame_path.append(project_name);
-
-	m_inifile_path.append("/imgui.ini");
 }

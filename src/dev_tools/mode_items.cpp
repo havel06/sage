@@ -9,7 +9,6 @@
 #include "graphics/editor_ui/system.hpp"
 #include "item/item_registry.hpp"
 #include "item/inventory.hpp"
-#include "imgui.h"
 #include "raylib/raylib.h"
 #include "utils/own_ptr.hpp"
 

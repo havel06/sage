@@ -7,20 +7,13 @@ endif
 vendor_inc = [
   'vendor/raylib/include',
   'vendor/cjson',
-  'vendor/imgui',
-  'vendor/rlImGui'
 ]
 
 vendor_src = [
   'cjson/cJSON.c',
-  'imgui/imgui.cpp',
-  'imgui/imgui_draw.cpp',
-  'imgui/imgui_tables.cpp',
-  'imgui/imgui_widgets.cpp',
-  'rlImGui/rlImGui.cpp'
 ]
 
 vendor_lib = static_library('vendor',
   vendor_src,
-  include_directories : ['raylib/include/', 'imgui/'],
+  include_directories : ['raylib/include/'],
   override_options : ['warning_level=0'])

@@ -1,8 +1,6 @@
 #include "dev_tools.hpp"
 #include "dev_tools/mode_sequence.hpp"
-#include "imgui.h"
 #include "utils/log.hpp"
-#include "rlImGui.h"
 #include "map/map.hpp"
 #include "io/user_directory_provider.hpp"
 #include "utils/own_ptr.hpp"
@@ -11,18 +9,12 @@
 #include "graphics/editor_ui/widgets/view_model_holder.hpp"
 #include "graphics/editor_ui/widgets/stack.hpp"
 
-Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade, Game_Logic& logic, Game_Logic_State_Normal& logic_normal, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
-	m_user_dir_provider{dir_provider},
+Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Game_Logic_State_Normal& logic_normal, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
 	m_header(facade, logic, logic_normal, m_gui, project_root),
 	m_sequence(m_gui, seq_mgr, project_root),
 	m_entity{m_gui},
 	m_items(m_gui, item_reg, inv)
 {
-	rlImGuiSetup(true);
-
-	ImGui::GetIO().IniFilename = NULL;
-	ImGui::LoadIniSettingsFromDisk(dir_provider.get_imgui_inifile_path().data());
-
 	Editor_UI::Theme theme; // Default theme
 
 	// Set up GUI
@@ -81,12 +73,6 @@ Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade,
 	stack->add_child(factory.make_view_model_holder(m_entity));
 
 	m_right_pane->column.add_child(move(stack));
-}
-
-Dev_Tools::~Dev_Tools()
-{
-	ImGui::SaveIniSettingsToDisk(m_user_dir_provider.get_imgui_inifile_path().data());
-	rlImGuiShutdown();
 }
 
 void Dev_Tools::draw(float dt)

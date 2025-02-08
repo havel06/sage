@@ -7,6 +7,7 @@
 #include "utils/log.hpp"
 #include "utils/profiler.hpp"
 #include "replay/replay_player.hpp"
+#include "version.hpp"
 #include <raylib/raylib.h>
 #include <stdio.h>
 
@@ -56,6 +57,15 @@ void Application::run(int argc, const char* argv[])
 
 	Project_Description description = load_project_description(arguments.value().directory);
 	SG_INFO("Loaded project \"%s\"", description.name.data());
+
+	if (strcmp(get_engine_version(), description.engine_version.data()) != 0) {
+		SG_ERROR(
+			"Required engine version (\"%s\") does not match current engine version (\"%s\").",
+			description.engine_version.data(),
+			get_engine_version()
+		);
+		return;
+	}
 
 	init_window(description.initial_window_size, description.name.data(), max_fps);
 

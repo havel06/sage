@@ -24,6 +24,7 @@ struct Project_Description
 	String default_character;
 	GUI_Description gui_description;
 	Vec2i initial_window_size;
+	String engine_version;
 };
 
 Project_Description load_project_description(String project_root);

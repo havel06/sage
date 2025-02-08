@@ -179,6 +179,7 @@ src = [
   'src/utils/json.cpp',
   'src/utils/log.cpp',
   'src/utils/string.cpp',
+  'src/version.cpp',
 ]
 
 deps = [

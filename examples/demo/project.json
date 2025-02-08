@@ -14,5 +14,6 @@
 		"quest": "gui/quest.json",
 		"main_menu": "gui/main_menu.json",
 		"main_menu_option": "gui/main_menu_button.json"
-	}
+	},
+	"version": "0.0dev"
 }

@@ -34,6 +34,7 @@ Project_Description load_project_description(String project_root)
 	description.start_sequence = view["sequence"].as_string("");
 	description.initial_window_size.x = view["window_size_x"].as_int(1280);
 	description.initial_window_size.y = view["window_size_y"].as_int(720);
+	description.engine_version = view["version"].as_string("");
 
 	if (description.start_sequence.empty()) {
 		SG_ERROR("Initial sequence has not been set.");
@@ -44,6 +45,11 @@ Project_Description load_project_description(String project_root)
 
 	if (description.default_character.empty()) {
 		SG_ERROR("Default character has not been set.");
+		return description;
+	}
+
+	if (description.engine_version.empty()) {
+		SG_ERROR("Engine version has not been set.");
 		return description;
 	}
 

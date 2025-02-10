@@ -65,9 +65,21 @@
 			}
 		},
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/scare.wav"
+			}
+		},
+		{
 			"type": "delay",
 			"parameters": {
 				"seconds": 1
+			}
+		},
+		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/hit.wav"
 			}
 		},
 		{

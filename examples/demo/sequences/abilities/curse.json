@@ -71,6 +71,12 @@
 			}
 		},
 		{
+			"type": "play_sound",
+			"parameters": {
+				"sound": "audio/hit.wav"
+			}
+		},
+		{
 			"type": "change_all_enemy_units_hp",
 			"parameters": {
 				"amount": -4

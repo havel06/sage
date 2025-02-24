@@ -27,6 +27,9 @@ public:
 	void input_char(char character);
 	void input_key(int key);
 private:
+	Own_Ptr<Editor_UI::Widget> make_nav_rail_pane();
+	Own_Ptr<Editor_UI::Widget> make_right_pane();
+
 	Editor_UI::System m_gui;
 
 	Dev_Tools_Header m_header;
@@ -35,8 +38,6 @@ private:
 	Dev_Tools_Mode_Items m_items;
 
 	Editor_UI::Context m_context;
-	Editor_UI::Widgets::Pane* m_header_pane = nullptr;
-	Editor_UI::Widgets::Pane* m_right_pane = nullptr;
 	Editor_UI::Widgets::Stack* m_right_pane_stack = nullptr;
 
 	Dev_Tools_Mode m_mode = Dev_Tools_Mode::items;

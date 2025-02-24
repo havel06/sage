@@ -6,6 +6,7 @@
 #include "graphics/editor_ui/widgets/image.hpp"
 #include "graphics/editor_ui/widgets/row.hpp"
 #include "graphics/editor_ui/widgets/text.hpp"
+#include "graphics/editor_ui/widgets/column.hpp"
 #include "graphics/editor_ui/system.hpp"
 #include "item/item_registry.hpp"
 #include "item/inventory.hpp"

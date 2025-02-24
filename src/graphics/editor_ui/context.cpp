@@ -1,14 +1,19 @@
 #include "context.hpp"
 #include "raylib/raylib.h"
+#include "theme.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/rect.hpp"
+#include "utils/move.hpp"
 
 namespace Editor_UI
 {
 
 void Context::draw(float dt)
 {
+	if (!m_top_widget)
+		return;
+
 	Vec2i mouse_pos = {
 		GetMouseX(),
 		GetMouseY()
@@ -17,31 +22,27 @@ void Context::draw(float dt)
 	const float scroll = GetMouseWheelMove();
 
 	Theme theme; // Use default theme
-	for (auto& pane : m_panes) {
-		pane->update();
-		pane->layout(theme, {{0, 0}, {5000, 5000}});
-		pane->handle_mouse(mouse_pos, IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
-		pane->handle_scroll(scroll);
-		pane->draw(theme, dt);
-	}
+
+	m_top_widget->update();
+	m_top_widget->layout(theme, {{0, 0}, {GetScreenWidth(), GetScreenHeight()}});
+	m_top_widget->handle_mouse(mouse_pos, IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
+	m_top_widget->handle_scroll(scroll);
+	m_top_widget->draw(theme, dt);
 }
 
 void Context::input_char(char character)
 {
-	for (auto& pane : m_panes)
-		pane->handle_character(character);
+	m_top_widget->handle_character(character);
 }
 
 void Context::input_key(int key)
 {
-	for (auto& pane : m_panes)
-		pane->handle_key(key);
+	m_top_widget->handle_key(key);
 }
 
-Widgets::Pane& Context::add_pane(Recti transform, bool padding)
+void Context::set_top_widget(Own_Ptr<Widget>&& widget)
 {
-	m_panes.push_back(make_own_ptr<Widgets::Pane>(transform, padding));
-	return *m_panes.back();
+	m_top_widget = move(widget);
 }
 
 }

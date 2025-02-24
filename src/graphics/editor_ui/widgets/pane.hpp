@@ -8,7 +8,6 @@
 namespace Editor_UI::Widgets
 {
 
-// FIXME - Maybe, pane doesn't need to be a widget!
 class Pane : public Widget
 {
 public:

@@ -8,7 +8,7 @@
 #include "graphics/editor_ui/widgets/nav_rail.hpp"
 #include "graphics/editor_ui/widgets/view_model_holder.hpp"
 #include "graphics/editor_ui/widgets/stack.hpp"
-#include "graphics/editor_ui/widgets/pane.hpp"
+#include "graphics/editor_ui/widgets/absolute_pane.hpp"
 #include "graphics/editor_ui/widgets/row.hpp"
 #include "graphics/editor_ui/widgets/column.hpp"
 

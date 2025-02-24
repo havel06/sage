@@ -12,7 +12,7 @@ namespace Editor_UI {
 	class System;
 }
 namespace Editor_UI::Widgets {
-	class Pane;
+	class Absolute_Pane;
 	class Column;
 }
 

@@ -7,7 +7,7 @@
 #include "graphics/editor_ui/widgets/icon.hpp"
 #include "graphics/editor_ui/widgets/input.hpp"
 #include "graphics/editor_ui/widgets/nav_rail.hpp"
-#include "graphics/editor_ui/widgets/pane.hpp"
+#include "graphics/editor_ui/widgets/absolute_pane.hpp"
 #include "graphics/editor_ui/widgets/row.hpp"
 #include "graphics/editor_ui/widgets/scroll.hpp"
 #include "graphics/editor_ui/widgets/text.hpp"
@@ -134,9 +134,9 @@ Own_Ptr<Widgets::Dialog> Widget_Factory::make_dialog(Vec2i size)
 	return make_own_ptr<Widgets::Dialog>(size);
 }
 
-Own_Ptr<Widgets::Pane> Widget_Factory::make_pane(Recti transform, bool padding)
+Own_Ptr<Widgets::Absolute_Pane> Widget_Factory::make_pane(Recti transform, bool padding)
 {
-	return make_own_ptr<Widgets::Pane>(transform, padding);
+	return make_own_ptr<Widgets::Absolute_Pane>(transform, padding);
 }
 
 }

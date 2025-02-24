@@ -35,7 +35,7 @@ namespace Editor_UI::Widgets {
 	class Stack;
 	class Text;
 	class View_Model_Holder;
-	class Pane;
+	class Absolute_Pane;
 }
 
 
@@ -67,7 +67,7 @@ public:
 	Own_Ptr<Widgets::Stack> make_stack();
 	Own_Ptr<Widgets::Card> make_card(Widgets::Card_Type type);
 	Own_Ptr<Widgets::Dialog> make_dialog(Vec2i size);
-	Own_Ptr<Widgets::Pane> make_pane(Recti transform, bool padding);
+	Own_Ptr<Widgets::Absolute_Pane> make_pane(Recti transform, bool padding);
 private:
 	const Font& m_font;
 };

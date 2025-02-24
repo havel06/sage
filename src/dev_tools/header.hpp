@@ -14,7 +14,7 @@ namespace Editor_UI {
 	class System;
 	namespace Widgets {
 		class Input;
-		class Pane;
+		class Absolute_Pane;
 	}
 }
 

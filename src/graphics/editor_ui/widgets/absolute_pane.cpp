@@ -1,4 +1,4 @@
-#include "pane.hpp"
+#include "absolute_pane.hpp"
 #include "../theme.hpp"
 #include "utils/move.hpp"
 #include "utils/own_ptr.hpp"
@@ -7,18 +7,18 @@
 namespace Editor_UI::Widgets
 {
 
-Pane::Pane(Recti transform, bool padding)
+Absolute_Pane::Absolute_Pane(Recti transform, bool padding)
 {
 	this->transform = transform;
 	m_padding = padding;
 }
 
-void Pane::update()
+void Absolute_Pane::update()
 {
 	column.update();
 }
 
-void Pane::draw(const Theme& theme, float dt)
+void Absolute_Pane::draw(const Theme& theme, float dt)
 {
 	DrawRectangle(
 		transform.position.x,
@@ -36,7 +36,7 @@ void Pane::draw(const Theme& theme, float dt)
 	column.draw(theme, dt);
 }
 
-Vec2i Pane::layout(const Theme& theme, Recti bounding_box)
+Vec2i Absolute_Pane::layout(const Theme& theme, Recti bounding_box)
 {
 	// NOTE - bounding_box is ignored, since panes are positioned absolutely
 	(void)bounding_box;
@@ -57,24 +57,24 @@ Vec2i Pane::layout(const Theme& theme, Recti bounding_box)
 	return transform.size;
 }
 
-void Pane::handle_mouse(Vec2i position, bool click)
+void Absolute_Pane::handle_mouse(Vec2i position, bool click)
 {
 	(void)position;
 	(void)click;
 	column.handle_mouse(position, click);
 }
 
-void Pane::handle_character(char character)
+void Absolute_Pane::handle_character(char character)
 {
 	column.handle_character(character);
 }
 
-void Pane::handle_key(int key)
+void Absolute_Pane::handle_key(int key)
 {
 	column.handle_key(key);
 }
 
-void Pane::handle_scroll(float amount)
+void Absolute_Pane::handle_scroll(float amount)
 {
 	column.handle_scroll(amount);
 }

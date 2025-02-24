@@ -13,7 +13,7 @@ class Sequence;
 namespace Editor_UI {
 	class System;
 	namespace Widgets {
-		class Pane;
+		class Absolute_Pane;
 	}
 }
 

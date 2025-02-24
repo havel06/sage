@@ -8,7 +8,7 @@
 // fwd
 class Game_Logic_State_Normal;
 namespace Editor_UI::Widgets {
-	class Pane;
+	class Absolute_Pane;
 }
 
 class Dev_Tools_Map_Dialog : public Editor_UI::View_Model

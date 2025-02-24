@@ -8,12 +8,12 @@
 namespace Editor_UI::Widgets
 {
 
-class Pane : public Widget
+class Absolute_Pane : public Widget
 {
 public:
 	Column column; // Use this to get elements inside pane
 	Recti transform;
-	Pane(Recti transform, bool padding);
+	Absolute_Pane(Recti transform, bool padding);
 	void update() override;
 	void draw(const Theme& theme, float dt) override;
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;

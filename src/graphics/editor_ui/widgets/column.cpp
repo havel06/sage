@@ -32,7 +32,7 @@ Vec2i Column::layout(const Theme& theme, Recti bounding_box)
 {
 	int height = 0;
 	int width = 0;
-	const int padding_px = padding == Column_Padding::normal ? theme.PADDING_DEFAULT : theme.PADDING_SMALL;
+	const int padding_px = get_padding_px(theme);
 
 	for (auto& child : m_children)
 	{
@@ -54,6 +54,18 @@ Vec2i Column::layout(const Theme& theme, Recti bounding_box)
 	}
 
 	return Vec2i{width, height};
+}
+
+int Column::get_padding_px(const Theme& theme)
+{
+	switch (padding) {
+		case Column_Padding::none:
+			return 0;
+		case Column_Padding::small:
+			return theme.PADDING_SMALL;
+		case Column_Padding::normal:
+			return theme.PADDING_DEFAULT;
+	}
 }
 
 void Column::handle_mouse(Vec2i position, bool click)

@@ -1,5 +1,6 @@
 #pragma once
 #include "graphics/editor_ui/widgets/card_type.hpp"
+#include "graphics/editor_ui/widgets/column_padding.hpp"
 #include "utils/vec2.hpp"
 #include "utils/rect.hpp"
 #include "theme.hpp"
@@ -19,7 +20,9 @@ namespace Editor_UI {
 	class View_Model;
 }
 namespace Editor_UI::Widgets {
+	class Absolute_Pane;
 	class Button;
+	class Block;
 	class Card;
 	class Column;
 	class Dialog;
@@ -30,12 +33,12 @@ namespace Editor_UI::Widgets {
 	class Nav_Rail;
 	class Nav_Rail_Item;
 	class Progress_Bar;
+	class Relative_Pane;
 	class Row;
 	class Scroll;
 	class Stack;
 	class Text;
 	class View_Model_Holder;
-	class Absolute_Pane;
 }
 
 
@@ -50,7 +53,7 @@ public:
 
 	Own_Ptr<Widgets::Button> make_button(const String& content, const Icon_Resource* icon, Function_Wrapper<void()>&& callback);
 	Own_Ptr<Widgets::Button> make_icon_button(const Icon_Resource& icon, Function_Wrapper<void()>&& callback); // Narrow and transparent
-	Own_Ptr<Widgets::Column> make_column();
+	Own_Ptr<Widgets::Column> make_column(Widgets::Column_Padding padding = Widgets::Column_Padding::normal);
 	Own_Ptr<Widgets::Divider> make_divider();
 	Own_Ptr<Widgets::Icon> make_icon(const Icon_Resource& icon);
 	Own_Ptr<Widgets::Image> make_image(const Sprite& sprite, Vec2i size);
@@ -67,7 +70,9 @@ public:
 	Own_Ptr<Widgets::Stack> make_stack();
 	Own_Ptr<Widgets::Card> make_card(Widgets::Card_Type type);
 	Own_Ptr<Widgets::Dialog> make_dialog(Vec2i size);
-	Own_Ptr<Widgets::Absolute_Pane> make_pane(Recti transform, bool padding);
+	Own_Ptr<Widgets::Absolute_Pane> make_absolute_pane(Recti transform, bool padding);
+	Own_Ptr<Widgets::Relative_Pane> make_relative_pane(bool padding);
+	Own_Ptr<Widgets::Block> make_block(Own_Ptr<Widget>&& child, Vec2i max_size);
 private:
 	const Font& m_font;
 };

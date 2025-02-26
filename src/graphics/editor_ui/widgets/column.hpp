@@ -4,15 +4,10 @@
 #include "graphics/editor_ui/theme.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/array.hpp"
+#include "column_padding.hpp"
 
 namespace Editor_UI::Widgets
 {
-
-enum class Column_Padding
-{
-	normal,
-	small
-};
 
 class Column : public Widget
 {
@@ -29,6 +24,8 @@ public:
 	void handle_key(int key) override;
 	void handle_scroll(float amount) override;
 private:
+	int get_padding_px(const Theme& theme);
+
 	Array<Own_Ptr<Widget>> m_children;
 
 };

@@ -17,6 +17,8 @@
 #include "utils/move.hpp"
 #include "graphics/editor_ui/widgets/image.hpp"
 #include "graphics/editor_ui/widgets/progress_bar.hpp"
+#include "graphics/editor_ui/widgets/relative_pane.hpp"
+#include "graphics/editor_ui/widgets/block.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/vec2.hpp"
 
@@ -44,9 +46,11 @@ Own_Ptr<Widgets::Button> Widget_Factory::make_icon_button(const Icon_Resource& i
 	return button;
 }
 
-Own_Ptr<Widgets::Column> Widget_Factory::make_column()
+Own_Ptr<Widgets::Column> Widget_Factory::make_column(Widgets::Column_Padding padding)
 {
-	return make_own_ptr<Widgets::Column>();
+	auto column = make_own_ptr<Widgets::Column>();
+	column->padding = padding;
+	return column;
 }
 
 Own_Ptr<Widgets::Divider> Widget_Factory::make_divider()
@@ -134,9 +138,19 @@ Own_Ptr<Widgets::Dialog> Widget_Factory::make_dialog(Vec2i size)
 	return make_own_ptr<Widgets::Dialog>(size);
 }
 
-Own_Ptr<Widgets::Absolute_Pane> Widget_Factory::make_pane(Recti transform, bool padding)
+Own_Ptr<Widgets::Absolute_Pane> Widget_Factory::make_absolute_pane(Recti transform, bool padding)
 {
 	return make_own_ptr<Widgets::Absolute_Pane>(transform, padding);
+}
+
+Own_Ptr<Widgets::Relative_Pane> Widget_Factory::make_relative_pane(bool padding)
+{
+	return make_own_ptr<Widgets::Relative_Pane>(padding);
+}
+
+Own_Ptr<Widgets::Block> Widget_Factory::make_block(Own_Ptr<Widget>&& child, Vec2i max_size)
+{
+	return make_own_ptr<Widgets::Block>(move(child), max_size);
 }
 
 }

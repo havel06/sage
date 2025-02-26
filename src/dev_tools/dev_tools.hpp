@@ -29,6 +29,7 @@ public:
 private:
 	Own_Ptr<Editor_UI::Widget> make_nav_rail_pane();
 	Own_Ptr<Editor_UI::Widget> make_right_pane();
+	Own_Ptr<Editor_UI::Widget> make_header_pane();
 
 	Editor_UI::System m_gui;
 

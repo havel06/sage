@@ -16,6 +16,12 @@ void Row::draw(const Theme& theme, float dt)
 		child->draw(theme, dt);
 }
 
+void Row::draw_overlay(const Theme& theme, float dt)
+{
+	for (auto& child : m_children)
+		child->draw_overlay(theme, dt);
+}
+
 void Row::update()
 {
 	for (auto& child : m_children)

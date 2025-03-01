@@ -22,6 +22,12 @@ void Divider::draw(const Theme& theme, float dt)
 	);
 }
 
+void Divider::draw_overlay(const Theme& theme, float dt)
+{
+	(void)theme;
+	(void)dt;
+}
+
 Vec2i Divider::layout(const Theme& theme, Recti bounding_box)
 {
 	(void)theme;

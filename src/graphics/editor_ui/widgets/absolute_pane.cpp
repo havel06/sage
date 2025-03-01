@@ -36,6 +36,11 @@ void Absolute_Pane::draw(const Theme& theme, float dt)
 	column.draw(theme, dt);
 }
 
+void Absolute_Pane::draw_overlay(const Theme& theme, float dt)
+{
+	column.draw_overlay(theme, dt);
+}
+
 Vec2i Absolute_Pane::layout(const Theme& theme, Recti bounding_box)
 {
 	// NOTE - bounding_box is ignored, since panes are positioned absolutely

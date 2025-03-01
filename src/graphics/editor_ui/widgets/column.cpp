@@ -22,6 +22,12 @@ void Column::draw(const Theme& theme, float dt)
 		child->draw(theme, dt);
 }
 
+void Column::draw_overlay(const Theme& theme, float dt)
+{
+	for (auto& child : m_children)
+		child->draw_overlay(theme, dt);
+}
+
 void Column::update()
 {
 	for (auto& child : m_children)

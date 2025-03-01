@@ -35,6 +35,11 @@ void Relative_Pane::draw(const Theme& theme, float dt)
 	column.draw(theme, dt);
 }
 
+void Relative_Pane::draw_overlay(const Theme& theme, float dt)
+{
+	column.draw_overlay(theme, dt);
+}
+
 Vec2i Relative_Pane::layout(const Theme& theme, Recti bounding_box)
 {
 	m_transform = bounding_box;

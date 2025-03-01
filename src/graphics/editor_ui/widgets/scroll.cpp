@@ -49,6 +49,11 @@ void Scroll::draw(const Theme& theme, float dt)
 	);
 }
 
+void Scroll::draw_overlay(const Theme& theme, float dt)
+{
+	m_child->draw_overlay(theme, dt);
+}
+
 Recti Scroll::get_scrollbar_transform()
 {
 	const int scrollbar_x = m_bounding_box.position.x + m_bounding_box.size.x - SCROLLBAR_WIDTH;

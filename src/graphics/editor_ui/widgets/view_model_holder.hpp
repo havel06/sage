@@ -15,6 +15,7 @@ public:
 	View_Model_Holder(View_Model&);
 
 	void draw(const Theme& theme, float dt) override;
+	void draw_overlay(const Theme& theme, float dt) override;
 	void update() override;
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;
 	void handle_mouse(Vec2i, bool) override;

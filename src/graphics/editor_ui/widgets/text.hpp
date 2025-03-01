@@ -15,6 +15,7 @@ class Text : public Widget
 public:
 	Text(const String&, const Font& font);
 	void draw(const Theme& theme, float dt) override;
+	void draw_overlay(const Theme&, float) override {}
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;
 	void handle_mouse(Vec2i, bool) override {}
 	void handle_character(char) override {}

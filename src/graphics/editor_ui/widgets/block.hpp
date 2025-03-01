@@ -4,7 +4,6 @@
 #include "utils/own_ptr.hpp"
 
 // fwd
-namespace Editor_UI { class View_Model; }
 
 namespace Editor_UI::Widgets
 {
@@ -16,6 +15,7 @@ public:
 	Block(Own_Ptr<Widget>&& child, Vec2i max_size);
 
 	void draw(const Theme& theme, float dt) override;
+	void draw_overlay(const Theme& theme, float dt) override;
 	void update() override;
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;
 	void handle_mouse(Vec2i, bool) override;

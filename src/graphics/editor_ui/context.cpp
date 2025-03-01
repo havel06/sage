@@ -28,6 +28,7 @@ void Context::draw(float dt)
 	m_top_widget->handle_mouse(mouse_pos, IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
 	m_top_widget->handle_scroll(scroll);
 	m_top_widget->draw(theme, dt);
+	m_top_widget->draw_overlay(theme, dt);
 }
 
 void Context::input_char(char character)

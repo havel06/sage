@@ -15,6 +15,7 @@ public:
 
 	void update() override;
 	void draw(const Theme&, float dt) override;
+	void draw_overlay(const Theme&, float dt) override;
 	Vec2i layout(const Theme&, Recti bounding_box) override;
 	void handle_mouse(Vec2i, bool) override;
 	void handle_character(char) override;

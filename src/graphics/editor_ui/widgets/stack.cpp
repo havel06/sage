@@ -35,6 +35,14 @@ void Stack::draw(const Theme& theme, float dt)
 	m_children[m_current]->draw(theme, dt);
 }
 
+void Stack::draw_overlay(const Theme& theme, float dt)
+{
+	if (m_children.empty())
+		return;
+
+	m_children[m_current]->draw_overlay(theme, dt);
+}
+
 Vec2i Stack::layout(const Theme& theme, Recti bounding_box)
 {
 	(void)theme;

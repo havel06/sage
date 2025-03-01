@@ -18,6 +18,7 @@ public:
 	Relative_Pane(bool padding);
 	void update() override;
 	void draw(const Theme& theme, float dt) override;
+	void draw_overlay(const Theme& theme, float dt) override;
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;
 	void handle_mouse(Vec2i position, bool click) override;
 	void handle_character(char) override;

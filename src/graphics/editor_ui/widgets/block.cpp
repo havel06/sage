@@ -17,6 +17,11 @@ void Block::draw(const Theme& theme, float dt)
 	m_child->draw(theme, dt);
 }
 
+void Block::draw_overlay(const Theme& theme, float dt)
+{
+	m_child->draw_overlay(theme, dt);
+}
+
 void Block::update()
 {
 	m_child->update();

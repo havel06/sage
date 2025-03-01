@@ -52,6 +52,11 @@ void Card::draw(const Theme& theme, float dt)
 	column.draw(theme, dt);
 }
 
+void Card::draw_overlay(const Theme& theme, float dt)
+{
+	column.draw_overlay(theme, dt);
+}
+
 Vec2i Card::layout(const Theme& theme, Recti bounding_box)
 {
 	Recti child_bounding_box = Recti{

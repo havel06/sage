@@ -18,6 +18,12 @@ void Dialog::update()
 
 void Dialog::draw(const Theme& theme, float dt)
 {
+	(void)theme;
+	(void)dt;
+}
+
+void Dialog::draw_overlay(const Theme& theme, float dt)
+{
 	const float border_radius = 24;
 	const float roundness = border_radius / min(m_size.x, m_size.y);
 
@@ -34,6 +40,7 @@ void Dialog::draw(const Theme& theme, float dt)
 	);
 
 	column.draw(theme, dt);
+	column.draw_overlay(theme, dt);
 }
 
 Vec2i Dialog::layout(const Theme& theme, Recti bounding_box)

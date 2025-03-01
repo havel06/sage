@@ -27,6 +27,7 @@ public:
 	Button(const Font& font, const String& label, const Icon_Resource* icon);
 
 	void draw(const Theme& theme, float dt) override;
+	void draw_overlay(const Theme&, float) override {}
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;
 	void handle_mouse(Vec2i position, bool click) override;
 	void handle_character(char) override {}

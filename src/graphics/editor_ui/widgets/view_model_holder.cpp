@@ -15,6 +15,11 @@ void View_Model_Holder::draw(const Theme& theme, float dt)
 	m_child->draw(theme, dt);
 }
 
+void View_Model_Holder::draw_overlay(const Theme& theme, float dt)
+{
+	m_child->draw_overlay(theme, dt);
+}
+
 void View_Model_Holder::update()
 {
 	if (m_view_model.is_dirty())

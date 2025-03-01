@@ -47,6 +47,7 @@ public:
 	bool is_valid() const;
 
 	void draw(const Theme& theme, float dt) override;
+	void draw_overlay(const Theme&, float) override {}
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;
 	void set_content(const String&);
 	void handle_mouse(Vec2i position, bool click) override;

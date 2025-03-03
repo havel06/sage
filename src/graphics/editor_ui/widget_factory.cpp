@@ -19,6 +19,7 @@
 #include "graphics/editor_ui/widgets/progress_bar.hpp"
 #include "graphics/editor_ui/widgets/relative_pane.hpp"
 #include "graphics/editor_ui/widgets/block.hpp"
+#include "graphics/editor_ui/widgets/tooltip.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/vec2.hpp"
 
@@ -151,6 +152,11 @@ Own_Ptr<Widgets::Relative_Pane> Widget_Factory::make_relative_pane(bool padding)
 Own_Ptr<Widgets::Block> Widget_Factory::make_block(Own_Ptr<Widget>&& child, Vec2i max_size)
 {
 	return make_own_ptr<Widgets::Block>(move(child), max_size);
+}
+
+Own_Ptr<Widgets::Tooltip> Widget_Factory::make_tooltip(Own_Ptr<Widget>&& child, const String& text)
+{
+	return make_own_ptr<Widgets::Tooltip>(move(child), text, m_font);
 }
 
 }

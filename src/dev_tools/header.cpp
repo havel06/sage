@@ -4,6 +4,7 @@
 #include "graphics/editor_ui/system.hpp"
 #include "graphics/editor_ui/widgets/button.hpp"
 #include "graphics/editor_ui/widgets/view_model_holder.hpp"
+#include "graphics/editor_ui/widgets/tooltip.hpp"
 #include "game/game_logic.hpp"
 #include "raylib/raylib.h"
 #include "utils/move.hpp"
@@ -43,9 +44,9 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Header::build()
 	);
 
 	auto row = factory.make_row();
-	row->add_child(move(map_button));
-	row->add_child(move(save_button));
-	row->add_child(move(load_button));
+	row->add_child(factory.make_tooltip(move(map_button), "Change map"));
+	row->add_child(factory.make_tooltip(move(save_button), "Save game"));
+	row->add_child(factory.make_tooltip(move(load_button), "Load last save"));
 	row->add_child(factory.make_view_model_holder(m_map_dialog));
 
 	m_dirty = false;

@@ -41,6 +41,16 @@ struct Rect
 			.size = size * scale
 		};
 	}
+
+	Vec2<T> south()
+	{
+		return Vec2<T> {
+			.x = position.x + size.x / 2,
+			.y = position.y + size.y
+		};
+	}
+
+	// FIXME - north, west, east
 };
 
 using Recti = Rect<int>;

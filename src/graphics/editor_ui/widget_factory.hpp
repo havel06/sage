@@ -38,6 +38,7 @@ namespace Editor_UI::Widgets {
 	class Scroll;
 	class Stack;
 	class Text;
+	class Tooltip;
 	class View_Model_Holder;
 }
 
@@ -73,6 +74,7 @@ public:
 	Own_Ptr<Widgets::Absolute_Pane> make_absolute_pane(Recti transform, bool padding);
 	Own_Ptr<Widgets::Relative_Pane> make_relative_pane(bool padding);
 	Own_Ptr<Widgets::Block> make_block(Own_Ptr<Widget>&& child, Vec2i max_size);
+	Own_Ptr<Widgets::Tooltip> make_tooltip(Own_Ptr<Widget>&& child, const String& text);
 private:
 	const Font& m_font;
 };

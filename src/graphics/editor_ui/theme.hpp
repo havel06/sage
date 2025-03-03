@@ -21,6 +21,8 @@ struct Theme
 	Colour SECONDARY_CONTAINER = {62, 71, 89, 255};
 	Colour SURFACE_CONTAINER = {29, 32, 36, 255};
 	Colour SURFACE_CONTAINER_HIGHEST = {51, 53, 58, 255};
+	Colour INVERSE_SURFACE = {226, 226, 233, 255};
+	Colour ON_INVERSE_SURFACE = {46, 48, 54, 255};
 
 	Colour FILLED_BUTTON_HOVER = {129, 167, 240, 255}; // NOTE - This doesn't comply with material design
 	Colour TRANSPARENT_BUTTON_HOVER = {170, 199, 255, 25};

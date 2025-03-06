@@ -41,6 +41,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Map_Dialog::build()
 
 	auto input = factory.make_input("Current map");
 	input->set_content(get_relative_path(m_logic.get_map_filename(), m_project_root));
+	input->set_hints(read_directory_relative(m_project_root));
 
 	input->on_edit = [this, input=input.get()](){
 		m_requested_map = input->get_content();

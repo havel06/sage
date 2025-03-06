@@ -128,6 +128,22 @@ void Input::draw(const Theme& theme, float dt)
 		0,
 		theme.ON_SURFACE.to_ray_color()
 	);
+	// Draw hint
+	if (m_current_hint.length() > m_content.length()) {
+		const int content_width = MeasureTextEx(m_font, m_content.data(), theme.FONT_SIZE_DEFAULT, 0).x;
+		const String hint_rest = m_current_hint.substring(m_content.length(), m_current_hint.length() - m_content.length());
+		DrawTextEx(
+			m_font,
+			hint_rest.data(),
+			Vector2 {
+				(float)m_bounding_box.position.x + padding_left + content_width,
+				(float)m_bounding_box.position.y + padding_top,
+			},
+			theme.FONT_SIZE_DEFAULT,
+			0,
+			PINK
+		);
+	}
 
 	// Draw cursor
 	if (active && m_time_since_cursor_blink < 0.5) {
@@ -169,6 +185,13 @@ void Input::set_content(const String& new_content)
 {
 	m_content = new_content;
 	m_cursor_position = m_content.length();
+	choose_new_hint();
+}
+
+void Input::set_hints(const Array<String>& hints)
+{
+	m_hints = hints;
+	choose_new_hint();
 }
 
 void Input::handle_mouse(Vec2i position, bool click)
@@ -193,6 +216,7 @@ void Input::handle_character(char character)
 	if (m_cursor_position == m_content.length()) {
 		// Cursor on end
 		m_content.append(character);
+		choose_new_hint();
 	} else {
 		// Insert text on cursor position
 		String before_cursor = m_content.substring(0, m_cursor_position);
@@ -201,6 +225,7 @@ void Input::handle_character(char character)
 		m_content = before_cursor;
 		m_content.append(character);
 		m_content.append(after_cursor);
+		choose_new_hint();
 	}
 
 	m_cursor_position++;
@@ -218,10 +243,12 @@ void Input::handle_key(int key)
 	if (key == KEY_BACKSPACE) {
 		if (IsKeyDown(KEY_LEFT_CONTROL)) {
 			m_content.clear();
+			choose_new_hint();
 		} else {
 			if (m_cursor_position == m_content.length()) {
 				// Remove last character
 				m_content.pop();
+				choose_new_hint();
 			} else if (m_cursor_position != 0) {
 				// Remove character at position
 				String content_before = m_content.substring(0, m_cursor_position - 1);
@@ -229,6 +256,7 @@ void Input::handle_key(int key)
 				m_content = content_before;
 				m_content.append(content_after);
 				m_cursor_position--;
+				choose_new_hint();
 			}
 		}
 		m_time_since_cursor_blink = 0;
@@ -254,6 +282,16 @@ void Input::fix_cursor_position()
 		m_cursor_position = 0;
 	else if (m_cursor_position > m_content.length())
 		m_cursor_position = m_content.length();
+}
+
+void Input::choose_new_hint()
+{
+	for (const String& hint : m_hints) {
+		if (hint.has_prefix(m_content)) {
+			m_current_hint = hint;
+			return;
+		}
+	}
 }
 
 }

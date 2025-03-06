@@ -1,6 +1,7 @@
 #pragma once
 
 #include "string.hpp"
+#include "array.hpp"
 
 String remove_filename(const String& path);
 
@@ -22,3 +23,6 @@ String get_relative_path(const String& path, const String& base);
 String resolve_relative_path(const String& relative_path, const String& base);
 
 void create_directories_for_file(const String& path);
+
+// Returns paths relative to the directory passed in
+Array<String> read_directory_relative(const String& directory);

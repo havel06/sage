@@ -6,6 +6,7 @@
 #include "utils/string.hpp"
 #include "utils/colour.hpp"
 #include "utils/own_ptr.hpp"
+#include "utils/array.hpp"
 
 // fwd
 struct Font;
@@ -45,21 +46,29 @@ public:
 	Input(const Font& font, const String& label, Own_Ptr<Input_Constraint>&&);
 	const String& get_content() { return m_content; }
 	bool is_valid() const;
+	void set_content(const String&);
+
+	// Sets the possible strings for autocomplete.
+	// The strings don't have to match the current content,
+	// the widget will filter matching strings on its own.
+	void set_hints(const Array<String>&);
 
 	void draw(const Theme& theme, float dt) override;
 	void draw_overlay(const Theme&, float) override {}
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;
-	void set_content(const String&);
 	void handle_mouse(Vec2i position, bool click) override;
 	void handle_character(char) override;
 	void handle_key(int key) override;
 private:
 	void fix_cursor_position();
+	void choose_new_hint();
 
 	const Font& m_font;
 	Own_Ptr<Input_Constraint> m_constraint;
 	String m_label;
 	String m_content;
+	Array<String> m_hints; // Autocomplete hints
+	String m_current_hint; // Current selected autocomplete item
 	Recti m_bounding_box; // Set by layout()
 	int m_cursor_position = 0;
 	float m_time_since_cursor_blink = 0;

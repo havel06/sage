@@ -1,5 +1,6 @@
 #include "filesystem.hpp"
 #include <filesystem>
+#include "utils/log.hpp"
 
 String remove_filename(const String& path)
 {
@@ -95,4 +96,14 @@ void create_directories_for_file(const String& path)
 {
 	std::filesystem::path directories = std::filesystem::path(path.data()).remove_filename();
 	std::filesystem::create_directories(directories);
+}
+
+Array<String> read_directory_relative(const String& directory)
+{
+	Array<String> result;
+
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(directory.data()))
+		result.push_back(get_relative_path(entry.path().c_str(), directory));
+
+	return result;
 }

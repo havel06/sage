@@ -1,6 +1,7 @@
 #include "input.hpp"
 #include "../theme.hpp"
 #include "utils/log.hpp"
+#include "utils/minmax.hpp"
 #include "utils/move.hpp"
 #include <ctype.h>
 #include <raylib/raylib.h>
@@ -129,9 +130,9 @@ void Input::draw(const Theme& theme, float dt)
 		theme.ON_SURFACE.to_ray_color()
 	);
 	// Draw hint
-	if (m_current_hint.length() > m_content.length()) {
+	if (m_current_displayed_hint.length() > m_content.length()) {
 		const int content_width = MeasureTextEx(m_font, m_content.data(), theme.FONT_SIZE_DEFAULT, 0).x;
-		const String hint_rest = m_current_hint.substring(m_content.length(), m_current_hint.length() - m_content.length());
+		const String hint_rest = m_current_displayed_hint.substring(m_content.length(), m_current_displayed_hint.length() - m_content.length());
 		DrawTextEx(
 			m_font,
 			hint_rest.data(),
@@ -141,7 +142,7 @@ void Input::draw(const Theme& theme, float dt)
 			},
 			theme.FONT_SIZE_DEFAULT,
 			0,
-			PINK
+			ORANGE
 		);
 	}
 
@@ -265,6 +266,10 @@ void Input::handle_key(int key)
 	} else if (key == KEY_ESCAPE) {
 		active = false;
 		on_edit();
+	} else if (key == KEY_TAB) {
+		use_hint();
+	} else if (key == KEY_ENTER) {
+		on_enter();
 	} else if (key == KEY_LEFT) {
 		m_cursor_position--;
 		m_time_since_cursor_blink = 0;
@@ -288,10 +293,54 @@ void Input::choose_new_hint()
 {
 	for (const String& hint : m_hints) {
 		if (hint.has_prefix(m_content)) {
-			m_current_hint = hint;
+			m_current_displayed_hint = hint;
 			return;
 		}
 	}
+}
+
+void Input::use_hint()
+{
+	// Find matching hints
+	Array<const String*> matching_hints;
+	int minimum_length = 999999;
+
+	for (const String& hint : m_hints) {
+		if (hint.has_prefix(m_content)) {
+			matching_hints.push_back(&hint);
+			minimum_length = min(hint.length(), minimum_length);
+		}
+	}
+
+	if (matching_hints.empty())
+		return;
+
+	// Find longest common prefix
+	int prefix_length = 0;
+	while (prefix_length < minimum_length) {
+		// Check if all of the matching hints have the same character
+		// at given position
+		char matched_character = (*(matching_hints[0]))[prefix_length];
+		bool all_chars_matching = true;
+
+		for (int i = 0; i < matching_hints.size(); i++) {
+			char c = (*(matching_hints[i]))[prefix_length];
+			if (c != matched_character) {
+				all_chars_matching = false;
+				break;
+			}
+		}
+
+		if (!all_chars_matching)
+			break;
+
+		prefix_length++;
+	}
+
+	// Use longest common prefix
+	m_content = matching_hints[0]->substring(0, prefix_length);
+	m_cursor_position = m_content.length();
+	on_edit();
 }
 
 }

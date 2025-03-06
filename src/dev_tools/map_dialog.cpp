@@ -47,6 +47,10 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Map_Dialog::build()
 		m_requested_map = input->get_content();
 	};
 
+	input->on_enter = [this, input=input.get()](){
+		m_logic.set_current_map(m_requested_map);
+	};
+
 	dialog->column.add_child(move(input));
 	dialog->column.add_child(
 		factory.make_button(

@@ -42,6 +42,7 @@ class Input : public Widget
 public:
 	bool active = false;
 	Function_Wrapper<void()> on_edit = [](){};
+	Function_Wrapper<void()> on_enter = [](){}; // Triggered when 'enter' key is pressed
 
 	Input(const Font& font, const String& label, Own_Ptr<Input_Constraint>&&);
 	const String& get_content() { return m_content; }
@@ -61,14 +62,15 @@ public:
 	void handle_key(int key) override;
 private:
 	void fix_cursor_position();
-	void choose_new_hint();
+	void choose_new_hint(); // Chooses new hint to be displayed
+	void use_hint(); // Uses matching hints and adds to content
 
 	const Font& m_font;
 	Own_Ptr<Input_Constraint> m_constraint;
 	String m_label;
 	String m_content;
 	Array<String> m_hints; // Autocomplete hints
-	String m_current_hint; // Current selected autocomplete item
+	String m_current_displayed_hint; // Current displayed autocomplete item
 	Recti m_bounding_box; // Set by layout()
 	int m_cursor_position = 0;
 	float m_time_since_cursor_blink = 0;

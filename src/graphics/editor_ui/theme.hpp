@@ -16,6 +16,7 @@ struct Theme
 	Colour ON_PRIMARY = {10, 48, 95, 255};
 	Colour SURFACE = {17, 19, 24, 255};
 	Colour ON_SURFACE = {226, 226, 233, 255};
+	Colour ON_SURFACE_VARIANT = {196, 198, 208, 255};
 	Colour OUTLINE = {142, 144, 153, 255};
 	Colour OUTLINE_VARIANT = {68, 71, 78, 255};
 	Colour SECONDARY_CONTAINER = {62, 71, 89, 255};

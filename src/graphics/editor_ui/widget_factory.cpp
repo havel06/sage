@@ -20,6 +20,7 @@
 #include "graphics/editor_ui/widgets/relative_pane.hpp"
 #include "graphics/editor_ui/widgets/block.hpp"
 #include "graphics/editor_ui/widgets/tooltip.hpp"
+#include "graphics/editor_ui/widgets/dummy.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/vec2.hpp"
 
@@ -157,6 +158,11 @@ Own_Ptr<Widgets::Block> Widget_Factory::make_block(Own_Ptr<Widget>&& child, Vec2
 Own_Ptr<Widgets::Tooltip> Widget_Factory::make_tooltip(Own_Ptr<Widget>&& child, const String& text)
 {
 	return make_own_ptr<Widgets::Tooltip>(move(child), text, m_font);
+}
+
+Own_Ptr<Widgets::Dummy> Widget_Factory::make_dummy()
+{
+	return make_own_ptr<Widgets::Dummy>();
 }
 
 }

@@ -13,6 +13,7 @@
 #include "graphics/editor_ui/widgets/text.hpp"
 #include "graphics/editor_ui/widgets/button.hpp"
 #include "graphics/editor_ui/widgets/input.hpp"
+#include "graphics/editor_ui/widgets/dummy.hpp"
 
 Dev_Tools_Map_Dialog::Dev_Tools_Map_Dialog(const Editor_UI::System& gui, Game_Logic_State_Normal& logic, const String& project_root) :
 	m_gui{gui},
@@ -26,7 +27,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Map_Dialog::build()
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 
 	if (!m_show)
-		return factory.make_text(""); // FIXME - dummy widget?
+		return factory.make_dummy();
 
 	auto dialog = factory.make_dialog({400, 300});
 	dialog->column.add_child(

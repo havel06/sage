@@ -27,6 +27,7 @@ namespace Editor_UI::Widgets {
 	class Column;
 	class Dialog;
 	class Divider;
+	class Dummy;
 	class Icon;
 	class Image;
 	class Input;
@@ -75,6 +76,7 @@ public:
 	Own_Ptr<Widgets::Relative_Pane> make_relative_pane(bool padding);
 	Own_Ptr<Widgets::Block> make_block(Own_Ptr<Widget>&& child, Vec2i max_size);
 	Own_Ptr<Widgets::Tooltip> make_tooltip(Own_Ptr<Widget>&& child, const String& text);
+	Own_Ptr<Widgets::Dummy> make_dummy();
 private:
 	const Font& m_font;
 };

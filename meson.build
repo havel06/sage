@@ -45,6 +45,7 @@ src = [
   'src/graphics/editor_ui/widgets/column.cpp',
   'src/graphics/editor_ui/widgets/dialog.cpp',
   'src/graphics/editor_ui/widgets/divider.cpp',
+  'src/graphics/editor_ui/widgets/dummy.cpp',
   'src/graphics/editor_ui/widgets/icon.cpp',
   'src/graphics/editor_ui/widgets/input.cpp',
   'src/graphics/editor_ui/widgets/image.cpp',

@@ -8,6 +8,7 @@
 #include "graphics/editor_ui/widgets/input.hpp"
 #include "graphics/editor_ui/widgets/card.hpp"
 #include "graphics/editor_ui/widgets/column.hpp"
+#include "graphics/editor_ui/widgets/dummy.hpp"
 #include <cstdlib>
 
 Dev_Tools_Entity_Detail::Dev_Tools_Entity_Detail(Editor_UI::System& system) :
@@ -26,7 +27,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Entity_Detail::build()
 	auto factory = m_system.get_widget_factory();
 
 	if (!m_current_entity)
-		return factory.make_text(""); // FIXME - dummy widget?
+		return factory.make_dummy();
 
 	auto card = factory.make_card(Editor_UI::Widgets::Card_Type::filled);
 	

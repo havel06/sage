@@ -11,6 +11,7 @@
 #include "graphics/editor_ui/widgets/row.hpp"
 #include "graphics/editor_ui/widgets/divider.hpp"
 #include "graphics/editor_ui/widgets/scroll.hpp"
+#include "graphics/editor_ui/widgets/dummy.hpp"
 #include "utils/log.hpp"
 #include "utils/fuzzy_match.hpp"
 
@@ -32,7 +33,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools_Entity_List::build()
 	Editor_UI::Widget_Factory factory = m_system.get_widget_factory();
 
 	if (!m_entities)
-		return factory.make_text(""); // FIXME - dummy widget?
+		return factory.make_dummy();
 
 	Own_Ptr<Editor_UI::Widgets::Column> column = factory.make_column();
 	column->padding = Editor_UI::Widgets::Column_Padding::small;

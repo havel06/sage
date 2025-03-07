@@ -243,9 +243,9 @@ void Input::handle_key(int key)
 
 	if (key == KEY_BACKSPACE) {
 		if (IsKeyDown(KEY_LEFT_CONTROL)) {
-			m_content.clear();
-			choose_new_hint();
+			delete_last_word();
 		} else {
+			// Normal backspace
 			if (m_cursor_position == m_content.length()) {
 				// Remove last character
 				m_content.pop();
@@ -341,6 +341,37 @@ void Input::use_hint()
 	m_content = matching_hints[0]->substring(0, prefix_length);
 	m_cursor_position = m_content.length();
 	on_edit();
+}
+
+void Input::delete_last_word()
+{
+	if (m_content.empty())
+		return;
+
+	auto is_separator = [](char c) {
+		return isspace(c) || c == '/';
+	};
+
+	// Iterate from end of content until we find a separator character
+	// after deleting at least one non-separator charcter
+	bool found_non_sep = false;
+	int i = m_content.length() - 1;
+	for (; i >= 0; i--) {
+		if (!is_separator(m_content[i])) {
+			found_non_sep = true;
+		} else if (found_non_sep) {
+			i++; // Leave the separator
+			break;
+		}
+	}
+
+	if (i <= 0) {
+		m_content.clear();
+	} else {
+		m_content = m_content.substring(0, i);
+	}
+	fix_cursor_position();
+	choose_new_hint();
 }
 
 }

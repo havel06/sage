@@ -64,6 +64,7 @@ private:
 	void fix_cursor_position();
 	void choose_new_hint(); // Chooses new hint to be displayed
 	void use_hint(); // Uses matching hints and adds to content
+	void delete_last_word();
 
 	const Font& m_font;
 	Own_Ptr<Input_Constraint> m_constraint;

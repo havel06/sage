@@ -1,7 +1,6 @@
 #include "game.hpp"
 #include "game/game_logic.hpp"
 #include "game_facade.hpp"
-#include "graphics/ui/widget.hpp"
 #include "input/input_event_provider.hpp"
 #include "input/user_input.hpp"
 #include "io/gui_loader.hpp"
@@ -10,6 +9,7 @@
 #include "sequence/event.hpp"
 #include "utils/direction.hpp"
 #include "utils/log.hpp"
+#include "utils/own_ptr.hpp"
 #include "utils/profiler.hpp"
 #include <raylib/raylib.h>
 
@@ -29,7 +29,7 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	m_main_menu(m_logic, m_resource_system.font_manager.get_default_font()),
 	m_scriptable_gui{m_resource_system.gui_loader},
 	m_debug_entity_renderer{m_camera},
-	m_dev_tools(m_user_dir_provider, m_game_facade, m_logic, m_resource_system.sequence_manager, m_logic.state_normal.item_registry, m_logic.state_normal.inventory, description.path),
+	m_dev_tools(m_game_facade, m_logic, m_resource_system.sequence_manager, description.path),
 	m_display_fps{display_fps}
 {
 	{
@@ -74,16 +74,31 @@ void Game::draw_frame(float time_delta)
 		SetWindowSize(m_initial_window_size.x, m_initial_window_size.y);
 
 	// Dev mode switch
-	if (IsKeyPressed(KEY_F3))
+	if (IsKeyPressed(KEY_F3)) {
 		m_dev_mode = !m_dev_mode;
+		if (m_dev_mode) {
+			// Just opened
+			m_dev_tools.update(m_logic.state_normal.get_map());
+		}
+	}
 
 	// Dev mode
 	if (m_dev_mode) {
 		m_camera_controller.update(m_logic.state_normal.get_map(), m_logic.state_normal.get_player(), time_delta);
 		if (!m_headless) {
+			while (int character = GetCharPressed()) {
+				if (character > 127) {
+					SG_ERROR("Tried to input non-ascii character.");
+				} else {
+					m_dev_tools.input_char(character);
+				}
+			}
+			while (int key = GetKeyPressed()) {
+				m_dev_tools.input_key(key);
+			}
 			m_map_renderer.draw(m_logic.state_normal.get_map(), m_camera, time_delta);
 			m_debug_entity_renderer.draw(m_logic.state_normal.get_map().entities);
-			m_dev_tools.draw(m_logic.state_normal.get_map(), m_logic.state_normal.get_map_filename());
+			m_dev_tools.draw(time_delta);
 		}
 		return;
 	}
@@ -154,6 +169,7 @@ void Game::render(float time_delta)
 		DrawRectangle(0, 0, 120, 40, Color{0, 0, 0, 200});
 		DrawFPS(10, 10);
 	}
+
 }
 
 void Game::do_player_movement()

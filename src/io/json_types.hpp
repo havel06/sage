@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphics/ui/formatted_text.hpp"
+#include "graphics/game_ui/formatted_text.hpp"
 #include "utils/json.hpp"
 
 //fwd
@@ -11,7 +11,7 @@ struct Battle_Description;
 struct Battle_Units_Layout;
 class Sprite;
 struct Position;
-namespace UI {
+namespace Game_UI {
 	struct Size;
 }
 
@@ -31,10 +31,10 @@ JSON::Object serialise_battle_units_layout(const Battle_Units_Layout&);
 
 Colour parse_colour(const JSON::Object_View& json, const JSON::Object_View& template_params);
 
-UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& template_params);
-JSON::Object serialise_size(const UI::Size& size);
+Game_UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& template_params);
+JSON::Object serialise_size(const Game_UI::Size& size);
 
-UI::Formatted_Text parse_formatted_text(const JSON::Value_View& json);
+Game_UI::Formatted_Text parse_formatted_text(const JSON::Value_View& json);
 
 Position parse_position(const JSON::Object_View& json);
 

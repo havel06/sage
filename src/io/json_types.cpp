@@ -1,11 +1,11 @@
 #include "json_types.hpp"
 #include "graphics/animated_sprite.hpp"
-#include "graphics/ui/formatted_text.hpp"
+#include "graphics/game_ui/formatted_text.hpp"
 #include "utils/filesystem.hpp"
 #include "io/resource/texture_manager.hpp"
 #include "utils/json.hpp"
 #include "template.hpp"
-#include "graphics/ui/size.hpp"
+#include "graphics/game_ui/size.hpp"
 #include "utils/log.hpp"
 #include "combat/battle_desc.hpp"
 #include "map/position.hpp"
@@ -78,9 +78,9 @@ JSON::Object serialise_animated_sprite(const Animated_Sprite& sprite, const Stri
 	return json;
 }
 
-UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& template_params)
+Game_UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& template_params)
 {
-	UI::Size size;
+	Game_UI::Size size;
 
 	if (json.has("automatic")) {
 		size.automatic = resolve_templated_value(json["automatic"], template_params).as_bool(false);
@@ -103,7 +103,7 @@ UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& temp
 	return size;
 }
 
-JSON::Object serialise_size(const UI::Size& size)
+JSON::Object serialise_size(const Game_UI::Size& size)
 {
 	JSON::Object json;
 
@@ -125,13 +125,13 @@ Colour parse_colour(const JSON::Object_View& json, const JSON::Object_View& temp
 	};
 }
 
-UI::Formatted_Text parse_formatted_text(const JSON::Value_View& json)
+Game_UI::Formatted_Text parse_formatted_text(const JSON::Value_View& json)
 {
-	UI::Formatted_Text result;
+	Game_UI::Formatted_Text result;
 
 	// Whole text as simple string
 	if (json.is_string()) {
-		result.fragments.push_back(UI::Formatted_Text_Fragment{
+		result.fragments.push_back(Game_UI::Formatted_Text_Fragment{
 			.text = json.as_string("")
 		});
 		return result;
@@ -141,7 +141,7 @@ UI::Formatted_Text parse_formatted_text(const JSON::Value_View& json)
 	json.as_array().for_each([&](const JSON::Value_View& value){
 		// Fragment as simple string
 		if (value.is_string()) {
-			result.fragments.push_back(UI::Formatted_Text_Fragment{
+			result.fragments.push_back(Game_UI::Formatted_Text_Fragment{
 				.text = value.as_string("")
 			});
 			return;
@@ -149,7 +149,7 @@ UI::Formatted_Text parse_formatted_text(const JSON::Value_View& json)
 
 		// Parse fragment object
 		JSON::Object_View fragment_json = value.as_object();
-		UI::Formatted_Text_Fragment fragment;
+		Game_UI::Formatted_Text_Fragment fragment;
 		fragment.text = fragment_json["text"].as_string("");
 		if (fragment_json.has("colour")) {
 			fragment.colour = parse_colour(fragment_json["colour"].as_object(), JSON::Object_View{nullptr});

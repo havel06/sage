@@ -1,7 +1,7 @@
 #pragma once
 
 #include "graphics/animated_sprite.hpp"
-#include "graphics/ui/formatted_text.hpp"
+#include "graphics/game_ui/formatted_text.hpp"
 #include "utils/string.hpp"
 #include "utils/direction.hpp"
 #include "combat/target_selection_type.hpp"
@@ -128,7 +128,7 @@ public:
 class Formatted_Text_Event_Parameter final : public Event_Parameter
 {
 public:
-	UI::Formatted_Text value;
+	Game_UI::Formatted_Text value;
 	void accept_visitor(Event_Parameter_Visitor& visitor) override { visitor.visit(*this); }
 };
 

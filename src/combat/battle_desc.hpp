@@ -3,7 +3,7 @@
 #include "graphics/sprite.hpp"
 #include "utils/array.hpp"
 #include "character_profile.hpp"
-#include "graphics/ui/size.hpp"
+#include "graphics/game_ui/size.hpp"
 #include "combat_unit.hpp"
 
 // fwd
@@ -11,10 +11,10 @@ class Sequence;
 
 struct Battle_Unit_Placement
 {
-	UI::Size position_x;
-	UI::Size position_y;
-	UI::Size size_x;
-	UI::Size size_y;
+	Game_UI::Size position_x;
+	Game_UI::Size position_y;
+	Game_UI::Size size_x;
+	Game_UI::Size size_y;
 };
 
 struct Battle_Units_Layout

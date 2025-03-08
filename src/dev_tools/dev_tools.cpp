@@ -1,90 +1,130 @@
 #include "dev_tools.hpp"
 #include "dev_tools/mode_sequence.hpp"
-#include "imgui.h"
 #include "utils/log.hpp"
-#include "rlImGui.h"
 #include "map/map.hpp"
 #include "io/user_directory_provider.hpp"
+#include "utils/own_ptr.hpp"
+#include "graphics/editor_ui/theme.hpp"
+#include "graphics/editor_ui/widgets/nav_rail.hpp"
+#include "graphics/editor_ui/widgets/view_model_holder.hpp"
+#include "graphics/editor_ui/widgets/stack.hpp"
+#include "graphics/editor_ui/widgets/absolute_pane.hpp"
+#include "graphics/editor_ui/widgets/relative_pane.hpp"
+#include "graphics/editor_ui/widgets/block.hpp"
+#include "graphics/editor_ui/widgets/row.hpp"
+#include "graphics/editor_ui/widgets/column.hpp"
+#include "game/game_logic.hpp"
 
-Dev_Tools::Dev_Tools(User_Directory_Provider& dir_provider, Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const Item_Registry& item_reg, Inventory& inv, const String& project_root) :
-	m_user_dir_provider{dir_provider},
-	m_general(facade, logic, project_root),
-	m_sequence(seq_mgr, project_root),
-	m_items(item_reg, inv)
+Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const String& project_root) :
+	m_header(facade, logic, m_gui, project_root),
+	m_sequence(m_gui, seq_mgr, project_root),
+	m_entity{m_gui},
+	m_items(m_gui, logic.state_normal.item_registry, logic.state_normal.inventory)
 {
-	rlImGuiSetup(true);
+	// Set up GUI
+	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 
-	ImGui::GetIO().IniFilename = NULL;
-	ImGui::LoadIniSettingsFromDisk(dir_provider.get_imgui_inifile_path().data());
+	// Compose everything
+	auto main_row = factory.make_row(true);
+	main_row->add_child(make_nav_rail_pane());
+	main_row->add_child(make_right_pane());
+
+	auto main_column = factory.make_column(Editor_UI::Widgets::Column_Padding::none);
+	main_column->add_child(make_header_pane());
+	main_column->add_child(move(main_row));
+
+	m_context.set_top_widget(move(main_column));
 }
 
-Dev_Tools::~Dev_Tools()
+Own_Ptr<Editor_UI::Widget> Dev_Tools::make_header_pane()
 {
-	ImGui::SaveIniSettingsToDisk(m_user_dir_provider.get_imgui_inifile_path().data());
-	rlImGuiShutdown();
+	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
+	Editor_UI::Theme theme; // Default theme
+
+	auto header_pane = factory.make_relative_pane(true);
+	header_pane->column.add_child(factory.make_view_model_holder(m_header));
+	return factory.make_block(move(header_pane), {20000, theme.HEADER_HEIGHT});
 }
 
-void Dev_Tools::draw(Map& map, const String& map_filename)
+Own_Ptr<Editor_UI::Widget> Dev_Tools::make_right_pane()
 {
-	rlImGuiBegin();
+	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 
-	draw_main_menu();
+	auto right_pane = factory.make_relative_pane(true);
 
-	switch (m_mode) {
-		case Dev_Tools_Mode::general:
-			m_general.draw(map_filename);
-			break;
-		case Dev_Tools_Mode::sequence:
-			m_sequence.draw();
-			break;
-		case Dev_Tools_Mode::entities:
-			m_entity.draw(map.entities);
-			break;
-		case Dev_Tools_Mode::items:
-			m_items.draw();
-			break;
-	}
+	auto stack = factory.make_stack();
+	m_right_pane_stack = stack.get();
+	stack->add_child(factory.make_view_model_holder(m_items));
+	stack->add_child(factory.make_view_model_holder(m_sequence));
+	stack->add_child(factory.make_view_model_holder(m_entity));
 
-	rlImGuiEnd();
+	right_pane->column.add_child(move(stack));
+
+	return factory.make_block(move(right_pane), {500, 20000});
 }
 
-void Dev_Tools::draw_main_menu()
+Own_Ptr<Editor_UI::Widget> Dev_Tools::make_nav_rail_pane()
 {
-	/*
-	ImGui::SetNextWindowPos({0, 0});
-	ImGui::SetNextWindowSize({ImGui::GetMainViewport()->Size.x, 0});
-	ImGui::Begin("Main menu", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
-	ImGui::BeginTable("Main menu table", 3);
-	ImGui::TableNextRow();
-	ImGui::TableNextColumn();
-	if (ImGui::Selectable("General", m_mode == Dev_Tools_Mode::general)) {
-		m_mode = Dev_Tools_Mode::general;
-	}
-	ImGui::TableNextColumn();
-	if (ImGui::Selectable("Entities", m_mode == Dev_Tools_Mode::entitiesCallback c)) {
-		m_mode = Dev_Tools_Mode::entities;
-	}
-	ImGui::TableNextColumn();
-	if (ImGui::Selectable("Sequences", m_mode == Dev_Tools_Mode::sequence)) {
-		m_mode = Dev_Tools_Mode::sequence;
-	}
-	ImGui::EndTable();
-	ImGui::End();
-	*/
+	Editor_UI::Theme theme; // Default theme
+	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 
-	if (ImGui::BeginMainMenuBar()) {
-		if (ImGui::MenuItem("General")) {
-			m_mode = Dev_Tools_Mode::general;
-		}
-		if (ImGui::MenuItem("Entities")) {
-			m_mode = Dev_Tools_Mode::entities;
-		}
-		if (ImGui::MenuItem("Sequence")) {
-			m_mode = Dev_Tools_Mode::sequence;
-		}
-		if (ImGui::MenuItem("Items")) {
-			m_mode = Dev_Tools_Mode::items;
-		}
-		ImGui::EndMainMenuBar();
-	}
+	auto nav_pane = factory.make_relative_pane(false);
+	auto nav_rail = factory.make_nav_rail();
+	nav_rail->add_item(
+		factory.make_nav_rail_item(
+			m_gui.ICON_SEQUENCE,
+			"Sequences",
+			[this, rail = nav_rail.get()](){
+				rail->set_active_index(0);
+				m_right_pane_stack->set_current_widget(1);
+				m_mode = Dev_Tools_Mode::sequence;
+			}
+		)
+	);
+	nav_rail->add_item(
+		factory.make_nav_rail_item(
+			m_gui.ICON_ENTITY,
+			"Entities",
+			[this, rail = nav_rail.get()](){
+				rail->set_active_index(1);
+				m_right_pane_stack->set_current_widget(2);
+				m_mode = Dev_Tools_Mode::entities;
+			}
+		)
+	);
+	nav_rail->add_item(
+		factory.make_nav_rail_item(
+			m_gui.ICON_ITEMS,
+			"Items",
+			[this, rail = nav_rail.get()](){
+				rail->set_active_index(2);
+				m_right_pane_stack->set_current_widget(0);
+				m_mode = Dev_Tools_Mode::items;
+			}
+		)
+	);
+
+	nav_pane->column.add_child(move(nav_rail));
+	return factory.make_block(move(nav_pane), {theme.NAV_WIDTH, 20000});
+}
+
+void Dev_Tools::draw(float dt)
+{
+	m_context.draw(dt);
+}
+
+void Dev_Tools::update(Map& map)
+{
+	m_sequence.rebuild();
+	m_entity.rebuild(map.entities);
+}
+
+void Dev_Tools::input_char(char character)
+{
+	m_context.input_char(character);
+}
+
+void Dev_Tools::input_key(int key)
+{
+	m_context.input_key(key);
 }

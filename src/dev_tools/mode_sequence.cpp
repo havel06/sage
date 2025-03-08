@@ -1,55 +1,65 @@
 #include "mode_sequence.hpp"
+#include "graphics/editor_ui/theme.hpp"
+#include "graphics/editor_ui/widget.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
+#include "graphics/editor_ui/system.hpp"
+#include "graphics/editor_ui/widgets/column.hpp"
+#include "graphics/editor_ui/widgets/row.hpp"
+#include "graphics/editor_ui/widgets/button.hpp"
+#include "graphics/editor_ui/widgets/scroll.hpp"
+#include "graphics/editor_ui/widgets/divider.hpp"
+#include "graphics/editor_ui/widgets/view_model_holder.hpp"
+#include "graphics/editor_ui/widgets/text.hpp"
+#include "graphics/editor_ui/widgets/input.hpp"
 #include "io/resource/sequence_manager.hpp"
-#include "imgui.h"
+#include "raylib/raylib.h"
+#include "sequence/sequence.hpp"
 #include "utils/filesystem.hpp"
 #include "utils/log.hpp"
+#include "utils/function_wrapper.hpp"
+#include "utils/own_ptr.hpp"
 
-Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Sequence_Manager& seq_manager, const String& resource_root_path) :
-	m_sequence_manager{seq_manager}
+Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Editor_UI::System& gui, Sequence_Manager& seq_manager, const String& resource_root_path) :
+	m_gui{gui},
+	m_resource_root{resource_root_path},
+	m_detail{gui, resource_root_path},
+	m_list{gui, seq_manager, m_detail, resource_root_path}
 {
-	m_resource_root = resource_root_path;
 }
 
-void Dev_Tools_Mode_Sequence::draw()
+
+void Dev_Tools_Mode_Sequence::rebuild()
 {
-	ImGui::Begin("Sequences");
-
-	m_sequence_manager.for_each([&](const String& path, Sequence& sequence){
-		const bool is_selected = m_selected_sequence.has_value() && &m_selected_sequence.value().get() == &sequence;
-		const String relative_path = get_relative_path(path, m_resource_root);
-		if (ImGui::Selectable(relative_path.data(), is_selected)) {
-			m_selected_sequence = m_sequence_manager.get(path, true);
-		}
-	});
-
-	ImGui::End();
-
-	if (m_selected_sequence.has_value()) {
-		draw_sequence_edit(m_selected_sequence.value().get());
-	}
+	m_dirty = true;
 }
 
-void Dev_Tools_Mode_Sequence::draw_sequence_edit(Sequence& sequence)
+bool Dev_Tools_Mode_Sequence::is_dirty() const
 {
-	ImGui::Begin("Edit sequence");
+	return m_dirty;
+}
 
-	if (sequence.is_active()) {
-		ImGui::Text("State: active");
-	} else {
-		if (sequence.has_finished()) {
-			ImGui::Text("State: finished");
-		} else {
-			ImGui::Text("State: inactive");
-		}
-	}
+Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Sequence::build()
+{
+	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 
-	ImGui::Text("Current event: %d", sequence.get_current_event_index());
-	if (ImGui::Button("Reset sequence")) {
-		sequence.reset();
-	}
-	if (ImGui::Button("Activate sequence")) {
-		sequence.try_activate();
-	}
+	auto column = factory.make_column();
 
-	ImGui::End();
+	column->add_child(create_search_bar());
+	column->add_child(factory.make_view_model_holder(m_list));
+	column->add_child(factory.make_view_model_holder(m_detail));
+
+	m_dirty = false;
+	return column;
+}
+
+Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Sequence::create_search_bar()
+{
+	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
+	auto input = factory.make_input("Search");
+
+	input->on_edit = [this, input=input.get()](){
+		m_list.rebuild(input->get_content());
+	};
+
+	return input;
 }

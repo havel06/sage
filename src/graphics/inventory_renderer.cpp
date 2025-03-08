@@ -1,10 +1,10 @@
 #include "inventory_renderer.hpp"
-#include "graphics/ui/image.hpp"
-#include "graphics/ui/layout.hpp"
-#include "graphics/ui/size.hpp"
-#include "graphics/ui/widget.hpp"
-#include "graphics/ui/text.hpp"
-#include "graphics/ui/button.hpp"
+#include "graphics/game_ui/image.hpp"
+#include "graphics/game_ui/layout.hpp"
+#include "graphics/game_ui/size.hpp"
+#include "graphics/game_ui/widget.hpp"
+#include "graphics/game_ui/text.hpp"
+#include "graphics/game_ui/button.hpp"
 #include "raylib/raylib.h"
 #include "utils/log.hpp"
 #include "utils/string.hpp"
@@ -14,9 +14,9 @@
 #include "item/inventory.hpp"
 #include "item/item_registry.hpp"
 #include "io/gui_loader.hpp"
-#include "graphics/ui/box.hpp"
+#include "graphics/game_ui/box.hpp"
 #include "sequence/sequence.hpp"
-#include "ui/widget_visitor.hpp"
+#include "game_ui/widget_visitor.hpp"
 
 Inventory_Renderer::Inventory_Renderer(Item_Registry& item_registry, Inventory& inventory, Resource_Handle<Font> default_font) :
 	m_item_registry{item_registry},
@@ -51,7 +51,7 @@ void Inventory_Renderer::on_inventory_change()
 	if (!m_main_widget || !m_slot_widget)
 		return;
 
-	UI::Widget* slots_widget = m_main_widget->get_widget_by_name("Slots");
+	Game_UI::Widget* slots_widget = m_main_widget->get_widget_by_name("Slots");
 
 	if (!slots_widget)
 		return;
@@ -63,30 +63,30 @@ void Inventory_Renderer::on_inventory_change()
 			return;
 
 		Item& item = m_item_registry.get_item(id);
-		UI::Widget_Ptr slot_widget = m_slot_widget->clone();
+		Game_UI::Widget_Ptr slot_widget = m_slot_widget->clone();
 
 		// Image
-		UI::Widget* image_widget = slot_widget->get_widget_by_name("Image");
+		Game_UI::Widget* image_widget = slot_widget->get_widget_by_name("Image");
 		if (image_widget) {
-			UI::Image_Widget_Visitor image_visitor{[&](UI::Image& image){
+			Game_UI::Image_Widget_Visitor image_visitor{[&](Game_UI::Image& image){
 				image.sprite = item.sprite;
 			}};
 			image_widget->accept_visitor(image_visitor);
 		}
 
 		// Count
-		UI::Widget* count_widget = slot_widget->get_widget_by_name("Count");
+		Game_UI::Widget* count_widget = slot_widget->get_widget_by_name("Count");
 		if (count_widget) {
-			UI::Text_Widget_Visitor count_visitor{[&](UI::Text& text){
+			Game_UI::Text_Widget_Visitor count_visitor{[&](Game_UI::Text& text){
 				text.text = String::from_int(count);
 			}};
 			count_widget->accept_visitor(count_visitor);
 		}
 
 		// Button
-		UI::Widget* button_widget = slot_widget->get_widget_by_name("Button");
+		Game_UI::Widget* button_widget = slot_widget->get_widget_by_name("Button");
 		if (button_widget) {
-			UI::Button_Widget_Visitor button_visitor{[&](UI::Button& button){
+			Game_UI::Button_Widget_Visitor button_visitor{[&](Game_UI::Button& button){
 				button.on_click = [&](){
 					if (item.assigned_sequence.has_value()) {
 						item.assigned_sequence.value().get().try_activate();
@@ -143,44 +143,44 @@ bool Inventory_Renderer::is_inventory_empty() const
 
 void Inventory_Renderer::use_fallback_widgets()
 {
-	Array<UI::Size> auto_rows;
-	auto_rows.push_back(UI::Size{.automatic = true});
-	Array<UI::Size> auto_columns;
-	auto_columns.push_back(UI::Size{.automatic = true});
+	Array<Game_UI::Size> auto_rows;
+	auto_rows.push_back(Game_UI::Size{.automatic = true});
+	Array<Game_UI::Size> auto_columns;
+	auto_columns.push_back(Game_UI::Size{.automatic = true});
 
 	// Main widget
-	auto main_widget = make_own_ptr<UI::Box>(UI::Layout{auto_rows, auto_columns});
+	auto main_widget = make_own_ptr<Game_UI::Box>(Game_UI::Layout{auto_rows, auto_columns});
 
 	// Slots widget
-	Array<UI::Size> slots_rows;
-	slots_rows.push_back(UI::Size{ .pixels = 100 });
+	Array<Game_UI::Size> slots_rows;
+	slots_rows.push_back(Game_UI::Size{ .pixels = 100 });
 
-	Array<UI::Size> slots_columns;
-	slots_columns.push_back(UI::Size{ .pixels = 100 });
-	slots_columns.push_back(UI::Size{ .pixels = 100 });
-	slots_columns.push_back(UI::Size{ .pixels = 100 });
-	slots_columns.push_back(UI::Size{ .pixels = 100 });
+	Array<Game_UI::Size> slots_columns;
+	slots_columns.push_back(Game_UI::Size{ .pixels = 100 });
+	slots_columns.push_back(Game_UI::Size{ .pixels = 100 });
+	slots_columns.push_back(Game_UI::Size{ .pixels = 100 });
+	slots_columns.push_back(Game_UI::Size{ .pixels = 100 });
 
-	UI::Layout slots_layout{slots_rows, slots_columns};
-	auto slots_widget = make_own_ptr<UI::Box>(move(slots_layout));
+	Game_UI::Layout slots_layout{slots_rows, slots_columns};
+	auto slots_widget = make_own_ptr<Game_UI::Box>(move(slots_layout));
 	slots_widget->set_name("Slots");
 
 	// Slot widget
-	auto slot_button_normal = make_own_ptr<UI::Box>(UI::Layout{auto_rows, auto_columns});
-	auto slot_button_focused = make_own_ptr<UI::Box>(UI::Layout{auto_rows, auto_columns});
+	auto slot_button_normal = make_own_ptr<Game_UI::Box>(Game_UI::Layout{auto_rows, auto_columns});
+	auto slot_button_focused = make_own_ptr<Game_UI::Box>(Game_UI::Layout{auto_rows, auto_columns});
 	slot_button_normal->colour = Colour{100, 100, 100, 255};
 	slot_button_focused->colour = Colour{160, 160, 160, 255};
-	auto slot_button = make_own_ptr<UI::Button>(
-		move(slot_button_normal), move(slot_button_focused), UI::Layout{auto_rows, auto_columns}
+	auto slot_button = make_own_ptr<Game_UI::Button>(
+		move(slot_button_normal), move(slot_button_focused), Game_UI::Layout{auto_rows, auto_columns}
 	);
 	slot_button->set_name("Button");
 
 	// Slot image
-	auto slot_image = make_own_ptr<UI::Image>(UI::Layout{auto_rows, auto_columns});
+	auto slot_image = make_own_ptr<Game_UI::Image>(Game_UI::Layout{auto_rows, auto_columns});
 	slot_image->set_name("Image");
 
 	// Slot count
-	auto slot_count = make_own_ptr<UI::Text>(m_default_font, UI::Layout{auto_rows, auto_columns});
+	auto slot_count = make_own_ptr<Game_UI::Text>(m_default_font, Game_UI::Layout{auto_rows, auto_columns});
 	slot_count->set_name("Count");
 
 	// Put it all together

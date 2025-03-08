@@ -1,6 +1,6 @@
 #pragma once
 #include "utils/string.hpp"
-#include "ui/widget.hpp"
+#include "game_ui/widget.hpp"
 
 // fwd
 class Quest_Log;
@@ -16,6 +16,6 @@ public:
 private:
 	const Quest_Log& m_quest_log;
 
-	UI::Widget_Ptr m_log_widget;
-	UI::Widget_Ptr m_quest_widget;
+	Game_UI::Widget_Ptr m_log_widget;
+	Game_UI::Widget_Ptr m_quest_widget;
 };

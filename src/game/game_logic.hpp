@@ -21,6 +21,7 @@ enum class Game_Logic_State
 	exit, // Game wants to be exited
 };
 
+// FIXME - refactor structure (should states be injected?)
 class Game_Logic
 {
 public:

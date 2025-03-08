@@ -1,5 +1,4 @@
 #include "show_gui.hpp"
-#include "graphics/ui/layout.hpp"
 #include "io/gui_loader.hpp"
 #include "utils/own_ptr.hpp"
 #include "../events/show_gui.hpp"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ui/widget.hpp"
+#include "game_ui/widget.hpp"
 
 // fwd
 class Text_Box;
@@ -15,5 +15,5 @@ public:
 	void load(GUI_Loader&, const String& filename);
 private:
 	const Text_Box& m_text_box;
-	UI::Widget_Ptr m_widget;
+	Game_UI::Widget_Ptr m_widget;
 };

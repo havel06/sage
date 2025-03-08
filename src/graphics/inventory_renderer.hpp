@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphics/ui/widget.hpp"
+#include "graphics/game_ui/widget.hpp"
 #include "utils/vec2.hpp"
 #include "utils/string.hpp"
 #include "item/inventory.hpp"
@@ -44,6 +44,6 @@ private:
 
 	Array<Inventory_Renderer_Observer*> m_observers;
 	Resource_Handle<Font> m_default_font;
-	UI::Widget_Ptr m_slot_widget;
-	UI::Widget_Ptr m_main_widget;
+	Game_UI::Widget_Ptr m_slot_widget;
+	Game_UI::Widget_Ptr m_main_widget;
 };

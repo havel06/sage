@@ -13,6 +13,7 @@ public:
 	String& operator=(const String& other);
 
 	static String from_int(int);
+	static String from_float(float);
 
 	char& operator[](int index);
 	const char& operator[](int index) const;

@@ -1,6 +1,5 @@
 #include "texture_manager.hpp"
 #include "graphics/texture.hpp"
-#include "graphics/ui/text.hpp"
 #include "raylib/raylib.h"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"

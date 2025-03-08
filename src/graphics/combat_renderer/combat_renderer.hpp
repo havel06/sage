@@ -6,7 +6,7 @@
 #include "utils/vec2.hpp"
 #include "utils/table.hpp"
 #include "combat/combat.hpp"
-#include "../ui/size.hpp"
+#include "../game_ui/size.hpp"
 #include "../shader.hpp"
 
 class Party;

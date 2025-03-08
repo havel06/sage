@@ -1,5 +1,5 @@
 #pragma once
-#include "graphics/ui/layout.hpp"
+#include "graphics/game_ui/layout.hpp"
 #include "utils/string.hpp"
 #include "io/resource/resource_handle.hpp"
 
@@ -17,10 +17,10 @@ public:
 	void draw(float time_delta);
 private:
 	void use_fallback_widgets();
-	void init_widgets(UI::Widget_Ptr&& main_widget, UI::Widget_Ptr& option_widget);
+	void init_widgets(Game_UI::Widget_Ptr&& main_widget, Game_UI::Widget_Ptr& option_widget);
 
 	Game_Logic& m_logic;
 	Resource_Handle<Font> m_default_font;
 
-	UI::Widget_Ptr m_widget;
+	Game_UI::Widget_Ptr m_widget;
 };

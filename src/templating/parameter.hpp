@@ -48,6 +48,19 @@ class Parameter
 {
 public:
 	virtual void accept_visitor(Parameter_Visitor&) = 0;
+
+	bool is_templated() const { return m_template_parameter_name.has_value(); }
+
+	const String& get_template_paramter_name()
+	{
+		assert(m_template_parameter_name.has_value());
+		return m_template_parameter_name.value();
+	}
+
+	void set_template_parameter_name(const String& name) { m_template_parameter_name = name; }
+
+private:
+	Optional<String> m_template_parameter_name; // If this parameter is templated, this is where the parameter name is stored.
 };
 
 

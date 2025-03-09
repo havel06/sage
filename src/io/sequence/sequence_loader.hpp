@@ -2,7 +2,7 @@
 
 #include "utils/string.hpp"
 #include "sequence/sequence.hpp"
-#include "event_parameter_parser.hpp"
+#include "../parameter_parser.hpp"
 #include "event_parser.hpp"
 #include "condition_parser.hpp"
 
@@ -26,7 +26,7 @@ private:
 	Sequence load_templated_sequence(const JSON::Object_View& template_json, const JSON::Object_View& parameters);
 
 	String m_resource_root_path;
-	Event_Parameter_Parser m_event_parameter_parser;
+	Parameter_Parser m_parameter_parser;
 	Event_Parser m_event_parser; // FIXME - DI???
 	Condition_Parser m_condition_parser;
 };

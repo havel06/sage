@@ -1,6 +1,6 @@
 #pragma once
 #include "../event_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 namespace Event_Factories
 {
@@ -11,7 +11,7 @@ public:
 	Display_Text();
 	Own_Ptr<Event> make_event(Game_Facade&) override;
 private:
-	Formatted_Text_Event_Parameter m_message;
+	Formatted_Text_Parameter m_message;
 };
 
 }

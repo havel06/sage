@@ -1,6 +1,6 @@
 #pragma once
 #include "../condition_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 namespace Condition_Factories
 {
@@ -11,7 +11,7 @@ public:
 	Player_Is_Looking();
 	Own_Ptr<Condition> make_condition(Game_Facade&) override;
 private:
-	Direction_Event_Parameter m_direction;
+	Direction_Parameter m_direction;
 };
 
 }

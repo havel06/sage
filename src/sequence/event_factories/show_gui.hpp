@@ -1,6 +1,6 @@
 #pragma once
 #include "../event_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 class GUI_Loader;
 
@@ -13,7 +13,7 @@ public:
 	Show_GUI();
 	Own_Ptr<Event> make_event(Game_Facade&) override;
 private:
-	String_Event_Parameter m_widget_filename;
+	String_Parameter m_widget_filename;
 };
 
 }

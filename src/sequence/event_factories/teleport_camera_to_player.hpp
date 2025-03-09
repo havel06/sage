@@ -1,6 +1,6 @@
 #pragma once
 #include "../event_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 namespace Event_Factories
 {

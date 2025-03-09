@@ -1,6 +1,6 @@
 #pragma once
 #include "../event_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 namespace Event_Factories
 {
@@ -11,7 +11,7 @@ public:
 	Rotate_Player();
 	Own_Ptr<Event> make_event(Game_Facade&) override;
 private:
-	Direction_Event_Parameter m_direction;
+	Direction_Parameter m_direction;
 };
 
 }

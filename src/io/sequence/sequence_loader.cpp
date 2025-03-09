@@ -4,7 +4,6 @@
 #include "io/gui_loader.hpp"
 #include "io/resource/texture_manager.hpp"
 #include "sequence/condition.hpp"
-#include "sequence/event_parameter.hpp"
 #include "utils/move.hpp"
 #include "sequence/sequence.hpp"
 #include "sequence/event_factory.hpp"
@@ -17,9 +16,9 @@
 #include "../resource/resource_system.hpp"
 
 Sequence_Loader::Sequence_Loader(const String& resource_root_path, Resource_System& res_system, Game_Facade& facade) :
-	m_event_parameter_parser(m_condition_parser, res_system.texture_manager),
-	m_event_parser{m_event_parameter_parser, res_system, facade},
-	m_condition_parser{m_event_parameter_parser, facade}
+	m_parameter_parser(m_condition_parser, res_system.texture_manager),
+	m_event_parser{m_parameter_parser, res_system, facade},
+	m_condition_parser{m_parameter_parser, facade}
 {
 	m_resource_root_path = resource_root_path;
 }

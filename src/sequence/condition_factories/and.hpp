@@ -1,6 +1,6 @@
 #pragma once
 #include "../condition_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 namespace Condition_Factories
 {
@@ -11,7 +11,7 @@ public:
 	And();
 	Own_Ptr<Condition> make_condition(Game_Facade&) override;
 private:
-	Condition_Array_Event_Parameter m_conditions;
+	Condition_Array_Parameter m_conditions;
 };
 
 }

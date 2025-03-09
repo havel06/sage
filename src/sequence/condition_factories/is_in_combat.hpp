@@ -1,6 +1,6 @@
 #pragma once
 #include "../condition_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 namespace Condition_Factories
 {

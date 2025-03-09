@@ -1,6 +1,6 @@
 #pragma once
 #include "../event_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 class Character_Profile_Manager;
 
@@ -14,7 +14,7 @@ public:
 	Own_Ptr<Event> make_event(Game_Facade&) override;
 private:
 	Character_Profile_Manager& m_profile_manager;
-	String_Event_Parameter m_profile_filename;
+	String_Parameter m_profile_filename;
 };
 
 }

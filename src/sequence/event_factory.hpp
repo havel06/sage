@@ -6,7 +6,7 @@
 #include "utils/concepts.hpp"
 
 class Event;
-class Event_Parameter;
+class Parameter;
 class Game_Facade;
 
 // Uses the "abstract factory" pattern
@@ -21,17 +21,17 @@ public:
 	virtual Own_Ptr<Event> make_event(Game_Facade&) = 0;
 
 	template<typename Fn>
-	requires Concepts::Callable<Fn, const String&, Event_Parameter&>
+	requires Concepts::Callable<Fn, const String&, Parameter&>
 	void for_each_parameter(Fn c);
 
 protected:
 	// Each derived class must register all of its parameters
-	void register_parameter(const String& name, Event_Parameter&);
+	void register_parameter(const String& name, Parameter&);
 
 private:
 	struct Registered_Parameter {
 		String mame;
-		Event_Parameter& parameter;
+		Parameter& parameter;
 	};
 
 	Array<Registered_Parameter> m_parameters;
@@ -43,7 +43,7 @@ private:
 
 
 template<typename Fn>
-requires Concepts::Callable<Fn, const String&, Event_Parameter&>
+requires Concepts::Callable<Fn, const String&, Parameter&>
 void Event_Factory::for_each_parameter(Fn callback)
 {
 	for (Registered_Parameter& param : m_parameters) {

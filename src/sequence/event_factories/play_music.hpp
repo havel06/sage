@@ -1,6 +1,6 @@
 #pragma once
 #include "../event_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 class Sound_Manager;
 
@@ -15,7 +15,7 @@ public:
 private:
 	Sound_Manager& m_sound_manager;
 
-	String_Event_Parameter m_music_filename;
+	String_Parameter m_music_filename;
 };
 
 }

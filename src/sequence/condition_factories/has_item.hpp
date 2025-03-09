@@ -1,6 +1,6 @@
 #pragma once
 #include "../condition_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 namespace Condition_Factories
 {
@@ -11,8 +11,8 @@ public:
 	Has_Item();
 	Own_Ptr<Condition> make_condition(Game_Facade&) override;
 private:
-	String_Event_Parameter m_item;
-	Int_Event_Parameter m_count;
+	String_Parameter m_item;
+	Int_Parameter m_count;
 };
 
 }

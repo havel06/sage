@@ -1,6 +1,6 @@
 #pragma once
 #include "../event_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 namespace Event_Factories
 {
@@ -11,7 +11,7 @@ public:
 	Zoom_Camera();
 	Own_Ptr<Event> make_event(Game_Facade&) override;
 private:
-	Int_Event_Parameter m_zoom;
+	Int_Parameter m_zoom;
 };
 
 }

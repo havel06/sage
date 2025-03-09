@@ -5,7 +5,7 @@
 #include "utils/own_ptr.hpp"
 #include "utils/log.hpp"
 #include "../resource/resource_system.hpp"
-#include "event_parameter_parser.hpp"
+#include "../parameter_parser.hpp"
 #include "sequence/event_factory.hpp"
 #include "sequence/event_factories/activate_sequence.hpp"
 #include "sequence/event_factories/move_camera.hpp"
@@ -44,8 +44,8 @@
 #include "sequence/event_factories/reset_current_unit_sprite.hpp"
 #include "sequence/event_factories/set_layer_opacity.hpp"
 
-Event_Parser::Event_Parser(Event_Parameter_Parser& param_parser, Resource_System& res_system, Game_Facade& game_facade) :
-	m_event_parameter_parser{param_parser},
+Event_Parser::Event_Parser(Parameter_Parser& param_parser, Resource_System& res_system, Game_Facade& game_facade) :
+	m_parameter_parser{param_parser},
 	m_facade{game_facade},
 	m_resource_system{res_system}
 {
@@ -163,14 +163,14 @@ void Event_Parser::parse_event_parameters(Event_Factory& factory,
 		const JSON::Object_View& parameters,
 		const JSON::Object_View& template_parameters)
 {
-	factory.for_each_parameter([&](const String& name, Event_Parameter& parameter){
+	factory.for_each_parameter([&](const String& name, Parameter& parameter){
 		if (!parameters.has(name.data())) {
 			SG_ERROR("Missing event parameter \"%s\"", name.data());
 			//assert(false);
 		}
 
 		const JSON::Value_View& unresolved_value = parameters[name.data()];
-		m_event_parameter_parser.parse(parameter, unresolved_value, template_parameters);
+		m_parameter_parser.parse(parameter, unresolved_value, template_parameters);
 	});
 }
 

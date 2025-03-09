@@ -1,6 +1,6 @@
 #pragma once
 #include "../event_factory.hpp"
-#include "../event_parameter.hpp"
+#include "templating/parameter.hpp"
 
 namespace Event_Factories
 {
@@ -11,8 +11,8 @@ public:
 	Change_Sprite();
 	Own_Ptr<Event> make_event(Game_Facade&) override;
 private:
-	String_Event_Parameter m_entity_name;
-	Sprite_Event_Parameter m_sprite;
+	String_Parameter m_entity_name;
+	Sprite_Parameter m_sprite;
 };
 
 }

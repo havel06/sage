@@ -12,10 +12,9 @@ Text_Factory::Text_Factory(Font_Manager& font_manager) :
 	register_parameter("align", m_align);
 }
 
-Own_Ptr<Widget> Text_Factory::make_widget()
+Own_Ptr<Widget> Text_Factory::make_widget(Layout&& layout)
 {
-	// FIXME - layout, children
-	Own_Ptr<Text> widget = make_own_ptr<Text>(m_font_manager.get(m_font.value, false), Layout{});
+	Own_Ptr<Text> widget = make_own_ptr<Text>(m_font_manager.get(m_font.value, false), move(layout));
 	widget->text = m_text.value;
 	widget->size = m_size.value;
 	widget->align = m_align.value;

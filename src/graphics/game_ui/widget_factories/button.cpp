@@ -9,10 +9,9 @@ Button_Factory::Button_Factory()
 	register_parameter("focused", m_widget_focused);
 }
 
-Own_Ptr<Widget> Button_Factory::make_widget()
+Own_Ptr<Widget> Button_Factory::make_widget(Layout&& layout)
 {
-	// FIXME - layout, children
-	return make_own_ptr<Button>(m_widget_normal.value->make_widget(), m_widget_focused.value->make_widget(), Layout{});
+	return make_own_ptr<Button>(m_widget_normal.value->make_widget(), m_widget_focused.value->make_widget(), move(layout));
 }
 
 }

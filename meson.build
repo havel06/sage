@@ -79,6 +79,7 @@ src = [
   'src/graphics/game_ui/widget_factories/button.cpp',
   'src/graphics/game_ui/widget_factories/image.cpp',
   'src/graphics/game_ui/widget_factories/text.cpp',
+  'src/graphics/game_ui/widget_factory.cpp',
   'src/input/input_event.cpp',
   'src/input/user_input.cpp',
   'src/io/character_profile_loader.cpp',

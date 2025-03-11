@@ -9,7 +9,7 @@ class Button_Factory : public Widget_Factory
 {
 public:
 	Button_Factory();
-	virtual Own_Ptr<Widget> make_widget() = 0;
+	Own_Ptr<Widget> make_widget(Layout&& layout) override;
 private:
 	Widget_Parameter m_widget_normal;
 	Widget_Parameter m_widget_focused;

@@ -9,7 +9,7 @@ class Image_Factory : public Widget_Factory
 {
 public:
 	Image_Factory();
-	virtual Own_Ptr<Widget> make_widget() = 0;
+	Own_Ptr<Widget> make_widget(Layout&& layout) override;
 private:
 	Sprite_Parameter m_sprite;
 };

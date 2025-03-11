@@ -7,12 +7,18 @@ namespace Game_UI
 {
 
 // FIXME - adopt
-// FIXME - add some sort of a 'layout factory' to make an editable layout
 // Abstract factory pattern
 class Widget_Factory : public Templated
 {
 public:
-	virtual Own_Ptr<Widget> make_widget() = 0;
+	Array<Size> layout_rows;
+	Array<Size> layout_columns;
+	int position_row;
+	int position_column;
+	Array<Own_Ptr<Widget_Factory>> children;
+	Own_Ptr<Widget> make_widget();
+private:
+	virtual Own_Ptr<Widget> make_widget(Layout&&) = 0;
 };
 
 }

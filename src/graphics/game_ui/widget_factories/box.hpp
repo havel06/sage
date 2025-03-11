@@ -9,7 +9,7 @@ class Box_Factory : public Widget_Factory
 {
 public:
 	Box_Factory();
-	virtual Own_Ptr<Widget> make_widget() = 0;
+	Own_Ptr<Widget> make_widget(Layout&&) override;
 private:
 	Colour_Parameter m_colour;
 };

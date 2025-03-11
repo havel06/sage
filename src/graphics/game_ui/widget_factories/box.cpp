@@ -8,10 +8,9 @@ Box_Factory::Box_Factory()
 	register_parameter("colour", m_colour);
 }
 
-Own_Ptr<Widget> Box_Factory::make_widget()
+Own_Ptr<Widget> Box_Factory::make_widget(Layout&& layout)
 {
-	// FIXME - layout, children
-	Own_Ptr<Box> widget = make_own_ptr<Box>(Layout{});
+	Own_Ptr<Box> widget = make_own_ptr<Box>(move(layout));
 	widget->colour = m_colour.value;
 	return widget;
 }

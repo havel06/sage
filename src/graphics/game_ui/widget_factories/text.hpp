@@ -10,7 +10,7 @@ class Text_Factory : public Widget_Factory
 {
 public:
 	Text_Factory(Font_Manager& font_manager);
-	virtual Own_Ptr<Widget> make_widget() = 0;
+	Own_Ptr<Widget> make_widget(Layout&& layout) override;
 private:
 	Font_Manager& m_font_manager;
 

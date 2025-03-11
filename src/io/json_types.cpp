@@ -6,6 +6,7 @@
 #include "utils/json.hpp"
 #include "template.hpp"
 #include "graphics/game_ui/size.hpp"
+#include "graphics/game_ui/text_align.hpp"
 #include "utils/log.hpp"
 #include "combat/battle_desc.hpp"
 #include "map/position.hpp"
@@ -115,13 +116,13 @@ JSON::Object serialise_size(const Game_UI::Size& size)
 	return json;
 }
 
-Colour parse_colour(const JSON::Object_View& json, const JSON::Object_View& template_params)
+Colour parse_colour(const JSON::Object_View& json)
 {
 	return Colour {
-		.r = (unsigned char)resolve_templated_value(json["r"], template_params).as_int(0),
-		.g = (unsigned char)resolve_templated_value(json["g"], template_params).as_int(0),
-		.b = (unsigned char)resolve_templated_value(json["b"], template_params).as_int(0),
-		.a = (unsigned char)resolve_templated_value(json["a"], template_params).as_int(255)
+		.r = (unsigned char)json["r"].as_int(0),
+		.g = (unsigned char)json["g"].as_int(0),
+		.b = (unsigned char)json["b"].as_int(0),
+		.a = (unsigned char)json["a"].as_int(255)
 	};
 }
 
@@ -152,7 +153,7 @@ Game_UI::Formatted_Text parse_formatted_text(const JSON::Value_View& json)
 		Game_UI::Formatted_Text_Fragment fragment;
 		fragment.text = fragment_json["text"].as_string("");
 		if (fragment_json.has("colour")) {
-			fragment.colour = parse_colour(fragment_json["colour"].as_object(), JSON::Object_View{nullptr});
+			fragment.colour = parse_colour(fragment_json["colour"].as_object());
 		}
 
 		result.fragments.push_back(move(fragment));
@@ -233,6 +234,17 @@ JSON::Object serialise_battle_units_layout(const Battle_Units_Layout& layout)
 	json.add("heroes", serialise_array(layout.heroes));
 	json.add("enemies", serialise_array(layout.enemies));
 	return json;
+}
+
+Game_UI::Text_Align parse_text_align(const String& str)
+{
+	if (str == "center")
+		return Game_UI::Text_Align::center;
+	if (str == "left")
+		return Game_UI::Text_Align::left;
+
+	SG_ERROR("Unknown align value \"%s\"", str.data());
+	return Game_UI::Text_Align::left;
 }
 
 }

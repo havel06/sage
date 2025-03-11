@@ -13,6 +13,7 @@ class Sprite;
 struct Position;
 namespace Game_UI {
 	struct Size;
+	enum class Text_Align;
 }
 
 namespace JSON_Types
@@ -29,13 +30,16 @@ JSON::Object serialise_animated_sprite(const Animated_Sprite&, const String& pro
 Battle_Units_Layout parse_battle_units_layout(const JSON::Object_View& json);
 JSON::Object serialise_battle_units_layout(const Battle_Units_Layout&);
 
-Colour parse_colour(const JSON::Object_View& json, const JSON::Object_View& template_params);
+Colour parse_colour(const JSON::Object_View& json);
 
 Game_UI::Size parse_size(const JSON::Object_View& json, const JSON::Object_View& template_params);
 JSON::Object serialise_size(const Game_UI::Size& size);
 
 Game_UI::Formatted_Text parse_formatted_text(const JSON::Value_View& json);
+Game_UI::Text_Align parse_text_align(const String& str); // FIXME - why is this here?
 
 Position parse_position(const JSON::Object_View& json);
+
+
 
 }

@@ -8,6 +8,7 @@
 #include "sequence/condition.hpp"
 #include "combat/battle_desc.hpp"
 #include "map/position.hpp"
+#include "graphics/game_ui/text_align.hpp"
 
 // fwd
 class Int_Parameter;
@@ -22,6 +23,8 @@ class Condition_Array_Parameter;
 class Battle_Units_Layout_Parameter;
 class Formatted_Text_Parameter;
 class Position_Parameter;
+class Colour_Parameter;
+class Text_Align_Parameter;
 
 // Visitor pattern for parameters
 
@@ -40,6 +43,8 @@ public:
 	virtual void visit(Battle_Units_Layout_Parameter&) = 0;
 	virtual void visit(Formatted_Text_Parameter&) = 0;
 	virtual void visit(Position_Parameter&) = 0;
+	virtual void visit(Colour_Parameter&) = 0;
+	virtual void visit(Text_Align_Parameter&) = 0;
 };
 
 // Abstract parameter class
@@ -148,5 +153,19 @@ class Position_Parameter final : public Parameter
 {
 public:
 	Position value;
+	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
+};
+
+class Colour_Parameter final : public Parameter
+{
+public:
+	Colour value;
+	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
+};
+
+class Text_Align_Parameter final : public Parameter
+{
+public:
+	Game_UI::Text_Align value;
 	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
 };

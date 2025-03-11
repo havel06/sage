@@ -141,7 +141,7 @@ Game_UI::Widget_Ptr GUI_Loader::parse_box(Game_UI::Layout&& layout, const JSON::
 	Own_Ptr<Game_UI::Box> widget = make_own_ptr<Game_UI::Box>((Game_UI::Layout&&)layout);
 
 	if (params.has("colour")) {
-		widget->colour = JSON_Types::parse_colour(params["colour"].as_object(), template_params);
+		widget->colour = JSON_Types::parse_colour(resolve_templated_value(params["colour"], template_params).as_object());
 	}
 
 	return widget;
@@ -155,21 +155,10 @@ Game_UI::Widget_Ptr GUI_Loader::parse_text(Game_UI::Layout&& layout, const JSON:
 	widget->text = JSON_Types::parse_formatted_text(resolve_templated_value(params["text"], template_params));
 	widget->size = resolve_templated_value(params["size"], template_params).as_int(16);
 	if (params.has("align")) {
-		widget->align = parse_align(resolve_templated_value(params["align"], template_params).as_string("left"));
+		widget->align = JSON_Types::parse_text_align(resolve_templated_value(params["align"], template_params).as_string("left"));
 	}
 
 	return widget;
-}
-
-Game_UI::Text_Align GUI_Loader::parse_align(const String& text)
-{
-	if (text == "center")
-		return Game_UI::Text_Align::center;
-	if (text == "left")
-		return Game_UI::Text_Align::left;
-
-	SG_ERROR("Unknown align value \"%s\"", text.data());
-	return Game_UI::Text_Align::left;
 }
 
 Game_UI::Widget_Ptr GUI_Loader::parse_image(Game_UI::Layout&& layout, const JSON::Object_View& params, const JSON::Object_View& template_params)

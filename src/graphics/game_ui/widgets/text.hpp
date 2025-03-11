@@ -4,16 +4,11 @@
 #include "utils/string.hpp"
 #include "io/resource/resource_handle.hpp"
 #include "../formatted_text.hpp"
+#include "../text_align.hpp"
 #include <raylib/raylib.h>
 
 namespace Game_UI
 {
-
-enum class Text_Align
-{
-	left,
-	center
-};
 
 class Text : public Widget
 {

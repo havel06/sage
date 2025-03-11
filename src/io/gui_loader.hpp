@@ -30,7 +30,6 @@ private:
 	Game_UI::Widget_Ptr parse_text(Game_UI::Layout&&, const JSON::Object_View& params, const JSON::Object_View& template_params);
 	Game_UI::Widget_Ptr parse_image(Game_UI::Layout&&, const JSON::Object_View& params, const JSON::Object_View& template_params);
 	Game_UI::Widget_Ptr parse_button(Game_UI::Layout&&, const JSON::Object_View& params, const JSON::Object_View& template_params);
-	Game_UI::Text_Align parse_align(const String&);
 
 	Font_Manager& m_font_manager;
 	Texture_Manager& m_texture_manager;

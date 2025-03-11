@@ -79,6 +79,14 @@ public:
 	void visit(Position_Parameter& param) override {
 		param.value = JSON_Types::parse_position(m_param_json.as_object());
 	}
+
+	void visit(Colour_Parameter& param) override {
+		param.value = JSON_Types::parse_colour(m_param_json.as_object());
+	}
+
+	void visit(Text_Align_Parameter& param) override {
+		param.value = JSON_Types::parse_text_align(m_param_json.as_string("left"));
+	}
 };
 
 

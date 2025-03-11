@@ -87,6 +87,11 @@ public:
 	void visit(Text_Align_Parameter& param) override {
 		param.value = JSON_Types::parse_text_align(m_param_json.as_string("left"));
 	}
+
+	void visit(Widget_Parameter& param) override {
+		// FIXME - implement
+		param.value = Own_Ptr<Game_UI::Widget_Factory>{nullptr};
+	}
 };
 
 

@@ -9,6 +9,7 @@
 #include "combat/battle_desc.hpp"
 #include "map/position.hpp"
 #include "graphics/game_ui/text_align.hpp"
+#include "graphics/game_ui/widget_factory.hpp"
 
 // fwd
 class Int_Parameter;
@@ -25,6 +26,7 @@ class Formatted_Text_Parameter;
 class Position_Parameter;
 class Colour_Parameter;
 class Text_Align_Parameter;
+class Widget_Parameter;
 
 // Visitor pattern for parameters
 
@@ -45,6 +47,7 @@ public:
 	virtual void visit(Position_Parameter&) = 0;
 	virtual void visit(Colour_Parameter&) = 0;
 	virtual void visit(Text_Align_Parameter&) = 0;
+	virtual void visit(Widget_Parameter&) = 0;
 };
 
 // Abstract parameter class
@@ -167,5 +170,12 @@ class Text_Align_Parameter final : public Parameter
 {
 public:
 	Game_UI::Text_Align value;
+	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
+};
+
+class Widget_Parameter final : public Parameter
+{
+public:
+	Own_Ptr<Game_UI::Widget_Factory> value;
 	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
 };

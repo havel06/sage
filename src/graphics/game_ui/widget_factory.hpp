@@ -6,6 +6,7 @@ namespace Game_UI
 {
 
 // FIXME - adopt
+// Abstract factory pattern
 class Widget_Factory
 {
 public:

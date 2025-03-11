@@ -1,7 +1,7 @@
 #include "button.hpp"
-#include "widget.hpp"
+#include "../widget.hpp"
 #include "utils/log.hpp"
-#include "widget_visitor.hpp"
+#include "../widget_visitor.hpp"
 
 namespace Game_UI
 {

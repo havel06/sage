@@ -2,7 +2,7 @@
 #include "io/gui_loader.hpp"
 #include "text_box.hpp"
 #include "raylib/raylib.h"
-#include "game_ui/text.hpp"
+#include "game_ui/widgets/text.hpp"
 #include "game_ui/widget_visitor.hpp"
 
 Text_Box_Renderer::Text_Box_Renderer(const Text_Box& text_box) :

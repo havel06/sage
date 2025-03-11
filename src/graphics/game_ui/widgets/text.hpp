@@ -1,9 +1,9 @@
 #pragma once
 
-#include "widget.hpp"
+#include "../widget.hpp"
 #include "utils/string.hpp"
 #include "io/resource/resource_handle.hpp"
-#include "formatted_text.hpp"
+#include "../formatted_text.hpp"
 #include <raylib/raylib.h>
 
 namespace Game_UI

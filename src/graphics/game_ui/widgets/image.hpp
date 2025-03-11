@@ -1,6 +1,6 @@
 #pragma once
 
-#include "widget.hpp"
+#include "../widget.hpp"
 #include "utils/string.hpp"
 #include "graphics/sprite.hpp"
 

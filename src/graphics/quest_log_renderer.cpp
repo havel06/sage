@@ -2,8 +2,8 @@
 #include "graphics/game_ui/widget_visitor.hpp"
 #include "quest/quest_log.hpp"
 #include "io/gui_loader.hpp"
-#include "game_ui/box.hpp"
-#include "game_ui/text.hpp"
+#include "game_ui/widgets/box.hpp"
+#include "game_ui/widgets/text.hpp"
 
 Quest_Log_Renderer::Quest_Log_Renderer(const Quest_Log& log) :
 	m_quest_log{log}

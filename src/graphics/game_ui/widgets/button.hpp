@@ -1,6 +1,6 @@
 #pragma once
 
-#include "widget.hpp"
+#include "../widget.hpp"
 #include "utils/function_wrapper.hpp"
 
 namespace Game_UI

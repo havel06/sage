@@ -1,8 +1,8 @@
 #include "text.hpp"
-#include "formatted_text.hpp"
+#include "../formatted_text.hpp"
 #include "raylib/raylib.h"
 #include "utils/log.hpp"
-#include "widget_visitor.hpp"
+#include "../widget_visitor.hpp"
 
 namespace Game_UI
 {

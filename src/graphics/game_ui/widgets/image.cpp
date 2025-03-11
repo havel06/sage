@@ -1,7 +1,7 @@
 #include "image.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
-#include "widget_visitor.hpp"
+#include "../widget_visitor.hpp"
 
 namespace Game_UI
 {

@@ -11,7 +11,9 @@ Box_Factory::Box_Factory()
 Own_Ptr<Widget> Box_Factory::make_widget()
 {
 	// FIXME - layout, children
-	return make_own_ptr<Box>(Layout{});
+	Own_Ptr<Box> widget = make_own_ptr<Box>(Layout{});
+	widget->colour = m_colour.value;
+	return widget;
 }
 
 }

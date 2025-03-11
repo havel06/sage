@@ -15,7 +15,11 @@ Text_Factory::Text_Factory(Font_Manager& font_manager) :
 Own_Ptr<Widget> Text_Factory::make_widget()
 {
 	// FIXME - layout, children
-	return make_own_ptr<Text>(m_font_manager.get(m_font.value, false), Layout{});
+	Own_Ptr<Text> widget = make_own_ptr<Text>(m_font_manager.get(m_font.value, false), Layout{});
+	widget->text = m_text.value;
+	widget->size = m_size.value;
+	widget->align = m_align.value;
+	return widget;
 }
 
 }

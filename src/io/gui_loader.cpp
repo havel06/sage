@@ -166,7 +166,7 @@ Game_UI::Widget_Ptr GUI_Loader::parse_image(Game_UI::Layout&& layout, const JSON
 	Own_Ptr<Game_UI::Image> widget = make_own_ptr<Game_UI::Image>((Game_UI::Layout&&)layout);
 
 	if (params.has("sprite")) {
-		widget->sprite = JSON_Types::parse_sprite(
+		widget->sprite = JSON_Types::parse_animated_sprite(
 			resolve_templated_value(params["sprite"], template_params).as_object(),
 			m_texture_manager
 		);

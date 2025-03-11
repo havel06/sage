@@ -11,9 +11,9 @@ Image::Image(Layout&& layout) :
 {
 }
 
-void Image::draw_impl(Recti parent_area, float opacity, float)
+void Image::draw_impl(Recti parent_area, float opacity, float dt)
 {
-	sprite.draw(parent_area, opacity);
+	sprite.draw_with_opacity(parent_area, dt, opacity);
 }
 
 Widget_Ptr Image::clone_impl(Layout&& layout) const

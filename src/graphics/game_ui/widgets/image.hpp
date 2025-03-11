@@ -2,7 +2,7 @@
 
 #include "../widget.hpp"
 #include "utils/string.hpp"
-#include "graphics/sprite.hpp"
+#include "graphics/animated_sprite.hpp"
 
 namespace Game_UI
 {
@@ -10,7 +10,7 @@ namespace Game_UI
 class Image : public Widget
 {
 public:
-	Sprite sprite;
+	Animated_Sprite sprite;
 	Image(Layout&&);
 	void accept_visitor(Widget_Visitor&) override;
 private:

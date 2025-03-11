@@ -11,6 +11,11 @@ class Parameter;
 class Templated
 {
 public:
+	struct Registered_Parameter {
+		String name;
+		Parameter& parameter;
+	};
+
 	Templated() = default;
 	Templated(Templated&&) = delete;
 	Templated(const Templated&) = delete;
@@ -25,11 +30,6 @@ protected:
 	void register_parameter(const String& name, Parameter&);
 
 private:
-	struct Registered_Parameter {
-		String mame;
-		Parameter& parameter;
-	};
-
 	Array<Registered_Parameter> m_parameters;
 };
 
@@ -40,6 +40,6 @@ requires Concepts::Callable<Fn, const String&, Parameter&>
 void Templated::for_each_parameter(Fn callback)
 {
 	for (Registered_Parameter& param : m_parameters) {
-		callback(param.mame, param.parameter);
+		callback(param.name, param.parameter);
 	}
 }

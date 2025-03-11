@@ -15,4 +15,27 @@ Own_Ptr<Widget> Widget_Factory::make_widget()
 	return make_widget(move(layout));
 }
 
+Array<Templated::Registered_Parameter> Widget_Factory::get_parameters_recursive()
+{
+	Array<Registered_Parameter> parameters;
+
+	// Collect own parameters
+	for_each_parameter([&](const String& name, Parameter& parameter) {
+		parameters.push_back(Registered_Parameter{
+			.name = name,
+			.parameter = parameter
+		});
+	});
+
+	// Collect child parameters
+	for (auto& child : children) {
+		Array<Registered_Parameter> child_parameters = child->get_parameters_recursive();
+		for (Registered_Parameter& child_param : child_parameters) {
+			parameters.push_back(child_param);
+		}
+	}
+
+	return parameters;
+}
+
 }

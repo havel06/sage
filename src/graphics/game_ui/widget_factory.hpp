@@ -17,6 +17,7 @@ public:
 	int position_column;
 	Array<Own_Ptr<Widget_Factory>> children;
 	Own_Ptr<Widget> make_widget();
+	Array<Registered_Parameter> get_parameters_recursive();
 private:
 	virtual Own_Ptr<Widget> make_widget(Layout&&) = 0;
 };

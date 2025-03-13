@@ -2,6 +2,7 @@
 #include "character_profile.hpp"
 #include "combat/battle_desc.hpp"
 #include "io/gui_loader.hpp"
+#include "io/parameter_parser.hpp"
 #include "io/resource/texture_manager.hpp"
 #include "sequence/condition.hpp"
 #include "utils/move.hpp"
@@ -15,10 +16,16 @@
 #include "../json_types.hpp"
 #include "../resource/resource_system.hpp"
 
-Sequence_Loader::Sequence_Loader(const String& resource_root_path, Resource_System& res_system, Game_Facade& facade) :
-	m_parameter_parser(m_condition_parser, res_system.texture_manager),
-	m_event_parser{m_parameter_parser, res_system, facade},
-	m_condition_parser{m_parameter_parser, facade}
+Sequence_Loader::Sequence_Loader(
+	const String& resource_root_path,
+	Resource_System& res_system,
+	Parameter_Parser& param_parser,
+	Condition_Parser& condition_parser,
+	Game_Facade& facade
+) :
+	m_parameter_parser{param_parser},
+	m_condition_parser{condition_parser},
+	m_event_parser{m_parameter_parser, res_system, facade}
 {
 	m_resource_root_path = resource_root_path;
 }

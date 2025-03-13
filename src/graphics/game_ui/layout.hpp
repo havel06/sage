@@ -12,6 +12,7 @@ namespace Game_UI
 
 //fwd
 class Widget;
+struct Layout_Description;
 using Widget_Ptr = Own_Ptr<Widget>;
 
 
@@ -33,8 +34,7 @@ enum class Focus_Move_Result
 class Layout
 {
 public:
-	// Rows and columns are on a scale from 0 to 1
-	Layout(const Array<Size>& rows, const Array<Size>& columns);
+	Layout(const Layout_Description&);
 	Layout();
 	Layout clone() const;
 

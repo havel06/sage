@@ -10,11 +10,13 @@ Resource_System::Resource_System(const String& resource_root_path, Game_Facade& 
 	texture_manager(resource_root_path),
 	font_manager(resource_root_path),
 	sound_manager(resource_root_path),
-	gui_loader{font_manager, texture_manager, resource_root_path},
+	gui_loader{font_manager, m_parameter_parser, resource_root_path},
 	sequence_manager(resource_root_path, m_sequence_loader),
 	character_profile_manager(resource_root_path, texture_manager, sequence_manager),
 	map_manager(resource_root_path, *this),
-	m_sequence_loader{resource_root_path, *this, facade}
+	m_condition_parser{m_parameter_parser, facade},
+	m_parameter_parser{m_condition_parser, texture_manager},
+	m_sequence_loader{resource_root_path, *this, m_parameter_parser, m_condition_parser, facade}
 {
 }
 

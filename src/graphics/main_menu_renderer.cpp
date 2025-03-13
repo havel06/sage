@@ -6,6 +6,7 @@
 #include "game_ui/widget.hpp"
 #include "game_ui/widgets/text.hpp"
 #include "game_ui/widgets/button.hpp"
+#include "graphics/game_ui/layout_description.hpp"
 #include "io/gui_loader.hpp"
 #include "utils/log.hpp"
 #include "game/game_logic.hpp"
@@ -98,20 +99,16 @@ void Main_Menu_Renderer::init_widgets(Game_UI::Widget_Ptr&& main_widget, Game_UI
 void Main_Menu_Renderer::use_fallback_widgets()
 {
 	// Main widget layout
-	Array<Game_UI::Size> layout_rows;
-	layout_rows.push_back(Game_UI::Size{
+	Game_UI::Layout_Description layout_desc;
+	layout_desc.rows.push_back(Game_UI::Size{
 		.pixels = 40
 	});
 
-	Array<Game_UI::Size> layout_columns;
-	layout_columns.push_back(Game_UI::Size{
+	layout_desc.columns.push_back(Game_UI::Size{
 		.parent_width = 1
 	});
 
-	Game_UI::Layout main_widget_layout{
-		move(layout_rows),
-		move(layout_columns)
-	};
+	Game_UI::Layout main_widget_layout{layout_desc};
 
 	// Main widget
 	Game_UI::Widget_Ptr main_widget = make_own_ptr<Game_UI::Box>(move(main_widget_layout));

@@ -12,7 +12,7 @@ Widget_Factory::Widget_Factory()
 
 Own_Ptr<Widget> Widget_Factory::make_widget()
 {
-	Layout layout{layout_rows, layout_columns};
+	Layout layout{layout_description};
 
 	for (auto& child : children) {
 		layout.add(child->make_widget(), child->position_row, child->position_column);

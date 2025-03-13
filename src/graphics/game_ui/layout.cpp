@@ -1,23 +1,27 @@
 #include "layout.hpp"
 #include "widget.hpp"
 #include "utils/log.hpp"
+#include "layout_description.hpp"
 
 namespace Game_UI
 {
 
-Layout::Layout(const Array<Size>& rows, const Array<Size>& columns)
+Layout::Layout(const Layout_Description& desc)
 {
-	assert(rows.size() > 0);
-	assert(columns.size() > 0);
-
-	m_rows = rows;
-	m_columns = columns;
+	if (desc.rows.empty() || desc.columns.empty()) {
+		SG_WARNING("Rows or columns empty, switching to fallback layout.");
+		m_columns.push_back(Size{ .parent_width = 1 });
+		m_rows.push_back(Size{ .parent_height = 1 });
+	} else {
+		// Layout ok
+		m_rows = desc.rows;
+		m_columns = desc.columns;
+	}
 }
 
-Layout::Layout()
+Layout::Layout() :
+	Layout{Layout_Description{}}
 {
-	m_columns.push_back(Size{ .parent_width = 1 });
-	m_rows.push_back(Size{ .parent_height = 1 });
 }
 
 void Layout::add(Widget_Ptr&& widget, int row, int column)
@@ -131,7 +135,7 @@ void Layout::draw(Recti parent_area, float parent_opacity, float time_delta)
 
 Layout Layout::clone() const
 {
-	Layout cloned{m_rows, m_columns};
+	Layout cloned{Layout_Description{m_rows, m_columns}};
 
 	for (int i = 0; i < m_elements.size(); i++) {
 		const Layout_Element& element = m_elements[i];

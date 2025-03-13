@@ -1,6 +1,7 @@
 #pragma once
 
 #include "widget.hpp"
+#include "layout_description.hpp"
 #include "templating/templated.hpp"
 #include "templating/parameter.hpp"
 #include "templating/parameters/string_parameter.hpp"
@@ -14,10 +15,9 @@ namespace Game_UI
 class Widget_Factory : public Templated
 {
 public:
-	Array<Size> layout_rows;
-	Array<Size> layout_columns;
 	int position_row;
 	int position_column;
+	Layout_Description layout_description;
 	Array<Own_Ptr<Widget_Factory>> children;
 
 	Widget_Factory();

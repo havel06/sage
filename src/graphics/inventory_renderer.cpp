@@ -1,4 +1,5 @@
 #include "inventory_renderer.hpp"
+#include "game_ui/layout_description.hpp"
 #include "graphics/game_ui/widgets/image.hpp"
 #include "graphics/game_ui/layout.hpp"
 #include "graphics/game_ui/size.hpp"
@@ -143,44 +144,43 @@ bool Inventory_Renderer::is_inventory_empty() const
 
 void Inventory_Renderer::use_fallback_widgets()
 {
-	Array<Game_UI::Size> auto_rows;
-	auto_rows.push_back(Game_UI::Size{.automatic = true});
+	Game_UI::Layout_Description auto_layout;
+	auto_layout.rows.push_back(Game_UI::Size{.automatic = true});
 	Array<Game_UI::Size> auto_columns;
-	auto_columns.push_back(Game_UI::Size{.automatic = true});
+	auto_layout.columns.push_back(Game_UI::Size{.automatic = true});
 
 	// Main widget
-	auto main_widget = make_own_ptr<Game_UI::Box>(Game_UI::Layout{auto_rows, auto_columns});
+	auto main_widget = make_own_ptr<Game_UI::Box>(Game_UI::Layout{auto_layout});
 
 	// Slots widget
-	Array<Game_UI::Size> slots_rows;
-	slots_rows.push_back(Game_UI::Size{ .pixels = 100 });
+	Game_UI::Layout_Description slots_layout;
+	slots_layout.rows.push_back(Game_UI::Size{ .pixels = 100 });
 
 	Array<Game_UI::Size> slots_columns;
-	slots_columns.push_back(Game_UI::Size{ .pixels = 100 });
-	slots_columns.push_back(Game_UI::Size{ .pixels = 100 });
-	slots_columns.push_back(Game_UI::Size{ .pixels = 100 });
-	slots_columns.push_back(Game_UI::Size{ .pixels = 100 });
+	slots_layout.columns.push_back(Game_UI::Size{ .pixels = 100 });
+	slots_layout.columns.push_back(Game_UI::Size{ .pixels = 100 });
+	slots_layout.columns.push_back(Game_UI::Size{ .pixels = 100 });
+	slots_layout.columns.push_back(Game_UI::Size{ .pixels = 100 });
 
-	Game_UI::Layout slots_layout{slots_rows, slots_columns};
-	auto slots_widget = make_own_ptr<Game_UI::Box>(move(slots_layout));
+	auto slots_widget = make_own_ptr<Game_UI::Box>(Game_UI::Layout{slots_layout});
 	slots_widget->set_name("Slots");
 
 	// Slot widget
-	auto slot_button_normal = make_own_ptr<Game_UI::Box>(Game_UI::Layout{auto_rows, auto_columns});
-	auto slot_button_focused = make_own_ptr<Game_UI::Box>(Game_UI::Layout{auto_rows, auto_columns});
+	auto slot_button_normal = make_own_ptr<Game_UI::Box>(Game_UI::Layout{auto_layout});
+	auto slot_button_focused = make_own_ptr<Game_UI::Box>(Game_UI::Layout{auto_layout});
 	slot_button_normal->colour = Colour{100, 100, 100, 255};
 	slot_button_focused->colour = Colour{160, 160, 160, 255};
 	auto slot_button = make_own_ptr<Game_UI::Button>(
-		move(slot_button_normal), move(slot_button_focused), Game_UI::Layout{auto_rows, auto_columns}
+		move(slot_button_normal), move(slot_button_focused), Game_UI::Layout{auto_layout}
 	);
 	slot_button->set_name("Button");
 
 	// Slot image
-	auto slot_image = make_own_ptr<Game_UI::Image>(Game_UI::Layout{auto_rows, auto_columns});
+	auto slot_image = make_own_ptr<Game_UI::Image>(Game_UI::Layout{auto_layout});
 	slot_image->set_name("Image");
 
 	// Slot count
-	auto slot_count = make_own_ptr<Game_UI::Text>(m_default_font, Game_UI::Layout{auto_rows, auto_columns});
+	auto slot_count = make_own_ptr<Game_UI::Text>(m_default_font, Game_UI::Layout{auto_layout});
 	slot_count->set_name("Count");
 
 	// Put it all together

@@ -28,5 +28,7 @@ public:
 	Resource_System(const String& resource_root_path, Game_Facade&);
 	void unload_free_resources();
 private:
+	Condition_Parser m_condition_parser;
+	Parameter_Parser m_parameter_parser;
 	Sequence_Loader m_sequence_loader;
 };

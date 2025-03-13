@@ -1,8 +1,10 @@
 #pragma once
 
-#include "templating/parameter.hpp"
 #include "widget.hpp"
 #include "templating/templated.hpp"
+#include "templating/parameter.hpp"
+#include "templating/parameters/string_parameter.hpp"
+#include "templating/parameters/float_parameter.hpp"
 
 namespace Game_UI
 {

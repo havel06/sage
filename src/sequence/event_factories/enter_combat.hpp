@@ -1,6 +1,10 @@
 #pragma once
 #include "../event_factory.hpp"
 #include "templating/parameter.hpp"
+#include "templating/parameters/string_parameter.hpp"
+#include "templating/parameters/sprite_parameter.hpp"
+#include "templating/parameters/battle_units_layout_parameter.hpp"
+#include "templating/parameters/string_array_parameter.hpp"
 
 class Sequence_Manager;
 class Character_Profile_Manager;

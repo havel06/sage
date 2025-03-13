@@ -1,6 +1,7 @@
 #pragma once
 #include "../event_factory.hpp"
 #include "templating/parameter.hpp"
+#include "templating/parameters/target_selection_type_parameter.hpp"
 
 namespace Event_Factories
 {

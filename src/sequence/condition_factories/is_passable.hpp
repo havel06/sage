@@ -1,6 +1,7 @@
 #pragma once
 #include "../condition_factory.hpp"
 #include "templating/parameter.hpp"
+#include "templating/parameters/position_parameter.hpp"
 
 namespace Condition_Factories
 {

@@ -1,6 +1,7 @@
 #pragma once
 #include "../event_factory.hpp"
 #include "templating/parameter.hpp"
+#include "templating/parameters/string_parameter.hpp"
 
 class Character_Profile_Manager;
 

@@ -9,7 +9,6 @@
 #include "combat/battle_desc.hpp"
 #include "map/position.hpp"
 #include "graphics/game_ui/text_align.hpp"
-#include "graphics/game_ui/widget_factory.hpp"
 
 // fwd
 class Int_Parameter;
@@ -17,7 +16,7 @@ class Float_Parameter;
 class String_Parameter;
 class Direction_Parameter;
 class Sprite_Parameter;
-class String_Array_Parameter;
+class String_Array_Parameter; // FIXME - more generic array parameters?
 class Target_Selection_Type_Parameter;
 class Condition_Parameter;
 class Condition_Array_Parameter;
@@ -69,113 +68,4 @@ public:
 
 private:
 	Optional<String> m_template_parameter_name; // If this parameter is templated, this is where the parameter name is stored.
-};
-
-
-// Derived classes
-
-class Int_Parameter final : public Parameter
-{
-public:
-	int value = 0;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Float_Parameter final : public Parameter
-{
-public:
-	float value = 0;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class String_Parameter final : public Parameter
-{
-public:
-	String value = {};
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Direction_Parameter final : public Parameter
-{
-public:
-	Direction value = {};
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Sprite_Parameter final : public Parameter
-{
-public:
-	Animated_Sprite value;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-// TODO - more generic array parameters?
-class String_Array_Parameter final : public Parameter
-{
-public:
-	Array<String> value;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Target_Selection_Type_Parameter final : public Parameter
-{
-public:
-	Target_Selection_Type value;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Condition_Parameter final : public Parameter
-{
-public:
-	Own_Ptr<Condition> value;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Condition_Array_Parameter final : public Parameter
-{
-public:
-	Array<Own_Ptr<Condition>> value;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Battle_Units_Layout_Parameter final : public Parameter
-{
-public:
-	Battle_Units_Layout value;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Formatted_Text_Parameter final : public Parameter
-{
-public:
-	Game_UI::Formatted_Text value;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Position_Parameter final : public Parameter
-{
-public:
-	Position value;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Colour_Parameter final : public Parameter
-{
-public:
-	Colour value;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Text_Align_Parameter final : public Parameter
-{
-public:
-	Game_UI::Text_Align value;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
-};
-
-class Widget_Parameter final : public Parameter
-{
-public:
-	Own_Ptr<Game_UI::Widget_Factory> value;
-	void accept_visitor(Parameter_Visitor& visitor) override { visitor.visit(*this); }
 };

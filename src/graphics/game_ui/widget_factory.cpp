@@ -4,6 +4,12 @@
 namespace Game_UI
 {
 
+Widget_Factory::Widget_Factory()
+{
+	register_parameter("name", m_name_parameter);
+	register_parameter("fade_in", m_fade_in_parameter);
+}
+
 Own_Ptr<Widget> Widget_Factory::make_widget()
 {
 	Layout layout{layout_rows, layout_columns};
@@ -12,7 +18,7 @@ Own_Ptr<Widget> Widget_Factory::make_widget()
 		layout.add(child->make_widget(), child->position_row, child->position_column);
 	}
 
-	return make_widget(move(layout));
+	return make_widget(move(layout), m_name_parameter.value, m_fade_in_parameter.value);
 }
 
 Array<Templated::Registered_Parameter> Widget_Factory::get_parameters_recursive()

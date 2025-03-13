@@ -1,5 +1,6 @@
 #pragma once
 
+#include "templating/parameter.hpp"
 #include "widget.hpp"
 #include "templating/templated.hpp"
 
@@ -16,10 +17,14 @@ public:
 	int position_row;
 	int position_column;
 	Array<Own_Ptr<Widget_Factory>> children;
+
+	Widget_Factory();
 	Own_Ptr<Widget> make_widget();
 	Array<Registered_Parameter> get_parameters_recursive();
 private:
-	virtual Own_Ptr<Widget> make_widget(Layout&&) = 0;
+	virtual Own_Ptr<Widget> make_widget(Layout&&, const String& name, float fade_in_out_time) = 0;
+	String_Parameter m_name_parameter;
+	Float_Parameter m_fade_in_parameter;
 };
 
 }

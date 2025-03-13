@@ -15,7 +15,7 @@ Resource_System::Resource_System(const String& resource_root_path, Game_Facade& 
 	character_profile_manager(resource_root_path, texture_manager, sequence_manager),
 	map_manager(resource_root_path, *this),
 	m_condition_parser{m_parameter_parser, facade},
-	m_parameter_parser{m_condition_parser, texture_manager},
+	m_parameter_parser{m_condition_parser, texture_manager, gui_loader},
 	m_sequence_loader{resource_root_path, *this, m_parameter_parser, m_condition_parser, facade}
 {
 }

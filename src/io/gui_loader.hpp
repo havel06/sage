@@ -21,11 +21,11 @@ class GUI_Loader
 {
 public:
 	GUI_Loader(Font_Manager&, Parameter_Parser&, const String& project_root);
-	Game_UI::Widget_Ptr load(const String& filename);
+	Game_UI::Widget_Ptr load(const String& filename); // FIXME - remove this API
+	Own_Ptr<Game_UI::Widget_Factory> load_factory(const String& filename); // FIXME - use as default API
+	Own_Ptr<Game_UI::Widget_Factory> parse_widget_factory(const JSON::Object_View& json, const JSON::Object_View& template_params);
 
 private:
-	Game_UI::Widget_Ptr parse_widget(const JSON::Object_View& json, const JSON::Object_View& template_params);
-	Own_Ptr<Game_UI::Widget_Factory> parse_widget_factory(const JSON::Object_View& json, const JSON::Object_View& template_params);
 	Own_Ptr<Game_UI::Widget_Factory> parse_templated_widget_factory(const JSON::Object_View& widget_json, const JSON::Object_View& template_params);
 	Game_UI::Layout_Description parse_layout(const JSON::Object_View& json, const JSON::Object_View& template_params);
 	Array<Own_Ptr<Game_UI::Widget_Factory>> parse_widget_children(const JSON::Array_View& children, const JSON::Object_View& template_params);
@@ -38,6 +38,4 @@ private:
 	Font_Manager& m_font_manager;
 	Parameter_Parser& m_parameter_parser;
 	String m_project_root;
-
-	Game_UI::Widget_Ptr m_fallback_widget;
 };

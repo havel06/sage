@@ -4,6 +4,7 @@
 #include "json_types.hpp"
 #include "sequence/condition_parser.hpp"
 #include "template.hpp"
+#include "gui_loader.hpp"
 #include "templating/parameter.hpp"
 #include "templating/parameters/battle_units_layout_parameter.hpp"
 #include "templating/parameters/colour_parameter.hpp"
@@ -26,17 +27,20 @@ class Parameter_Parser::Visitor : public Parameter_Visitor {
 	const JSON::Object_View& m_template_params;
 	Texture_Manager& m_tex_mgr;
 	Condition_Parser& m_condition_parser;
+	GUI_Loader& m_gui_loader;
 
 public:
 	Visitor(
 			const JSON::Value_View& param_json,
 			Texture_Manager& tex_mgr,
 			Condition_Parser& cond_parser,
+			GUI_Loader& gui_loader,
 			const JSON::Object_View& template_params) :
 		m_param_json{param_json},
 		m_template_params{template_params},
 		m_tex_mgr{tex_mgr},
-		m_condition_parser{cond_parser}
+		m_condition_parser{cond_parser},
+		m_gui_loader{gui_loader}
 	{
 	}
 
@@ -104,20 +108,21 @@ public:
 
 	void visit(Widget_Parameter& param) override {
 		// FIXME - implement
-		param.value = Own_Ptr<Game_UI::Widget_Factory>{nullptr};
+		param.value = m_gui_loader.parse_widget_factory(m_param_json.as_object(), JSON::Object_View{nullptr});
 	}
 };
 
 
-Parameter_Parser::Parameter_Parser(Condition_Parser& cond_parser, Texture_Manager& texture_manager) :
+Parameter_Parser::Parameter_Parser(Condition_Parser& cond_parser, Texture_Manager& texture_manager, GUI_Loader& gui_loader) :
 	m_condition_parser{cond_parser},
-	m_texture_manager{texture_manager}
+	m_texture_manager{texture_manager},
+	m_gui_loader{gui_loader}
 {
 }
 
 void Parameter_Parser::parse(Parameter& parameter, const JSON::Value_View& unresolved_value, const JSON::Object_View& template_parameters)
 {
 	const JSON::Value_View& resolved_value_json = resolve_templated_value(unresolved_value, template_parameters);
-	Visitor visitor{resolved_value_json, m_texture_manager, m_condition_parser, template_parameters};
+	Visitor visitor{resolved_value_json, m_texture_manager, m_condition_parser, m_gui_loader, template_parameters};
 	parameter.accept_visitor(visitor);
 }

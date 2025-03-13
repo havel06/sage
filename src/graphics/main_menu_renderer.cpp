@@ -52,8 +52,10 @@ void Main_Menu_Renderer::init_widgets(Game_UI::Widget_Ptr&& main_widget, Game_UI
 	m_widget = move(main_widget);
 
 	Game_UI::Widget* options_box = (m_widget->get_widget_by_name("Options"));
-	if (!options_box)
+	if (!options_box) {
+		SG_ERROR("Main menu - missing \"Options\" box.");
 		return;
+	}
 
 	options_box->clear_children();
 
@@ -63,8 +65,10 @@ void Main_Menu_Renderer::init_widgets(Game_UI::Widget_Ptr&& main_widget, Game_UI
 		Game_UI::Widget* name_widget = new_widget->get_widget_by_name("Name");
 		Game_UI::Widget* button_widget = new_widget->get_widget_by_name("Button");
 
-		if (!name_widget || !button_widget)
+		if (!name_widget || !button_widget) {
+			SG_ERROR("Main menu button - missing element.");
 			return;
+		}
 
 		Game_UI::Text_Widget_Visitor name_visitor{[&](Game_UI::Text& text){
 			text.text = name;

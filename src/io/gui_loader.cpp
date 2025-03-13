@@ -20,33 +20,29 @@ GUI_Loader::GUI_Loader(Font_Manager& font_mgr, Parameter_Parser& parameter_parse
 	m_parameter_parser{parameter_parser}
 {
 	m_project_root = project_root;
-
-	m_fallback_widget = make_own_ptr<Game_UI::Box>(Game_UI::Layout{});
 }
 
 Game_UI::Widget_Ptr GUI_Loader::load(const String& filename)
+{
+	return load_factory(filename)->make_widget();
+}
+
+Own_Ptr<Game_UI::Widget_Factory> GUI_Loader::load_factory(const String& filename)
 {
 	String path = m_project_root;
 	path.append('/');
 	path.append(filename);
 
 	JSON::Object json = JSON::Object::from_file(path.data());
-
-	JSON::Object empty_params;
-	Game_UI::Widget_Ptr loaded_widget = parse_widget(json.get_view(), empty_params.get_view());
+	auto loaded_widget = parse_widget_factory(json.get_view(), JSON::Object{}.get_view());
 
 	if (loaded_widget) {
 		SG_INFO("Loaded GUI widget \"%s\"", filename.data());
 		return loaded_widget;
 	} else {
 		SG_ERROR("Couldn't load GUI widget \"%s\", using fallback instead", filename.data());
-		return m_fallback_widget->clone();
+		return make_own_ptr<Game_UI::Box_Factory>();
 	}
-}
-
-Game_UI::Widget_Ptr GUI_Loader::parse_widget(const JSON::Object_View& json, const JSON::Object_View& template_params)
-{
-	return parse_templated_widget_factory(json, template_params)->make_widget();
 }
 
 Own_Ptr<Game_UI::Widget_Factory> GUI_Loader::parse_widget_factory(const JSON::Object_View& json, const JSON::Object_View& template_params)
@@ -80,17 +76,18 @@ Own_Ptr<Game_UI::Widget_Factory> GUI_Loader::parse_templated_widget_factory(
 		return nullptr;
 	}
 
-	// Children
-	if (widget_json.has("children"))
-		parse_widget_children(widget_json["children"].as_array(), template_params);
-
 	Own_Ptr<Game_UI::Widget_Factory> widget_factory = create_widget_from_type_name(type);
 	widget_factory->layout_description = parse_layout(widget_json["layout"].as_object(), template_params);
 	widget_factory->position_row = widget_json["row"].as_int(0);
 	widget_factory->position_column = widget_json["column"].as_int(0);
 
+	// Parameters
 	JSON::Object_View params = widget_json["parameters"].as_object();
 	parse_widget_parameters(*widget_factory, params, template_params);
+
+	// Children
+	if (widget_json.has("children"))
+		widget_factory->children = parse_widget_children(widget_json["children"].as_array(), template_params);
 
 	return widget_factory;
 }

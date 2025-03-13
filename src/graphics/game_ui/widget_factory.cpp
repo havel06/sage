@@ -1,4 +1,5 @@
 #include "widget_factory.hpp"
+#include "utils/log.hpp"
 #include "utils/move.hpp"
 
 namespace Game_UI
@@ -18,6 +19,7 @@ Own_Ptr<Widget> Widget_Factory::make_widget()
 		layout.add(child->make_widget(), child->position_row, child->position_column);
 	}
 
+	SG_DEBUG("Make widget \"%s\".", m_name_parameter.value.data());
 	return make_widget(move(layout), m_name_parameter.value, m_fade_in_parameter.value);
 }
 

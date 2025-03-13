@@ -1,14 +1,17 @@
 {
 	"type": "button",
-	"name": "Button",
 	"parameters": {
+		"name": "Button",
 		"normal": {
 			"type": "box",
-			"parameters": {}
+			"parameters": {
+				"name": ""
+			}
 		},
 		"focused": {
 			"type": "box",
 			"parameters": {
+				"name": "",
 				"colour": {
 					"r": 180,
 					"g": 180,
@@ -21,8 +24,8 @@
 	"children": [
 		{
 			"type": "text",
-			"name": "Name",
 			"parameters": {
+				"name": "Name",
 				"text": "",
 				"font": "gui/font.json",
 				"size": 50,

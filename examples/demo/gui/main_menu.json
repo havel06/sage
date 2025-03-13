@@ -1,6 +1,8 @@
 {
 	"type": "box",
-	"parameters": {},
+	"parameters": {
+		"name": ""
+	},
 	"layout": {
 		"columns": [
 			{
@@ -28,10 +30,11 @@
 	"children": [
 		{
 			"type": "box",
-			"name": "Options",
 			"row": 1,
 			"column": 1,
-			"parameters": {},
+			"parameters": {
+				"name": "Options"
+			},
 			"layout": {
 				"rows": [
 					{

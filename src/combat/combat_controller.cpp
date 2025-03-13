@@ -82,8 +82,10 @@ void Combat_Controller::load(GUI_Loader& loader, const String& menu_filename, co
 			inventory_widget_button->accept_visitor(button_visitor);
 		}
 
-		options_box->add_child((Game_UI::Widget_Ptr&&)fight_widget);
-		options_box->add_child((Game_UI::Widget_Ptr&&)inventory_widget);
+		if (options_box) {
+			options_box->add_child((Game_UI::Widget_Ptr&&)fight_widget);
+			options_box->add_child((Game_UI::Widget_Ptr&&)inventory_widget);
+		}
 
 		m_action_menu_widget->focus_first();
 	}

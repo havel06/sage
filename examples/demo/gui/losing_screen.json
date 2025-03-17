@@ -1,7 +1,7 @@
 {
 	"type": "box",
-	"fade_in": 0.15,
 	"parameters": {
+		"fade_in": 0.15,
 		"colour": {
 			"r": 0,
 			"g": 0,

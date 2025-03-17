@@ -1,6 +1,5 @@
 {
 	"type": "box",
-	"fade_in": 0.1,
 	"layout": {
 		"columns": [
 			{
@@ -25,7 +24,9 @@
 			}
 		]
 	},
-	"parameters": {},
+	"parameters": {
+		"fade_in": 0.1
+	},
 	"children": [
 		{
 			"row": 1,
@@ -61,7 +62,6 @@
 					"row": 1,
 					"column": 1,
 					"type": "box",
-					"name": "Quests",
 					"layout": {
 						"rows": [
 							{
@@ -75,6 +75,7 @@
 						]
 					},
 					"parameters": {
+						"name": "Quests",
 						"colour": {
 							"r": 0,
 							"g": 0,

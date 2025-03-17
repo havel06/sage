@@ -1,7 +1,7 @@
 {
 	"type": "button",
-	"name": "Button",
 	"parameters": {
+		"name": "Button",
 		"normal": {
 			"type": "box",
 			"parameters": {}
@@ -21,8 +21,8 @@
 	"children": [
 		{
 			"type": "text",
-			"name": "Name",
 			"parameters": {
+				"name": "Name",
 				"text": "",
 				"font": "gui/font.json",
 				"size": 28

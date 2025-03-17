@@ -122,7 +122,7 @@ Colour parse_colour(const JSON::Object_View& json)
 		.r = (unsigned char)json["r"].as_int(0),
 		.g = (unsigned char)json["g"].as_int(0),
 		.b = (unsigned char)json["b"].as_int(0),
-		.a = (unsigned char)json["a"].as_int(255)
+		.a = (unsigned char)json["a"].as_int(0)
 	};
 }
 

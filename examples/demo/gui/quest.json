@@ -1,7 +1,8 @@
 {
 	"type": "box",
-	"name": "Main Padding",
-	"parameters": {},
+	"parameters": {
+		"name": "Main Padding"
+	},
 	"layout": {
 		"rows": [
 			{
@@ -28,11 +29,11 @@
 	},
 	"children": [
 		{
-			"name": "Border",
 			"type": "box",
 			"row": 1,
 			"column": 1,
 			"parameters": {
+				"name": "Border",
 				"colour": {
 					"r": 255,
 					"g": 255,
@@ -68,7 +69,6 @@
 				{
 					"row": 1,
 					"column": 1,
-					"name": "Text Layout",
 					"type": "box",
 					"layout": {
 						"rows": [
@@ -98,6 +98,7 @@
 						]
 					},
 					"parameters": {
+						"name": "Text Layout",
 						"colour": {
 							"r": 0,
 							"g": 0,
@@ -110,8 +111,8 @@
 							"row": 1,
 							"column": 1,
 							"type": "text",
-							"name": "Name",
 							"parameters": {
+								"name": "Name",
 								"text": "",
 								"size": 33,
 								"font": "gui/font.json"
@@ -120,8 +121,8 @@
 							"row": 2,
 							"column": 1,
 							"type": "text",
-							"name": "Description",
 							"parameters": {
+								"name": "Description",
 								"text": "",
 								"size": 22,
 								"font": "gui/font.json"

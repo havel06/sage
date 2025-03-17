@@ -100,8 +100,8 @@
 							"row": 1,
 							"column": 1,
 							"type": "text",
-							"name": "Title",
 							"parameters": {
+								"name": "Title",
 								"text": "Title",
 								"size": 40,
 								"font": "gui/font.json"
@@ -111,7 +111,6 @@
 							"row": 2,
 							"column": 1,
 							"type": "box",
-							"name": "Options",
 							"layout": {
 								"columns": [
 									{
@@ -124,7 +123,9 @@
 									}
 								]
 							},
-							"parameters": {}
+							"parameters": {
+								"name": "Options"
+							}
 						}
 					]
 				},

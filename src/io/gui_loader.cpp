@@ -58,7 +58,10 @@ Own_Ptr<Game_UI::Widget_Factory> GUI_Loader::parse_widget_factory(const JSON::Ob
 		JSON::Object template_json = JSON::Object::from_file(template_filename.data());
 
 		SG_DEBUG("Parsing GUI widget template %s", template_filename.data());
-		return parse_templated_widget_factory(template_json.get_view(), params);
+		Own_Ptr<Game_UI::Widget_Factory> factory = parse_templated_widget_factory(template_json.get_view(), params);
+		factory->position_row = json["row"].as_int(0);
+		factory->position_column = json["column"].as_int(0);
+		return factory;
 	} else {
 		return parse_templated_widget_factory(json, template_params);
 	}

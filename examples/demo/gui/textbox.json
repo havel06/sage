@@ -1,6 +1,5 @@
 {
 	"type": "box",
-	"fade_in": 0.1,
 	"layout": {
 		"columns": [
 			{
@@ -25,7 +24,9 @@
 			}
 		]
 	},
-	"parameters" : {},
+	"parameters" : {
+		"fade_in": 0.1
+	},
 	"children": [
 		{
 			"row": 1,

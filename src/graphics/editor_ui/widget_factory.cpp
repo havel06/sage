@@ -34,14 +34,14 @@ Widget_Factory::Widget_Factory(const Font& default_font) :
 
 Own_Ptr<Widgets::Button> Widget_Factory::make_button(const String& content, const Icon_Resource* icon, Function_Wrapper<void()>&& callback)
 {
-	auto button = make_own_ptr<Widgets::Button>(m_font, content, icon);
+	auto button = make_own_ptr<Widgets::Button>(&m_font, content, icon);
 	button->callback = move(callback);
 	return button;
 }
 
 Own_Ptr<Widgets::Button> Widget_Factory::make_icon_button(const Icon_Resource& icon, Function_Wrapper<void()>&& callback)
 {
-	auto button = make_own_ptr<Widgets::Button>(m_font, "", &icon);
+	auto button = make_own_ptr<Widgets::Button>(&m_font, "", &icon);
 	button->callback = move(callback);
 	button->narrow = true;
 	button->transparent = true;
@@ -88,14 +88,14 @@ Own_Ptr<Widgets::Input> Widget_Factory::make_input_number(const String& label)
 	return input;
 }
 
-Own_Ptr<Widgets::Nav_Rail> Widget_Factory::make_nav_rail()
+Own_Ptr<Widgets::Nav_Rail> Widget_Factory::make_nav_rail(Function_Wrapper<void(int)>&& callback)
 {
-	return make_own_ptr<Widgets::Nav_Rail>();
+	return make_own_ptr<Widgets::Nav_Rail>(move(callback));
 }
 
-Own_Ptr<Widgets::Nav_Rail_Item> Widget_Factory::make_nav_rail_item(const Icon_Resource& icon, const String& label, Function_Wrapper<void()>&& callback)
+Own_Ptr<Widgets::Nav_Rail_Item> Widget_Factory::make_nav_rail_item(const Icon_Resource& icon, const String& label)
 {
-	return make_own_ptr<Widgets::Nav_Rail_Item>(m_font, icon, label, move(callback));
+	return make_own_ptr<Widgets::Nav_Rail_Item>(m_font, icon, label);
 }
 
 Own_Ptr<Widgets::Row> Widget_Factory::make_row(bool stretch)

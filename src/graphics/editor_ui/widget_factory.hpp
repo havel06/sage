@@ -62,8 +62,8 @@ public:
 	Own_Ptr<Widgets::Input> make_input(const String& label);
 	Own_Ptr<Widgets::Input> make_input_int(const String& label);
 	Own_Ptr<Widgets::Input> make_input_number(const String& label);
-	Own_Ptr<Widgets::Nav_Rail> make_nav_rail();
-	Own_Ptr<Widgets::Nav_Rail_Item> make_nav_rail_item(const Icon_Resource& icon, const String& label, Function_Wrapper<void()>&& callback);
+	Own_Ptr<Widgets::Nav_Rail> make_nav_rail(Function_Wrapper<void(int)>&& callback);
+	Own_Ptr<Widgets::Nav_Rail_Item> make_nav_rail_item(const Icon_Resource& icon, const String& label);
 	Own_Ptr<Widgets::Row> make_row(bool stretch = false);
 	Own_Ptr<Widgets::Text> make_text(const String& content);
 	Own_Ptr<Widgets::Progress_Bar> make_progress_bar(float progress);

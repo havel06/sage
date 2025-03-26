@@ -14,6 +14,7 @@ namespace Editor_UI::Widgets
 class Relative_Pane : public Widget
 {
 public:
+	// FIXME - only use a single child
 	Column column; // Use this to get elements inside pane
 	Relative_Pane(bool padding);
 	void update() override;

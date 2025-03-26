@@ -69,38 +69,40 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools::make_nav_rail_pane()
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 
 	auto nav_pane = factory.make_relative_pane(false);
-	auto nav_rail = factory.make_nav_rail();
+	auto nav_rail = factory.make_nav_rail(
+		[this](int index){
+			switch (index) {
+				case 0:
+					m_right_pane_stack->set_current_widget(1);
+					m_mode = Dev_Tools_Mode::sequence;
+					break;
+				case 1:
+					m_right_pane_stack->set_current_widget(2);
+					m_mode = Dev_Tools_Mode::entities;
+					break;
+				case 2:
+					m_right_pane_stack->set_current_widget(0);
+					m_mode = Dev_Tools_Mode::items;
+					break;
+			}
+		}
+	);
 	nav_rail->add_item(
 		factory.make_nav_rail_item(
 			m_gui.ICON_SEQUENCE,
-			"Sequences",
-			[this, rail = nav_rail.get()](){
-				rail->set_active_index(0);
-				m_right_pane_stack->set_current_widget(1);
-				m_mode = Dev_Tools_Mode::sequence;
-			}
+			"Sequences"
 		)
 	);
 	nav_rail->add_item(
 		factory.make_nav_rail_item(
 			m_gui.ICON_ENTITY,
-			"Entities",
-			[this, rail = nav_rail.get()](){
-				rail->set_active_index(1);
-				m_right_pane_stack->set_current_widget(2);
-				m_mode = Dev_Tools_Mode::entities;
-			}
+			"Entities"
 		)
 	);
 	nav_rail->add_item(
 		factory.make_nav_rail_item(
 			m_gui.ICON_ITEMS,
-			"Items",
-			[this, rail = nav_rail.get()](){
-				rail->set_active_index(2);
-				m_right_pane_stack->set_current_widget(0);
-				m_mode = Dev_Tools_Mode::items;
-			}
+			"Items"
 		)
 	);
 

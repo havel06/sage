@@ -19,10 +19,10 @@ public:
 	using Callback = Function_Wrapper<void()>;
 
 	Vec2i position = {0, 0};
-	Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const String& label, Callback&& callback);
+	Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const String& label);
 	void layout(const Theme& theme);
 	void draw(const Theme& theme, bool active);
-	void handle_mouse(Vec2i position, bool click);
+	bool handle_mouse(Vec2i position, bool click); // Returns true on select
 	int get_width() const { return m_width; }
 private:
 	int calculate_width(const Theme& theme) const;
@@ -30,7 +30,6 @@ private:
 	const Font& m_font;
 	const Icon_Resource& m_icon;
 	String m_label;
-	Callback m_callback;
 	bool m_hover = false;
 	int m_width = 0;
 };
@@ -38,7 +37,7 @@ private:
 class Nav_Rail : public Widget
 {
 public:
-	// FIXME - refactor - don't let user construct Nav_Rail_Item directly?
+	Nav_Rail(Function_Wrapper<void(int)>&& callback);
 	void add_item(Own_Ptr<Nav_Rail_Item>&&);
 	void set_active_index(int index);
 	// Widget overrides
@@ -49,7 +48,7 @@ public:
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;
 	void handle_mouse(Vec2i position, bool click) override;
 private:
-
+	Function_Wrapper<void(int)> m_callback;
 	Recti m_bounding_box;
 	Array<Own_Ptr<Nav_Rail_Item>> m_items;
 	int m_index_active = -1;

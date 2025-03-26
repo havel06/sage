@@ -28,9 +28,22 @@ public:
 			delete (Callable*)(*data);
 			*data = nullptr;
 		};
+
+		m_copier = [](void* original) -> void* {
+			Callable* original_casted = (Callable*)original;
+			return new Callable(*original_casted);
+		};
 	}
 
-	Function_Wrapper(const Function_Wrapper&) = delete; // FIXME - implement?
+	Function_Wrapper(const Function_Wrapper& other)
+	{
+		m_dispatcher = other.m_dispatcher;
+		m_deleter = other.m_deleter;
+		m_copier = other.m_copier;
+
+		m_caller = m_copier(other.m_caller);
+	}
+
 	Function_Wrapper(Function_Wrapper&& other)
 	{
 		// Just reuse move assignment operator
@@ -51,9 +64,11 @@ public:
 		m_caller = other.m_caller;
 		m_dispatcher = other.m_dispatcher;
 		m_deleter = other.m_deleter;
+		m_copier = other.m_copier;
 		other.m_caller = nullptr;
 		other.m_dispatcher = nullptr;
 		other.m_deleter = nullptr;
+		other.m_copier = nullptr;
 
 		return *this;
 	}
@@ -70,5 +85,7 @@ private:
 	Dispatcher m_dispatcher;
 	using Deleter = void(*)(void** data);
 	Deleter m_deleter;
+	using Copier = void*(*)(void* data);
+	Copier m_copier;
 };
 

@@ -11,6 +11,7 @@ namespace Editor_UI::Widgets
 class Dialog : public Widget
 {
 public:
+	// FIXME - use a single child instead of a column
 	Column column; // Use this to get elements inside dialog
 
 	Dialog(Vec2i size);

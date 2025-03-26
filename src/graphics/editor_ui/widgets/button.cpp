@@ -8,7 +8,7 @@
 namespace Editor_UI::Widgets
 {
 
-Button::Button(const Font& font, const String& label, const Icon_Resource* icon) :
+Button::Button(const Font* font, const String& label, const Icon_Resource* icon) :
 	m_font{font}
 {
 	m_label = label;
@@ -64,19 +64,22 @@ void Button::draw(const Theme& theme, float dt)
 	}
 	
 	const int label_padding_top = (40 - theme.FONT_SIZE_DEFAULT) / 2;
-	DrawTextEx(
-		m_font,
-		m_label.data(),
-		{(float)x, (float)m_bounding_box.position.y + label_padding_top},
-		theme.FONT_SIZE_DEFAULT,
-		0,
-		Color {
-			content_colour.r,
-			content_colour.g,
-			content_colour.b,
-			content_colour.a,
-		}
-	);
+
+	if (m_font && !m_label.empty()) {
+		DrawTextEx(
+			*m_font,
+			m_label.data(),
+			{(float)x, (float)m_bounding_box.position.y + label_padding_top},
+			theme.FONT_SIZE_DEFAULT,
+			0,
+			Color {
+				content_colour.r,
+				content_colour.g,
+				content_colour.b,
+				content_colour.a,
+			}
+		);
+	}
 }
 
 Vec2i Button::layout(const Theme& theme, Recti bounding_box)
@@ -85,7 +88,7 @@ Vec2i Button::layout(const Theme& theme, Recti bounding_box)
 	const int height = 40;
 	const int padding_horizontal = get_horizontal_padding();
 
-	const int label_width = MeasureTextEx(m_font, m_label.data(), theme.FONT_SIZE_DEFAULT, 0).x;
+	const int label_width = m_font ? MeasureTextEx(*m_font, m_label.data(), theme.FONT_SIZE_DEFAULT, 0).x : 0;
 	const int content_width = [&](){
 		if (m_icon) {
 			if (m_label.empty()) {

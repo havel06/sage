@@ -24,7 +24,7 @@ public:
 	bool transparent = false; // Transparent background
 
 	// Icon is optional
-	Button(const Font& font, const String& label, const Icon_Resource* icon);
+	Button(const Font* font, const String& label, const Icon_Resource* icon);
 
 	void draw(const Theme& theme, float dt) override;
 	void draw_overlay(const Theme&, float) override {}
@@ -36,7 +36,7 @@ private:
 	int get_horizontal_padding();
 	Colour get_background_colour(const Theme& theme);
 
-	const Font& m_font;
+	const Font* m_font;
 	String m_label;
 	const Icon_Resource* m_icon = nullptr;
 	Recti m_bounding_box;

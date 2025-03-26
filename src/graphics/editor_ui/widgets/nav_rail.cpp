@@ -8,11 +8,10 @@
 namespace Editor_UI::Widgets
 {
 
-Nav_Rail_Item::Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const String& label, Callback&& callback) :
+Nav_Rail_Item::Nav_Rail_Item(const Font& font, const Icon_Resource& icon, const String& label) :
 	m_font{font},
 	m_icon{icon},
-	m_label{label},
-	m_callback{move(callback)}
+	m_label{label}
 {
 }
 
@@ -93,7 +92,7 @@ void Nav_Rail_Item::draw(const Theme& theme, bool active)
 	);
 }
 
-void Nav_Rail_Item::handle_mouse(Vec2i mouse_position, bool click)
+bool Nav_Rail_Item::handle_mouse(Vec2i mouse_position, bool click)
 {
 	Recti bounding_box = {
 		position,
@@ -107,8 +106,15 @@ void Nav_Rail_Item::handle_mouse(Vec2i mouse_position, bool click)
 	}
 
 	if (m_hover && click) {
-		m_callback();
+		return true;
 	}
+
+	return false;
+}
+
+Nav_Rail::Nav_Rail(Function_Wrapper<void(int)>&& callback) :
+	m_callback{move(callback)}
+{
 }
 
 void Nav_Rail::add_item(Own_Ptr<Nav_Rail_Item>&& item)
@@ -174,8 +180,11 @@ void Nav_Rail::handle_mouse(Vec2i position, bool click)
 	//if (!m_bounding_box.contains(position))
 	//	return;
 
-	for (auto& item : m_items) {
-		item->handle_mouse(position, click);
+	for (int i = 0; i < m_items.size(); i++) {
+		if (m_items[i]->handle_mouse(position, click)) {
+			set_active_index(i);
+			m_callback(i);
+		}
 	}
 }
 

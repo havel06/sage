@@ -14,6 +14,7 @@ class Card : public Widget
 {
 public:
 	Card_Type type = Card_Type::filled;
+	// FIXME - use a single child instead of column
 	Column column; // Use this to get elements inside card
 
 	Card(Card_Type type);

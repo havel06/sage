@@ -27,7 +27,6 @@ private:
 	const Font* m_font = nullptr;
 	String m_text;
 	const Icon_Resource* m_icon;
-
 };
 
 };

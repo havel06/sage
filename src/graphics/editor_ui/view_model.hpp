@@ -9,6 +9,7 @@ class Own_Ptr;
 namespace Editor_UI
 {
 
+// FIXME - remove
 /*
 
 View_Model allows to store a reference to an object with state in the widget tree.

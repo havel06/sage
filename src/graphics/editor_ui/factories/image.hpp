@@ -12,6 +12,7 @@ namespace Editor_UI::Factories
 class Image final : public Widget_Factory2
 {
 public:
+	static Own_Ptr<Image> make(const Sprite& sprite, Vec2i size);
 	Image(const Sprite& sprite, Vec2i size);
 	Own_Ptr<Widget> make_widget() override;
 private:

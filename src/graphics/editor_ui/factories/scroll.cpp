@@ -6,6 +6,11 @@
 namespace Editor_UI::Factories
 {
 
+Own_Ptr<Scroll> Scroll::make(Own_Ptr<Widget_Factory2>&& child)
+{
+	return make_own_ptr<Scroll>(move(child));
+}
+
 Scroll::Scroll(Own_Ptr<Widget_Factory2>&& child) :
 	m_child{move(child)}
 {

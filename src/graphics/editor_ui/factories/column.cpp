@@ -7,6 +7,11 @@
 namespace Editor_UI::Factories
 {
 
+Own_Ptr<Column> Column::make(Padding padding)
+{
+	return make_own_ptr<Column>(padding);
+}
+
 Column::Column(Padding padding) :
 	m_padding{padding}
 {

@@ -14,6 +14,7 @@ namespace Editor_UI::Factories
 class Tooltip final : public Widget_Factory2
 {
 public:
+	static Own_Ptr<Tooltip> make(const String& text, const Font& font, Own_Ptr<Widget_Factory2>&& child);
 	Tooltip(const String& text, const Font& font, Own_Ptr<Widget_Factory2>&& child);
 	Own_Ptr<Widget> make_widget() override;
 private:

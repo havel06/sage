@@ -17,6 +17,7 @@ namespace Editor_UI::Factories
 class Button final : public Widget_Factory2
 {
 public:
+	static Own_Ptr<Button> make(Function_Wrapper<void()>&& callback);
 	Button(Function_Wrapper<void()>&& callback);
 	Button& with_icon(const Icon_Resource&); // Fluent API
 	Button& with_text(const Font& font, const String& text); // Fluent API

@@ -14,6 +14,7 @@ namespace Editor_UI::Factories
 class Divider final : public Widget_Factory2
 {
 public:
+	static Own_Ptr<Divider> make();
 	Own_Ptr<Widget> make_widget() override;
 private:
 };

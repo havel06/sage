@@ -7,6 +7,11 @@
 namespace Editor_UI::Factories
 {
 
+Own_Ptr<Card> Card::make(Type type, Own_Ptr<Widget_Factory2>&& child)
+{
+	return make_own_ptr<Card>(type, move(child));
+}
+
 Card::Card(Type type, Own_Ptr<Widget_Factory2>&& child) :
 	m_type{type},
 	m_child{move(child)}

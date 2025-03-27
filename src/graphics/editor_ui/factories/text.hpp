@@ -13,6 +13,7 @@ namespace Editor_UI::Factories
 class Text final : public Widget_Factory2
 {
 public:
+	static Own_Ptr<Text> make(const Font& font, const String& text);
 	Text(const Font& font, const String& text);
 	Own_Ptr<Widget> make_widget() override;
 private:

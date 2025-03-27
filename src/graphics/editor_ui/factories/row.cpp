@@ -6,6 +6,11 @@
 namespace Editor_UI::Factories
 {
 
+Own_Ptr<Row> Row::make(bool stretch)
+{
+	return make_own_ptr<Row>(stretch);
+}
+
 Row::Row(bool stretch) :
 	m_stretch{stretch}
 {

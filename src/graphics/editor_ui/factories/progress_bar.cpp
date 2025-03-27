@@ -6,6 +6,11 @@
 namespace Editor_UI::Factories
 {
 
+Own_Ptr<Progress_Bar> Progress_Bar::make(float progress)
+{
+	return make_own_ptr<Progress_Bar>(progress);
+}
+
 Progress_Bar::Progress_Bar(float progress) :
 	m_progress{progress}
 {

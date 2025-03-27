@@ -6,6 +6,11 @@
 namespace Editor_UI::Factories
 {
 
+Own_Ptr<Nav_Rail> Nav_Rail::make(Function_Wrapper<void(int)>&& callback, int selected_index)
+{
+	return make_own_ptr<Nav_Rail>(move(callback), selected_index);
+}
+
 Nav_Rail::Nav_Rail(Function_Wrapper<void(int)>&& callback, int selected_index) :
 	m_callback{move(callback)},
 	m_selected_index{selected_index}

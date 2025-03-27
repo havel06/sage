@@ -6,6 +6,11 @@
 namespace Editor_UI::Factories
 {
 
+Own_Ptr<Relative_Pane> Relative_Pane::make(bool padding, Own_Ptr<Widget_Factory2>&& child)
+{
+	return make_own_ptr<Relative_Pane>(padding, move(child));
+}
+
 Relative_Pane::Relative_Pane(bool padding, Own_Ptr<Widget_Factory2>&& child) :
 	m_padding{padding},
 	m_child{move(child)}

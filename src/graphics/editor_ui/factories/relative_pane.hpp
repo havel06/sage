@@ -10,6 +10,7 @@ namespace Editor_UI::Factories
 class Relative_Pane final : public Widget_Factory2
 {
 public:
+	static Own_Ptr<Relative_Pane> make(bool padding, Own_Ptr<Widget_Factory2>&& child);
 	Relative_Pane(bool padding, Own_Ptr<Widget_Factory2>&& child);
 	Own_Ptr<Widget> make_widget() override;
 private:

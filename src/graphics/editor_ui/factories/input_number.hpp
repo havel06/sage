@@ -14,6 +14,7 @@ namespace Editor_UI::Factories
 class Input_Number final : public Widget_Factory2
 {
 public:
+	static Own_Ptr<Input_Number> make(const Font& font, const String& label);
 	Input_Number(const Font& font, const String& label);
 	Input_Number& on_edit(Function_Wrapper<void(float)>&& callback); // Fluent API
 	Input_Number& on_enter(Function_Wrapper<void(float)>&& callback); // Fluent API, triggered when 'enter' is pressed

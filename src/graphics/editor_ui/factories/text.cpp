@@ -6,6 +6,11 @@
 namespace Editor_UI::Factories
 {
 
+Own_Ptr<Text> Text::make(const Font& font, const String& text)
+{
+	return make_own_ptr<Text>(font, text);
+}
+
 Text::Text(const Font& font, const String& text) :
 	m_font{font},
 	m_text{text}

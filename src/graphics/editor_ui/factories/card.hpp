@@ -20,6 +20,7 @@ public:
 		filled
 	};
 
+	static Own_Ptr<Card> make(Type type, Own_Ptr<Widget_Factory2>&& child);
 	Card(Type type, Own_Ptr<Widget_Factory2>&& child);
 	Own_Ptr<Widget> make_widget() override;
 private:

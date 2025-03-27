@@ -11,6 +11,7 @@ namespace Editor_UI::Factories
 class Row final : public Widget_Factory2
 {
 public:
+	static Own_Ptr<Row> make(bool stretch);
 	Row(bool stretch);
 	Row& add(Own_Ptr<Widget_Factory2>&& child);
 	Own_Ptr<Widget> make_widget() override;

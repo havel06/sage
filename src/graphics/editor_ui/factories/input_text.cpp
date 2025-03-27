@@ -6,6 +6,11 @@
 namespace Editor_UI::Factories
 {
 
+Own_Ptr<Input_Text> Input_Text::make(const Font& font, const String& label)
+{
+	return make_own_ptr<Input_Text>(font, label);
+}
+
 Input_Text::Input_Text(const Font& font, const String& label) :
 	m_font{font},
 	m_label{label}

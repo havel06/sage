@@ -14,6 +14,7 @@ namespace Editor_UI::Factories
 class Input_Text final : public Widget_Factory2
 {
 public:
+	static Own_Ptr<Input_Text> make(const Font& font, const String& label);
 	Input_Text(const Font& font, const String& label);
 	Input_Text& on_edit(Function_Wrapper<void(const String&)>&& callback); // Fluent API
 	Input_Text& on_enter(Function_Wrapper<void(const String&)>&& callback); // Fluent API, triggered when 'enter' is pressed

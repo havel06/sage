@@ -6,6 +6,11 @@
 namespace Editor_UI::Factories
 {
 
+Own_Ptr<Button> Button::make(Function_Wrapper<void()>&& callback)
+{
+	return make_own_ptr<Button>(move(callback));
+}
+
 Button::Button(Function_Wrapper<void()>&& callback) :
 	m_callback{move(callback)}
 {

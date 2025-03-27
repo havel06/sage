@@ -6,9 +6,9 @@
 namespace Editor_UI::Factories
 {
 
-Own_Ptr<Dialog> Dialog::make(Vec2i size, Own_Ptr<Widget_Factory2>&& child)
+Dialog* Dialog::make(Vec2i size, Own_Ptr<Widget_Factory2>&& child)
 {
-	return make_own_ptr<Dialog>(size, move(child));
+	return new Dialog(size, move(child));
 }
 
 Dialog::Dialog(Vec2i size, Own_Ptr<Widget_Factory2>&& child) :

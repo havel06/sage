@@ -6,9 +6,9 @@
 namespace Editor_UI::Factories
 {
 
-Own_Ptr<Image> Image::make(const Sprite& sprite, Vec2i size)
+Image* Image::make(const Sprite& sprite, Vec2i size)
 {
-	return make_own_ptr<Image>(sprite, size);
+	return new Image(sprite, size);
 }
 
 Image::Image(const Sprite& sprite, Vec2i size) :

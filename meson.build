@@ -42,6 +42,7 @@ src = [
   'src/graphics/editor_ui/factories/constrained_container.cpp',
   'src/graphics/editor_ui/factories/dialog.cpp',
   'src/graphics/editor_ui/factories/divider.cpp',
+  'src/graphics/editor_ui/factories/dummy.cpp',
   'src/graphics/editor_ui/factories/image.cpp',
   'src/graphics/editor_ui/factories/input_integer.cpp',
   'src/graphics/editor_ui/factories/input_number.cpp',

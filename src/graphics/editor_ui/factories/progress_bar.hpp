@@ -9,7 +9,7 @@ namespace Editor_UI::Factories
 class Progress_Bar final : public Widget_Factory2
 {
 public:
-	static Own_Ptr<Progress_Bar> make(float progress);
+	static Progress_Bar* make(float progress);
 	Progress_Bar(float progress);
 	Own_Ptr<Widget> make_widget() override;
 private:

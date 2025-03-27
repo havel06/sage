@@ -14,10 +14,10 @@ namespace Editor_UI::Factories
 class Input_Integer final : public Widget_Factory2
 {
 public:
-	static Own_Ptr<Input_Integer> make(const Font& font, const String& label);
+	static Input_Integer* make(const Font& font, const String& label);
 	Input_Integer(const Font& font, const String& label);
-	Input_Integer& on_edit(Function_Wrapper<void(int)>&& callback); // Fluent API
-	Input_Integer& on_enter(Function_Wrapper<void(int)>&& callback); // Fluent API, triggered when 'enter' is pressed
+	Input_Integer* on_edit(Function_Wrapper<void(int)>&& callback); // Fluent API
+	Input_Integer* on_enter(Function_Wrapper<void(int)>&& callback); // Fluent API, triggered when 'enter' is pressed
 	Own_Ptr<Widget> make_widget() override;
 private:
 	const Font& m_font;

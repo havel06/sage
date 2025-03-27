@@ -6,9 +6,9 @@
 namespace Editor_UI::Factories
 {
 
-Own_Ptr<Button> Button::make(Function_Wrapper<void()>&& callback)
+Button* Button::make(Function_Wrapper<void()>&& callback)
 {
-	return make_own_ptr<Button>(move(callback));
+	return new Button(move(callback));
 }
 
 Button::Button(Function_Wrapper<void()>&& callback) :
@@ -16,17 +16,17 @@ Button::Button(Function_Wrapper<void()>&& callback) :
 {
 }
 
-Button& Button::with_icon(const Icon_Resource& icon)
+Button* Button::with_icon(const Icon_Resource& icon)
 {
 	m_icon = &icon;
-	return *this;
+	return this;
 }
 
-Button& Button::with_text(const Font& font, const String& text)
+Button* Button::with_text(const Font& font, const String& text)
 {
 	m_font = &font;
 	m_text = text;
-	return *this;
+	return this;
 }
 
 Own_Ptr<Widget> Button::make_widget()
@@ -38,6 +38,8 @@ Own_Ptr<Widget> Button::make_widget()
 		button->transparent = true;
 		button->narrow = true;
 	}
+
+	button->callback = move(m_callback);
 
 	return button;
 }

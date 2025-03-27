@@ -7,9 +7,9 @@
 namespace Editor_UI::Factories
 {
 
-Own_Ptr<Column> Column::make(Padding padding)
+Column* Column::make(Padding padding)
 {
-	return make_own_ptr<Column>(padding);
+	return new Column(padding);
 }
 
 Column::Column(Padding padding) :
@@ -17,10 +17,10 @@ Column::Column(Padding padding) :
 {
 }
 
-Column& Column::add(Own_Ptr<Widget_Factory2>&& child)
+Column* Column::add(Own_Ptr<Widget_Factory2>&& child)
 {
 	m_children.push_back(move(child));
-	return *this;
+	return this;
 }
 
 Own_Ptr<Widget> Column::make_widget()

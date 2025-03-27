@@ -5,9 +5,9 @@
 namespace Editor_UI::Factories
 {
 
-Own_Ptr<Divider> Divider::make()
+Divider* Divider::make()
 {
-	return make_own_ptr<Divider>();
+	return new Divider();
 }
 
 Own_Ptr<Widget> Divider::make_widget()

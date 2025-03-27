@@ -10,7 +10,7 @@ namespace Editor_UI::Factories
 class Dialog final : public Widget_Factory2
 {
 public:
-	static Own_Ptr<Dialog> make(Vec2i size, Own_Ptr<Widget_Factory2>&& child);
+	static Dialog* make(Vec2i size, Own_Ptr<Widget_Factory2>&& child);
 	Dialog(Vec2i size, Own_Ptr<Widget_Factory2>&& child);
 	Own_Ptr<Widget> make_widget() override;
 private:

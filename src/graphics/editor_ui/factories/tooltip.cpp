@@ -6,9 +6,9 @@
 namespace Editor_UI::Factories
 {
 
-Own_Ptr<Tooltip> Tooltip::make(const String& text, const Font& font, Own_Ptr<Widget_Factory2>&& child)
+Tooltip* Tooltip::make(const String& text, const Font& font, Own_Ptr<Widget_Factory2>&& child)
 {
-	return make_own_ptr<Tooltip>(text, font, move(child));
+	return new Tooltip(text, font, move(child));
 }
 
 Tooltip::Tooltip(const String& text, const Font& font, Own_Ptr<Widget_Factory2>&& child) :

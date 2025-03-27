@@ -6,9 +6,9 @@
 namespace Editor_UI::Factories
 {
 
-Own_Ptr<Row> Row::make(bool stretch)
+Row* Row::make(bool stretch)
 {
-	return make_own_ptr<Row>(stretch);
+	return new Row(stretch);
 }
 
 Row::Row(bool stretch) :
@@ -16,10 +16,10 @@ Row::Row(bool stretch) :
 {
 }
 
-Row& Row::add(Own_Ptr<Widget_Factory2>&& child)
+Row* Row::add(Own_Ptr<Widget_Factory2>&& child)
 {
 	m_children.push_back(move(child));
-	return *this;
+	return this;
 }
 
 Own_Ptr<Widget> Row::make_widget()

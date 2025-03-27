@@ -2,7 +2,6 @@
 
 #include "graphics/editor_ui/widget_factory2.hpp"
 #include "utils/own_ptr.hpp"
-#include "../state.hpp"
 
 // fwd
 namespace Editor_UI {
@@ -12,14 +11,12 @@ namespace Editor_UI {
 namespace Editor_UI::Factories
 {
 
-class Stateful final : public Widget_Factory2
+class Dummy final : public Widget_Factory2
 {
 public:
-	static Stateful* make(Own_Ptr<State>&&);
-	Stateful(Own_Ptr<State>&&);
+	static Dummy* make();
 	Own_Ptr<Widget> make_widget() override;
 private:
-	Own_Ptr<State> m_state;
 };
 
 };

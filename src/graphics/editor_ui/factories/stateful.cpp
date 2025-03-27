@@ -6,9 +6,9 @@
 namespace Editor_UI::Factories
 {
 
-Own_Ptr<Stateful> Stateful::make(Own_Ptr<State>&& state)
+Stateful* Stateful::make(Own_Ptr<State>&& state)
 {
-	return make_own_ptr<Stateful>(move(state));
+	return new Stateful(move(state));
 }
 
 Stateful::Stateful(Own_Ptr<State>&& state) :

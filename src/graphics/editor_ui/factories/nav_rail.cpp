@@ -6,9 +6,9 @@
 namespace Editor_UI::Factories
 {
 
-Own_Ptr<Nav_Rail> Nav_Rail::make(Function_Wrapper<void(int)>&& callback, int selected_index)
+Nav_Rail* Nav_Rail::make(Function_Wrapper<void(int)>&& callback, int selected_index)
 {
-	return make_own_ptr<Nav_Rail>(move(callback), selected_index);
+	return new Nav_Rail(move(callback), selected_index);
 }
 
 Nav_Rail::Nav_Rail(Function_Wrapper<void(int)>&& callback, int selected_index) :
@@ -17,7 +17,7 @@ Nav_Rail::Nav_Rail(Function_Wrapper<void(int)>&& callback, int selected_index) :
 {
 }
 
-Nav_Rail& Nav_Rail::add(const Font& font, const String& label, const Icon_Resource& icon)
+Nav_Rail* Nav_Rail::add(const Font& font, const String& label, const Icon_Resource& icon)
 {
 	m_items.push_back({
 		&font,
@@ -25,7 +25,7 @@ Nav_Rail& Nav_Rail::add(const Font& font, const String& label, const Icon_Resour
 		label
 	});
 
-	return *this;
+	return this;
 }
 
 Own_Ptr<Widget> Nav_Rail::make_widget()

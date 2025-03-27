@@ -16,7 +16,7 @@
 #include "game/game_logic.hpp"
 
 Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const String& project_root) :
-	m_header(facade, logic, m_gui, project_root),
+	m_header(m_gui.get_font(), facade, logic, m_gui, project_root),
 	m_sequence(m_gui, seq_mgr, project_root),
 	m_entity{m_gui},
 	m_items(m_gui, logic.state_normal.item_registry, logic.state_normal.inventory)

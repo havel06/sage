@@ -18,9 +18,9 @@ namespace Editor_UI::Factories
 class Nav_Rail final : public Widget_Factory2
 {
 public:
-	static Own_Ptr<Nav_Rail> make(Function_Wrapper<void(int)>&& callback, int selected_index);
+	static Nav_Rail* make(Function_Wrapper<void(int)>&& callback, int selected_index);
 	Nav_Rail(Function_Wrapper<void(int)>&& callback, int selected_index);
-	Nav_Rail& add(const Font& font, const String& label, const Icon_Resource& icon); // Fluent API
+	Nav_Rail* add(const Font& font, const String& label, const Icon_Resource& icon); // Fluent API
 	Own_Ptr<Widget> make_widget() override;
 private:
 	struct Item

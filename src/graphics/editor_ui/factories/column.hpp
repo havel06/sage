@@ -22,9 +22,9 @@ public:
 		none
 	};
 
-	static Own_Ptr<Column> make(Padding padding);
+	static Column* make(Padding padding);
 	Column(Padding padding);
-	Column& add(Own_Ptr<Widget_Factory2>&& child); // Fluent API
+	Column* add(Own_Ptr<Widget_Factory2>&& child); // Fluent API
 	Own_Ptr<Widget> make_widget() override;
 private:
 	Widgets::Column_Padding convert_padding();

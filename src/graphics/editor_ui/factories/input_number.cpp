@@ -6,9 +6,9 @@
 namespace Editor_UI::Factories
 {
 
-Own_Ptr<Input_Number> Input_Number::make(const Font& font, const String& label)
+Input_Number* Input_Number::make(const Font& font, const String& label)
 {
-	return make_own_ptr<Input_Number>(font, label);
+	return new Input_Number(font, label);
 }
 
 Input_Number::Input_Number(const Font& font, const String& label) :
@@ -17,16 +17,16 @@ Input_Number::Input_Number(const Font& font, const String& label) :
 {
 }
 
-Input_Number& Input_Number::on_edit(Function_Wrapper<void(float)>&& callback)
+Input_Number* Input_Number::on_edit(Function_Wrapper<void(float)>&& callback)
 {
 	m_on_edit = move(callback);
-	return *this;
+	return this;
 }
 
-Input_Number& Input_Number::on_enter(Function_Wrapper<void(float)>&& callback)
+Input_Number* Input_Number::on_enter(Function_Wrapper<void(float)>&& callback)
 {
 	m_on_enter = move(callback);
-	return *this;
+	return this;
 }
 
 Own_Ptr<Widget> Input_Number::make_widget()

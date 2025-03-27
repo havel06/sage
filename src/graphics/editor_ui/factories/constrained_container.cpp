@@ -6,9 +6,9 @@
 namespace Editor_UI::Factories
 {
 
-Own_Ptr<Constrained_Container> Constrained_Container::make(Vec2i max_size, Own_Ptr<Widget_Factory2>&& child)
+Constrained_Container* Constrained_Container::make(Vec2i max_size, Own_Ptr<Widget_Factory2>&& child)
 {
-	return make_own_ptr<Constrained_Container>(max_size, move(child));
+	return new Constrained_Container(max_size, move(child));
 }
 
 Constrained_Container::Constrained_Container(Vec2i size, Own_Ptr<Widget_Factory2>&& child) :

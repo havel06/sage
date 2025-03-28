@@ -1,4 +1,5 @@
 #include "dev_tools.hpp"
+#include "dev_tools/header.hpp"
 #include "dev_tools/mode_sequence.hpp"
 #include "utils/log.hpp"
 #include "map/map.hpp"
@@ -13,10 +14,10 @@
 #include "graphics/editor_ui/widgets/block.hpp"
 #include "graphics/editor_ui/widgets/row.hpp"
 #include "graphics/editor_ui/widgets/column.hpp"
+#include "graphics/editor_ui/widgets/stateful.hpp"
 #include "game/game_logic.hpp"
 
 Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const String& project_root) :
-	m_header(m_gui.get_font(), facade, logic, m_gui, project_root),
 	m_sequence(m_gui, seq_mgr, project_root),
 	m_entity{m_gui},
 	m_items(m_gui, logic.state_normal.item_registry, logic.state_normal.inventory)
@@ -24,25 +25,29 @@ Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& s
 	// Set up GUI
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 
+	auto header = make_own_ptr<Editor_UI::Widgets::Stateful>(
+		make_own_ptr<Dev_Tools_Header>(m_gui.get_font(), facade, logic, m_gui, project_root)
+	);
+
 	// Compose everything
 	auto main_row = factory.make_row(true);
 	main_row->add_child(make_nav_rail_pane());
 	main_row->add_child(make_right_pane());
 
 	auto main_column = factory.make_column(Editor_UI::Widgets::Column_Padding::none);
-	main_column->add_child(make_header_pane());
+	main_column->add_child(make_header_pane(move(header)));
 	main_column->add_child(move(main_row));
 
 	m_context.set_top_widget(move(main_column));
 }
 
-Own_Ptr<Editor_UI::Widget> Dev_Tools::make_header_pane()
+Own_Ptr<Editor_UI::Widget> Dev_Tools::make_header_pane(Own_Ptr<Editor_UI::Widget>&& header)
 {
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 	Editor_UI::Theme theme; // Default theme
 
 	auto header_pane = factory.make_relative_pane(true);
-	header_pane->column.add_child(factory.make_view_model_holder(m_header));
+	header_pane->column.add_child(move(header));
 	return factory.make_block(move(header_pane), {20000, theme.HEADER_HEIGHT});
 }
 

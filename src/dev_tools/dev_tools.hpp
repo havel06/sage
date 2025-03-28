@@ -6,6 +6,7 @@
 #include "mode_entity.hpp"
 #include "mode_items.hpp"
 #include "graphics/editor_ui/system.hpp"
+#include "utils/own_ptr.hpp"
 
 // fwd
 class User_Directory_Provider;
@@ -29,11 +30,10 @@ public:
 private:
 	Own_Ptr<Editor_UI::Widget> make_nav_rail_pane();
 	Own_Ptr<Editor_UI::Widget> make_right_pane();
-	Own_Ptr<Editor_UI::Widget> make_header_pane();
+	Own_Ptr<Editor_UI::Widget> make_header_pane(Own_Ptr<Editor_UI::Widget>&& header);
 
 	Editor_UI::System m_gui;
 
-	Dev_Tools_Header m_header;
 	Dev_Tools_Mode_Sequence m_sequence;
 	Dev_Tools_Mode_Entity m_entity;
 	Dev_Tools_Mode_Items m_items;

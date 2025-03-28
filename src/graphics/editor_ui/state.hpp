@@ -15,9 +15,15 @@ class State
 {
 public:
 	virtual ~State() = default;
+
 	// Build the widget representing the State
 	virtual Own_Ptr<Widget_Factory2> build() = 0;
-	// Needs to be rebuilt
+
+	// Needs to be rebuilt.
+	// NOTE - A 'Stateful' widget always gets built when added
+	// to the widget tree, even if this is set to false, so
+	// if the state only needs to get built once, this can be set
+	// to false permanently.
 	virtual bool is_dirty() const = 0;
 };
 

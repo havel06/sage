@@ -2,7 +2,7 @@
 
 #include "utils/string.hpp"
 #include "graphics/editor_ui/context.hpp"
-#include "graphics/editor_ui/view_model.hpp"
+#include "graphics/editor_ui/state.hpp"
 
 // fwd
 class Item_Registry;
@@ -11,17 +11,13 @@ struct Font;
 namespace Editor_UI {
 	class System;
 }
-namespace Editor_UI::Widgets {
-	class Absolute_Pane;
-	class Column;
-}
 
-class Dev_Tools_Mode_Items : public Editor_UI::View_Model
+class Dev_Tools_Mode_Items : public Editor_UI::State
 {
 public:
 	Dev_Tools_Mode_Items(const Editor_UI::System&, const Item_Registry&, Inventory&);
 
-	Own_Ptr<Editor_UI::Widget> build() override;
+	Own_Ptr<Editor_UI::Widget_Factory2> build() override;
 	bool is_dirty() const override;
 private:
 	const Item_Registry& m_item_registry;

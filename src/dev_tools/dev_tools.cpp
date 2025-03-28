@@ -1,6 +1,7 @@
 #include "dev_tools.hpp"
 #include "dev_tools/header.hpp"
 #include "dev_tools/mode_sequence.hpp"
+#include "graphics/editor_ui/widget.hpp"
 #include "utils/log.hpp"
 #include "map/map.hpp"
 #include "io/user_directory_provider.hpp"
@@ -19,8 +20,7 @@
 
 Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const String& project_root) :
 	m_sequence(m_gui, seq_mgr, project_root),
-	m_entity{m_gui},
-	m_items(m_gui, logic.state_normal.item_registry, logic.state_normal.inventory)
+	m_entity{m_gui}
 {
 	// Set up GUI
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
@@ -29,10 +29,15 @@ Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& s
 		make_own_ptr<Dev_Tools_Header>(m_gui.get_font(), facade, logic, m_gui, project_root)
 	);
 
+	auto mode_items = make_own_ptr<Editor_UI::Widgets::Stateful>(
+		make_own_ptr<Dev_Tools_Mode_Items>(m_gui, logic.state_normal.item_registry, logic.state_normal.inventory)
+	);
+
+
 	// Compose everything
 	auto main_row = factory.make_row(true);
 	main_row->add_child(make_nav_rail_pane());
-	main_row->add_child(make_right_pane());
+	main_row->add_child(make_right_pane(move(mode_items)));
 
 	auto main_column = factory.make_column(Editor_UI::Widgets::Column_Padding::none);
 	main_column->add_child(make_header_pane(move(header)));
@@ -51,7 +56,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools::make_header_pane(Own_Ptr<Editor_UI::Widget
 	return factory.make_block(move(header_pane), {20000, theme.HEADER_HEIGHT});
 }
 
-Own_Ptr<Editor_UI::Widget> Dev_Tools::make_right_pane()
+Own_Ptr<Editor_UI::Widget> Dev_Tools::make_right_pane(Own_Ptr<Editor_UI::Widget>&& mode_items)
 {
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 
@@ -59,7 +64,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools::make_right_pane()
 
 	auto stack = factory.make_stack();
 	m_right_pane_stack = stack.get();
-	stack->add_child(factory.make_view_model_holder(m_items));
+	stack->add_child(move(mode_items));
 	stack->add_child(factory.make_view_model_holder(m_sequence));
 	stack->add_child(factory.make_view_model_holder(m_entity));
 

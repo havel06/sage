@@ -21,6 +21,8 @@ public:
 	Own_Ptr<Editor_UI::Widget_Factory2> build() override;
 	bool is_dirty() const override;
 private:
+	Array<String> get_input_hints();
+
 	Dev_Tools_Header& m_header;
 	const Editor_UI::System& m_gui;
 	Game_Logic_State_Normal& m_logic;

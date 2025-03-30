@@ -35,12 +35,19 @@ Input_Text* Input_Text::on_enter(Function_Wrapper<void(const String&)>&& callbac
 	return this;
 }
 
+Input_Text* Input_Text::with_hints(const Array<String>& hints)
+{
+	m_hints = hints;
+	return this;
+}
+
 Own_Ptr<Widget> Input_Text::make_widget()
 {
 	auto input = make_own_ptr<Widgets::Input>(m_font, m_label, make_own_ptr<Widgets::Input_Constraint_None>());
 	input->on_edit = [this_ptr=input.get(), callback=m_on_edit] () mutable { callback(this_ptr->get_content()); };
 	input->on_enter = [this_ptr=input.get(), callback=m_on_enter] () mutable { callback(this_ptr->get_content()); };
 	input->set_content(m_default_content);
+	input->set_hints(m_hints);
 	return input;
 }
 

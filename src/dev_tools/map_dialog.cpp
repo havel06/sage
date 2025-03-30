@@ -24,7 +24,6 @@ Dev_Tools_Map_Dialog::Dev_Tools_Map_Dialog(Dev_Tools_Header& header, const Font&
 
 Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Map_Dialog::build()
 {
-	// FIXME - set dialog hints
 	using namespace Editor_UI::Factories;
 
 	m_dirty = false;
@@ -46,6 +45,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Map_Dialog::build()
 				->on_enter([this](const String& content){
 					m_logic.set_current_map(content);
 				})
+				->with_hints(get_input_hints())
 			)
 			->add(Button::make(
 				[this](){
@@ -54,6 +54,11 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Map_Dialog::build()
 				->with_text(m_font, "Change map")
 			)
 	);
+}
+
+Array<String> Dev_Tools_Map_Dialog::get_input_hints()
+{
+	return read_directory_relative(m_project_root);
 }
 
 bool Dev_Tools_Map_Dialog::is_dirty() const

@@ -19,7 +19,6 @@
 #include "game/game_logic.hpp"
 
 Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const String& project_root) :
-	m_sequence(m_gui, seq_mgr, project_root),
 	m_entity{m_gui}
 {
 	// Set up GUI
@@ -33,11 +32,15 @@ Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& s
 		make_own_ptr<Dev_Tools_Mode_Items>(m_gui, logic.state_normal.item_registry, logic.state_normal.inventory)
 	);
 
+	auto mode_seq = make_own_ptr<Editor_UI::Widgets::Stateful>(
+		make_own_ptr<Dev_Tools_Mode_Sequence>(m_gui, seq_mgr, project_root)
+	);
+
 
 	// Compose everything
 	auto main_row = factory.make_row(true);
 	main_row->add_child(make_nav_rail_pane());
-	main_row->add_child(make_right_pane(move(mode_items)));
+	main_row->add_child(make_right_pane(move(mode_items), move(mode_seq)));
 
 	auto main_column = factory.make_column(Editor_UI::Widgets::Column_Padding::none);
 	main_column->add_child(make_header_pane(move(header)));
@@ -56,7 +59,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools::make_header_pane(Own_Ptr<Editor_UI::Widget
 	return factory.make_block(move(header_pane), {20000, theme.HEADER_HEIGHT});
 }
 
-Own_Ptr<Editor_UI::Widget> Dev_Tools::make_right_pane(Own_Ptr<Editor_UI::Widget>&& mode_items)
+Own_Ptr<Editor_UI::Widget> Dev_Tools::make_right_pane(Own_Ptr<Editor_UI::Widget>&& mode_items, Own_Ptr<Editor_UI::Widget>&& mode_seq)
 {
 	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
 
@@ -65,7 +68,7 @@ Own_Ptr<Editor_UI::Widget> Dev_Tools::make_right_pane(Own_Ptr<Editor_UI::Widget>
 	auto stack = factory.make_stack();
 	m_right_pane_stack = stack.get();
 	stack->add_child(move(mode_items));
-	stack->add_child(factory.make_view_model_holder(m_sequence));
+	stack->add_child(move(mode_seq));
 	stack->add_child(factory.make_view_model_holder(m_entity));
 
 	right_pane->column.add_child(move(stack));
@@ -127,7 +130,6 @@ void Dev_Tools::draw(float dt)
 
 void Dev_Tools::update(Map& map)
 {
-	m_sequence.rebuild();
 	m_entity.rebuild(map.entities);
 }
 

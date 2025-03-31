@@ -1,16 +1,9 @@
 #include "mode_sequence.hpp"
+#include "dev_tools/sequence_detail.hpp"
+#include "dev_tools/sequence_list.hpp"
+#include "graphics/editor_ui/factories/input_text.hpp"
 #include "graphics/editor_ui/theme.hpp"
-#include "graphics/editor_ui/widget.hpp"
-#include "graphics/editor_ui/widget_factory.hpp"
 #include "graphics/editor_ui/system.hpp"
-#include "graphics/editor_ui/widgets/column.hpp"
-#include "graphics/editor_ui/widgets/row.hpp"
-#include "graphics/editor_ui/widgets/button.hpp"
-#include "graphics/editor_ui/widgets/scroll.hpp"
-#include "graphics/editor_ui/widgets/divider.hpp"
-#include "graphics/editor_ui/widgets/view_model_holder.hpp"
-#include "graphics/editor_ui/widgets/text.hpp"
-#include "graphics/editor_ui/widgets/input.hpp"
 #include "io/resource/sequence_manager.hpp"
 #include "raylib/raylib.h"
 #include "sequence/sequence.hpp"
@@ -18,15 +11,15 @@
 #include "utils/log.hpp"
 #include "utils/function_wrapper.hpp"
 #include "utils/own_ptr.hpp"
+#include "graphics/editor_ui/factories/stateful.hpp"
+#include "graphics/editor_ui/factories/column.hpp"
 
 Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Editor_UI::System& gui, Sequence_Manager& seq_manager, const String& resource_root_path) :
 	m_gui{gui},
 	m_resource_root{resource_root_path},
-	m_detail{gui, resource_root_path},
-	m_list{gui, seq_manager, m_detail, resource_root_path}
+	m_seq_manager{seq_manager}
 {
 }
-
 
 void Dev_Tools_Mode_Sequence::rebuild()
 {
@@ -38,28 +31,31 @@ bool Dev_Tools_Mode_Sequence::is_dirty() const
 	return m_dirty;
 }
 
-Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Sequence::build()
+Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Mode_Sequence::build()
 {
-	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
-
-	auto column = factory.make_column();
-
-	column->add_child(create_search_bar());
-	column->add_child(factory.make_view_model_holder(m_list));
-	column->add_child(factory.make_view_model_holder(m_detail));
+	using namespace Editor_UI::Factories;
 
 	m_dirty = false;
-	return column;
+
+	auto detail = make_own_ptr<Dev_Tools_Sequence_Detail>(m_gui, m_resource_root);
+	auto list = make_own_ptr<Dev_Tools_Sequence_List>(m_gui, m_seq_manager, *detail, m_resource_root);
+
+	return Column::make(Column::Padding::normal)
+		->add(create_search_bar())
+		->add(Stateful::make(move(list)))
+		->add(Stateful::make(move(detail)));
 }
 
-Own_Ptr<Editor_UI::Widget> Dev_Tools_Mode_Sequence::create_search_bar()
+Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Mode_Sequence::create_search_bar()
 {
-	Editor_UI::Widget_Factory factory = m_gui.get_widget_factory();
-	auto input = factory.make_input("Search");
+	using namespace Editor_UI::Factories;
 
-	input->on_edit = [this, input=input.get()](){
-		m_list.rebuild(input->get_content());
+	auto callback = [this](const String& text) {
+		(void)this;
+		(void)text;
+		// FIXME - what to do?
 	};
 
-	return input;
+	return Input_Text::make(m_gui.get_font(), "Search")
+		->on_edit(callback);
 }

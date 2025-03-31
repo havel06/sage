@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphics/editor_ui/view_model.hpp"
+#include "graphics/editor_ui/state.hpp"
 #include "io/resource/resource_handle.hpp"
 #include "sequence/sequence.hpp"
 
@@ -11,15 +11,17 @@ namespace Editor_UI {
 class Sequence_Manager;
 class Dev_Tools_Sequence_Detail;
 
-class Dev_Tools_Sequence_List : public Editor_UI::View_Model
+class Dev_Tools_Sequence_List : public Editor_UI::State
 {
 public:
 	Dev_Tools_Sequence_List(Editor_UI::System& system, Sequence_Manager&, Dev_Tools_Sequence_Detail&, const String& resource_root);
 
-	void rebuild(const String& searched_term);
-	Own_Ptr<Editor_UI::Widget> build() override;
+	void set_searched_term(const String& searched_term);
+	Own_Ptr<Editor_UI::Widget_Factory2> build() override;
 	bool is_dirty() const override;
 private:
+	Own_Ptr<Editor_UI::Widget_Factory2> build_item(const String& path, Sequence&);
+
 	Editor_UI::System& m_system;
 	Sequence_Manager& m_sequence_manager;
 	Dev_Tools_Sequence_Detail& m_detail;

@@ -41,7 +41,8 @@ public:
 		m_deleter = other.m_deleter;
 		m_copier = other.m_copier;
 
-		m_caller = m_copier(other.m_caller);
+		if (m_copier)
+			m_caller = m_copier(other.m_caller);
 	}
 
 	Function_Wrapper(Function_Wrapper&& other)
@@ -52,7 +53,7 @@ public:
 
 	~Function_Wrapper()
 	{
-		if (m_caller)
+		if (m_caller && m_deleter)
 			m_deleter(&m_caller);
 	}
 
@@ -82,10 +83,10 @@ public:
 private:
 	void* m_caller = nullptr;
 	using Dispatcher = T(*)(void*, Args...);
-	Dispatcher m_dispatcher;
+	Dispatcher m_dispatcher = nullptr;
 	using Deleter = void(*)(void** data);
-	Deleter m_deleter;
+	Deleter m_deleter = nullptr;
 	using Copier = void*(*)(void* data);
-	Copier m_copier;
+	Copier m_copier = nullptr;
 };
 

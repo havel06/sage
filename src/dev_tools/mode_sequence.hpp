@@ -26,7 +26,7 @@ public:
 	Own_Ptr<Editor_UI::Widget_Factory2> build() override;
 	bool is_dirty() const override;
 private:
-	Own_Ptr<Editor_UI::Widget_Factory2> create_search_bar();
+	Own_Ptr<Editor_UI::Widget_Factory2> create_search_bar(Dev_Tools_Sequence_List& list);
 
 	Editor_UI::System& m_gui;
 	String m_resource_root;

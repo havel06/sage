@@ -36,19 +36,17 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Mode_Sequence::build()
 	auto list = make_own_ptr<Dev_Tools_Sequence_List>(m_gui, m_seq_manager, *detail, m_resource_root);
 
 	return Column::make(Column::Padding::normal)
-		->add(create_search_bar())
+		->add(create_search_bar(*list))
 		->add(Stateful::make(move(list)))
 		->add(Stateful::make(move(detail)));
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Mode_Sequence::create_search_bar()
+Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Mode_Sequence::create_search_bar(Dev_Tools_Sequence_List& list)
 {
 	using namespace Editor_UI::Factories;
 
-	auto callback = [this](const String& text) {
-		(void)this;
-		(void)text;
-		// FIXME - what to do?
+	auto callback = [&list](const String& text) {
+		list.set_searched_term(text);
 	};
 
 	return Input_Text::make(m_gui.get_font(), "Search")

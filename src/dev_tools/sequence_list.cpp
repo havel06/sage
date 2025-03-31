@@ -35,9 +35,14 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_List::build()
 	auto column = Column::make(Column::Padding::small);
 
 	m_sequence_manager.for_each([&](const String& path, Sequence& seq){
-		column
-			->add(build_item(path, seq))
-			->add(Divider::make());
+		const String path_relative = get_relative_path(path, m_resource_root);
+		const bool matches_search = fuzzy_match_string(m_searched_term, path_relative);
+
+		if (matches_search) {
+			column
+				->add(build_item(path, seq))
+				->add(Divider::make());
+		}
 	});
 
 	return Scroll::make(column);
@@ -48,20 +53,15 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_List::build_item(const St
 	using namespace Editor_UI::Factories;
 
 	const String path_relative = get_relative_path(path, m_resource_root);
-	const bool matches_search = fuzzy_match_string(m_searched_term, path_relative);
 
-	if (matches_search) {
-		return Row::make(true)
-			->add(Text::make(m_system.get_font(), path_relative))
-			->add(Button::make(
-				[this, path=path](){
-					m_detail.set_sequence(m_sequence_manager.get(path, true));
-				})
-				->with_icon(m_system.ICON_INFO)
-			);
-	} else {
-		return Dummy::make();
-	}
+	return Row::make(true)
+		->add(Text::make(m_system.get_font(), path_relative))
+		->add(Button::make(
+			[this, path=path](){
+				m_detail.set_sequence(m_sequence_manager.get(path, true));
+			})
+			->with_icon(m_system.ICON_INFO)
+		);
 }
 
 bool Dev_Tools_Sequence_List::is_dirty() const

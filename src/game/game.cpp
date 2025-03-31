@@ -78,7 +78,7 @@ void Game::draw_frame(float time_delta)
 		m_dev_mode = !m_dev_mode;
 		if (m_dev_mode) {
 			// Just opened
-			m_dev_tools.update(m_logic.state_normal.get_map());
+			m_dev_tools.rebuild();
 		}
 	}
 

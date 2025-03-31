@@ -3,6 +3,7 @@
 #include "graphics/editor_ui/widget_factory2.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/string.hpp"
+#include "utils/optional.hpp"
 #include "utils/function_wrapper.hpp"
 
 // fwd
@@ -16,14 +17,16 @@ class Input_Integer final : public Widget_Factory2
 public:
 	static Input_Integer* make(const Font& font, const String& label);
 	Input_Integer(const Font& font, const String& label);
-	Input_Integer* on_edit(Function_Wrapper<void(int)>&& callback); // Fluent API
-	Input_Integer* on_enter(Function_Wrapper<void(int)>&& callback); // Fluent API, triggered when 'enter' is pressed
+	Input_Integer* with_value(int value);
+	Input_Integer* on_edit(Function_Wrapper<void(bool valid, int val)>&& callback); // Fluent API
+	Input_Integer* on_enter(Function_Wrapper<void(bool valid, int val)>&& callback); // Fluent API, triggered when 'enter' is pressed
 	Own_Ptr<Widget> make_widget() override;
 private:
 	const Font& m_font;
 	const String m_label;
-	Function_Wrapper<void(int)> m_on_edit;
-	Function_Wrapper<void(int)> m_on_enter;
+	Optional<int> m_value = {};
+	Function_Wrapper<void(bool valid, int value)> m_on_edit;
+	Function_Wrapper<void(bool valid, int value)> m_on_enter;
 };
 
 };

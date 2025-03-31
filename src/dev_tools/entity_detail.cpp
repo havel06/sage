@@ -1,14 +1,14 @@
 #include "entity_detail.hpp"
-#include "graphics/editor_ui/widgets/card_type.hpp"
+#include "graphics/editor_ui/factories/dummy.hpp"
 #include "map/entity.hpp"
 #include "map/map.hpp"
 #include "graphics/editor_ui/widget_factory.hpp"
 #include "graphics/editor_ui/system.hpp"
-#include "graphics/editor_ui/widgets/text.hpp"
-#include "graphics/editor_ui/widgets/input.hpp"
-#include "graphics/editor_ui/widgets/card.hpp"
-#include "graphics/editor_ui/widgets/column.hpp"
-#include "graphics/editor_ui/widgets/dummy.hpp"
+#include "graphics/editor_ui/factories/card.hpp"
+#include "graphics/editor_ui/factories/input_number.hpp"
+#include "graphics/editor_ui/factories/input_integer.hpp"
+#include "graphics/editor_ui/factories/column.hpp"
+#include "graphics/editor_ui/factories/text.hpp"
 #include <cstdlib>
 
 Dev_Tools_Entity_Detail::Dev_Tools_Entity_Detail(Editor_UI::System& system) :
@@ -22,46 +22,64 @@ void Dev_Tools_Entity_Detail::set_entity(Entity* entity)
 	m_dirty = true;
 }
 
-Own_Ptr<Editor_UI::Widget> Dev_Tools_Entity_Detail::build()
+Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_Detail::build()
 {
-	auto factory = m_system.get_widget_factory();
+	m_dirty = false;
+	
+	using namespace Editor_UI::Factories;
 
 	if (!m_current_entity)
-		return factory.make_dummy();
+		return Dummy::make();
 
-	auto card = factory.make_card(Editor_UI::Widgets::Card_Type::filled);
-	
-	card->column.add_child(factory.make_text(m_current_entity->name));
+	return Card::make(Card::Type::filled,
+		Column::make(Column::Padding::normal)
+			->add(Text::make(m_system.get_font(), m_current_entity->name))
+			->add(make_input_x())
+			->add(make_input_y())
+			->add(make_input_speed())
+	);
+}
 
-	auto x = factory.make_input_int("X");
-	auto y = factory.make_input_int("Y");
-	auto speed = factory.make_input_number("Move speed");
+Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_Detail::make_input_x()
+{
+	using namespace Editor_UI::Factories;
 
-	x->set_content(String::from_int(m_current_entity->position.x));
-	y->set_content(String::from_int(m_current_entity->position.y));
-	speed->set_content(String::from_float(m_current_entity->move_speed));
-
-	x->on_edit = [this, x=x.get()](){
-		if (x->is_valid())
-			m_current_entity->position.x = atoi(x->get_content().data());
+	auto callback = [this](bool valid, int value){
+		if (valid)
+			m_current_entity->position.x = value;
 	};
 
-	y->on_edit = [this, y=y.get()](){
-		if (y->is_valid())
-			m_current_entity->position.y = atoi(y->get_content().data());
+	return Input_Integer::make(m_system.get_font(), "X")
+		->on_enter(callback)
+		->with_value(m_current_entity->position.x);
+}
+
+Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_Detail::make_input_y()
+{
+	using namespace Editor_UI::Factories;
+
+	auto callback = [this](bool valid, int value){
+		if (valid)
+			m_current_entity->position.y = value;
 	};
 
-	speed->on_edit = [this, speed=speed.get()](){
-		if (speed->is_valid())
-			m_current_entity->move_speed = atof(speed->get_content().data());
+	return Input_Integer::make(m_system.get_font(), "Y")
+		->on_enter(callback)
+		->with_value(m_current_entity->position.y);
+}
+
+Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_Detail::make_input_speed()
+{
+	using namespace Editor_UI::Factories;
+
+	auto callback = [this](bool valid, float value){
+		if (valid)
+			m_current_entity->move_speed = value;
 	};
 
-	card->column.add_child(move(x));
-	card->column.add_child(move(y));
-	card->column.add_child(move(speed));
-
-	m_dirty = false;
-	return card;
+	return Input_Number::make(m_system.get_font(), "Move speed")
+		->on_enter(callback)
+		->with_value(m_current_entity->move_speed);
 }
 
 bool Dev_Tools_Entity_Detail::is_dirty() const

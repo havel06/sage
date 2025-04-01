@@ -16,6 +16,7 @@ src = [
   'src/dev_tools/entity_list.cpp',
   'src/dev_tools/entity_detail.cpp',
   'src/dev_tools/header.cpp',
+  'src/dev_tools/main_widget.cpp',
   'src/dev_tools/map_dialog.cpp',
   'src/dev_tools/mode_entity.cpp',
   'src/dev_tools/mode_items.cpp',

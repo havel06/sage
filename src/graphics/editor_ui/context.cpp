@@ -1,4 +1,5 @@
 #include "context.hpp"
+#include "graphics/editor_ui/widget_factory2.hpp"
 #include "raylib/raylib.h"
 #include "theme.hpp"
 #include "utils/log.hpp"
@@ -33,17 +34,23 @@ void Context::draw(float dt)
 
 void Context::input_char(char character)
 {
+	if (!m_top_widget)
+		return;
+
 	m_top_widget->handle_character(character);
 }
 
 void Context::input_key(int key)
 {
+	if (!m_top_widget)
+		return;
+
 	m_top_widget->handle_key(key);
 }
 
-void Context::set_top_widget(Own_Ptr<Widget>&& widget)
+void Context::set_top_widget(Own_Ptr<Widget_Factory2>&& widget)
 {
-	m_top_widget = move(widget);
+	m_top_widget = widget->make_widget();
 }
 
 }

@@ -17,7 +17,7 @@ namespace Editor_UI {
 class Dev_Tools_Header : public Editor_UI::State
 {
 public:
-	Dev_Tools_Header(const Font& font, Game_Facade&, Game_Logic&, const Editor_UI::System& gui, const String& project_root);
+	Dev_Tools_Header(Game_Facade&, Game_Logic&, const Editor_UI::System& gui, const String& project_root);
 
 	void close_map_dialog();
 
@@ -26,7 +26,6 @@ public:
 private:
 	Own_Ptr<Editor_UI::Widget_Factory2> make_dialog_or_dummy();
 
-	const Font& m_font;
 	Game_Facade& m_game_facade; // FIXME - don't pass this
 	Game_Logic& m_game_logic;
 	const Editor_UI::System& m_gui_system;

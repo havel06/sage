@@ -26,7 +26,7 @@ void Dev_Tools_Sequence_List::set_searched_term(const String& searched_term)
 	m_dirty = true;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_List::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_List::build()
 {
 	m_dirty = false;
 	
@@ -48,7 +48,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_List::build()
 	return Scroll::make(column);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_List::build_item(const String& path, Sequence&)
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_List::build_item(const String& path, Sequence&)
 {
 	using namespace Editor_UI::Factories;
 

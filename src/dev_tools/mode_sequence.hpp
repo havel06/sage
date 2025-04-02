@@ -1,6 +1,6 @@
 #pragma once
 #include "dev_tools/sequence_list.hpp"
-#include "graphics/editor_ui/widget_factory2.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
 #include "sequence_detail.hpp"
 #include "graphics/editor_ui/context.hpp"
 #include "graphics/editor_ui/state.hpp"
@@ -23,10 +23,10 @@ class Dev_Tools_Mode_Sequence : public Editor_UI::State
 {
 public:
 	Dev_Tools_Mode_Sequence(Editor_UI::System&, Sequence_Manager&, const String& resource_root_path);
-	Own_Ptr<Editor_UI::Widget_Factory2> build() override;
+	Own_Ptr<Editor_UI::Widget_Factory> build() override;
 	bool is_dirty() const override;
 private:
-	Own_Ptr<Editor_UI::Widget_Factory2> create_search_bar(Dev_Tools_Sequence_List& list);
+	Own_Ptr<Editor_UI::Widget_Factory> create_search_bar(Dev_Tools_Sequence_List& list);
 
 	Editor_UI::System& m_gui;
 	String m_resource_root;

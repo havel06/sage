@@ -1,7 +1,7 @@
 #include "mode_entity.hpp"
 #include "dev_tools/entity_detail.hpp"
 #include "graphics/editor_ui/factories/input_text.hpp"
-#include "graphics/editor_ui/widget_factory2.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
 #include "map/map.hpp"
 #include "utils/log.hpp"
 #include "graphics/editor_ui/system.hpp"
@@ -14,7 +14,7 @@ Dev_Tools_Mode_Entity::Dev_Tools_Mode_Entity(Editor_UI::System& system, Map_Enti
 {
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Mode_Entity::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Entity::build()
 {
 	using namespace Editor_UI::Factories;
 
@@ -36,7 +36,7 @@ bool Dev_Tools_Mode_Entity::is_dirty() const
 	return m_dirty;	
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Mode_Entity::create_search_bar(Dev_Tools_Entity_List& list)
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Entity::create_search_bar(Dev_Tools_Entity_List& list)
 {
 	using namespace Editor_UI::Factories;
 

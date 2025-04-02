@@ -17,10 +17,10 @@ public:
 	Dev_Tools_Sequence_List(Editor_UI::System& system, Sequence_Manager&, Dev_Tools_Sequence_Detail&, const String& resource_root);
 
 	void set_searched_term(const String& searched_term);
-	Own_Ptr<Editor_UI::Widget_Factory2> build() override;
+	Own_Ptr<Editor_UI::Widget_Factory> build() override;
 	bool is_dirty() const override;
 private:
-	Own_Ptr<Editor_UI::Widget_Factory2> build_item(const String& path, Sequence&);
+	Own_Ptr<Editor_UI::Widget_Factory> build_item(const String& path, Sequence&);
 
 	Editor_UI::System& m_system;
 	Sequence_Manager& m_sequence_manager;

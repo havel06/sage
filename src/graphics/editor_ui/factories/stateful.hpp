@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphics/editor_ui/widget_factory2.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
 #include "utils/own_ptr.hpp"
 #include "../state.hpp"
 
@@ -12,7 +12,7 @@ namespace Editor_UI {
 namespace Editor_UI::Factories
 {
 
-class Stateful final : public Widget_Factory2
+class Stateful final : public Widget_Factory
 {
 public:
 	static Stateful* make(Own_Ptr<State>&&);

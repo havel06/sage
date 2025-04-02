@@ -11,7 +11,7 @@
 #include "graphics/editor_ui/factories/row.hpp"
 #include "graphics/editor_ui/factories/stateful.hpp"
 #include "graphics/editor_ui/state.hpp"
-#include "graphics/editor_ui/widget_factory2.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
 
@@ -30,7 +30,7 @@ Dev_Tools_Main_Widget::Dev_Tools_Main_Widget(
 }
 
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Main_Widget::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::build()
 {
 	m_dirty = false;
 	using namespace Editor_UI::Factories;
@@ -48,7 +48,7 @@ bool Dev_Tools_Main_Widget::is_dirty() const
 	return m_dirty;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Main_Widget::make_right_pane()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::make_right_pane()
 {
 	auto make_mode_widget = [this]() -> Own_Ptr<Editor_UI::State> {
 		switch (m_mode) {
@@ -70,7 +70,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Main_Widget::make_right_pane()
 	);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Main_Widget::make_nav_rail_pane()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::make_nav_rail_pane()
 {
 	using namespace Editor_UI::Factories;
 
@@ -90,7 +90,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Main_Widget::make_nav_rail_pane()
 	);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Main_Widget::make_header_pane()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::make_header_pane()
 {
 	using namespace Editor_UI::Factories;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphics/editor_ui/widget_factory2.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
 #include "utils/vec2.hpp"
 #include "utils/own_ptr.hpp"
 #include "graphics/sprite.hpp"
@@ -9,7 +9,7 @@
 namespace Editor_UI::Factories
 {
 
-class Image final : public Widget_Factory2
+class Image final : public Widget_Factory
 {
 public:
 	static Image* make(const Sprite& sprite, Vec2i size);

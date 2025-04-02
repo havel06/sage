@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphics/editor_ui/widget_factory2.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
 #include "utils/own_ptr.hpp"
 
 // fwd
@@ -11,7 +11,7 @@ namespace Editor_UI {
 namespace Editor_UI::Factories
 {
 
-class Dummy final : public Widget_Factory2
+class Dummy final : public Widget_Factory
 {
 public:
 	static Dummy* make();

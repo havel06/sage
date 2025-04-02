@@ -19,7 +19,7 @@ Dev_Tools_Mode_Items::Dev_Tools_Mode_Items(const Editor_UI::System& system, cons
 {
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Mode_Items::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Items::build()
 {
 	using namespace Editor_UI::Factories;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphics/editor_ui/widget_factory2.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/string.hpp"
 #include "utils/function_wrapper.hpp"
@@ -12,7 +12,7 @@ struct Font;
 namespace Editor_UI::Factories
 {
 
-class Input_Text final : public Widget_Factory2
+class Input_Text final : public Widget_Factory
 {
 public:
 	static Input_Text* make(const Font& font, const String& label);

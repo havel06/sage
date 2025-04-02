@@ -21,7 +21,7 @@ void Dev_Tools_Entity_Detail::set_entity(Entity* entity)
 	m_dirty = true;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_Detail::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::build()
 {
 	m_dirty = false;
 	
@@ -39,7 +39,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_Detail::build()
 	);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_Detail::make_input_x()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_x()
 {
 	using namespace Editor_UI::Factories;
 
@@ -53,7 +53,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_Detail::make_input_x()
 		->with_value(m_current_entity->position.x);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_Detail::make_input_y()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_y()
 {
 	using namespace Editor_UI::Factories;
 
@@ -67,7 +67,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_Detail::make_input_y()
 		->with_value(m_current_entity->position.y);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_Detail::make_input_speed()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_speed()
 {
 	using namespace Editor_UI::Factories;
 

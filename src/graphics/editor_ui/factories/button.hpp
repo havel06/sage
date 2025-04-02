@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graphics/editor_ui/widget_factory2.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
 #include "utils/own_ptr.hpp"
 #include "utils/string.hpp"
 #include "utils/function_wrapper.hpp"
@@ -14,7 +14,7 @@ namespace Editor_UI {
 namespace Editor_UI::Factories
 {
 
-class Button final : public Widget_Factory2
+class Button final : public Widget_Factory
 {
 public:
 	static Button* make(Function_Wrapper<void()>&& callback);

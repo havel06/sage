@@ -1,12 +1,12 @@
 #pragma once
 
-#include "graphics/editor_ui/widget_factory2.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
 #include "utils/own_ptr.hpp"
 
 namespace Editor_UI::Factories
 {
 
-class Progress_Bar final : public Widget_Factory2
+class Progress_Bar final : public Widget_Factory
 {
 public:
 	static Progress_Bar* make(float progress);

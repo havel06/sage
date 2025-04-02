@@ -24,7 +24,7 @@ void Dev_Tools_Sequence_Detail::set_sequence(Resource_Handle<Sequence> sequence)
 	m_dirty = true;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_Detail::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build()
 {
 	m_dirty = false;
 
@@ -45,7 +45,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_Detail::build()
 	);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_Detail::build_active_inidicator()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_active_inidicator()
 {
 	using namespace Editor_UI::Factories;
 
@@ -60,7 +60,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_Detail::build_active_inid
 	}
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_Detail::build_progress_bar()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_progress_bar()
 {
 	using namespace Editor_UI::Factories;
 
@@ -72,7 +72,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_Detail::build_progress_ba
 	return Progress_Bar::make(progress);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_Detail::build_reset_button()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_reset_button()
 {
 	using namespace Editor_UI::Factories;
 
@@ -86,7 +86,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_Detail::build_reset_butto
 		->with_text(m_system.get_font(), "Reset sequence");
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Sequence_Detail::build_activate_button()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_activate_button()
 {
 	using namespace Editor_UI::Factories;
 

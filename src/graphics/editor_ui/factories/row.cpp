@@ -16,7 +16,7 @@ Row::Row(bool stretch) :
 {
 }
 
-Row* Row::add(Own_Ptr<Widget_Factory2>&& child)
+Row* Row::add(Own_Ptr<Widget_Factory>&& child)
 {
 	m_children.push_back(move(child));
 	return this;

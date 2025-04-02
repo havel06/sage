@@ -1,5 +1,5 @@
 #include "context.hpp"
-#include "graphics/editor_ui/widget_factory2.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
 #include "raylib/raylib.h"
 #include "theme.hpp"
 #include "utils/log.hpp"
@@ -48,7 +48,7 @@ void Context::input_key(int key)
 	m_top_widget->handle_key(key);
 }
 
-void Context::set_top_widget(Own_Ptr<Widget_Factory2>&& widget)
+void Context::set_top_widget(Own_Ptr<Widget_Factory>&& widget)
 {
 	m_top_widget = widget->make_widget();
 }

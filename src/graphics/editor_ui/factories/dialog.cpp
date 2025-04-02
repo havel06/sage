@@ -6,12 +6,12 @@
 namespace Editor_UI::Factories
 {
 
-Dialog* Dialog::make(Vec2i size, Own_Ptr<Widget_Factory2>&& child)
+Dialog* Dialog::make(Vec2i size, Own_Ptr<Widget_Factory>&& child)
 {
 	return new Dialog(size, move(child));
 }
 
-Dialog::Dialog(Vec2i size, Own_Ptr<Widget_Factory2>&& child) :
+Dialog::Dialog(Vec2i size, Own_Ptr<Widget_Factory>&& child) :
 	m_size{size},
 	m_child{move(child)}
 {

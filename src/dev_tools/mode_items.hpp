@@ -17,7 +17,7 @@ class Dev_Tools_Mode_Items : public Editor_UI::State
 public:
 	Dev_Tools_Mode_Items(const Editor_UI::System&, const Item_Registry&, Inventory&);
 
-	Own_Ptr<Editor_UI::Widget_Factory2> build() override;
+	Own_Ptr<Editor_UI::Widget_Factory> build() override;
 	bool is_dirty() const override;
 private:
 	const Item_Registry& m_item_registry;

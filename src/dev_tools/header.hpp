@@ -21,10 +21,10 @@ public:
 
 	void close_map_dialog();
 
-	Own_Ptr<Editor_UI::Widget_Factory2> build() override;
+	Own_Ptr<Editor_UI::Widget_Factory> build() override;
 	bool is_dirty() const override;
 private:
-	Own_Ptr<Editor_UI::Widget_Factory2> make_dialog_or_dummy();
+	Own_Ptr<Editor_UI::Widget_Factory> make_dialog_or_dummy();
 
 	Game_Facade& m_game_facade; // FIXME - don't pass this
 	Game_Logic& m_game_logic;

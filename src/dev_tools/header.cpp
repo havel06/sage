@@ -24,7 +24,7 @@ void Dev_Tools_Header::close_map_dialog()
 	m_dirty = true;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Header::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Header::build()
 {
 	m_dirty = false;
 
@@ -53,7 +53,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Header::build()
 		->add(make_dialog_or_dummy());
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Header::make_dialog_or_dummy()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Header::make_dialog_or_dummy()
 {
 	using namespace Editor_UI::Factories;
 

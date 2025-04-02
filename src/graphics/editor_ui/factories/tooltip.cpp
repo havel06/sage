@@ -6,12 +6,12 @@
 namespace Editor_UI::Factories
 {
 
-Tooltip* Tooltip::make(const String& text, const Font& font, Own_Ptr<Widget_Factory2>&& child)
+Tooltip* Tooltip::make(const String& text, const Font& font, Own_Ptr<Widget_Factory>&& child)
 {
 	return new Tooltip(text, font, move(child));
 }
 
-Tooltip::Tooltip(const String& text, const Font& font, Own_Ptr<Widget_Factory2>&& child) :
+Tooltip::Tooltip(const String& text, const Font& font, Own_Ptr<Widget_Factory>&& child) :
 	m_text{text},
 	m_font{font},
 	m_child{move(child)}

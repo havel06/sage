@@ -27,7 +27,7 @@ void Dev_Tools_Entity_List::set_searched_term(const String& searched_term)
 	m_searched_term = searched_term;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_List::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build()
 {
 	m_dirty = false;
 	
@@ -48,7 +48,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_List::build()
 	return Scroll::make(move(column));
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Entity_List::build_item(Entity& entity)
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build_item(Entity& entity)
 {
 	using namespace Editor_UI::Factories;
 

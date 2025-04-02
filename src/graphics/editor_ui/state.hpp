@@ -1,7 +1,7 @@
 #pragma once
 
 #include "utils/own_ptr.hpp"
-#include "widget_factory2.hpp"
+#include "widget_factory.hpp"
 
 namespace Editor_UI
 {
@@ -17,7 +17,7 @@ public:
 	virtual ~State() = default;
 
 	// Build the widget representing the State
-	virtual Own_Ptr<Widget_Factory2> build() = 0;
+	virtual Own_Ptr<Widget_Factory> build() = 0;
 
 	// Needs to be rebuilt.
 	// NOTE - A 'Stateful' widget always gets built when added

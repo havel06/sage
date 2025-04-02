@@ -22,7 +22,7 @@ Dev_Tools_Map_Dialog::Dev_Tools_Map_Dialog(Dev_Tools_Header& header, const Font&
 {
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Map_Dialog::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Map_Dialog::build()
 {
 	using namespace Editor_UI::Factories;
 

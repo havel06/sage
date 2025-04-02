@@ -17,7 +17,7 @@ Column::Column(Padding padding) :
 {
 }
 
-Column* Column::add(Own_Ptr<Widget_Factory2>&& child)
+Column* Column::add(Own_Ptr<Widget_Factory>&& child)
 {
 	m_children.push_back(move(child));
 	return this;

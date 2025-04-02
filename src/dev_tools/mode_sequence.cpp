@@ -26,7 +26,7 @@ bool Dev_Tools_Mode_Sequence::is_dirty() const
 	return m_dirty;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Mode_Sequence::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Sequence::build()
 {
 	using namespace Editor_UI::Factories;
 
@@ -41,7 +41,7 @@ Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Mode_Sequence::build()
 		->add(Stateful::make(move(detail)));
 }
 
-Own_Ptr<Editor_UI::Widget_Factory2> Dev_Tools_Mode_Sequence::create_search_bar(Dev_Tools_Sequence_List& list)
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Sequence::create_search_bar(Dev_Tools_Sequence_List& list)
 {
 	using namespace Editor_UI::Factories;
 

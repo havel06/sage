@@ -18,7 +18,7 @@ public:
 	Dev_Tools_Map_Dialog(Dev_Tools_Header&, const Font& font, const Editor_UI::System& gui, Game_Logic_State_Normal& logic, const String& project_root);
 	Dev_Tools_Map_Dialog(Dev_Tools_Map_Dialog&&) = delete;
 
-	Own_Ptr<Editor_UI::Widget_Factory2> build() override;
+	Own_Ptr<Editor_UI::Widget_Factory> build() override;
 	bool is_dirty() const override;
 private:
 	Array<String> get_input_hints();

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "graphics/editor_ui/state.hpp"
-#include "graphics/editor_ui/widget_factory2.hpp"
+#include "graphics/editor_ui/widget_factory.hpp"
 
 // fwd
 namespace Editor_UI {
@@ -18,12 +18,12 @@ public:
 	Dev_Tools_Entity_Detail(Editor_UI::System& system);
 
 	void set_entity(Entity*);
-	Own_Ptr<Editor_UI::Widget_Factory2> build() override;
+	Own_Ptr<Editor_UI::Widget_Factory> build() override;
 	bool is_dirty() const override;
 private:
-	Own_Ptr<Editor_UI::Widget_Factory2> make_input_x();
-	Own_Ptr<Editor_UI::Widget_Factory2> make_input_y();
-	Own_Ptr<Editor_UI::Widget_Factory2> make_input_speed();
+	Own_Ptr<Editor_UI::Widget_Factory> make_input_x();
+	Own_Ptr<Editor_UI::Widget_Factory> make_input_y();
+	Own_Ptr<Editor_UI::Widget_Factory> make_input_speed();
 
 	Editor_UI::System& m_system;
 	Entity* m_current_entity = nullptr;

@@ -2,7 +2,6 @@
 #include "graphics/editor_ui/factories/dummy.hpp"
 #include "map/entity.hpp"
 #include "map/map.hpp"
-#include "graphics/editor_ui/widget_factory.hpp"
 #include "graphics/editor_ui/system.hpp"
 #include "graphics/editor_ui/factories/card.hpp"
 #include "graphics/editor_ui/factories/input_number.hpp"

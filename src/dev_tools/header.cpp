@@ -6,7 +6,6 @@
 #include "graphics/editor_ui/factories/tooltip.hpp"
 #include "graphics/editor_ui/system.hpp"
 #include "graphics/editor_ui/theme.hpp"
-#include "graphics/editor_ui/widget_factory.hpp"
 #include "header.hpp"
 #include "utils/function_wrapper.hpp"
 #include "utils/move.hpp"

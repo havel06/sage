@@ -1,5 +1,4 @@
 #include "block.hpp"
-#include "../view_model.hpp"
 #include "utils/move.hpp"
 #include "utils/minmax.hpp"
 

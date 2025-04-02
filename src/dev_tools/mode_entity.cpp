@@ -5,7 +5,6 @@
 #include "map/map.hpp"
 #include "utils/log.hpp"
 #include "graphics/editor_ui/system.hpp"
-#include "graphics/editor_ui/widget_factory.hpp"
 #include "graphics/editor_ui/factories/column.hpp"
 #include "graphics/editor_ui/factories/stateful.hpp"
 

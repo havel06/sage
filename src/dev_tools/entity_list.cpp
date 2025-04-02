@@ -3,7 +3,6 @@
 #include "map/map.hpp"
 #include "entity_detail.hpp"
 #include "utils/function_wrapper.hpp"
-#include "graphics/editor_ui/widget_factory.hpp"
 #include "graphics/editor_ui/system.hpp"
 #include "graphics/editor_ui/factories/dummy.hpp"
 #include "graphics/editor_ui/factories/column.hpp"

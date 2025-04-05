@@ -11,26 +11,25 @@
 #include "graphics/editor_ui/factories/row.hpp"
 #include "graphics/editor_ui/factories/stateful.hpp"
 #include "graphics/editor_ui/state.hpp"
+#include "graphics/editor_ui/theme.hpp"
 #include "graphics/editor_ui/widget_factory.hpp"
 #include "utils/log.hpp"
 #include "utils/own_ptr.hpp"
 
 Dev_Tools_Main_Widget::Dev_Tools_Main_Widget(
-		Editor_UI::System& gui,
 		Game_Facade& facade,
 		Game_Logic& logic,
 		Sequence_Manager& sequence_manager,
 		String project_root) :
 	m_game_facade{facade},
 	m_game_logic{logic},
-	m_gui_system{gui},
 	m_sequence_manager{sequence_manager},
 	m_project_root{project_root}
 {
 }
 
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::build(const Editor_UI::Theme& theme)
 {
 	m_dirty = false;
 	using namespace Editor_UI::Factories;
@@ -38,7 +37,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::build()
 	return Column::make(Column::Padding::none)
 		->add(make_header_pane())
 		->add(Row::make(true)
-			->add(make_nav_rail_pane())
+			->add(make_nav_rail_pane(theme))
 			->add(make_right_pane())
 		);
 }
@@ -53,11 +52,11 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::make_right_pane()
 	auto make_mode_widget = [this]() -> Own_Ptr<Editor_UI::State> {
 		switch (m_mode) {
 			case Mode::entities:
-				return make_own_ptr<Dev_Tools_Mode_Entity>(m_gui_system, m_game_logic.state_normal.get_map().entities);
+				return make_own_ptr<Dev_Tools_Mode_Entity>(m_game_logic.state_normal.get_map().entities);
 			case Mode::sequence:
-				return make_own_ptr<Dev_Tools_Mode_Sequence>(m_gui_system, m_sequence_manager, m_project_root);
+				return make_own_ptr<Dev_Tools_Mode_Sequence>(m_sequence_manager, m_project_root);
 			case Mode::items:
-				return make_own_ptr<Dev_Tools_Mode_Items>(m_gui_system, m_game_logic.state_normal.item_registry, m_game_logic.state_normal.inventory);
+				return make_own_ptr<Dev_Tools_Mode_Items>(m_game_logic.state_normal.item_registry, m_game_logic.state_normal.inventory);
 		}
 	};
 
@@ -70,7 +69,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::make_right_pane()
 	);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::make_nav_rail_pane()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::make_nav_rail_pane(const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
@@ -83,9 +82,9 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::make_nav_rail_pane()
 	return Constrained_Container::make(Vec2i{80, 20000},
 		Relative_Pane::make(false,
 			Nav_Rail::make(callback, (int)m_mode)
-				->add(m_gui_system.get_font(), "Entities", m_gui_system.ICON_ENTITY)
-				->add(m_gui_system.get_font(), "Sequences", m_gui_system.ICON_SEQUENCE)
-				->add(m_gui_system.get_font(), "Items", m_gui_system.ICON_ITEMS)
+				->add(theme.font, "Entities", theme.ICON_ENTITY)
+				->add(theme.font, "Sequences", theme.ICON_SEQUENCE)
+				->add(theme.font, "Items", theme.ICON_ITEMS)
 		)
 	);
 }
@@ -97,7 +96,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Main_Widget::make_header_pane()
 	// FIXME - get height from theme?
 	return Constrained_Container::make(Vec2i{20000, 64},
 		Relative_Pane::make(true,
-			Stateful::make(make_own_ptr<Dev_Tools_Header>(m_game_facade, m_game_logic, m_gui_system, m_project_root))
+			Stateful::make(make_own_ptr<Dev_Tools_Header>(m_game_facade, m_game_logic, m_project_root))
 		)
 	);
 }

@@ -2,6 +2,7 @@
 #include "graphics/editor_ui/factories/scroll.hpp"
 #include "graphics/editor_ui/system.hpp"
 #include "io/resource/sequence_manager.hpp"
+#include "sequence/event.hpp"
 #include "sequence_detail.hpp"
 #include "utils/function_wrapper.hpp"
 #include "utils/fuzzy_match.hpp"
@@ -12,8 +13,7 @@
 #include "graphics/editor_ui/factories/text.hpp"
 #include "graphics/editor_ui/factories/divider.hpp"
 
-Dev_Tools_Sequence_List::Dev_Tools_Sequence_List(Editor_UI::System& system, Sequence_Manager& seq_mgr,Dev_Tools_Sequence_Detail& detail,  const String& resource_root) :
-	m_system{system},
+Dev_Tools_Sequence_List::Dev_Tools_Sequence_List(Sequence_Manager& seq_mgr,Dev_Tools_Sequence_Detail& detail, const String& resource_root) :
 	m_sequence_manager{seq_mgr},
 	m_detail{detail},
 	m_resource_root{resource_root}
@@ -26,7 +26,7 @@ void Dev_Tools_Sequence_List::set_searched_term(const String& searched_term)
 	m_dirty = true;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_List::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_List::build(const Editor_UI::Theme& theme)
 {
 	m_dirty = false;
 	
@@ -40,7 +40,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_List::build()
 
 		if (matches_search) {
 			column
-				->add(build_item(path, seq))
+				->add(build_item(path, seq, theme))
 				->add(Divider::make());
 		}
 	});
@@ -48,19 +48,19 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_List::build()
 	return Scroll::make(column);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_List::build_item(const String& path, Sequence&)
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_List::build_item(const String& path, Sequence&, const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
 	const String path_relative = get_relative_path(path, m_resource_root);
 
 	return Row::make(true)
-		->add(Text::make(m_system.get_font(), path_relative))
+		->add(Text::make(theme.font, path_relative))
 		->add(Button::make(
 			[this, path=path](){
 				m_detail.set_sequence(m_sequence_manager.get(path, true));
 			})
-			->with_icon(m_system.ICON_INFO)
+			->with_icon(theme.ICON_INFO)
 		);
 }
 

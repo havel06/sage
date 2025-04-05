@@ -21,9 +21,9 @@ void Block::draw_overlay(const Theme& theme, float dt)
 	m_child->draw_overlay(theme, dt);
 }
 
-void Block::update()
+void Block::update(const Theme& theme)
 {
-	m_child->update();
+	m_child->update(theme);
 }
 
 Vec2i Block::layout(const Theme& theme, Recti bounding_box)

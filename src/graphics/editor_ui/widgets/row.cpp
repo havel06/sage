@@ -22,10 +22,10 @@ void Row::draw_overlay(const Theme& theme, float dt)
 		child->draw_overlay(theme, dt);
 }
 
-void Row::update()
+void Row::update(const Theme& theme)
 {
 	for (auto& child : m_children)
-		child->update();
+		child->update(theme);
 }
 
 Vec2i Row::layout(const Theme& theme, Recti bounding_box)

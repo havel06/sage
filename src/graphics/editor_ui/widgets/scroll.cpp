@@ -16,9 +16,9 @@ Scroll::Scroll(Own_Ptr<Widget>&& child)
 	m_child = move(child);
 }
 
-void Scroll::update()
+void Scroll::update(const Theme& theme)
 {
-	m_child->update();
+	m_child->update(theme);
 }
 
 void Scroll::draw(const Theme& theme, float dt)

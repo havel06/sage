@@ -22,13 +22,12 @@ namespace Editor_UI {
 class Dev_Tools_Mode_Sequence : public Editor_UI::State
 {
 public:
-	Dev_Tools_Mode_Sequence(Editor_UI::System&, Sequence_Manager&, const String& resource_root_path);
-	Own_Ptr<Editor_UI::Widget_Factory> build() override;
+	Dev_Tools_Mode_Sequence(Sequence_Manager&, const String& resource_root_path);
+	Own_Ptr<Editor_UI::Widget_Factory> build(const Editor_UI::Theme& theme) override;
 	bool is_dirty() const override;
 private:
-	Own_Ptr<Editor_UI::Widget_Factory> create_search_bar(Dev_Tools_Sequence_List& list);
+	Own_Ptr<Editor_UI::Widget_Factory> create_search_bar(Dev_Tools_Sequence_List& list, const Editor_UI::Theme& theme);
 
-	Editor_UI::System& m_gui;
 	String m_resource_root;
 	Sequence_Manager& m_seq_manager;
 

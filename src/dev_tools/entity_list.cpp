@@ -14,9 +14,8 @@
 #include "utils/log.hpp"
 #include "utils/fuzzy_match.hpp"
 
-Dev_Tools_Entity_List::Dev_Tools_Entity_List(Map_Entities& entities, Dev_Tools_Entity_Detail& detail, Editor_UI::System& system) :
+Dev_Tools_Entity_List::Dev_Tools_Entity_List(Map_Entities& entities, Dev_Tools_Entity_Detail& detail) :
 	m_detail{detail},
-	m_system{system},
 	m_entities{entities}
 {
 }
@@ -27,7 +26,7 @@ void Dev_Tools_Entity_List::set_searched_term(const String& searched_term)
 	m_searched_term = searched_term;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build(const Editor_UI::Theme& theme)
 {
 	m_dirty = false;
 	
@@ -40,7 +39,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build()
 
 		if (fuzzy_match_string(m_searched_term, entity.name)) {
 			column
-				->add(build_item(entity))
+				->add(build_item(entity, theme))
 				->add(Divider::make());
 		}
 	}
@@ -48,7 +47,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build()
 	return Scroll::make(move(column));
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build_item(Entity& entity)
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build_item(Entity& entity, const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
@@ -57,9 +56,9 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build_item(Entity& ent
 	};
 
 	return Row::make(true)
-		->add(Text::make(m_system.get_font(), entity.name))
+		->add(Text::make(theme.font, entity.name))
 		->add(Button::make(button_callback)
-			->with_icon(m_system.ICON_INFO));
+			->with_icon(theme.ICON_INFO));
 }
 
 bool Dev_Tools_Entity_List::is_dirty() const

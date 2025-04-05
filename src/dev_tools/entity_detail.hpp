@@ -15,17 +15,14 @@ class Entity;
 class Dev_Tools_Entity_Detail : public Editor_UI::State
 {
 public:
-	Dev_Tools_Entity_Detail(Editor_UI::System& system);
-
 	void set_entity(Entity*);
-	Own_Ptr<Editor_UI::Widget_Factory> build() override;
+	Own_Ptr<Editor_UI::Widget_Factory> build(const Editor_UI::Theme& theme) override;
 	bool is_dirty() const override;
 private:
-	Own_Ptr<Editor_UI::Widget_Factory> make_input_x();
-	Own_Ptr<Editor_UI::Widget_Factory> make_input_y();
-	Own_Ptr<Editor_UI::Widget_Factory> make_input_speed();
+	Own_Ptr<Editor_UI::Widget_Factory> make_input_x(const Editor_UI::Theme& theme);
+	Own_Ptr<Editor_UI::Widget_Factory> make_input_y(const Editor_UI::Theme& theme);
+	Own_Ptr<Editor_UI::Widget_Factory> make_input_speed(const Editor_UI::Theme& theme);
 
-	Editor_UI::System& m_system;
 	Entity* m_current_entity = nullptr;
 
 	bool m_dirty = false;

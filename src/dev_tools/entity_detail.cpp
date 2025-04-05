@@ -1,5 +1,6 @@
 #include "entity_detail.hpp"
 #include "graphics/editor_ui/factories/dummy.hpp"
+#include "graphics/editor_ui/theme.hpp"
 #include "map/entity.hpp"
 #include "map/map.hpp"
 #include "graphics/editor_ui/system.hpp"
@@ -10,18 +11,13 @@
 #include "graphics/editor_ui/factories/text.hpp"
 #include <cstdlib>
 
-Dev_Tools_Entity_Detail::Dev_Tools_Entity_Detail(Editor_UI::System& system) :
-	m_system{system}
-{
-}
-
 void Dev_Tools_Entity_Detail::set_entity(Entity* entity)
 {
 	m_current_entity = entity;
 	m_dirty = true;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::build(const Editor_UI::Theme& theme)
 {
 	m_dirty = false;
 	
@@ -32,14 +28,14 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::build()
 
 	return Card::make(Card::Type::filled,
 		Column::make(Column::Padding::normal)
-			->add(Text::make(m_system.get_font(), m_current_entity->name))
-			->add(make_input_x())
-			->add(make_input_y())
-			->add(make_input_speed())
+			->add(Text::make(theme.font, m_current_entity->name))
+			->add(make_input_x(theme))
+			->add(make_input_y(theme))
+			->add(make_input_speed(theme))
 	);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_x()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_x(const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
@@ -48,12 +44,12 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_x()
 			m_current_entity->position.x = value;
 	};
 
-	return Input_Integer::make(m_system.get_font(), "X")
+	return Input_Integer::make(theme.font, "X")
 		->on_enter(callback)
 		->with_value(m_current_entity->position.x);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_y()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_y(const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
@@ -62,12 +58,12 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_y()
 			m_current_entity->position.y = value;
 	};
 
-	return Input_Integer::make(m_system.get_font(), "Y")
+	return Input_Integer::make(theme.font, "Y")
 		->on_enter(callback)
 		->with_value(m_current_entity->position.y);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_speed()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_speed(const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
@@ -76,7 +72,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_speed()
 			m_current_entity->move_speed = value;
 	};
 
-	return Input_Number::make(m_system.get_font(), "Move speed")
+	return Input_Number::make(theme.font, "Move speed")
 		->on_enter(callback)
 		->with_value(m_current_entity->move_speed);
 }

@@ -28,10 +28,10 @@ void Column::draw_overlay(const Theme& theme, float dt)
 		child->draw_overlay(theme, dt);
 }
 
-void Column::update()
+void Column::update(const Theme& theme)
 {
 	for (auto& child : m_children)
-		child->update();
+		child->update(theme);
 }
 
 Vec2i Column::layout(const Theme& theme, Recti bounding_box)

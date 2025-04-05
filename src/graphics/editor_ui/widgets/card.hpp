@@ -18,7 +18,7 @@ public:
 	Column column; // Use this to get elements inside card
 
 	Card(Card_Type type);
-	void update() override;
+	void update(const Theme&) override;
 	void draw(const Theme& theme, float dt) override;
 	void draw_overlay(const Theme& theme, float dt) override;
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;

@@ -16,16 +16,15 @@ class Dev_Tools_Entity_Detail;
 class Dev_Tools_Entity_List : public Editor_UI::State
 {
 public:
-	Dev_Tools_Entity_List(Map_Entities&, Dev_Tools_Entity_Detail& detail, Editor_UI::System& system);
+	Dev_Tools_Entity_List(Map_Entities&, Dev_Tools_Entity_Detail& detail);
 
 	void set_searched_term(const String& searched_term);
-	Own_Ptr<Editor_UI::Widget_Factory> build() override;
+	Own_Ptr<Editor_UI::Widget_Factory> build(const Editor_UI::Theme& theme) override;
 	bool is_dirty() const override;
 private:
-	Own_Ptr<Editor_UI::Widget_Factory> build_item(Entity& entity);
+	Own_Ptr<Editor_UI::Widget_Factory> build_item(Entity& entity, const Editor_UI::Theme& theme);
 
 	Dev_Tools_Entity_Detail& m_detail;
-	Editor_UI::System& m_system;
 
 	Map_Entities& m_entities;
 	String m_searched_term = "";

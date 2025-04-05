@@ -10,6 +10,10 @@
 namespace Editor_UI
 {
 
+Context::Context(const Theme& theme) : m_theme{theme}
+{
+}
+
 void Context::draw(float dt)
 {
 	if (!m_top_widget)
@@ -22,14 +26,12 @@ void Context::draw(float dt)
 
 	const float scroll = GetMouseWheelMove();
 
-	Theme theme; // Use default theme
-
-	m_top_widget->update();
-	m_top_widget->layout(theme, {{0, 0}, {GetScreenWidth(), GetScreenHeight()}});
+	m_top_widget->update(m_theme);
+	m_top_widget->layout(m_theme, {{0, 0}, {GetScreenWidth(), GetScreenHeight()}});
 	m_top_widget->handle_mouse(mouse_pos, IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
 	m_top_widget->handle_scroll(scroll);
-	m_top_widget->draw(theme, dt);
-	m_top_widget->draw_overlay(theme, dt);
+	m_top_widget->draw(m_theme, dt);
+	m_top_widget->draw_overlay(m_theme, dt);
 }
 
 void Context::input_char(char character)

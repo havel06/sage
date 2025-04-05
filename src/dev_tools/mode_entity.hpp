@@ -15,14 +15,13 @@ namespace Editor_UI {
 class Dev_Tools_Mode_Entity : public Editor_UI::State
 {
 public:
-	Dev_Tools_Mode_Entity(Editor_UI::System&, Map_Entities&);
+	Dev_Tools_Mode_Entity(Map_Entities&);
 	
-	Own_Ptr<Editor_UI::Widget_Factory> build() override;
+	Own_Ptr<Editor_UI::Widget_Factory> build(const Editor_UI::Theme&) override;
 	bool is_dirty() const override;
 private:
-	Own_Ptr<Editor_UI::Widget_Factory> create_search_bar(Dev_Tools_Entity_List& list);
+	Own_Ptr<Editor_UI::Widget_Factory> create_search_bar(Dev_Tools_Entity_List& list, const Editor_UI::Theme& theme);
 
-	Editor_UI::System& m_gui;
 	Map_Entities& m_map_entities;
 
 	bool m_dirty = true;

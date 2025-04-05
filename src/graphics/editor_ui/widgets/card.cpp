@@ -12,9 +12,9 @@ Card::Card(Card_Type type)
 	this->type = type;
 }
 
-void Card::update()
+void Card::update(const Theme& theme)
 {
-	column.update();
+	column.update(theme);
 }
 
 void Card::draw(const Theme& theme, float dt)

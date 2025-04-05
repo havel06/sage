@@ -16,7 +16,7 @@ public:
 
 	void clear();
 	void add_child(Own_Ptr<Widget>&&);
-	void update() override;
+	void update(const Theme& theme) override;
 	void draw(const Theme&, float dt) override;
 	void draw_overlay(const Theme&, float dt) override;
 	Vec2i layout(const Theme&, Recti bounding_box) override;

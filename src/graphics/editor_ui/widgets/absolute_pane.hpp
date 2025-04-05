@@ -14,7 +14,7 @@ public:
 	Column column; // Use this to get elements inside pane
 	Recti transform;
 	Absolute_Pane(Recti transform, bool padding);
-	void update() override;
+	void update(const Theme& theme) override;
 	void draw(const Theme& theme, float dt) override;
 	void draw_overlay(const Theme& theme, float dt) override;
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;

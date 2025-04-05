@@ -17,7 +17,7 @@ public:
 	virtual ~State() = default;
 
 	// Build the widget representing the State
-	virtual Own_Ptr<Widget_Factory> build() = 0;
+	virtual Own_Ptr<Widget_Factory> build(const Theme&) = 0;
 
 	// Needs to be rebuilt.
 	// NOTE - A 'Stateful' widget always gets built when added

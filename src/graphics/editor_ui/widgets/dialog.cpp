@@ -12,10 +12,6 @@ Dialog::Dialog(Vec2i size)
 	m_size = size;
 }
 
-void Dialog::update()
-{
-}
-
 void Dialog::draw(const Theme& theme, float dt)
 {
 	(void)theme;

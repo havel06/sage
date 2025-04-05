@@ -9,11 +9,7 @@
 #include "graphics/editor_ui/factories/button.hpp"
 #include "graphics/editor_ui/factories/card.hpp"
 
-Dev_Tools_Sequence_Detail::Dev_Tools_Sequence_Detail(
-		Editor_UI::System& system,
-		const String& resource_root
-	) :
-	m_system{system},
+Dev_Tools_Sequence_Detail::Dev_Tools_Sequence_Detail(const String& resource_root) :
 	m_resource_root{resource_root}
 {
 }
@@ -24,7 +20,7 @@ void Dev_Tools_Sequence_Detail::set_sequence(Resource_Handle<Sequence> sequence)
 	m_dirty = true;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build(const Editor_UI::Theme& theme)
 {
 	m_dirty = false;
 
@@ -37,25 +33,25 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build()
 
 	return Card::make(Card::Type::filled,
 		Column::make(Column::Padding::normal)
-			->add(Text::make(m_system.get_font(), path_relative))
-			->add(build_active_inidicator())
+			->add(Text::make(theme.font, path_relative))
+			->add(build_active_inidicator(theme))
 			->add(build_progress_bar())
-			->add(build_reset_button())
-			->add(build_activate_button())
+			->add(build_reset_button(theme))
+			->add(build_activate_button(theme))
 	);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_active_inidicator()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_active_inidicator(const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
 	if (m_sequence.value().get().is_active()) {
-		return Text::make(m_system.get_font(), "State: Active");
+		return Text::make(theme.font, "State: Active");
 	} else {
 		if (m_sequence.value().get().has_finished()) {
-			return Text::make(m_system.get_font(), "State: Finished");
+			return Text::make(theme.font, "State: Finished");
 		} else {
-			return Text::make(m_system.get_font(), "State: Inactive");
+			return Text::make(theme.font, "State: Inactive");
 		}
 	}
 }
@@ -72,7 +68,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_progress_bar
 	return Progress_Bar::make(progress);
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_reset_button()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_reset_button(const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
@@ -83,10 +79,10 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_reset_button
 	};
 
 	return Button::make(callback)
-		->with_text(m_system.get_font(), "Reset sequence");
+		->with_text(theme.font, "Reset sequence");
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_activate_button()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_activate_button(const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
@@ -97,7 +93,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_Detail::build_activate_but
 	};
 
 	return Button::make(callback)
-		->with_text(m_system.get_font(), "Activate sequence");
+		->with_text(theme.font, "Activate sequence");
 }
 
 bool Dev_Tools_Sequence_Detail::is_dirty() const

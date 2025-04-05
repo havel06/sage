@@ -12,9 +12,9 @@ Relative_Pane::Relative_Pane(bool padding)
 	m_padding = padding;
 }
 
-void Relative_Pane::update()
+void Relative_Pane::update(const Theme& theme)
 {
-	column.update();
+	column.update(theme);
 }
 
 void Relative_Pane::draw(const Theme& theme, float dt)

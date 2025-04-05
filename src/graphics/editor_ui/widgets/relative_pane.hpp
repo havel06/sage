@@ -17,7 +17,7 @@ public:
 	// FIXME - only use a single child
 	Column column; // Use this to get elements inside pane
 	Relative_Pane(bool padding);
-	void update() override;
+	void update(const Theme& theme) override;
 	void draw(const Theme& theme, float dt) override;
 	void draw_overlay(const Theme& theme, float dt) override;
 	Vec2i layout(const Theme& theme, Recti bounding_box) override;

@@ -14,8 +14,7 @@
 #include "graphics/editor_ui/factories/stateful.hpp"
 #include "graphics/editor_ui/factories/column.hpp"
 
-Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Editor_UI::System& gui, Sequence_Manager& seq_manager, const String& resource_root_path) :
-	m_gui{gui},
+Dev_Tools_Mode_Sequence::Dev_Tools_Mode_Sequence(Sequence_Manager& seq_manager, const String& resource_root_path) :
 	m_resource_root{resource_root_path},
 	m_seq_manager{seq_manager}
 {
@@ -26,22 +25,22 @@ bool Dev_Tools_Mode_Sequence::is_dirty() const
 	return m_dirty;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Sequence::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Sequence::build(const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
 	m_dirty = false;
 
-	auto detail = make_own_ptr<Dev_Tools_Sequence_Detail>(m_gui, m_resource_root);
-	auto list = make_own_ptr<Dev_Tools_Sequence_List>(m_gui, m_seq_manager, *detail, m_resource_root);
+	auto detail = make_own_ptr<Dev_Tools_Sequence_Detail>(m_resource_root);
+	auto list = make_own_ptr<Dev_Tools_Sequence_List>(m_seq_manager, *detail, m_resource_root);
 
 	return Column::make(Column::Padding::normal)
-		->add(create_search_bar(*list))
+		->add(create_search_bar(*list, theme))
 		->add(Stateful::make(move(list)))
 		->add(Stateful::make(move(detail)));
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Sequence::create_search_bar(Dev_Tools_Sequence_List& list)
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Sequence::create_search_bar(Dev_Tools_Sequence_List& list, const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
@@ -49,6 +48,6 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Sequence::create_search_bar(De
 		list.set_searched_term(text);
 	};
 
-	return Input_Text::make(m_gui.get_font(), "Search")
+	return Input_Text::make(theme.font, "Search")
 		->on_edit(callback);
 }

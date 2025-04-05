@@ -12,7 +12,7 @@ class Widget
 public:
 	virtual ~Widget() = default;
 	// Called before layout and draw.
-	virtual void update() {}
+	virtual void update(const Theme& theme) { (void)theme; }
 	// Position the widget and calculate its size. Called before draw, after update.
 	// Returns widget's calculated size
 	virtual Vec2i layout(const Theme& theme, Recti bounding_box) = 0;

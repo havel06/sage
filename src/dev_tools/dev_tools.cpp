@@ -4,6 +4,7 @@
 #include "utils/own_ptr.hpp"
 
 Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const String& project_root) :
+	m_context{m_gui.create_context()},
 	m_game_facade{facade},
 	m_game_logic{logic},
 	m_sequence_manager{seq_mgr},
@@ -16,7 +17,7 @@ void Dev_Tools::rebuild()
 {
 	m_context.set_top_widget(
 		Editor_UI::Factories::Stateful::make(
-			make_own_ptr<Dev_Tools_Main_Widget>(m_gui, m_game_facade, m_game_logic, m_sequence_manager, m_project_root)
+			make_own_ptr<Dev_Tools_Main_Widget>(m_game_facade, m_game_logic, m_sequence_manager, m_project_root)
 		)
 	);
 }

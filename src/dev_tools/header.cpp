@@ -10,10 +10,9 @@
 #include "utils/function_wrapper.hpp"
 #include "utils/move.hpp"
 
-Dev_Tools_Header::Dev_Tools_Header(Game_Facade& facade, Game_Logic& game_logic, const Editor_UI::System& gui, const String& project_root) :
+Dev_Tools_Header::Dev_Tools_Header(Game_Facade& facade, Game_Logic& game_logic, const String& project_root) :
 	m_game_facade{facade},
 	m_game_logic{game_logic},
-	m_gui_system{gui},
 	m_project_root{project_root}
 {
 }
@@ -24,31 +23,31 @@ void Dev_Tools_Header::close_map_dialog()
 	m_dirty = true;
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Header::build()
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Header::build(const Editor_UI::Theme& theme)
 {
 	m_dirty = false;
 
 	using namespace Editor_UI::Factories;
 
 	return Row::make(false)
-		->add(Tooltip::make("Change map", m_gui_system.get_font(), Button::make(
+		->add(Tooltip::make("Change map", theme.font, Button::make(
 			[this](){
 				m_show_file_dialog = !m_show_file_dialog;
 				m_dirty = true;
 			})
-			->with_icon(m_gui_system.ICON_MAP)
+			->with_icon(theme.ICON_MAP)
 		))
-		->add(Tooltip::make("Save game", m_gui_system.get_font(), Button::make(
+		->add(Tooltip::make("Save game", theme.font, Button::make(
 			[this](){
 				m_game_facade.save_game();
 			})
-			->with_icon(m_gui_system.ICON_SAVE)
+			->with_icon(theme.ICON_SAVE)
 		))
-		->add(Tooltip::make("Load last save", m_gui_system.get_font(), Button::make(
+		->add(Tooltip::make("Load last save", theme.font, Button::make(
 			[this](){
 				m_game_logic.continue_game(); // FIXME - is 'continue_game' a good name for the function?
 			})
-			->with_icon(m_gui_system.ICON_RELOAD)
+			->with_icon(theme.ICON_RELOAD)
 		))
 		->add(make_dialog_or_dummy());
 }
@@ -59,7 +58,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Header::make_dialog_or_dummy()
 
 	if (m_show_file_dialog) {
 		return Stateful::make(
-			make_own_ptr<Dev_Tools_Map_Dialog>(*this, m_gui_system.get_font(), m_gui_system, m_game_logic.state_normal, m_project_root)
+			make_own_ptr<Dev_Tools_Map_Dialog>(*this, m_game_logic.state_normal, m_project_root)
 		);
 	} else {
 		return Dummy::make();

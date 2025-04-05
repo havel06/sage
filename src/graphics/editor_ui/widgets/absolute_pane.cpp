@@ -13,9 +13,9 @@ Absolute_Pane::Absolute_Pane(Recti transform, bool padding)
 	m_padding = padding;
 }
 
-void Absolute_Pane::update()
+void Absolute_Pane::update(const Theme& theme)
 {
-	column.update();
+	column.update(theme);
 }
 
 void Absolute_Pane::draw(const Theme& theme, float dt)

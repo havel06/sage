@@ -44,7 +44,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build(const Editor_UI:
 		}
 	}
 
-	return Scroll::make(move(column));
+	return Scroll::make(m_scroll_state, move(column));
 }
 
 Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build_item(Entity& entity, const Editor_UI::Theme& theme)

@@ -73,6 +73,7 @@ src = [
   'src/graphics/editor_ui/widgets/relative_pane.cpp',
   'src/graphics/editor_ui/widgets/row.cpp',
   'src/graphics/editor_ui/widgets/scroll.cpp',
+  'src/graphics/editor_ui/widgets/scroll_state.cpp',
   'src/graphics/editor_ui/widgets/stateful.cpp',
   'src/graphics/editor_ui/widgets/text.cpp',
   'src/graphics/editor_ui/widgets/tooltip.cpp',

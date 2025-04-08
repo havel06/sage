@@ -45,7 +45,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_List::build(const Editor_U
 		}
 	});
 
-	return Scroll::make(column);
+	return Scroll::make(m_scroll_state, column);
 }
 
 Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_List::build_item(const String& path, Sequence&, const Editor_UI::Theme& theme)

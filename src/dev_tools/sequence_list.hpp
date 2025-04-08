@@ -2,6 +2,7 @@
 
 #include "graphics/editor_ui/state.hpp"
 #include "graphics/editor_ui/theme.hpp"
+#include "graphics/editor_ui/widgets/scroll_state.hpp"
 #include "io/resource/resource_handle.hpp"
 #include "sequence/sequence.hpp"
 
@@ -28,6 +29,7 @@ private:
 	String m_resource_root;
 
 	String m_searched_term = "";
+	Editor_UI::Widgets::Scroll_State m_scroll_state;
 
 	bool m_dirty = true;
 };

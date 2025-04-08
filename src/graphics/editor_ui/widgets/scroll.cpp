@@ -11,7 +11,8 @@ static const int SCROLLBAR_GAP = 6;
 namespace Editor_UI::Widgets
 {
 
-Scroll::Scroll(Own_Ptr<Widget>&& child)
+Scroll::Scroll(Scroll_State& state, Own_Ptr<Widget>&& child) :
+	m_state{state}
 {
 	m_child = move(child);
 }
@@ -59,7 +60,7 @@ Recti Scroll::get_scrollbar_transform()
 	const int scrollbar_x = m_bounding_box.position.x + m_bounding_box.size.x - SCROLLBAR_WIDTH;
 	const int scrollbar_height = (float)m_bounding_box.size.y / m_child_height * m_bounding_box.size.y;
 	const int scrollbar_leeway = m_bounding_box.size.y - scrollbar_height;
-	const float scrollbar_progress = (float)m_scroll_amount / (m_child_height - m_bounding_box.size.y);
+	const float scrollbar_progress = (float)m_state.get_offset(m_child_height, m_bounding_box.size.y) / (m_child_height - m_bounding_box.size.y);
 	const int scrollbar_y = m_bounding_box.position.y + scrollbar_leeway * scrollbar_progress;
 
 	return Recti{
@@ -86,7 +87,7 @@ Vec2i Scroll::layout(const Theme& theme, Recti bounding_box)
 	m_bounding_box.size.y = min(m_bounding_box.size.y, max_height);
 
 	// Second layout pass to position the child correctly
-	child_bounding_box.position.y -= m_scroll_amount;
+	child_bounding_box.position.y -= m_state.get_offset(m_child_height, m_bounding_box.size.y);
 	m_child->layout(theme, child_bounding_box);
 
 	return m_bounding_box.size;
@@ -100,8 +101,8 @@ void Scroll::handle_mouse(Vec2i pos, bool click)
 	// Scrollbar mouse move
 	if (m_scrollbar_held) {
 		int scrollbar_delta_px = pos.y - m_scrollbar_hold_last_y;
-		m_scroll_amount += scrollbar_delta_px * ((float)m_child_height / m_bounding_box.size.y);
-		fix_scroll();
+		const int scroll_change = scrollbar_delta_px * ((float)m_child_height / m_bounding_box.size.y);
+		m_state.update_offset(scroll_change);
 	}
 	m_scrollbar_hold_last_y = pos.y;
 
@@ -128,16 +129,8 @@ void Scroll::handle_key(int key)
 void Scroll::handle_scroll(float amount)
 {
 	if (m_hover) {
-		m_scroll_amount -= amount * 40;
-		fix_scroll();
+		m_state.update_offset(amount * 40);
 	}
-}
-
-void Scroll::fix_scroll()
-{
-	const int scroll_max = max(m_child_height - m_bounding_box.size.y, 0);
-	m_scroll_amount = min(m_scroll_amount, scroll_max);
-	m_scroll_amount = max(m_scroll_amount, 0);
 }
 
 }

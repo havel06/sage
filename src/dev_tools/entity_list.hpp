@@ -2,6 +2,7 @@
 
 #include "graphics/editor_ui/state.hpp"
 #include "graphics/editor_ui/widget_factory.hpp"
+#include "graphics/editor_ui/widgets/scroll_state.hpp"
 #include "io/resource/resource_handle.hpp"
 #include "map/map.hpp"
 #include "sequence/sequence.hpp"
@@ -25,8 +26,8 @@ private:
 	Own_Ptr<Editor_UI::Widget_Factory> build_item(Entity& entity, const Editor_UI::Theme& theme);
 
 	Dev_Tools_Entity_Detail& m_detail;
-
 	Map_Entities& m_entities;
+	Editor_UI::Widgets::Scroll_State m_scroll_state;
 	String m_searched_term = "";
 
 	bool m_dirty = false;

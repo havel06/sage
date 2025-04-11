@@ -16,9 +16,8 @@ class Dev_Tools_Sequence_Detail;
 class Dev_Tools_Sequence_List : public Editor_UI::State
 {
 public:
-	Dev_Tools_Sequence_List(Sequence_Manager&, Dev_Tools_Sequence_Detail&, const String& resource_root);
+	Dev_Tools_Sequence_List(Sequence_Manager&, Dev_Tools_Sequence_Detail&, const String& resource_root, const String& searched_term);
 
-	void set_searched_term(const String& searched_term);
 	Own_Ptr<Editor_UI::Widget_Factory> build(const Editor_UI::Theme& theme) override;
 	bool is_dirty() const override;
 private:

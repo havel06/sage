@@ -32,20 +32,21 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Sequence::build(const Editor_U
 	m_dirty = false;
 
 	auto detail = make_own_ptr<Dev_Tools_Sequence_Detail>(m_resource_root);
-	auto list = make_own_ptr<Dev_Tools_Sequence_List>(m_seq_manager, *detail, m_resource_root);
+	auto list = make_own_ptr<Dev_Tools_Sequence_List>(m_seq_manager, *detail, m_resource_root, m_searched_term);
 
 	return Column::make(Column::Padding::normal)
-		->add(create_search_bar(*list, theme))
+		->add(create_search_bar(theme))
 		->add(Stateful::make(move(list)))
 		->add(Stateful::make(move(detail)));
 }
 
-Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Sequence::create_search_bar(Dev_Tools_Sequence_List& list, const Editor_UI::Theme& theme)
+Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Sequence::create_search_bar(const Editor_UI::Theme& theme)
 {
 	using namespace Editor_UI::Factories;
 
-	auto callback = [&list](const String& text) {
-		list.set_searched_term(text);
+	auto callback = [this](const String& text) {
+		m_searched_term = text;
+		m_dirty = true;
 	};
 
 	return Input_Text::make(m_input_state, theme.font, "Search")

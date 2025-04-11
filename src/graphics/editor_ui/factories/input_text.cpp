@@ -54,7 +54,8 @@ Own_Ptr<Widget> Input_Text::make_widget()
 		callback(state->get_content());
 	};
 
-	m_state.set_content(m_default_content);
+	if (m_default_content.has_value())
+		m_state.set_content(m_default_content.value());
 	m_state.set_hints(m_hints);
 
 	return input;

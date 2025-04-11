@@ -14,16 +14,11 @@
 #include "utils/log.hpp"
 #include "utils/fuzzy_match.hpp"
 
-Dev_Tools_Entity_List::Dev_Tools_Entity_List(Map_Entities& entities, Dev_Tools_Entity_Detail& detail) :
+Dev_Tools_Entity_List::Dev_Tools_Entity_List(Map_Entities& entities, Dev_Tools_Entity_Detail& detail, const String& searched_term) :
 	m_detail{detail},
-	m_entities{entities}
+	m_entities{entities},
+	m_searched_term{searched_term}
 {
-}
-
-void Dev_Tools_Entity_List::set_searched_term(const String& searched_term)
-{
-	m_dirty = true;
-	m_searched_term = searched_term;
 }
 
 Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_List::build(const Editor_UI::Theme& theme)

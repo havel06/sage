@@ -27,10 +27,11 @@ public:
 	Own_Ptr<Editor_UI::Widget_Factory> build(const Editor_UI::Theme& theme) override;
 	bool is_dirty() const override;
 private:
-	Own_Ptr<Editor_UI::Widget_Factory> create_search_bar(Dev_Tools_Sequence_List& list, const Editor_UI::Theme& theme);
+	Own_Ptr<Editor_UI::Widget_Factory> create_search_bar(const Editor_UI::Theme& theme);
 
 	String m_resource_root;
 	Sequence_Manager& m_seq_manager;
+	String m_searched_term;
 
 	Editor_UI::Widgets::Input_State m_input_state;
 

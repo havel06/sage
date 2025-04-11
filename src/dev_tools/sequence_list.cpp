@@ -13,17 +13,12 @@
 #include "graphics/editor_ui/factories/text.hpp"
 #include "graphics/editor_ui/factories/divider.hpp"
 
-Dev_Tools_Sequence_List::Dev_Tools_Sequence_List(Sequence_Manager& seq_mgr,Dev_Tools_Sequence_Detail& detail, const String& resource_root) :
+Dev_Tools_Sequence_List::Dev_Tools_Sequence_List(Sequence_Manager& seq_mgr,Dev_Tools_Sequence_Detail& detail, const String& resource_root, const String& searched_term) :
 	m_sequence_manager{seq_mgr},
 	m_detail{detail},
-	m_resource_root{resource_root}
+	m_resource_root{resource_root},
+	m_searched_term{searched_term}
 {
-}
-
-void Dev_Tools_Sequence_List::set_searched_term(const String& searched_term)
-{
-	m_searched_term = searched_term;
-	m_dirty = true;
 }
 
 Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Sequence_List::build(const Editor_UI::Theme& theme)

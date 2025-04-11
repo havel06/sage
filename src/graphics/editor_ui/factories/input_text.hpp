@@ -5,6 +5,7 @@
 #include "utils/string.hpp"
 #include "utils/function_wrapper.hpp"
 #include "utils/array.hpp"
+#include "utils/optional.hpp"
 
 // fwd
 struct Font;
@@ -29,7 +30,7 @@ private:
 	Widgets::Input_State& m_state;
 	const Font& m_font;
 	const String m_label;
-	String m_default_content;
+	Optional<String> m_default_content;
 	Array<String> m_hints;
 	Function_Wrapper<void(const String&)> m_on_edit;
 	Function_Wrapper<void(const String&)> m_on_enter;

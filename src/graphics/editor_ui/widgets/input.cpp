@@ -3,6 +3,7 @@
 #include "utils/log.hpp"
 #include "utils/minmax.hpp"
 #include "utils/move.hpp"
+#include "utils/own_ptr.hpp"
 #include <ctype.h>
 #include <raylib/raylib.h>
 
@@ -15,11 +16,48 @@ double fmod(double, double);
 namespace Editor_UI::Widgets
 {
 
-Input::Input(const Font& font, const String& label, Input_State& state) :
+bool Input_Constraint_Integer::is_valid(const String& input) const
+{
+	if (input.empty())
+		return false;
+
+	for (int i = 0; i < input.length(); i++) {
+		if (!isdigit(input[i]))
+			return false;
+	}
+
+	return true;
+}
+
+bool Input_Constraint_Number::is_valid(const String& input) const
+{
+	if (input.empty())
+		return false;
+
+	{
+		char* ptr = nullptr;
+		strtof(input.data(), &ptr);
+
+		// Check for valid conversion
+		if (ptr != input.data())
+			return true;
+	}
+
+	return false;
+}
+
+
+Input::Input(const Font& font, const String& label, Input_State& state, Own_Ptr<Input_Constraint>&& constraint) :
+	m_constraint{move(constraint)},
 	m_state{state},
 	m_font{font}
 {
 	m_label = label;
+}
+
+bool Input::is_valid() const
+{
+	return m_constraint->is_valid(m_state.get_content());
 }
 
 void Input::draw(const Theme& theme, float dt)
@@ -30,7 +68,7 @@ void Input::draw(const Theme& theme, float dt)
 	Colour colour_outline = theme.OUTLINE;
 	Colour colour_fg = theme.ON_SURFACE;
 
-	if (!m_state.is_valid()) {
+	if (!is_valid()) {
 		colour_outline = theme.ERROR;
 		colour_fg = theme.ERROR;
 	} else if (m_state.active) {

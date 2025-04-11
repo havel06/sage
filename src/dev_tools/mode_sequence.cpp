@@ -48,6 +48,6 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Sequence::create_search_bar(De
 		list.set_searched_term(text);
 	};
 
-	return Input_Text::make(theme.font, "Search")
+	return Input_Text::make(m_input_state, theme.font, "Search")
 		->on_edit(callback);
 }

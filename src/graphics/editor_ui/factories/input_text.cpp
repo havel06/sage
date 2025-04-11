@@ -6,12 +6,13 @@
 namespace Editor_UI::Factories
 {
 
-Input_Text* Input_Text::make(const Font& font, const String& label)
+Input_Text* Input_Text::make(Widgets::Input_State& state, const Font& font, const String& label)
 {
-	return new Input_Text(font, label);
+	return new Input_Text(state, font, label);
 }
 
-Input_Text::Input_Text(const Font& font, const String& label) :
+Input_Text::Input_Text(Widgets::Input_State& state, const Font& font, const String& label) :
+	m_state{state},
 	m_font{font},
 	m_label{label}
 {
@@ -43,11 +44,19 @@ Input_Text* Input_Text::with_hints(const Array<String>& hints)
 
 Own_Ptr<Widget> Input_Text::make_widget()
 {
-	auto input = make_own_ptr<Widgets::Input>(m_font, m_label, make_own_ptr<Widgets::Input_Constraint_None>());
-	input->on_edit = [this_ptr=input.get(), callback=m_on_edit] () mutable { callback(this_ptr->get_content()); };
-	input->on_enter = [this_ptr=input.get(), callback=m_on_enter] () mutable { callback(this_ptr->get_content()); };
-	input->set_content(m_default_content);
-	input->set_hints(m_hints);
+	auto input = make_own_ptr<Widgets::Input>(m_font, m_label, m_state, make_own_ptr<Widgets::Input_Constraint_None>());
+
+	input->on_edit = [state=&m_state, callback=m_on_edit] () mutable {
+		callback(state->get_content());
+	};
+
+	input->on_enter = [state=&m_state, callback=m_on_enter] () mutable {
+		callback(state->get_content());
+	};
+
+	m_state.set_content(m_default_content);
+	m_state.set_hints(m_hints);
+
 	return input;
 }
 

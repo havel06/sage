@@ -12,47 +12,6 @@ double fmod(double, double);
 namespace Editor_UI::Widgets
 {
 
-bool Input_Constraint_Integer::is_valid(const String& input) const
-{
-	if (input.empty())
-		return false;
-
-	for (int i = 0; i < input.length(); i++) {
-		if (!isdigit(input[i]))
-			return false;
-	}
-
-	return true;
-}
-
-bool Input_Constraint_Number::is_valid(const String& input) const
-{
-	if (input.empty())
-		return false;
-
-	{
-		char* ptr = nullptr;
-		strtof(input.data(), &ptr);
-
-		// Check for valid conversion
-		if (ptr != input.data())
-			return true;
-	}
-
-	return false;
-}
-
-
-Input_State::Input_State(Own_Ptr<Input_Constraint>&& constraint) :
-	m_constraint{move(constraint)}
-{
-}
-
-bool Input_State::is_valid() const
-{
-	return m_constraint->is_valid(m_content);
-}
-
 void Input_State::set_content(const String& new_content)
 {
 	m_content = new_content;
@@ -89,7 +48,6 @@ void Input_State::delete_character()
 	if (m_cursor_position == m_content.length()) {
 		// Remove last character
 		m_content.pop();
-		choose_new_hint();
 	} else if (m_cursor_position != 0) {
 		// Remove character at position
 		String content_before = m_content.substring(0, m_cursor_position - 1);
@@ -97,8 +55,10 @@ void Input_State::delete_character()
 		m_content = content_before;
 		m_content.append(content_after);
 		m_cursor_position--;
-		choose_new_hint();
 	}
+
+	choose_new_hint();
+	fix_cursor_position();
 }
 
 void Input_State::delete_last_word()

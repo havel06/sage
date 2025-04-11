@@ -1,6 +1,7 @@
 #pragma once
 #include "dev_tools/sequence_list.hpp"
 #include "graphics/editor_ui/widget_factory.hpp"
+#include "graphics/editor_ui/widgets/input_state.hpp"
 #include "sequence_detail.hpp"
 #include "graphics/editor_ui/context.hpp"
 #include "graphics/editor_ui/state.hpp"
@@ -30,6 +31,8 @@ private:
 
 	String m_resource_root;
 	Sequence_Manager& m_seq_manager;
+
+	Editor_UI::Widgets::Input_State m_input_state;
 
 	bool m_dirty = true;
 };

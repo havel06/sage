@@ -35,7 +35,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Map_Dialog::build(const Editor_UI::
 				})
 				->with_icon(theme.ICON_CLOSE)
 			)
-			->add(Input_Text::make(theme.font, "Current map")
+			->add(Input_Text::make(m_input_state, theme.font, "Current map")
 				->content(get_relative_path(m_logic.get_map_filename(), m_project_root))
 				->on_edit([this](const String& content){
 					m_requested_map = content;

@@ -3,6 +3,7 @@
 #include "graphics/editor_ui/context.hpp"
 #include "graphics/editor_ui/system.hpp"
 #include "graphics/editor_ui/state.hpp"
+#include "graphics/editor_ui/widgets/input_state.hpp"
 
 
 // fwd
@@ -25,6 +26,8 @@ private:
 
 	Dev_Tools_Header& m_header;
 	Game_Logic_State_Normal& m_logic;
+
+	Editor_UI::Widgets::Input_State m_input_state;
 
 	String m_project_root;
 	String m_requested_map;

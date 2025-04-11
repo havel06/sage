@@ -44,7 +44,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_x(const E
 			m_current_entity->position.x = value;
 	};
 
-	return Input_Integer::make(theme.font, "X")
+	return Input_Integer::make(m_state_x, theme.font, "X")
 		->on_enter(callback)
 		->with_value(m_current_entity->position.x);
 }
@@ -58,7 +58,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_y(const E
 			m_current_entity->position.y = value;
 	};
 
-	return Input_Integer::make(theme.font, "Y")
+	return Input_Integer::make(m_state_y, theme.font, "Y")
 		->on_enter(callback)
 		->with_value(m_current_entity->position.y);
 }
@@ -72,7 +72,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Entity_Detail::make_input_speed(con
 			m_current_entity->move_speed = value;
 	};
 
-	return Input_Number::make(theme.font, "Move speed")
+	return Input_Number::make(m_state_speed, theme.font, "Move speed")
 		->on_enter(callback)
 		->with_value(m_current_entity->move_speed);
 }

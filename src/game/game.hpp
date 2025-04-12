@@ -27,6 +27,7 @@
 #include "sequence/sequence.hpp"
 #include "combat/combat_controller.hpp"
 #include "utils/optional.hpp"
+#include "editor/editor.hpp"
 
 struct Project_Description;
 
@@ -75,10 +76,18 @@ private:
 	// Misc
 	Replay_Recorder m_replay_recorder;
 	Dev_Tools m_dev_tools;
+	Editor::Editor m_editor;
 
 	Vec2i m_initial_window_size;
 
-	bool m_dev_mode = false;
+	enum class Mode {
+		game,
+		dev_tools,
+		editor
+	};
+
+	Mode m_mode = Mode::game;
+
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;
 	bool m_display_fps = false;

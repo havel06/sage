@@ -75,15 +75,30 @@ void Game::draw_frame(float time_delta)
 
 	// Dev mode switch
 	if (IsKeyPressed(KEY_F3)) {
-		m_dev_mode = !m_dev_mode;
-		if (m_dev_mode) {
-			// Just opened
+		if (m_mode == Mode::dev_tools) {
+			SG_INFO("Switched to \"game\" mode.");
+			m_mode = Mode::game;
+		} else {
+			SG_INFO("Switched to \"dev tools\" mode.");
+			m_mode = Mode::dev_tools;
 			m_dev_tools.rebuild();
 		}
 	}
 
+	// Editor mode switch
+	if (IsKeyPressed(KEY_F4)) {
+		if (m_mode == Mode::editor) {
+			SG_INFO("Switched to \"game\" mode.");
+			m_mode = Mode::game;
+		} else {
+			SG_INFO("Switched to \"editor\" mode.");
+			m_mode = Mode::editor;
+			m_editor.rebuild();
+		}
+	}
+
 	// Dev mode
-	if (m_dev_mode) {
+	if (m_mode == Mode::dev_tools) {
 		m_camera_controller.update(m_logic.state_normal.get_map(), m_logic.state_normal.get_player(), time_delta);
 		if (!m_headless) {
 			while (int character = GetCharPressed()) {
@@ -102,6 +117,24 @@ void Game::draw_frame(float time_delta)
 		}
 		return;
 	}
+
+	// Editor mode
+	if (m_mode == Mode::editor && !m_headless) {
+		while (int character = GetCharPressed()) {
+			if (character > 127) {
+				SG_ERROR("Tried to input non-ascii character.");
+			} else {
+				m_editor.input_char(character);
+			}
+		}
+		while (int key = GetKeyPressed()) {
+			m_editor.input_key(key);
+		}
+		m_editor.draw(time_delta);
+		return;
+	}
+
+	// Mode::game related
 
 	// Input
 	{

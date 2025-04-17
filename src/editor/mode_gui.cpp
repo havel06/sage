@@ -3,6 +3,8 @@
 #include "io/gui_loader.hpp"
 
 #include "graphics/editor_ui/factories/stateful.hpp"
+#include "graphics/editor_ui/factories/text.hpp"
+#include "graphics/editor_ui/theme.hpp"
 
 namespace Editor
 {
@@ -33,9 +35,10 @@ void Mode_GUI::open_widget(const String& relative_path)
 
 Own_Ptr<Editor_UI::Widget_Factory> Mode_GUI::build_editor(const Editor_UI::Theme& theme)
 {
+	using namespace Editor_UI::Factories;
+
 	// FIXME
-	(void)theme;
-	return nullptr;
+	return Text::make(theme.font, "TODO - widget editor");
 }
 
 }

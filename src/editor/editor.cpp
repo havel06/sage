@@ -5,7 +5,8 @@
 namespace Editor
 {
 
-Editor::Editor() :
+Editor::Editor(GUI_Loader& gui_loader) :
+	m_gui_loader{gui_loader},
 	m_context{m_gui.create_context()}
 {
 	rebuild();
@@ -15,7 +16,7 @@ void Editor::rebuild()
 {
 	m_context.set_top_widget(
 		Editor_UI::Factories::Stateful::make(
-			make_own_ptr<Main_Widget>()
+			make_own_ptr<Main_Widget>(m_gui_loader)
 		)
 	);
 }

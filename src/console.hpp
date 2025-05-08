@@ -19,5 +19,9 @@ private:
 		String message;
 	};
 
+	void draw_entry(const Entry& entry, int index);
+	const char* log_level_to_string(Log_Level);
+	struct Color get_log_level_color(Log_Level);
+
 	Array<Entry> m_entries;
 };

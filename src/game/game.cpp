@@ -119,6 +119,8 @@ void Game::draw_frame(float time_delta)
 			m_map_renderer.draw(m_logic.state_normal.get_map(), m_camera, time_delta);
 			m_debug_entity_renderer.draw(m_logic.state_normal.get_map().entities);
 			m_dev_tools.draw(time_delta);
+			if (m_show_console)
+				m_console.draw(time_delta);
 		}
 		return;
 	}
@@ -136,6 +138,8 @@ void Game::draw_frame(float time_delta)
 			m_editor.input_key(key);
 		}
 		m_editor.draw(time_delta);
+		if (m_show_console)
+			m_console.draw(time_delta);
 		return;
 	}
 

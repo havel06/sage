@@ -18,7 +18,7 @@ public:
 private:
 	GUI_Loader& m_gui_loader;
 
-	Editor_UI::System m_gui;
+	Editor_UI::System m_gui; // FIXME - share system with dev tools
 	Editor_UI::Context m_context;
 };
 

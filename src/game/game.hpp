@@ -28,6 +28,7 @@
 #include "combat/combat_controller.hpp"
 #include "utils/optional.hpp"
 #include "editor/editor.hpp"
+#include "console.hpp"
 
 struct Project_Description;
 
@@ -77,6 +78,7 @@ private:
 	Replay_Recorder m_replay_recorder;
 	Dev_Tools m_dev_tools;
 	Editor::Editor m_editor;
+	Console m_console;
 
 	Vec2i m_initial_window_size;
 
@@ -90,6 +92,7 @@ private:
 
 	bool m_show_inventory = false;
 	bool m_show_quest_log = false;
+	bool m_show_console = false;
 	bool m_display_fps = false;
 	bool m_headless = false;
 	Optional<String> m_record_filename;

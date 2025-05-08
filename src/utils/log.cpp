@@ -2,12 +2,19 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include "utils/array.hpp"
 
 static int log_level = (int)Log_Level::debug;
+static Array<Log_Observer*> observers = {};
 
 void set_log_level(Log_Level level)
 {
 	log_level = (int)level;
+}
+
+void log_add_observer(Log_Observer& observer)
+{
+	observers.push_back(&observer);
 }
 
 Log_Level log_level_from_string(const char* str, Log_Level fallback)
@@ -66,7 +73,15 @@ void log_message(Log_Level level, const char* fmt, ...)
 	va_list args;
 	va_start(args, fmt);
 	fprintf(stdout, "[%s] ", log_level_str(level));
-	vfprintf(stdout, fmt, args);
+
+	char buffer[512];
+	vsnprintf(buffer, 512, fmt, args);
+	fputs(buffer, stdout);
 	fputs("\n", stdout);
+
 	va_end(args);
+
+	for (Log_Observer* observer : observers) {
+		observer->on_log(level, buffer);
+	}
 }

@@ -74,6 +74,10 @@ void Game::draw_frame(float time_delta)
 	if (IsKeyPressed(KEY_F1))
 		SetWindowSize(m_initial_window_size.x, m_initial_window_size.y);
 
+	// Console toggle
+	if (IsKeyPressed(KEY_F2))
+		m_show_console = !m_show_console;
+
 	// Dev mode switch
 	if (IsKeyPressed(KEY_F3)) {
 		if (m_mode == Mode::dev_tools) {
@@ -196,6 +200,11 @@ void Game::render(float time_delta)
 		m_combat_controller.draw(time_delta);
 		m_inventory_renderer.draw(time_delta);
 		m_scriptable_gui.draw(time_delta);
+	}
+
+	// Console
+	if (m_show_console) {
+		m_console.draw(time_delta);
 	}
 
 	// FPS

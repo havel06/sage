@@ -12,6 +12,7 @@ src = [
   'src/combat/combat_controller.cpp',
   'src/combat/combat_unit.cpp',
   'src/combat/stances.cpp',
+  'src/console.cpp',
   'src/dev_tools/dev_tools.cpp',
   'src/dev_tools/entity_list.cpp',
   'src/dev_tools/entity_detail.cpp',

@@ -140,7 +140,13 @@
 									"name": "Text",
 									"text": "",
 									"size": 33,
-									"font": "gui/font.json"
+									"font": "gui/font.json",
+									"colour": {
+										"r": 255,
+										"g": 255,
+										"b": 255,
+										"a": 255
+									}
 								}
 							}
 						]

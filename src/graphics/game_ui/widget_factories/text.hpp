@@ -6,6 +6,7 @@
 #include "templating/parameters/formatted_text_parameter.hpp"
 #include "templating/parameters/int_parameter.hpp"
 #include "templating/parameters/text_align_parameter.hpp"
+#include "templating/parameters/colour_parameter.hpp"
 
 namespace Game_UI {
 
@@ -21,6 +22,7 @@ private:
 	Formatted_Text_Parameter m_text;
 	Int_Parameter m_size;
 	Text_Align_Parameter m_align;
+	Colour_Parameter m_colour;
 };
 
 }

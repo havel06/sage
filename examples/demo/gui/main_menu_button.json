@@ -29,7 +29,13 @@
 				"text": "",
 				"font": "gui/font.json",
 				"size": 50,
-				"align": "center"
+				"align": "center",
+				"colour": {
+					"r": 255,
+					"g": 255,
+					"b": 255,
+					"a": 255
+				}
 			}
 		}
 	]

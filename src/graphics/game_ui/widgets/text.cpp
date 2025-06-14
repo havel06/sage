@@ -15,18 +15,17 @@ Text::Text(Resource_Handle<Font> font, Layout&& layout) :
 
 void Text::draw_impl(Recti parent_area, float opacity, float)
 {
-	const Colour colour {255, 255, 255, 255};
 	const Array<Formatted_Text> lines = wrap_text(text, parent_area.size.x);
 
 	// Draw the lines
 	float y = parent_area.position.y;
 	for (const Formatted_Text& line : lines) {
-		draw_line(line, parent_area.position.x, y, parent_area.size.x, opacity, colour);
+		draw_line(line, parent_area.position.x, y, parent_area.size.x, opacity);
 		y += size * 1.25;
 	}
 }
 
-void Text::draw_line(const Formatted_Text& line, int x, int y, int max_width, float opacity, Colour fallback_color)
+void Text::draw_line(const Formatted_Text& line, int x, int y, int max_width, float opacity)
 {
 	const int width = MeasureTextEx(m_font.get(), line.to_string().data(), size, 0).x;
 	const int space_left = max_width - width;
@@ -36,9 +35,9 @@ void Text::draw_line(const Formatted_Text& line, int x, int y, int max_width, fl
 	// Draw individual fragments
 	for (const Formatted_Text_Fragment& fragment : line.fragments) {
 		const int fragment_width = MeasureTextEx(m_font.get(), fragment.text.data(), size, 0).x;
-		Colour colour = fragment.colour.has_value() ? fragment.colour.value() : fallback_color;
-		colour.a *= opacity;
-		DrawTextEx(m_font.get(), fragment.text.data(), {(float)x, (float)y}, size, 0, Color{colour.r, colour.g, colour.b, colour.a});
+		Colour fragment_colour = fragment.colour.has_value() ? fragment.colour.value() : colour;
+		fragment_colour.a *= opacity;
+		DrawTextEx(m_font.get(), fragment.text.data(), {(float)x, (float)y}, size, 0, fragment_colour.to_ray_color());
 		x += fragment_width;
 	}
 }
@@ -134,6 +133,7 @@ Widget_Ptr Text::clone_impl(Layout&& layout) const
 	cloned->text = text;
 	cloned->size = size;
 	cloned->align = align;
+	cloned->colour = colour;
 	return cloned;
 }
 

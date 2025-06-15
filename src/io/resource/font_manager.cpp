@@ -30,7 +30,7 @@ Own_Ptr<Resource<Font>> Font_Manager::load_resource(const String& filename)
 
 	const int font_size = json_view["size"].as_int(32);
 
-	Font font = LoadFontEx(font_filename.data(), font_size, nullptr, 0);
+	Font font = LoadFontEx(font_filename.data(), font_size, nullptr, 250);
 
 	if (font.texture.id == GetFontDefault().texture.id) {
 		SG_ERROR("Unable to load font file \"%s\".", font_filename.data());

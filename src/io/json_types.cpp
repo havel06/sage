@@ -242,6 +242,8 @@ Game_UI::Text_Align parse_text_align(const String& str)
 		return Game_UI::Text_Align::center;
 	if (str == "left")
 		return Game_UI::Text_Align::left;
+	if (str == "right")
+		return Game_UI::Text_Align::right;
 
 	SG_ERROR("Unknown align value \"%s\"", str.data());
 	return Game_UI::Text_Align::left;

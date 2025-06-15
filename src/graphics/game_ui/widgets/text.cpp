@@ -1,5 +1,6 @@
 #include "text.hpp"
 #include "../formatted_text.hpp"
+#include "graphics/game_ui/text_align.hpp"
 #include "raylib/raylib.h"
 #include "utils/log.hpp"
 #include "../widget_visitor.hpp"
@@ -27,9 +28,20 @@ void Text::draw_impl(Recti parent_area, float opacity, float)
 
 void Text::draw_line(const Formatted_Text& line, int x, int y, int max_width, float opacity)
 {
+	auto calculate_offset_from_align = [](Text_Align align, int space_left){
+		switch(align) {
+			case Text_Align::left:
+				return 0;
+			case Text_Align::center:
+				return space_left / 2;
+			case Text_Align::right:
+				return space_left;
+		}
+	};
+
 	const int width = MeasureTextEx(m_font.get(), line.to_string().data(), size, 0).x;
 	const int space_left = max_width - width;
-	const int offset = align == Text_Align::center ? (space_left / 2) : 0;
+	const int offset = calculate_offset_from_align(align, space_left);
 	x += offset;
 
 	// Draw individual fragments

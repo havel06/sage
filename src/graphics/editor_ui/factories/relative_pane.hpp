@@ -7,6 +7,7 @@
 namespace Editor_UI::Factories
 {
 
+// Pane that fills the provided area
 class Relative_Pane final : public Widget_Factory
 {
 public:

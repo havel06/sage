@@ -7,6 +7,7 @@
 namespace Editor_UI::Factories
 {
 
+// A widget that limits the maximum size of its child
 class Constrained_Container final : public Widget_Factory
 {
 public:

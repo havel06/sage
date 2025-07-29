@@ -5,9 +5,9 @@
 namespace Editor
 {
 
-Editor::Editor(GUI_Loader& gui_loader) :
+Editor::Editor(Editor_UI::System& gui_system, GUI_Loader& gui_loader) :
 	m_gui_loader{gui_loader},
-	m_context{m_gui.create_context()}
+	m_context{gui_system.create_context()}
 {
 	rebuild();
 }

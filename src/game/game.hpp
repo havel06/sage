@@ -9,6 +9,7 @@
 #include "graphics/camera_controller.hpp"
 #include "graphics/combat_renderer/combat_renderer.hpp"
 #include "graphics/debug_entity_renderer.hpp"
+#include "graphics/editor_ui/system.hpp"
 #include "graphics/inventory_renderer.hpp"
 #include "graphics/main_menu_renderer.hpp"
 #include "graphics/map_renderer.hpp"
@@ -75,6 +76,7 @@ private:
 	Debug_Entity_Renderer m_debug_entity_renderer;
 
 	// Misc
+	Editor_UI::System m_editor_ui_system;
 	Replay_Recorder m_replay_recorder;
 	Dev_Tools m_dev_tools;
 	Editor::Editor m_editor;

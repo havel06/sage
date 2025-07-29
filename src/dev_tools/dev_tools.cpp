@@ -3,8 +3,8 @@
 #include "main_widget.hpp"
 #include "utils/own_ptr.hpp"
 
-Dev_Tools::Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const String& project_root) :
-	m_context{m_gui.create_context()},
+Dev_Tools::Dev_Tools(Editor_UI::System& gui_system, Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const String& project_root) :
+	m_context{gui_system.create_context()},
 	m_game_facade{facade},
 	m_game_logic{logic},
 	m_sequence_manager{seq_mgr},

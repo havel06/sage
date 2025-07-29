@@ -29,8 +29,8 @@ Game::Game(const Project_Description& description, bool display_fps, bool no_aut
 	m_main_menu(m_logic, m_resource_system.font_manager.get_default_font()),
 	m_scriptable_gui{m_resource_system.gui_loader},
 	m_debug_entity_renderer{m_camera},
-	m_dev_tools(m_game_facade, m_logic, m_resource_system.sequence_manager, description.path),
-	m_editor{m_resource_system.gui_loader},
+	m_dev_tools(m_editor_ui_system, m_game_facade, m_logic, m_resource_system.sequence_manager, description.path),
+	m_editor{m_editor_ui_system, m_resource_system.gui_loader},
 	m_display_fps{display_fps}
 {
 	{

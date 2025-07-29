@@ -11,13 +11,12 @@ class Sequence_Manager;
 class Dev_Tools
 {
 public:
-	Dev_Tools(Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const String& project_root);
+	Dev_Tools(Editor_UI::System& gui_system, Game_Facade& facade, Game_Logic& logic, Sequence_Manager& seq_mgr, const String& project_root);
 	void rebuild(); // Call when opened
 	void draw(float dt);
 	void input_char(char character);
 	void input_key(int key);
 private:
-	Editor_UI::System m_gui;
 	Editor_UI::Context m_context;
 
 	Game_Facade& m_game_facade;

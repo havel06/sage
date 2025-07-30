@@ -27,6 +27,7 @@ src = [
   'src/editor/editor.cpp',
   'src/editor/main_nav.cpp',
   'src/editor/main_widget.cpp',
+  'src/editor/mode_general.cpp',
   'src/editor/mode_gui.cpp',
   'src/editor/mode_gui_open_dialog.cpp',
   'src/game/game.cpp',

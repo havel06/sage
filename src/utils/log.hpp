@@ -15,6 +15,7 @@ public:
 };
 
 void log_add_observer(Log_Observer&);
+void log_remove_observer(Log_Observer&);
 void log_message(Log_Level level, const char* fmt, ...);
 void set_log_level(Log_Level);
 Log_Level log_level_from_string(const char*, Log_Level fallback);

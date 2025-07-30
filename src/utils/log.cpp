@@ -17,6 +17,16 @@ void log_add_observer(Log_Observer& observer)
 	observers.push_back(&observer);
 }
 
+void log_remove_observer(Log_Observer& observer)
+{
+	for (int i = 0; i < observers.size(); i++) {
+		if (observers[i] == &observer) {
+			observers.remove(i);
+			return;
+		}
+	}
+}
+
 Log_Level log_level_from_string(const char* str, Log_Level fallback)
 {
 	if (strcmp(str, "debug") == 0) {

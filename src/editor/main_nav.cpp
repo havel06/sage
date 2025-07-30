@@ -17,17 +17,13 @@ Own_Ptr<Editor_UI::Widget_Factory> Main_Nav::build(const Editor_UI::Theme& theme
 	};
 
 	// FIXME - get width from theme?
-	return Constrained_Container::make(Vec2i{80, 20000},
-		Relative_Pane::make(false,
-			Nav_Rail::make(callback, 0)
-				->add(theme.font, "General", theme.ICON_ENTITY)
-				->add(theme.font, "Maps", theme.ICON_ENTITY)
-				->add(theme.font, "Sequences", theme.ICON_ENTITY)
-				->add(theme.font, "UI", theme.ICON_ENTITY)
-				->add(theme.font, "Items", theme.ICON_ENTITY)
-				->add(theme.font, "Characters", theme.ICON_ENTITY)
-		)
-	);
+	return Nav_Rail::make(callback, 0)
+		->add(theme.font, "General", theme.ICON_ENTITY)
+		->add(theme.font, "Maps", theme.ICON_ENTITY)
+		->add(theme.font, "Sequences", theme.ICON_ENTITY)
+		->add(theme.font, "UI", theme.ICON_ENTITY)
+		->add(theme.font, "Items", theme.ICON_ENTITY)
+		->add(theme.font, "Characters", theme.ICON_ENTITY);
 }
 
 }

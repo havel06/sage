@@ -10,6 +10,11 @@ Console::Console()
 	log_add_observer(*this);
 }
 
+Console::~Console()
+{
+	log_remove_observer(*this);
+}
+
 void Console::draw(float dt)
 {
 	(void)dt;

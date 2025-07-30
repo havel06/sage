@@ -9,6 +9,7 @@ class Console final : public Log_Observer
 public:
 	Console();
 	Console(Console&&) = delete;
+	~Console();
 
 	void draw(float dt);
 private:

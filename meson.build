@@ -30,6 +30,7 @@ src = [
   'src/editor/mode_general.cpp',
   'src/editor/mode_gui.cpp',
   'src/editor/mode_gui_open_dialog.cpp',
+  'src/editor/mode_items.cpp',
   'src/game/game.cpp',
   'src/game/game_facade.cpp',
   'src/game/game_logic.cpp',

@@ -1,23 +1,24 @@
 #pragma once
 
 #include "graphics/editor_ui/state.hpp"
+#include "graphics/editor_ui/widgets/input_state.hpp"
 
-// fwd
 class GUI_Loader;
 class Item_Registry;
 
 namespace Editor
 {
 
-class Main_Widget : public Editor_UI::State
+class Mode_Items : public Editor_UI::State
 {
 public:
-	Main_Widget(GUI_Loader&, Item_Registry&);
+	Mode_Items(Item_Registry& item_registry);
 	Own_Ptr<Editor_UI::Widget_Factory> build(const Editor_UI::Theme&) override;
-	bool is_dirty() const override { return false; }
+	bool is_dirty() const override { return m_dirty; }
 private:
-	GUI_Loader& m_gui_loader;
 	Item_Registry& m_item_registry;
+
+	bool m_dirty = true;
 };
 
 }

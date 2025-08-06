@@ -6,6 +6,7 @@
 #include "graphics/editor_ui/factories/image.hpp"
 #include "graphics/editor_ui/factories/text.hpp"
 #include "graphics/editor_ui/factories/button.hpp"
+#include "graphics/editor_ui/factories/relative_pane.hpp"
 #include "item/item_registry.hpp"
 
 
@@ -26,6 +27,9 @@ Own_Ptr<Editor_UI::Widget_Factory> Mode_Items::build(const Editor_UI::Theme& the
 	// FIXME - show assigned sequence
 
 	m_item_registry.for_each([&](const Item& item){
+		auto callback = [](){};
+
+
 		column
 			->add(Row::make(true)
 				->add(Row::make(false)
@@ -35,11 +39,14 @@ Own_Ptr<Editor_UI::Widget_Factory> Mode_Items::build(const Editor_UI::Theme& the
 					->add(Text::make(theme.font, "      ")) // FIXME - spacer widget
 					->add(Text::make(theme.font, item.name))
 				)
+				->add(Button::make(callback)
+					->with_text(theme.font, "Edit")
+				)
 			)
 			->add(Divider::make());
 	});
 
-	return column;
+	return Relative_Pane::make(true, column);
 }
 
 }

@@ -11,6 +11,7 @@
 #include "graphics/editor_ui/factories/image.hpp"
 #include "graphics/editor_ui/factories/button.hpp"
 #include "graphics/editor_ui/factories/text.hpp"
+#include "graphics/editor_ui/factories/spacer.hpp"
 
 Dev_Tools_Mode_Items::Dev_Tools_Mode_Items(const Item_Registry& reg, Inventory& inv) :
 	m_item_registry{reg},
@@ -29,7 +30,7 @@ Own_Ptr<Editor_UI::Widget_Factory> Dev_Tools_Mode_Items::build(const Editor_UI::
 			->add(Row::make(true)
 				->add(Row::make(false)
 					->add(Editor_UI::Factories::Image::make(item.sprite, Vec2i{32, 32}))
-					->add(Text::make(theme.font, "      ")) // FIXME - spacer widget
+					->add(Spacer::make(Vec2i{24, 0}))
 					->add(Text::make(theme.font, item.id))
 				)
 				->add(Row::make(false)

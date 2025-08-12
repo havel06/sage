@@ -2,24 +2,26 @@
 
 #include "graphics/editor_ui/state.hpp"
 #include "graphics/editor_ui/widgets/input_state.hpp"
-#include "utils/optional.hpp"
 
-class GUI_Loader;
-class Item_Registry;
+
+struct Item;
 
 namespace Editor
 {
 
-class Mode_Items : public Editor_UI::State
+class Item_Edit_Dialog : public Editor_UI::State
 {
 public:
-	Mode_Items(Item_Registry& item_registry);
+	Item_Edit_Dialog(Item& item);
 	Own_Ptr<Editor_UI::Widget_Factory> build(const Editor_UI::Theme&) override;
 	bool is_dirty() const override { return m_dirty; }
 private:
-	Item_Registry& m_item_registry;
+	//Item& m_item;
 
-	Optional<String> m_current_shown_item = {};
+	Editor_UI::Widgets::Input_State m_input_state_id;
+	Editor_UI::Widgets::Input_State m_input_state_name;
+	Editor_UI::Widgets::Input_State m_input_state_sequence;
+
 	bool m_dirty = true;
 };
 

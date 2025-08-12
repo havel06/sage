@@ -8,7 +8,9 @@
 #include "graphics/editor_ui/factories/button.hpp"
 #include "graphics/editor_ui/factories/relative_pane.hpp"
 #include "graphics/editor_ui/factories/spacer.hpp"
+#include "graphics/editor_ui/factories/stateful.hpp"
 #include "item/item_registry.hpp"
+#include "item_edit_dialog.hpp"
 
 
 namespace Editor
@@ -23,13 +25,19 @@ Own_Ptr<Editor_UI::Widget_Factory> Mode_Items::build(const Editor_UI::Theme& the
 {
 	using namespace Editor_UI::Factories;
 
+	m_dirty = false;
+
+	if (m_current_shown_item.has_value()) {
+		return Stateful::make(make_own_ptr<Item_Edit_Dialog>(m_item_registry.get_item(m_current_shown_item.value())));
+	}
+
 	auto* column = Column::make(Column::Padding::small);
 
-	// FIXME - show assigned sequence
-
 	m_item_registry.for_each([&](const Item& item){
-		auto callback = [](){};
-
+		auto callback = [this, id=item.id](){
+			m_current_shown_item = id;
+			m_dirty = true;
+		};
 
 		column
 			->add(Row::make(true)

@@ -25,6 +25,7 @@ src = [
   'src/dev_tools/sequence_detail.cpp',
   'src/dev_tools/sequence_list.cpp',
   'src/editor/editor.cpp',
+  'src/editor/item_edit_dialog.cpp',
   'src/editor/main_nav.cpp',
   'src/editor/main_widget.cpp',
   'src/editor/mode_general.cpp',
